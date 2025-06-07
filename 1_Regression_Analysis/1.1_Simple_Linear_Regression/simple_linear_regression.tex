@@ -66,26 +66,37 @@
 \end{frame}
 
 \section{Assumptions}
-\begin{frame}{Assumptions of Simple Linear Regression}
+\begin{frame}{Assumptions of Simple Linear Regression (Part 1)}
   For the model to be valid and for inferences to be accurate, several assumptions must hold:
   \begin{enumerate}
     \item \textbf{Linearity:} The relationship between $X$ and $Y$ is linear.
     \item \textbf{Independence of Errors:} The errors $\epsilon_i$ are independent of each other. (Often checked by examining residuals over time or sequence).
     \item \textbf{Homoscedasticity (Constant Variance):} The errors $\epsilon_i$ have constant variance $\sigma^2$ for all values of $X$. (Residuals should show similar scatter across all fitted values).
+  \end{enumerate}
+\end{frame}
+
+\begin{frame}{Assumptions of Simple Linear Regression (Part 2)}
+  Continuing with the assumptions:
+  \begin{enumerate}
+    \setcounter{enumi}{3} % Continue numbering from previous slide
     \item \textbf{Normality of Errors:} The errors $\epsilon_i$ are normally distributed. (Often checked using Q-Q plots or histograms of residuals).
     \item The values of the independent variable $X$ are fixed (not random) or measured without error.
   \end{enumerate}
+  \vspace{1em}
   Violations of these assumptions can lead to misleading conclusions. Residual analysis is key to checking these assumptions.
 \end{frame}
 
 \section{Estimating Parameters}
-\begin{frame}{Estimating Model Parameters}
+\begin{frame}{Estimating Model Parameters: Overview}
   The population parameters $\beta_0$ and $\beta_1$ are unknown and must be estimated from sample data.
   \begin{itemize}
     \item We denote the estimates as $b_0$ (or $\hat{\beta}_0$) and $b_1$ (or $\hat{\beta}_1$).
     \item The estimated regression equation is: $\hat{Y}_i = b_0 + b_1 X_i$.
     \item $\hat{Y}_i$ is the predicted value of $Y$ for a given $X_i$.
   \end{itemize}
+\end{frame}
+
+\begin{frame}{Estimating Model Parameters: Method of Least Squares}
   \textbf{Method of Least Squares:}
   \begin{itemize}
     \item This is the most common method for estimating $b_0$ and $b_1$.
@@ -120,7 +131,7 @@
 \end{frame}
 
 \section{Assessing Model Fit}
-\begin{frame}{Assessing Model Fit}
+\begin{frame}{Assessing Model Fit: Coefficient of Determination ($R^2$)}
   How well does the model fit the data?
   \begin{itemize}
     \item \textbf{Coefficient of Determination ($R^2$):}
@@ -134,7 +145,12 @@
             \end{itemize}
         \item $0 \le R^2 \le 1$. A higher $R^2$ indicates a better fit (closer to 1).
     \end{itemize}
-    \vspace{1em}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Assessing Model Fit: Standard Error of the Estimate ($s_e$)}
+  Continuing with assessing model fit:
+  \begin{itemize}
     \item \textbf{Standard Error of the Estimate ($s_e$ or $\hat{\sigma}$):}
     \begin{itemize}
         \item Measures the typical distance between the observed values and the regression line.
@@ -174,6 +190,9 @@
     \end{equation*}
     \item If the interval does not contain 0, we are confident that there is a significant linear relationship.
   \end{itemize}
+\end{frame}
+
+\begin{frame}{Confidence Interval for the Mean Response $E(Y_h)$}
   \textbf{Confidence Interval for the Mean Response $E(Y_h)$:}
   \begin{itemize}
     \item For a given value $X_h$, the CI for the mean response $\mu_{Y|X_h} = \beta_0 + \beta_1 X_h$ is:
