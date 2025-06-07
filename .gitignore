@@ -32,3 +32,4 @@
 *.xdy
 *.bcf
 *.run.xml
+.vscode/settings.json
