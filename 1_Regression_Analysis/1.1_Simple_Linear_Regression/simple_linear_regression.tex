@@ -1,0 +1,225 @@
+\documentclass[aspectratio=169]{beamer}
+\mode<presentation>
+{
+  \usetheme{metropolis}      % Or try other themes: AnnArbor, Boadilla, CambridgeUS, Copenhagen, Darmstadt, Dresden, Frankfurt, Goettingen, Hannover, Ilmenau, JuanLesPins, Luebeck, Malmoe, Marburg, Montpellier, PaloAlto, Pittsburgh, Rochester, Singapore, Szeged, Warsaw
+  \usecolortheme{default} % Or try other color themes: albatross, beaver, beetle, crane, dolphin, dove, fly, lily, orchid, rose, seagull, seahorse, whale, wolverine
+  \usefonttheme{default}  % Or try other font themes: structurebold, structureitalicserif, structuresmallcapsserif
+  \setbeamertemplate{navigation symbols}{}
+  \setbeamertemplate{caption}[numbered]
+}
+
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx} % Allows including images
+
+\title[Simple Linear Regression]{MA2003B - Application of Multivariate Methods in Data Science}
+\subtitle{Topic 1.1: Simple Linear Regression}
+\author{Dr. Juliho Castillo} % You can change this
+\institute{Tec de Monterrey} % You can change this
+\date{\today}
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+\begin{frame}{Outline}
+  \tableofcontents
+\end{frame}
+
+\section{Introduction}
+\begin{frame}{Introduction to Simple Linear Regression}
+  \begin{itemize}
+    \item \textbf{What is it?} A statistical method that allows us to summarize and study relationships between two continuous (quantitative) variables.
+    \item \textbf{Key Idea:}
+    \begin{itemize}
+        \item One variable, denoted by $X$, is regarded as the predictor, explanatory, or independent variable.
+        \item The other variable, denoted by $Y$, is regarded as the response, outcome, or dependent variable.
+    \end{itemize}
+    \item \textbf{Goal:} To find a linear relationship between $X$ and $Y$.
+    \item Used for:
+    \begin{itemize}
+        \item Describing the linear relationship.
+        \item Predicting the value of $Y$ for a given value of $X$.
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\section{The Model}
+\begin{frame}{The Simple Linear Regression Model}
+  The model is given by the equation:
+  \begin{equation*}
+    Y_i = \beta_0 + \beta_1 X_i + \epsilon_i
+  \end{equation*}
+  Where:
+  \begin{itemize}
+    \item $Y_i$ is the value of the dependent variable for the $i$-th observation.
+    \item $X_i$ is the value of the independent variable for the $i$-th observation.
+    \item $\beta_0$ is the population intercept (the value of $Y$ when $X=0$).
+    \item $\beta_1$ is the population slope (the change in $Y$ for a one-unit change in $X$).
+    \item $\epsilon_i$ is the random error term for the $i$-th observation. It accounts for the variability in $Y$ that cannot be explained by the linear relationship with $X$.
+  \end{itemize}
+  The errors $\epsilon_i$ are assumed to be independent and identically distributed (i.i.d.) with $E(\epsilon_i) = 0$ and $Var(\epsilon_i) = \sigma^2$.
+\end{frame}
+
+\section{Assumptions}
+\begin{frame}{Assumptions of Simple Linear Regression}
+  For the model to be valid and for inferences to be accurate, several assumptions must hold:
+  \begin{enumerate}
+    \item \textbf{Linearity:} The relationship between $X$ and $Y$ is linear.
+    \item \textbf{Independence of Errors:} The errors $\epsilon_i$ are independent of each other. (Often checked by examining residuals over time or sequence).
+    \item \textbf{Homoscedasticity (Constant Variance):} The errors $\epsilon_i$ have constant variance $\sigma^2$ for all values of $X$. (Residuals should show similar scatter across all fitted values).
+    \item \textbf{Normality of Errors:} The errors $\epsilon_i$ are normally distributed. (Often checked using Q-Q plots or histograms of residuals).
+    \item The values of the independent variable $X$ are fixed (not random) or measured without error.
+  \end{enumerate}
+  Violations of these assumptions can lead to misleading conclusions. Residual analysis is key to checking these assumptions.
+\end{frame}
+
+\section{Estimating Parameters}
+\begin{frame}{Estimating Model Parameters}
+  The population parameters $\beta_0$ and $\beta_1$ are unknown and must be estimated from sample data.
+  \begin{itemize}
+    \item We denote the estimates as $b_0$ (or $\hat{\beta}_0$) and $b_1$ (or $\hat{\beta}_1$).
+    \item The estimated regression equation is: $\hat{Y}_i = b_0 + b_1 X_i$.
+    \item $\hat{Y}_i$ is the predicted value of $Y$ for a given $X_i$.
+  \end{itemize}
+  \textbf{Method of Least Squares:}
+  \begin{itemize}
+    \item This is the most common method for estimating $b_0$ and $b_1$.
+    \item It minimizes the sum of the squared differences between the observed values ($Y_i$) and the predicted values ($\hat{Y}_i$).
+    \item Minimize $SSE = \sum_{i=1}^{n} (Y_i - \hat{Y}_i)^2 = \sum_{i=1}^{n} (Y_i - (b_0 + b_1 X_i))^2$.
+  \end{itemize}
+  The formulas for $b_1$ and $b_0$ are:
+  \begin{align*}
+    b_1 &= \frac{\sum_{i=1}^{n} (X_i - \bar{X})(Y_i - \bar{Y})}{\sum_{i=1}^{n} (X_i - \bar{X})^2} = \frac{S_{XY}}{S_{XX}} \\
+    b_0 &= \bar{Y} - b_1 \bar{X}
+  \end{align*}
+  Where $\bar{X}$ and $\bar{Y}$ are the sample means of $X$ and $Y$.
+\end{frame}
+
+\section{Interpreting Coefficients}
+\begin{frame}{Interpreting the Coefficients}
+  \begin{itemize}
+    \item \textbf{$b_0$ (Estimated Intercept):}
+    \begin{itemize}
+        \item The estimated average value of $Y$ when $X=0$.
+        \item Interpretation might not be meaningful if $X=0$ is outside the range of observed $X$ values or if it's practically impossible.
+    \end{itemize}
+    \vspace{1em}
+    \item \textbf{$b_1$ (Estimated Slope):}
+    \begin{itemize}
+        \item The estimated change in the average value of $Y$ for a one-unit increase in $X$.
+        \item If $b_1 > 0$, $Y$ tends to increase as $X$ increases.
+        \item If $b_1 < 0$, $Y$ tends to decrease as $X$ increases.
+        \item If $b_1 = 0$, there is no linear relationship between $X$ and $Y$.
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\section{Assessing Model Fit}
+\begin{frame}{Assessing Model Fit}
+  How well does the model fit the data?
+  \begin{itemize}
+    \item \textbf{Coefficient of Determination ($R^2$):}
+    \begin{itemize}
+        \item Measures the proportion of the total variability in $Y$ that is explained by the linear relationship with $X$.
+        \item $R^2 = \frac{SSR}{SST} = 1 - \frac{SSE}{SST}$, where:
+            \begin{itemize}
+                \item $SST = \sum (Y_i - \bar{Y})^2$ (Total Sum of Squares)
+                \item $SSR = \sum (\hat{Y}_i - \bar{Y})^2$ (Regression Sum of Squares)
+                \item $SSE = \sum (Y_i - \hat{Y}_i)^2$ (Error Sum of Squares)
+            \end{itemize}
+        \item $0 \le R^2 \le 1$. A higher $R^2$ indicates a better fit (closer to 1).
+    \end{itemize}
+    \vspace{1em}
+    \item \textbf{Standard Error of the Estimate ($s_e$ or $\hat{\sigma}$):}
+    \begin{itemize}
+        \item Measures the typical distance between the observed values and the regression line.
+        \item $s_e = \sqrt{\frac{SSE}{n-2}} = \sqrt{MSE}$ (Mean Squared Error).
+        \item Smaller $s_e$ indicates a better fit. It has the same units as $Y$.
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\section{Hypothesis Testing}
+\begin{frame}{Hypothesis Testing for the Slope ($\beta_1$)}
+  We often want to test if there is a significant linear relationship between $X$ and $Y$. This involves testing the slope parameter $\beta_1$.
+  \begin{itemize}
+    \item \textbf{Null Hypothesis ($H_0$):} $\beta_1 = 0$ (No linear relationship)
+    \item \textbf{Alternative Hypothesis ($H_a$):} $\beta_1 \neq 0$ (There is a linear relationship)
+    \item (Can also be one-sided: $\beta_1 > 0$ or $\beta_1 < 0$)
+  \end{itemize}
+  \textbf{Test Statistic (t-test):}
+  \begin{equation*}
+    t = \frac{b_1 - \beta_{1,0}}{SE(b_1)} = \frac{b_1}{SE(b_1)} \quad (\text{when } \beta_{1,0}=0)
+  \end{equation*}
+  Where $SE(b_1) = \frac{s_e}{\sqrt{\sum (X_i - \bar{X})^2}}$.
+  \begin{itemize}
+    \item The test statistic follows a t-distribution with $n-2$ degrees of freedom.
+    \item \textbf{Decision Rule:} If $|t| > t_{\alpha/2, n-2}$ (or p-value $< \alpha$), reject $H_0$.
+  \end{itemize}
+  This is a key part of ANOVA (Analysis of Variance) for regression.
+\end{frame}
+
+\section{Confidence Intervals}
+\begin{frame}{Confidence Interval for the Slope ($\beta_1$)}
+  A confidence interval provides a range of plausible values for the true population slope $\beta_1$.
+  \begin{itemize}
+    \item A $(1-\alpha) \times 100\%$ confidence interval for $\beta_1$ is given by:
+    \begin{equation*}
+      b_1 \pm t_{\alpha/2, n-2} \times SE(b_1)
+    \end{equation*}
+    \item If the interval does not contain 0, we are confident that there is a significant linear relationship.
+  \end{itemize}
+  \textbf{Confidence Interval for the Mean Response $E(Y_h)$:}
+  \begin{itemize}
+    \item For a given value $X_h$, the CI for the mean response $\mu_{Y|X_h} = \beta_0 + \beta_1 X_h$ is:
+    \begin{equation*}
+      \hat{Y}_h \pm t_{\alpha/2, n-2} \times SE(\hat{Y}_h)
+    \end{equation*}
+    Where $SE(\hat{Y}_h) = s_e \sqrt{\frac{1}{n} + \frac{(X_h - \bar{X})^2}{\sum (X_i - \bar{X})^2}}$.
+  \end{itemize}
+\end{frame}
+
+\section{Prediction}
+\begin{frame}{Prediction Interval for a New Observation $Y_h$}
+  A prediction interval provides a range for a single new observation $Y_h$ at a given $X_h$. It is wider than the confidence interval for the mean response because it accounts for both the uncertainty in estimating the mean and the random error $\epsilon$.
+  \begin{itemize}
+    \item A $(1-\alpha) \times 100\%$ prediction interval for $Y_h$ is:
+    \begin{equation*}
+      \hat{Y}_h \pm t_{\alpha/2, n-2} \times SE(pred)
+    \end{equation*}
+    Where $SE(pred) = s_e \sqrt{1 + \frac{1}{n} + \frac{(X_h - \bar{X})^2}{\sum (X_i - \bar{X})^2}}$.
+  \end{itemize}
+  \textbf{Using the Model for Prediction:}
+  \begin{itemize}
+    \item Once the model $\hat{Y} = b_0 + b_1 X$ is deemed adequate, it can be used to predict $Y$ for new values of $X$.
+    \item Predictions are most reliable within the range of the original $X$ data (interpolation). Extrapolation (predicting outside the range) can be risky.
+  \end{itemize}
+\end{frame}
+
+\section{Summary}
+\begin{frame}{Summary of Simple Linear Regression}
+  \begin{itemize}
+    \item Models the linear relationship between one predictor ($X$) and one response ($Y$).
+    \item Equation: $Y = \beta_0 + \beta_1 X + \epsilon$.
+    \item Parameters estimated using the Method of Least Squares.
+    \item Key outputs: $b_0, b_1, R^2, s_e$.
+    \item Assumptions (Linearity, Independence, Homoscedasticity, Normality) are crucial and checked via residual analysis.
+    \item Hypothesis tests and confidence intervals help assess the significance of the relationship and the precision of estimates.
+    \item Used for understanding relationships and making predictions.
+  \end{itemize}
+  \textbf{Next Steps in Course:} Building on these concepts for multiple predictors (Multiple Linear Regression) and other multivariate techniques.
+\end{frame}
+
+\begin{frame}
+  \centering
+  \Huge Thank You!
+  \vspace{1cm}
+  \normalsize Questions?
+\end{frame}
+
+\end{document}
