@@ -1,6 +1,7 @@
 import numpy as np
 from sklearn.linear_model import LinearRegression
 import matplotlib.pyplot as plt
+import os
 
 # Sample Data
 # Experience (Years)
@@ -25,7 +26,11 @@ Y_pred = model.predict(X)
 r_squared = model.score(X, Y)
 
 # --- Write results to a report file ---
-report_file_path = "report.txt"
+# Get the directory where the script is located
+script_dir = os.path.dirname(os.path.abspath(__file__))
+# Construct the path for report.txt in the same directory as the script
+report_file_path = os.path.join(script_dir, "report.txt")
+
 with open(report_file_path, "w") as f:
     f.write("Simple Linear Regression Practice Example\n")
     f.write("---------------------------------------\n")

@@ -1,0 +1,13 @@
+Simple Linear Regression Practice Example
+---------------------------------------
+Independent Variable (X): Experience (Years)
+Dependent Variable (Y): Salary (in $1000s)
+---------------------------------------
+Estimated Intercept (b0): 26.40
+Estimated Slope (b1): 5.07
+Regression Equation: Y_hat = 26.40 + 5.07 * X
+---------------------------------------
+R-squared: 0.9819
+---------------------------------------
+
+Predicted salary for 12 years of experience: $87.27k
