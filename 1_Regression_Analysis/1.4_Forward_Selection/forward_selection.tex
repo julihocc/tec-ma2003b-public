@@ -1,0 +1,97 @@
+\documentclass[aspectratio=169]{beamer}
+\usetheme{metropolis}
+\usecolortheme{default}
+\usefonttheme{default}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{caption}[numbered]
+
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{xcolor}
+
+\lstset{
+    basicstyle=\ttfamily\small,
+    breaklines=true,
+    frame=single,
+    backgroundcolor=\color{gray!10},
+    commentstyle=\color{green!50!black},
+    keywordstyle=\color{blue},
+    stringstyle=\color{red},
+    showstringspaces=false
+}
+
+\title[Forward Selection]{MA2003B - Application of Multivariate Methods in Data Science}
+\subtitle{Topic 1.4: Forward Selection}
+\author{Dr. Juliho Castillo}
+\institute{Tec de Monterrey}
+\date{\today}
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+\begin{frame}{Outline}
+  \tableofcontents
+\end{frame}
+
+\section{Introduction}
+\begin{frame}{What is Forward Selection?}
+  \begin{itemize}
+    \item Forward selection is a stepwise regression method.
+    \item It starts with no predictors and adds them one by one.
+    \item At each step, the predictor that improves the model the most is added.
+    \item Useful for building parsimonious models.
+  \end{itemize}
+\end{frame}
+
+\section{Steps in Forward Selection}
+\begin{frame}{How Does Forward Selection Work?}
+  \begin{itemize}
+    \item Start with an empty model.
+    \item Evaluate all predictors and add the one with the highest improvement (e.g., lowest p-value).
+    \item Repeat until no significant improvement is observed.
+    \item Stop when adding predictors no longer improves the model.
+  \end{itemize}
+\end{frame}
+
+\section{Python Practice}
+\begin{frame}{Python Practice: Forward Selection}
+  \begin{itemize}
+    \item Try the script: \texttt{forward\_selection\_practice.py}
+    \item It demonstrates how to implement forward selection using statsmodels.
+    \item Follow the comments in the script for guidance.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Running the Script}
+  \begin{itemize}
+    \item Install required libraries if needed:
+  \end{itemize}
+  \vspace{0.5cm}
+  \begin{lstlisting}[language=bash]
+pip install numpy pandas statsmodels matplotlib
+  \end{lstlisting}
+  \vspace{0.5cm}
+  \begin{itemize}
+    \item Run the script:
+  \end{itemize}
+  \vspace{0.5cm}
+  \begin{lstlisting}[language=bash]
+python forward_selection_practice.py
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}
+  \centering
+  \Huge Thank You!
+  \vspace{1cm}
+  \normalsize Questions?
+\end{frame}
+
+\end{document}
