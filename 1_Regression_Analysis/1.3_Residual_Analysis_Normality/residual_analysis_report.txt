@@ -1,0 +1,32 @@
+Residual Analysis Report
+==============================
+Model Summary:
+                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:                      y   R-squared:                       0.691
+Model:                            OLS   Adj. R-squared:                  0.688
+Method:                 Least Squares   F-statistic:                     219.4
+Date:                Wed, 18 Jun 2025   Prob (F-statistic):           9.38e-27
+Time:                        16:21:40   Log-Likelihood:                -131.15
+No. Observations:                 100   AIC:                             266.3
+Df Residuals:                      98   BIC:                             271.5
+Df Model:                           1                                         
+Covariance Type:            nonrobust                                         
+==============================================================================
+                 coef    std err          t      P>|t|      [0.025      0.975]
+------------------------------------------------------------------------------
+const          2.2151      0.170     13.008      0.000       1.877       2.553
+x1             0.4540      0.031     14.813      0.000       0.393       0.515
+==============================================================================
+Omnibus:                        0.900   Durbin-Watson:                   2.285
+Prob(Omnibus):                  0.638   Jarque-Bera (JB):                0.808
+Skew:                           0.217   Prob(JB):                        0.668
+Kurtosis:                       2.929   Cond. No.                         10.7
+==============================================================================
+
+Notes:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
+
+Normality Test (Shapiro-Wilk):
+Statistic: 0.9846, p-value: 0.2984
+Residuals appear to be normally distributed.
