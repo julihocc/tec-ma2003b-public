@@ -29,7 +29,7 @@ r_squared = model.score(X, Y)
 # Get the directory where the script is located
 script_dir = os.path.dirname(os.path.abspath(__file__))
 # Construct the path for report.txt in the same directory as the script
-report_file_path = os.path.join(script_dir, "report.txt")
+report_file_path = os.path.join(script_dir, "simple_linear_regression_report.txt")
 
 with open(report_file_path, "w") as f:
     f.write("Simple Linear Regression Practice Example\n")
