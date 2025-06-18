@@ -13,6 +13,20 @@
 \usepackage{amsfonts}
 \usepackage{amssymb}
 \usepackage{graphicx} % Allows including images
+\usepackage{listings} % For code listings
+\usepackage{xcolor} % For colors
+
+% Configure listings
+\lstset{
+    basicstyle=\ttfamily\small,
+    breaklines=true,
+    frame=single,
+    backgroundcolor=\color{gray!10},
+    commentstyle=\color{green!50!black},
+    keywordstyle=\color{blue},
+    stringstyle=\color{red},
+    showstringspaces=false
+}
 
 \title[Simple Linear Regression]{MA2003B - Application of Multivariate Methods in Data Science}
 \subtitle{Topic 1.1: Simple Linear Regression}
@@ -252,19 +266,19 @@
     \end{itemize}
 \end{frame}
 
-\begin{frame}{Python Practice: Running the Script}
+\begin{frame}[fragile]{Python Practice: Running the Script}
     \frametitle{Instructions}
     \begin{enumerate}
         \item Ensure you have Python installed with the necessary libraries: \texttt{numpy}, \texttt{scikit-learn}, \texttt{matplotlib}.
         \item If needed, install them using pip:
-        \begin{verbatim}
-        pip install numpy scikit-learn matplotlib
-        \end{verbatim}
+        \begin{lstlisting}[language=bash]
+pip install numpy scikit-learn matplotlib
+        \end{lstlisting}
         \item Navigate to the directory containing \texttt{simple\_linear\_regression\_practice.py}.
         \item Run the script from your terminal:
-        \begin{verbatim}
-        python simple_linear_regression_practice.py
-        \end{verbatim}
+        \begin{lstlisting}[language=bash]
+python simple_linear_regression_practice.py
+        \end{lstlisting}
         \item Observe the output and complete the interpretation tasks mentioned in the script's comments.
     \end{enumerate}
 \end{frame}
