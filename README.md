@@ -1,78 +1,163 @@
 # MA2003B - Application of Multivariate Methods in Data Science
 
-This repository contains materials and resources for the course **MA2003B - Application of Multivariate Methods in Data Science**. The course is part of the Mathematics discipline at the School of Engineering and Sciences.
+**CIP:** 270501 Statistics, General  
+**Discipline:** Mathematics  
+**School:** Engineering and Sciences  
+**Academic Department:** Sciences  
+**Programs:** 5 IDM19 Modules  
+**Prerequisites:** MA1036 and TC2004B  
+**Equivalences:** None  
 
-## Course Overview
+---
 
-MA2003B is an intermediate mathematics course focused on the analysis of multidimensional large databases. Students will learn to identify and solve problems using multivariate statistical techniques, with prior knowledge required in probability, statistics, and inferential methods.
+## Course Intention
 
-### Learning Outcome
+This intermediate mathematics course focuses on analyzing multidimensional large databases. Students identify characteristics of problems that can be addressed using multivariate statistical techniques.
 
-Students will analyze multidimensional phenomena or processes, applying one or more multivariate statistical techniques learned in the course.
+**Required prior knowledge:**
+
+- Probability and statistics
+- Probability functions
+- Normal distribution
+- Inferential statistics (hypothesis testing, confidence intervals)
+
+---
+
+## Learning Outcome
+
+Students will analyze a multidimensional phenomenon or process using one or more multivariate statistical techniques learned in the course.
+
+---
 
 ## Course Objectives
 
 Upon completion, students will be able to:
 
-- Build structured, analyzable information-based databases within an organization.
-- Extract relevant information from large structured databases using statistical methods and technological tools.
-- Formulate mathematical models commonly used in large-scale optimization.
-- Analyze interconnected systems with an integrated vision for problem-solving.
-- Solve real-world problems with ethical awareness, responsibility, and fairness.
-
-## Course Topics
-
-1. **Regression Analysis**
-   - Simple and multiple linear regression
-   - ANOVA, confidence intervals, residual analysis
-   - Model selection (forward, backward)
-   - Non-linear regression
-   - Aberrant data and heteroskedasticity
-
-2. **Multivariate Analysis**
-   - Multivariate distributions, mean vectors, covariance matrices
-   - Correlation matrices, multivariate normal distribution
-   - Handling missing or incorrect values
-   - Multivariate descriptive analytics and visualization
-
-3. **Principal Component Analysis (PCA)**
-   - Use cases, geometric interpretation, estimation, and selection of components
-
-4. **Factor Analysis**
-   - Objectives, equations, factor rotation (including oblique), and selection
-
-5. **Discriminant Analysis**
-   - Discrimination for two normal populations, cost functions, stepwise selection, canonical functions
-
-6. **Cluster Analysis**
-   - Similarity/dissimilarity measures, graphical methods, non-hierarchical and hierarchical grouping, nearest neighbor
-
-7. **Multivariate Regression**
-   - Logistic regression, inference for variances/covariances, MANOVA, canonical correlation, factor analysis in regression
-
-## Methodologies
-
-- **Supervised Learning:** Teacher-led modules, discussions, mentoring, and counseling.
-- **Independent Learning:** Research, exercises, case studies, and field work focused on data acquisition, storage, transformation, and decision-making.
-
-## Evaluation
-
-- **50%**: Participation, assignments, cases, and module exams (theoretical and practical knowledge).
-- **50%**: Performance in the challenge process and outcomes, demonstrating mastery of competencies.
-
-## Bibliography
-
-**Textbooks:**
-- Johnson, R.A.; Wichern D.W, *Applied Multivariate Statistical Analysis*, 6th ed., Pearson, 2013.
-
-**Books for Consultation:**
-- Anderson, T.W., *An Introduction to Multivariate Statistical Analysis*, 3rd ed., Wiley, 2003.
-- Wickham, H., *R for Data Science: Import, Tidy, Transform, Visualize, and Model Data*, O'Reilly, 2016.
-
-## Academic Credentials Required to Teach
-
-- Master or Doctoral Degree in Statistics, Mathematics, or Applied Mathematics.
+- Build structured, analyzable databases.
+- Extract relevant information using statistical methods and tools.
+- Formulate mathematical models for large-scale optimization.
+- Analyze systems with an integrated vision.
+- Solve real-world problems ethically and responsibly.
 
 ---
 
-**Note:** This repository is intended for educational use in the MA2003B course. Please refer to the course syllabus and instructor for further details.
+## Course Topics and Subtopics
+
+### 1. Regression Analysis
+
+- 1.1 Simple linear regression  
+- 1.2 ANOVA and confidence intervals  
+- 1.3 Residual analysis and normality  
+- 1.4 Forward selection  
+- 1.5 Backward selection  
+- 1.6 Non-linear regression  
+- 1.7 Multiple linear regression  
+- 1.8 Aberrant data and heteroskedasticity  
+
+### 2. Multivariate Analysis
+
+- 2.1 Multivariate distributions  
+- 2.2 Mean vectors, variance, and covariance matrices  
+- 2.3 Correlations and correlation matrices  
+- 2.4 Multivariate normal PDF  
+- 2.5 Handling missing/incorrect values  
+- 2.6 Multivariate aberrant data  
+- 2.7 Sample correlations, Fisher and Ruben intervals  
+- 2.8 Descriptive analytics and visualization  
+
+### 3. Principal Component Analysis (PCA)
+
+- 3.1 Use cases  
+- 3.2 Geometrical description  
+- 3.3 Estimation of components  
+- 3.4 Determining number of components  
+- 3.5 Coding and software  
+
+### 4. Factor Analysis
+
+- 4.1 Objectives  
+- 4.2 Equations  
+- 4.3 Choosing number of factors  
+- 4.4 Factor rotation  
+- 4.5 Oblique rotation  
+- 4.6 Coding and software  
+
+### 5. Discriminant Analysis
+
+- 5.1 Two-population discrimination  
+- 5.2 Cost functions and prior probabilities  
+- 5.3 Basic discrimination  
+- 5.4 Stepwise selection  
+- 5.5 Canonical discriminant functions  
+- 5.6 Coding and software  
+
+### 6. Cluster Analysis
+
+- 6.1 Similarity/dissimilarity measures  
+- 6.2 Graphical methods (scatter, PCA, Andrews)  
+- 6.3 Non-hierarchical grouping  
+- 6.4 Hierarchical grouping  
+- 6.5 Nearest neighbor method  
+- 6.6 Coding and software  
+
+### 7. Multivariate Regression
+
+- 7.1 Logistic regression  
+- 7.2 Inference for variance/covariance matrices  
+- 7.3 Inference for mean vectors  
+- 7.4 MANOVA  
+- 7.5 Canonical correlation analysis  
+- 7.6 Factor analysis and regression  
+- 7.7 Programming and software  
+
+---
+
+## Learning Methodologies
+
+### Supervised Learning
+
+1. Teacher-led conceptual reviews and modules  
+2. Discussions and problem-solving  
+3. Mentoring for real-world challenges  
+4. Individual and group counseling  
+
+### Independent Learning
+
+1. Research on regression and multivariate methods  
+2. Exercises and case studies  
+3. Fieldwork on data acquisition and transformation  
+4. Evidence generation for skill development  
+
+**Deliverable:**  
+A complete report on the real-world problem solution, including justification for the chosen statistical method.
+
+---
+
+## Evaluation
+
+- **50%**: Activities, assignments, cases, and exams  
+- **50%**: Performance in real-world challenge and evidence of competency
+
+---
+
+## Bibliography
+
+### Textbooks
+
+- Johnson, R.A.; Wichern, D.W. *Applied Multivariate Statistical Analysis*, 6th ed., Pearson, 2013. ISBN: 9781292024943
+
+### Reference Books
+
+- Anderson, T.W. *An Introduction to Multivariate Statistical Analysis*, 3rd ed., Wiley, 2003. ISBN: 0471360910  
+- Wickham, H. *R for Data Science*, O’Reilly, 2016. ISBN: 9781491910399
+
+---
+
+## Teaching Requirements
+
+**Academic Credentials:**
+
+- Master’s or Doctoral Degree in:
+  - Statistics (270501)
+  - Mathematics (270101)
+  - Applied Mathematics (270301)
