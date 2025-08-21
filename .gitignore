@@ -1,4 +1,8 @@
 backup/
+.venv/
+.pytest_cache/
+
+*.pyc
 
 *.aux
 *.log
