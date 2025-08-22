@@ -1,0 +1,22 @@
+4.1 Objectives of Factor Analysis
+
+Contents
+- Understand the main purposes of factor analysis in multivariate statistics
+- Compare and contrast factor analysis with principal component analysis
+- Identify appropriate applications across different domains
+- Recognize exploratory vs confirmatory approaches
+
+Learning Goals
+- Explain when factor analysis is preferred over other dimensionality reduction techniques
+- Describe the concept of latent variables and their relationship to observed variables
+- Apply factor analysis objectives to real-world data scenarios
+
+Practice Activities
+- Analyze a dataset to determine if factor analysis is appropriate
+- Compare factor analysis and PCA results on the same data
+- Interpret factor loadings in context of research objectives
+
+Notes
+- Factor analysis assumes that correlations among variables are due to underlying latent factors
+- The method is particularly useful when theoretical constructs cannot be directly measured
+- Applications span psychology, marketing, social sciences, and many other fields

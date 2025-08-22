@@ -1,0 +1,28 @@
+4.6 Coding and Commercial Software
+
+Contents
+- Python implementation using scikit-learn and factor_analyzer
+- R packages: psych, GPArotation, lavaan for factor analysis
+- SPSS factor analysis procedures and output interpretation
+- SAS PROC FACTOR capabilities and options
+- Practical considerations and software limitations
+
+Learning Goals
+- Implement factor analysis in multiple programming environments
+- Choose appropriate software tools for different analysis goals
+- Interpret output from commercial statistical packages
+- Understand software-specific options and defaults
+- Troubleshoot common implementation issues
+
+Practice Activities
+- Perform same analysis across different software platforms
+- Compare results and identify software-specific differences
+- Create custom implementations for specialized needs
+- Validate software results against manual calculations
+
+Notes
+- Different software may use different default settings
+- Some packages excel at exploratory while others focus on confirmatory analysis
+- Custom implementations provide deeper understanding of algorithms
+- Commercial software offers user-friendly interfaces but less flexibility
+- Always verify results across multiple implementations when possible
