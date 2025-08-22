@@ -40,11 +40,17 @@ for f in contents/5_Discriminant_Analysis/*/*_practice.py; do
   python "$f" || break
 done
 
-# All Python scripts in organized structure
-for f in contents/5_Discriminant_Analysis/*/python/*_practice.py; do
-  echo "--- running $f ---"
-  python "$f" || break
+# All Python scripts in organized structure (all chapters)
+for chapter in contents/{1_Regression_Analysis,4_Factor_Analysis,5_Discriminant_Analysis}; do
+  for f in $chapter/*/python/*_practice.py; do
+    echo "--- running $f ---"
+    python "$f" || break
+  done
 done
+
+# Compile LaTeX presentations
+cd contents/5_Discriminant_Analysis/5.1_Discrimination_for_two_multivariate_normal_populations/latex
+pdflatex discrimination_two_populations.tex
 ```
 
 **Data pull script:**
@@ -56,8 +62,9 @@ done
 ## Repository Structure
 
 **Course Materials:**
-- `contents/1_Regression_Analysis/` - Regression analysis exercises and materials
-- `contents/5_Discriminant_Analysis/` - Discriminant analysis exercises and materials
+- `contents/1_Regression_Analysis/` - Regression analysis exercises and materials (5 topics, fully refactored)
+- `contents/4_Factor_Analysis/` - Factor analysis exercises and materials (6 topics, organized structure)
+- `contents/5_Discriminant_Analysis/` - Discriminant analysis exercises and materials (6 topics, fully refactored)
 - Each exercise folder contains organized subfolders (see Course Content Structure below)
 
 **Utilities:**
@@ -128,8 +135,23 @@ X.Y_Topic_Name/
 - **Preserve existing course content structure** when making changes
 - **Always use the project's virtual environment** for consistency
 
+## Chapter Status and Organization
+
+**Organized Structure (Recommended):**
+- ✅ **Chapter 1**: Regression Analysis (5 topics, fully refactored with organized subfolders)
+- ✅ **Chapter 4**: Factor Analysis (6 topics, created with organized structure from start) 
+- ✅ **Chapter 5**: Discriminant Analysis (6 topics, fully refactored with organized subfolders)
+
+**Future Chapters (May need organization):**
+- Chapter 2: Multivariate Analysis
+- Chapter 3: Principal Component Analysis (PCA)
+- Chapter 6: Cluster Analysis  
+- Chapter 7: Multivariate Regression
+
 ## Important Notes
 
 - The `scripts/pull_data.py` contains machine-specific OneDrive paths and may not work on all systems
 - Some practice scripts use optional libraries (numpy, scipy, scikit-learn)
+- **LaTeX Compilation**: Use `pdflatex` to compile .tex files in `latex/` subfolders
+- **Julia Scripts**: Mathematical pseudocode implementations for educational purposes
 - Course covers 7 main topics: Regression Analysis, Multivariate Analysis, PCA, Factor Analysis, Discriminant Analysis, Cluster Analysis, and Multivariate Regression
