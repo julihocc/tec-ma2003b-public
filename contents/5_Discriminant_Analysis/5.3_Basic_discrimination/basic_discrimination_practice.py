@@ -14,10 +14,10 @@ def confusion(y, yhat):
     return np.array([[tn, fp], [fn, tp]])
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     # tiny example
-    y = np.array([0,0,1,1,1,0,1,0])
-    yhat = np.array([0,1,1,1,0,0,1,0])
-    print('Confusion matrix (tn, fp; fn, tp):')
+    y = np.array([0, 0, 1, 1, 1, 0, 1, 0])
+    yhat = np.array([0, 1, 1, 1, 0, 0, 1, 0])
+    print("Confusion matrix (tn, fp; fn, tp):")
     print(confusion(y, yhat))
-    print('Accuracy:', (y==yhat).mean())
+    print("Accuracy:", (y == yhat).mean())

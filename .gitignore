@@ -3,6 +3,7 @@ backup/
 .pytest_cache/
 *.egg-info/
 build/
+__pycache__/
 
 *.pyc
 

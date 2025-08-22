@@ -18,9 +18,9 @@ def demo_prior_effect():
         log_prior = np.log(pi1 / (1 - pi1))
         # show numeric threshold where decision flips for linearized score
         # here decision rule reduces to x > thresh with thresh = function(log_prior)
-        thresh = (np.log(1) - log_prior)  # illustrative placeholder
+        thresh = np.log(1) - log_prior  # illustrative placeholder
         print(f"pi1={pi1}: illustrative threshold (approx) = {thresh:.3f}")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     demo_prior_effect()

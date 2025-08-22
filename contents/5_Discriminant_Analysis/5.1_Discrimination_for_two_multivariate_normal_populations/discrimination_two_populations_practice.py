@@ -50,5 +50,5 @@ def main():
     print(f"LDA accuracy (simulated 3-d): {acc:.3f}")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

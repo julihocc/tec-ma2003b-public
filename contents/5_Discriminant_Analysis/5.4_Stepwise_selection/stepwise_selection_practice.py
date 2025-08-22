@@ -30,8 +30,8 @@ def forward_greedy(X, y, k=2):
     return selected
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     np.random.seed(3)
-    X = np.random.randn(50,5)
-    y = (X[:,0] + 0.5*X[:,2] > 0).astype(int)
-    print('Selected features (greedy):', forward_greedy(X,y,k=3))
+    X = np.random.randn(50, 5)
+    y = (X[:, 0] + 0.5 * X[:, 2] > 0).astype(int)
+    print("Selected features (greedy):", forward_greedy(X, y, k=3))
