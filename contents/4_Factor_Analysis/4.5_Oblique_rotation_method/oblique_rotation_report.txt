@@ -1,0 +1,28 @@
+4.5 Oblique Rotation Method
+
+Contents
+- When to use oblique vs orthogonal rotation
+- Direct Oblimin rotation method
+- Promax rotation algorithm
+- Pattern matrix vs structure matrix interpretation
+- Factor correlations and their implications
+
+Learning Goals
+- Decide between orthogonal and oblique rotation approaches
+- Implement oblique rotation algorithms
+- Distinguish between pattern and structure matrices
+- Interpret factor correlations meaningfully
+- Understand trade-offs between simplicity and realistic modeling
+
+Practice Activities
+- Apply both Direct Oblimin and Promax rotations
+- Compare oblique and orthogonal solutions on same data
+- Interpret pattern vs structure matrices
+- Analyze factor correlations and their practical significance
+
+Notes
+- Oblique rotation allows factors to be correlated
+- Pattern matrix shows unique relationships between variables and factors
+- Structure matrix shows total relationships including correlations
+- Factor correlations should be interpreted in context of theoretical expectations
+- Oblique solutions are often more realistic but harder to interpret

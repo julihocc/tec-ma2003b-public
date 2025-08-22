@@ -1,0 +1,5 @@
+5.5 Canonical discriminant functions
+
+Exercises
+- Compute S_w and S_b and solve for canonical axes.
+- Plot observations on first canonical axis and comment on separation.

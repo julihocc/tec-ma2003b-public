@@ -1,0 +1,27 @@
+4.4 Factor Rotation
+
+Contents
+- Need for factor rotation and simple structure
+- Orthogonal rotation methods (Varimax, Quartimax, Equimax)
+- Varimax rotation for maximum variance of loadings
+- Comparison of different orthogonal rotation criteria
+- Interpretation of rotated factor solutions
+
+Learning Goals
+- Explain why factor rotation improves interpretability
+- Implement Varimax rotation algorithm
+- Compare results from different rotation methods
+- Interpret rotated factor patterns
+- Understand the concept of simple structure
+
+Practice Activities
+- Apply Varimax rotation to unrotated factor solution
+- Compare interpretability before and after rotation
+- Implement rotation algorithms from mathematical formulations
+- Visualize factor patterns in loading space
+
+Notes
+- Rotation preserves the total variance explained by factors
+- Varimax maximizes the variance of squared loadings within factors
+- Simple structure aims for high loadings on few variables per factor
+- Rotation is an iterative process that converges to optimal solution
