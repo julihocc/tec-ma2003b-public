@@ -161,3 +161,75 @@ A complete report on the real-world problem solution, including justification fo
   - Statistics (270501)
   - Mathematics (270101)
   - Applied Mathematics (270301)
+
+## Developer setup & running scripts
+
+Quick steps to set up a development environment and run the repository's convenience scripts:
+
+
+1. Create and activate a local virtual environment in the repo root:
+
+  ```bash
+  python3 -m venv .venv
+  source .venv/bin/activate
+  ```
+
+1. Preferred: install the package in editable mode so `from utils import ...` works in scripts:
+
+  ```bash
+  pip install -e .
+  # fallback: pip install pytest
+  ```
+
+1. Run the unit tests from the repo root:
+
+  ```bash
+  .venv/bin/python -m pytest -q
+  ```
+
+1. Run the convenience data-pull script (it expects the package to be importable). You can override the source path with an environment variable `MA2003B_ORIGIN_PATH`:
+
+  ```bash
+  # use env override if your data lives elsewhere
+  MA2003B_ORIGIN_PATH="/path/to/origin" .venv/bin/python scripts/pull_data.py
+  ```
+
+Notes:
+
+- The `scripts/pull_data.py` script copies the course source files into `backup/ma2003b` under the repository; it includes a safety check to avoid copying when the backup directory would be inside the origin.
+- If you add runtime dependencies, add a `requirements.txt` or `pyproject.toml` and document installation here.
+
+## Contributing
+
+Small changes, typos and lightweight utilities are welcome. Follow these conventions:
+
+- Keep exercise materials inside their exercise folders under `1_Regression_Analysis/`.
+- Add small utilities to `utils/` and export them through `utils/__init__.py`.
+- Update or add tests next to the module you change and run `python -m pytest -q`.
+
+## Agent guidance
+
+This repository includes a short agent guide at `.github/copilot-instructions.md` with focused instructions for automated coding agents (venv, editable install, project conventions).
+
+## pull_data CLI examples
+
+`scripts/pull_data.py` includes a small CLI. Examples:
+
+- Dry run (no changes):
+
+```bash
+.venv/bin/python scripts/pull_data.py --dry-run
+```
+
+- Run copying with env override:
+
+```bash
+MA2003B_ORIGIN_PATH="/path/to/origin" .venv/bin/python scripts/pull_data.py
+```
+
+- Run copying with explicit paths and verbosity:
+
+```bash
+.venv/bin/python scripts/pull_data.py --origin /path/to/origin --backup ./backup/ma2003b --verbose
+```
+
