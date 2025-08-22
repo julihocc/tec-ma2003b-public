@@ -1,0 +1,8 @@
+5.1 Discrimination for two multivariate normal populations
+
+Contents
+- Simulate two Gaussian classes using configurable means and covariance.
+- Compute pooled covariance, linear coefficients, and report accuracy.
+
+Notes
+- This exercise uses simulated data for didactic purposes. For real data, check covariance homogeneity and normality assumptions.

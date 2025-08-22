@@ -1,0 +1,5 @@
+5.3 Basic discrimination
+
+Exercises
+- Compute confusion matrix, sensitivity, specificity, and accuracy on provided datasets.
+- Discuss the effect of class imbalance and threshold choice.

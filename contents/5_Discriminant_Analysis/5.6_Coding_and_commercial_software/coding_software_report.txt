@@ -1,0 +1,8 @@
+5.6 Coding and commercial software
+
+Notes
+- Python: scikit-learn LDA/QDA with pipelines
+- R: MASS::lda and candisc for canonical discriminants
+- Commercial: SPSS, SAS, Stata built-in discriminant modules
+
+Check backup/ma2003b/eBooks for recommended references and PDFs.
