@@ -79,6 +79,7 @@ pdflatex discrimination_two_populations.tex
 **Documentation:**
 - `documentation/` - Course planning documents including hour allocation tables
 - `backup/` - Contains course materials copied from the OneDrive source
+- `.claude/backup/conversations/` - Claude Code conversation exports for development history
 
 ## Development Conventions
 
@@ -86,6 +87,7 @@ pdflatex discrimination_two_populations.tex
 - Exercise materials stay in their respective folders under `contents/`
 - New utilities go in `utils/` and are exported via `utils/__init__.py`
 - Tests sit next to modules (e.g., `utils/test_logger.py`)
+- Save conversation exports in `.claude/backup/conversations/` for organized documentation
 
 **Testing:**
 - Use pytest with `tmp_path` fixtures for filesystem tests
@@ -147,6 +149,17 @@ X.Y_Topic_Name/
 - Chapter 3: Principal Component Analysis (PCA)
 - Chapter 6: Cluster Analysis  
 - Chapter 7: Multivariate Regression
+
+## Conversation Management
+
+When working with this repository, conversation exports should be saved to maintain development history:
+
+**Export Location:** `.claude/backup/conversations/`
+
+**Usage:**
+- Use `/export` command in Claude Code to save conversation history
+- Recommended naming: `YYYY-MM-DD-brief-description.txt`
+- Helpful for tracking development decisions and maintaining context
 
 ## Important Notes
 
