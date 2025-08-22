@@ -5,68 +5,61 @@ Purpose: give a concise, actionable orientation so an AI coding agent can be pro
 
 Quick start
 - Create and activate the repository virtualenv (the project uses a local `.venv`):
-  - python3 -m venv .venv
-  - source .venv/bin/activate
-- Preferred: install the package in editable mode so scripts can import `utils` directly:
-  - pip install -e .
-  - (fallback) install pytest for tests: pip install pytest
-- Run tests: python -m pytest -q
+  ## AI coding agent instructions for this repository
 
-Big picture
-- This repo contains course materials for MA2003B. Content is under `1_Regression_Analysis/` (each exercise folder holds a practice `.py`, a `.tex`, and a `_report.txt`).
-- Small convenience scripts live in `scripts/` (not production ingestion): e.g., `scripts/pull_data.py` references a local filesystem path used by the course author.
-- Reusable Python utilities live in `utils/` and are exported via `utils/__init__.py` so other scripts and tests can `from utils import ...`.
+  Purpose: short, actionable guidance so an AI coding agent can be productive quickly.
 
-Key files and idioms
-- `utils/logger.py`: single place for logger setup. API: `setup_logger(name=None, level=logging.INFO, logfile=None, fmt=None)`. Note: it avoids duplicate handlers and sets `logger.propagate = False`.
-- `scripts/pull_data.py`: expects the package to be importable (editable install recommended). It currently references a machine-specific `ORIGIN_PATH` — see guidance below before changing it.
-- Tests: small pytest files live next to their modules (see `utils/test_logger.py`). Tests use `tmp_path` and pytest fixtures like `capsys`.
+  Quick start
+  - Create and activate the repo virtualenv (this project uses a local `.venv`):
+    - python3 -m venv .venv
+    - source .venv/bin/activate
+  - Prefer editable install so scripts can import package modules:
+    - pip install -e .
+  - Run tests from repo root:
+    - .venv/bin/python -m pytest -q
 
-Developer workflows & commands
-- Use the project `.venv` for all installs and commands. Run scripts with the venv python to ensure imports work:
-  - .venv/bin/python scripts/pull_data.py
-- Install editable package so `from utils import ...` works without sys.path hacks:
-  - pip install -e .
-- Run unit tests quickly from repo root:
-  - .venv/bin/python -m pytest -q
+  Repo snapshot (big picture)
+  - This repo holds MA2003B course materials under `contents/1_Regression_Analysis/`. Each exercise folder typically contains: `*_practice.py`, `*.tex`, and `*_report.txt`.
+  - Small utility code lives in `utils/` (exported via `utils/__init__.py`). Use these utilities instead of adding ad-hoc helpers.
+  - Convenience scripts live in `scripts/` (not production pipelines). `scripts/pull_data.py` references a local machine path and is a local helper.
 
-Conventions and expectations
-- Keep exercise artifacts inside their exercise folder; avoid moving `.tex` or reports when adding content.
-- Add small, well-scoped utilities under `utils/` and export them via `utils/__init__.py`.
-- Avoid hard-coding machine-specific paths. If you change one, add an env-var fallback (e.g., `MA2003B_ORIGIN_PATH`) and update tests.
+  Key files & patterns
+  - `utils/logger.py`: single logger setup function `setup_logger(name=None, level=logging.INFO, logfile=None, fmt=None)`. It avoids duplicate handlers and sets `logger.propagate = False`.
+  - Tests: lightweight pytest tests sit next to modules (see `utils/test_logger.py`). They use `tmp_path` and fixtures like `capsys`.
+  - Packaging: `setup.py` exists (legacy). Prefer editable install or add `pyproject.toml` if modernizing packaging.
 
-Integration points & dependencies
-- There is no central requirements file; maintainers install dependencies per environment. If you introduce a dependency, add a `requirements.txt` or `pyproject.toml` and update this file.
-- External filesystem references are local-only (see `scripts/pull_data.py`). No network integrations are present in the codebase.
+  Developer workflows & commands (concrete)
+  - Create venv, activate, editable install, run tests:
+    - python3 -m venv .venv
+    - source .venv/bin/activate
+    - pip install -e .
+    - .venv/bin/python -m pytest -q
+  - Run convenience scripts with the venv python to ensure imports work:
+    - .venv/bin/python scripts/pull_data.py
 
-What an agent should do when making changes
-- Preserve the `1_Regression_Analysis/` structure and naming conventions for exercises.
-- When changing `utils/` APIs, update tests under the same folder and run pytest locally.
-- Prefer editable install (`pip install -e .`) over sys.path hacks to make `utils` importable in scripts.
+  Project conventions and cautions (do not change lightly)
+  - Preserve exercise folder structure inside `contents/1_Regression_Analysis/` — do not move `.tex` or `_report.txt` files when adding code.
+  - Avoid changing machine-specific paths in `scripts/pull_data.py`; if you must, add an environment variable override (`MA2003B_ORIGIN_PATH`) and update tests.
+  - Add new utilities under `utils/` and export them in `utils/__init__.py`.
 
-When something is unclear
-- Ask a human about machine-specific paths (e.g., `ORIGIN_PATH`) before changing them broadly.
+  Integration points & dependencies
+  - No central requirements file exists. If you add runtime or dev dependencies, add `requirements.txt` or `pyproject.toml` and document install steps in README.
+  - There are no external network integrations; `pull_data.py` reads local data paths only.
 
-Example quick edits an agent might perform
-- Make `scripts/pull_data.py` read `MA2003B_ORIGIN_PATH` from the environment with a sensible fallback and log a user-friendly message if missing.
-- Add `requirements.txt` with `pytest` (and any new dependencies) and document `pip install -r requirements.txt` in README.
+  When making changes
+  - Update or add tests alongside code changes and run pytest locally before opening a PR.
+  - If you modify `utils/logger.py`, update `utils/test_logger.py` to reflect behavior changes.
+  - Keep edits minimal and focused; maintain the course content layout.
 
-If you update this file
-- Merge rather than overwrite; keep the content short and actionable.
+  Example small tasks an agent might perform
+  - Replace the hard-coded `ORIGIN_PATH` in `scripts/pull_data.py` with an env var fallback (`MA2003B_ORIGIN_PATH`) and log a clear message when missing.
+  - Add `requirements.txt` with `pytest` and any needed deps; document `pip install -r requirements.txt` in README.
 
-Ask for feedback if anything is missing or you'd like CI + packaging snippets added.
+  If you update this file
+  - Merge instead of overwrite; keep the file concise (20–50 lines) and repository-specific.
 
-```
-# AI coding agent instructions for this repository
-
-Purpose: give a concise, actionable orientation so an AI coding agent can be productive quickly in this repo.
-
-Quick start (what humans and agents should run locally)
-- Create and activate the project virtualenv (this repo uses a local `.venv`):
-  - python3 -m venv .venv
-  - source .venv/bin/activate
-- Install test tooling if there is no requirements file: pip install pytest
-- Run unit tests: python -m pytest -q
+  Questions or missing info
+  - If anything here is unclear or you want CI/packaging templates added, tell me which parts you'd like expanded and I will update this file.
 
 Big picture
 - This repository is a course materials repo for MA2003B (multivariate methods). Major content is organized under `1_Regression_Analysis/` with subfolders for exercises, reports, and notebooks/text files.

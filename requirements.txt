@@ -1,0 +1,2 @@
+# Minimal runtime/development dependencies for this repo
+pytest>=8.4
