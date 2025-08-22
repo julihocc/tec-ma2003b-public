@@ -2,6 +2,12 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Project Overview
+
+This is the MA2003B - Application of Multivariate Methods in Data Science course repository, an intermediate mathematics course focusing on analyzing multidimensional large databases using multivariate statistical techniques.
+
+**Course Topics:** Regression Analysis, Multivariate Analysis, PCA, Factor Analysis, Discriminant Analysis, Cluster Analysis, and Multivariate Regression.
+
 ## Development Setup
 
 Create and activate virtual environment:
@@ -52,14 +58,20 @@ done
 **Course Materials:**
 - `contents/1_Regression_Analysis/` - Regression analysis exercises and materials
 - `contents/5_Discriminant_Analysis/` - Discriminant analysis exercises and materials
-- Each exercise folder contains: `*_practice.py`, `*.tex`, `*_report.txt`, and `test_*.py`
+- Each exercise folder contains organized subfolders (see Course Content Structure below)
 
 **Utilities:**
-- `utils/` - Shared utilities (exported via `__init__.py`)
-- `utils/logger.py` - Logger setup: `setup_logger(name=None, level=logging.INFO, logfile=None, fmt=None)`
+- `utils/` - Shared utilities package with logging functionality (exported via `__init__.py`)
+- `utils/logger.py` - Centralized logging: `setup_logger(name=None, level=logging.INFO, logfile=None, fmt=None)`
+  - Supports both stream and file logging, prevents duplication with `propagate = False`
+- `utils/test_logger.py` - Unit tests for logger functionality
 
 **Scripts:**
-- `scripts/pull_data.py` - Copies course source files to backup directory (machine-specific paths)
+- `scripts/pull_data.py` - Data synchronization script that copies course materials from OneDrive source to local `backup/ma2003b/` directory
+
+**Documentation:**
+- `documentation/` - Course planning documents including hour allocation tables
+- `backup/` - Contains course materials copied from the OneDrive source
 
 ## Development Conventions
 
@@ -107,9 +119,17 @@ X.Y_Topic_Name/
 - `setup_logger()` - Configured logger with duplicate handler prevention and `propagate = False`
 - Use existing utilities instead of creating ad-hoc helpers
 
+## Development Guidelines
+
+- **All scripts should use** the centralized `setup_logger()` function from utils
+- **When adding new utilities**, export them through `utils/__init__.py`
+- **Follow existing error handling patterns** seen in `pull_data.py`
+- **Use type hints** as demonstrated in the logger module
+- **Preserve existing course content structure** when making changes
+- **Always use the project's virtual environment** for consistency
+
 ## Important Notes
 
-- The `scripts/pull_data.py` contains machine-specific paths and may not work on all systems
+- The `scripts/pull_data.py` contains machine-specific OneDrive paths and may not work on all systems
 - Some practice scripts use optional libraries (numpy, scipy, scikit-learn)
-- Preserve existing course content structure when making changes
-- Always use the project's virtual environment for consistency
+- Course covers 7 main topics: Regression Analysis, Multivariate Analysis, PCA, Factor Analysis, Discriminant Analysis, Cluster Analysis, and Multivariate Regression
