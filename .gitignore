@@ -1,4 +1,9 @@
-/documents
+backup/
+.venv/
+.pytest_cache/
+*.egg-info/
+
+*.pyc
 
 *.aux
 *.log
