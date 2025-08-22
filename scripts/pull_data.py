@@ -28,7 +28,9 @@ try:
         origin_abs = os.path.abspath(ORIGIN_PATH)
         backup_abs = os.path.abspath(BACKUP_PATH)
         if os.path.commonpath([backup_abs, origin_abs]) == origin_abs:
-            logger.error("Backup path is inside the origin path; aborting to avoid recursion")
+            logger.error(
+                "Backup path is inside the origin path; aborting to avoid recursion"
+            )
             sys.exit(1)
     except Exception:
         # If commonpath check fails for any reason, continue with caution
