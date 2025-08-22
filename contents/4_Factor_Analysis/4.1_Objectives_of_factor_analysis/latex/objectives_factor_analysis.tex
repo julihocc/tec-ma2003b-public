@@ -1,0 +1,238 @@
+\documentclass[aspectratio=169]{beamer}
+\usetheme{metropolis}
+\usecolortheme{default}
+\usefonttheme{default}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{caption}[numbered]
+
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{verbatim}
+
+\title[Objectives of Factor Analysis]{MA2003B - Application of Multivariate Methods in Data Science}
+\subtitle{Topic 4.1: Objectives of Factor Analysis}
+\author{Dr. Juliho Castillo}
+\institute{Tec de Monterrey}
+\date{\today}
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+\begin{frame}{Outline}
+  \tableofcontents
+\end{frame}
+
+\section{Introduction}
+\begin{frame}{What is Factor Analysis?}
+  \begin{itemize}
+    \item A statistical method for identifying latent variables that explain observed correlations
+    \item Reduces dimensionality by finding fewer underlying factors
+    \item \textbf{Goal:} Explain maximum variance with minimum number of factors
+    \item Widely used in psychology, social sciences, and marketing research
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Why Factor Analysis?}
+  \begin{itemize}
+    \item \textbf{Data Simplification:} Reduce many variables to fewer meaningful factors
+    \item \textbf{Theory Testing:} Validate theoretical constructs with empirical data
+    \item \textbf{Scale Development:} Create reliable measurement instruments
+    \item \textbf{Noise Reduction:} Separate signal from measurement error
+  \end{itemize}
+\end{frame}
+
+\section{Core Objectives}
+\begin{frame}{Primary Objectives of Factor Analysis}
+  \begin{enumerate}
+    \item \textbf{Dimensionality Reduction}
+    \begin{itemize}
+      \item Transform $p$ observed variables into $k$ factors $(k < p)$
+      \item Retain maximum information with fewer dimensions
+    \end{itemize}
+    
+    \item \textbf{Latent Variable Identification}
+    \begin{itemize}
+      \item Discover unobserved constructs that influence multiple variables
+      \item Examples: intelligence, personality traits, attitudes
+    \end{itemize}
+    
+    \item \textbf{Data Structure Understanding}
+    \begin{itemize}
+      \item Identify patterns of relationships among variables
+      \item Group related variables into meaningful clusters
+    \end{itemize}
+  \end{enumerate}
+\end{frame}
+
+\begin{frame}{Secondary Objectives}
+  \begin{itemize}
+    \item \textbf{Measurement Purification:} Remove measurement error from analysis
+    \item \textbf{Theory Development:} Generate hypotheses about underlying structures
+    \item \textbf{Variable Selection:} Identify most important variables for further analysis
+    \item \textbf{Multicollinearity Reduction:} Address highly correlated predictors
+  \end{itemize}
+\end{frame}
+
+\section{Factor Analysis vs PCA}
+\begin{frame}{Factor Analysis vs Principal Component Analysis}
+  \begin{center}
+  \begin{tabular}{|l|c|c|}
+    \hline
+    \textbf{Aspect} & \textbf{Factor Analysis} & \textbf{PCA} \\
+    \hline
+    \textbf{Purpose} & Identify latent factors & Reduce dimensionality \\
+    \hline
+    \textbf{Model} & $\mathbf{X} = \mathbf{\Lambda F} + \mathbf{\epsilon}$ & $\mathbf{X} = \mathbf{PY}$ \\
+    \hline
+    \textbf{Variance Explained} & Common variance only & Total variance \\
+    \hline
+    \textbf{Factors/Components} & Usually $< p$ variables & Can be $= p$ variables \\
+    \hline
+    \textbf{Interpretation} & Latent constructs & Linear combinations \\
+    \hline
+    \textbf{Unique Variance} & Explicitly modeled & Not considered \\
+    \hline
+  \end{tabular}
+  \end{center}
+\end{frame}
+
+\begin{frame}{When to Choose Factor Analysis}
+  \textbf{Choose Factor Analysis when:}
+  \begin{itemize}
+    \item You believe latent constructs cause observed correlations
+    \item Theory suggests underlying factors exist
+    \item You want to model measurement error explicitly
+    \item Focus is on explaining common variance only
+  \end{itemize}
+  
+  \vspace{0.5cm}
+  
+  \textbf{Choose PCA when:}
+  \begin{itemize}
+    \item Primary goal is dimensionality reduction
+    \item You want to retain maximum total variance
+    \item No specific theory about underlying factors
+  \end{itemize}
+\end{frame}
+
+\section{Applications}
+\begin{frame}{Applications in Psychology}
+  \begin{itemize}
+    \item \textbf{Intelligence Research:} Identify general intelligence factor ($g$)
+    \item \textbf{Personality Assessment:} Big Five personality traits
+    \item \textbf{Attitude Measurement:} Customer satisfaction, job satisfaction
+    \item \textbf{Clinical Assessment:} Depression, anxiety factor structures
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Applications in Business \& Marketing}
+  \begin{itemize}
+    \item \textbf{Customer Segmentation:} Identify customer types based on behaviors
+    \item \textbf{Brand Positioning:} Understand brand perception dimensions
+    \item \textbf{Product Development:} Identify key product attributes
+    \item \textbf{Market Research:} Simplify complex survey data
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Applications in Other Fields}
+  \begin{itemize}
+    \item \textbf{Finance:} Risk factors in portfolio analysis
+    \item \textbf{Education:} Academic ability factors
+    \item \textbf{Health Sciences:} Quality of life dimensions
+    \item \textbf{Environmental Science:} Pollution factor identification
+  \end{itemize}
+\end{frame}
+
+\section{Key Concepts}
+\begin{frame}{Fundamental Concepts}
+  \begin{itemize}
+    \item \textbf{Factor:} Unobserved variable that influences multiple observed variables
+    \item \textbf{Loading:} Correlation between observed variable and factor
+    \item \textbf{Communality:} Proportion of variable's variance explained by all factors
+    \item \textbf{Uniqueness:} Proportion of variance unique to each variable
+    \item \textbf{Eigenvalue:} Amount of variance explained by each factor
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{The Factor Model}
+  Basic factor model equation:
+  $$\mathbf{X} = \mathbf{\Lambda F} + \mathbf{\epsilon}$$
+  
+  Where:
+  \begin{itemize}
+    \item $\mathbf{X}$: Observed variables $(p \times 1)$
+    \item $\mathbf{\Lambda}$: Factor loadings matrix $(p \times k)$
+    \item $\mathbf{F}$: Common factors $(k \times 1)$
+    \item $\mathbf{\epsilon}$: Unique factors $(p \times 1)$
+  \end{itemize}
+  
+  \vspace{0.3cm}
+  Key assumptions:
+  \begin{itemize}
+    \item $E[\mathbf{F}] = \mathbf{0}$, $E[\mathbf{\epsilon}] = \mathbf{0}$
+    \item $Cov[\mathbf{F}, \mathbf{\epsilon}] = \mathbf{0}$
+  \end{itemize}
+\end{frame}
+
+\section{Types of Factor Analysis}
+\begin{frame}{Exploratory vs Confirmatory Factor Analysis}
+  
+  \textbf{Exploratory Factor Analysis (EFA):}
+  \begin{itemize}
+    \item No prior theory about factor structure
+    \item Let data determine number of factors and loadings
+    \item Used for theory generation and scale development
+  \end{itemize}
+  
+  \vspace{0.5cm}
+  
+  \textbf{Confirmatory Factor Analysis (CFA):}
+  \begin{itemize}
+    \item Test specific theoretical model
+    \item Researcher specifies factor structure a priori
+    \item Used for theory testing and model validation
+  \end{itemize}
+\end{frame}
+
+\section{Python Practice}
+\begin{frame}{Python Practice: Factor Analysis Objectives}
+  \begin{itemize}
+    \item Try the script: \texttt{objectives\_factor\_analysis\_practice.py}
+    \item Demonstrates factor analysis vs PCA comparison
+    \item Shows practical applications with real data examples
+    \item Illustrates key concepts and interpretations
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Running the Script}
+  \begin{itemize}
+    \item Install required libraries if needed:
+  \end{itemize}
+  \vspace{0.5cm}
+  \begin{verbatim}
+pip install numpy scipy scikit-learn factor-analyzer
+  \end{verbatim}
+  \vspace{0.5cm}
+  \begin{itemize}
+    \item Run the script:
+  \end{itemize}
+  \vspace{0.5cm}
+  \begin{verbatim}
+python objectives_factor_analysis_practice.py
+  \end{verbatim}
+\end{frame}
+
+\begin{frame}
+  \centering
+  \Huge Thank You!
+  \vspace{1cm}
+  \normalsize Questions?
+\end{frame}
+
+\end{document}
