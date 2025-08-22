@@ -1,0 +1,61 @@
+Topics in the analytical plan
+
+1. Regression analysis.
+1.1 Simple linear regression.
+1.2 ANOVA and confidence intervals for predictions.
+1.3 Residual analysis and the normality condition.
+1.4 Forward selection.
+1.5 Backward selection.
+1.6 Non-linear regression.
+1.7 Multiple linear regression.
+1.8 Outliers and heteroscedasticity issues.
+
+2. Multivariate analysis.
+2.1 Multivariate distributions.
+2.2 Mean vectors and variance–covariance matrices.
+2.3 Correlations and correlation matrices.
+2.4 Multivariate normal probability density function.
+2.5 Missing, null, incorrect data and discrepancy detection.
+2.6 Multivariate outliers.
+2.7 Sample correlations, Fisher and Ruben intervals.
+2.8 Multivariate descriptive analytics and visualization.
+
+3. Principal Component Analysis (PCA).
+3.1 Cases where to use PCA.
+3.2 Geometric description and classification of principal components.
+3.3 Estimation of principal components.
+3.4 Determination of the appropriate number of principal components.
+3.5 Coding and commercial software.
+
+4. Factor analysis.
+4.1 Objectives of factor analysis.
+4.2 Factor analysis equations.
+4.3 Choosing the appropriate number of factors.
+4.4 Factor rotation.
+4.5 Oblique rotation method.
+4.6 Coding and commercial software.
+
+5. Discriminant analysis.
+5.1 Discrimination for two multivariate normal populations.
+5.2 Cost function and prior probabilities.
+5.3 Basic discrimination.
+5.4 Stepwise selection.
+5.5 Canonical discriminant functions.
+5.6 Coding and commercial software.
+
+6. Cluster analysis.
+6.1 Measures of similarity and dissimilarity.
+6.2 Graphical methods (scatter plots, principal components, Andrews plots).
+6.3 Non-hierarchical clustering methods.
+6.4 Hierarchical clustering.
+6.5 Nearest neighbor method.
+6.6 Coding and commercial software.
+
+7. Multivariate regression.
+7.1 Logistic regression model.
+7.2 Inference for variance–covariance matrices.
+7.3 Inference for a mean vector.
+7.4 MANOVA.
+7.5 Canonical correlation analysis.
+7.6 Factor analysis and regression.
+7.7 Programming and commercial systems.
