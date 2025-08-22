@@ -20,11 +20,22 @@ pip install -e .
 
 **Run practice scripts:**
 ```bash
-# Single script
-python contents/5_Discriminant_Analysis/5.1_Discrimination_for_two_multivariate_normal_populations/discrimination_two_populations_practice.py
+# Single Python script (organized structure)
+cd contents/5_Discriminant_Analysis/5.1_Discrimination_for_two_multivariate_normal_populations/python
+python discrimination_two_populations_practice.py
 
-# All scripts in a section
+# Single Julia script (organized structure)  
+cd contents/5_Discriminant_Analysis/5.1_Discrimination_for_two_multivariate_normal_populations/julia
+julia discrimination_two_populations_practice.jl
+
+# All Python scripts in a section (legacy structure)
 for f in contents/5_Discriminant_Analysis/*/*_practice.py; do
+  echo "--- running $f ---"
+  python "$f" || break
+done
+
+# All Python scripts in organized structure
+for f in contents/5_Discriminant_Analysis/*/python/*_practice.py; do
   echo "--- running $f ---"
   python "$f" || break
 done
@@ -67,11 +78,30 @@ done
 - `pyproject.toml` defines package metadata
 
 **Course Content Structure:**
-Each exercise follows the pattern:
+**IMPORTANT: Use organized folder structure for new/refactored exercises:**
+
+```
+X.Y_Topic_Name/
+├── README.md                          # Organization guide and learning objectives
+├── [topic]_report.txt                 # Exercise description and hints  
+├── 📁 latex/                          # LaTeX presentation files
+│   ├── [topic].tex                    # Beamer presentation source
+│   ├── [topic].pdf                    # Compiled presentation
+│   └── ... (LaTeX auxiliary files)
+├── 📁 python/                         # Python implementation
+│   ├── [topic]_practice.py           # Main practice script (simplified for 2-hour class)
+│   └── test_[topic].py               # Unit tests
+└── 📁 julia/                          # Julia pseudocode version
+    └── [topic]_practice.jl           # Mathematical pseudocode implementation
+```
+
+**Legacy structure (for reference only):**
 - `[topic]_practice.py` - Python implementation
-- `[topic].tex` - LaTeX theory notes  
+- `[topic].tex` - LaTeX beamer presentation  
 - `[topic]_report.txt` - Exercise description and hints
-- `test_[topic].py` - Unit tests (in discriminant analysis sections)
+- `test_[topic].py` - Unit tests
+
+**When refactoring existing exercises:** Create subfolders (`latex/`, `python/`, `julia/`) and organize files by type for cleaner structure. Always include a README.md explaining the organization.
 
 **Key Utilities:**
 - `setup_logger()` - Configured logger with duplicate handler prevention and `propagate = False`
