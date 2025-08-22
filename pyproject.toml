@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ma2003b-course"
+version = "0.0.0"
+description = "MA2003B course materials and utilities"
+readme = "README.md"
+authors = [ { name = "julihocc" } ]
+
+[project.optional-dependencies]
+dev = ["pytest"]
+
+[tool.setuptools.packages.find]
+where = ["."]
+exclude = ["tests", "docs"]
