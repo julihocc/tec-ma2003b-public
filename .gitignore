@@ -1,6 +1,7 @@
 backup/
 .venv/
 .pytest_cache/
+*.egg
 *.egg-info/
 build/
 __pycache__/
@@ -41,3 +42,4 @@ settings.local.json
 *.bcf
 *.run.xml
 .vscode/settings.json
+.env
