@@ -12,18 +12,18 @@ Quick start
   - .venv/bin/python -m pytest -q
 
 Project snapshot & patterns
-- Course materials live under `contents/` (each topic folder contains: practice script, `.tex`, and `_report.txt`).
+- Course materials live under `beamers/` (each topic folder contains: practice script, `.tex`, and `_report.txt`).
 - Utilities in `utils/` are exported via `utils/__init__.py`. Example: `utils/logger.py` exports `setup_logger(...)` and sets `logger.propagate = False`.
 - Small helper scripts live in `scripts/` (e.g., `scripts/pull_data.py` uses a machine path).
 
 Critical, repo-specific commands
 - Run one practice script (example):
-  - .venv/bin/python contents/5_Discriminant_Analysis/5.1_Discrimination_for_two_multivariate_normal_populations/discrimination_two_populations_practice.py
+  - .venv/bin/python beamers/5_Discriminant_Analysis/5.1_Discrimination_for_two_multivariate_normal_populations/discrimination_two_populations_practice.py
 - Smoke-test all practice scripts in chapter 5:
-  - for f in contents/5_Discriminant_Analysis/*/*_practice.py; do python "$f" || break; done
+  - for f in beamers/5_Discriminant_Analysis/*/*_practice.py; do python "$f" || break; done
 
 Conventions agents must follow
-- Preserve the `contents/` exercise layout (do not move `.tex` or `_report.txt` unintentionally).
+- Preserve the `beamers/` exercise layout (do not move `.tex` or `_report.txt` unintentionally).
 - When adding runtime deps, update `requirements.txt` and document install in README.
 - Tests sit next to modules (lightweight pytest). Update tests when changing `utils/` utilities.
 

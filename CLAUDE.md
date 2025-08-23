@@ -27,21 +27,21 @@ pip install -e .
 **Run practice scripts:**
 ```bash
 # Single Python script (organized structure)
-cd contents/5_Discriminant_Analysis/5.1_Discrimination_for_two_multivariate_normal_populations/python
+cd beamers/5_Discriminant_Analysis/5.1_Discrimination_for_two_multivariate_normal_populations/python
 python discrimination_two_populations_practice.py
 
 # Single Julia script (organized structure)  
-cd contents/5_Discriminant_Analysis/5.1_Discrimination_for_two_multivariate_normal_populations/julia
+cd beamers/5_Discriminant_Analysis/5.1_Discrimination_for_two_multivariate_normal_populations/julia
 julia discrimination_two_populations_practice.jl
 
 # All Python scripts in a section (legacy structure)
-for f in contents/5_Discriminant_Analysis/*/*_practice.py; do
+for f in beamers/5_Discriminant_Analysis/*/*_practice.py; do
   echo "--- running $f ---"
   python "$f" || break
 done
 
 # All Python scripts in organized structure (all chapters)
-for chapter in contents/{1_Regression_Analysis,4_Factor_Analysis,5_Discriminant_Analysis}; do
+for chapter in beamers/{1_Regression_Analysis,4_Factor_Analysis,5_Discriminant_Analysis}; do
   for f in $chapter/*/python/*_practice.py; do
     echo "--- running $f ---"
     python "$f" || break
@@ -49,7 +49,7 @@ for chapter in contents/{1_Regression_Analysis,4_Factor_Analysis,5_Discriminant_
 done
 
 # Compile LaTeX presentations
-cd contents/5_Discriminant_Analysis/5.1_Discrimination_for_two_multivariate_normal_populations/latex
+cd beamers/5_Discriminant_Analysis/5.1_Discrimination_for_two_multivariate_normal_populations/latex
 pdflatex discrimination_two_populations.tex
 ```
 
@@ -62,9 +62,9 @@ pdflatex discrimination_two_populations.tex
 ## Repository Structure
 
 **Course Materials:**
-- `contents/1_Regression_Analysis/` - Regression analysis exercises and materials (5 topics, fully refactored)
-- `contents/4_Factor_Analysis/` - Factor analysis exercises and materials (6 topics, organized structure)
-- `contents/5_Discriminant_Analysis/` - Discriminant analysis exercises and materials (6 topics, fully refactored)
+- `beamers/1_Regression_Analysis/` - Regression analysis exercises and materials (5 topics, fully refactored)
+- `beamers/4_Factor_Analysis/` - Factor analysis exercises and materials (6 topics, organized structure)
+- `beamers/5_Discriminant_Analysis/` - Discriminant analysis exercises and materials (6 topics, fully refactored)
 - Each exercise folder contains organized subfolders (see Course Content Structure below)
 
 **Utilities:**
@@ -84,7 +84,7 @@ pdflatex discrimination_two_populations.tex
 ## Development Conventions
 
 **File Organization:**
-- Exercise materials stay in their respective folders under `contents/`
+- Exercise materials stay in their respective folders under `beamers/`
 - New utilities go in `utils/` and are exported via `utils/__init__.py`
 - Tests sit next to modules (e.g., `utils/test_logger.py`)
 - Save conversation exports in `.claude/backup/conversations/` for organized documentation
