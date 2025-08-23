@@ -82,11 +82,11 @@ Each subtopic follows the organized structure:
 source .venv/bin/activate
 
 # Run single script (organized structure)
-cd contents/5_Discriminant_Analysis/5.1_Discrimination_for_two_multivariate_normal_populations/python
+cd beamers/5_Discriminant_Analysis/5.1_Discrimination_for_two_multivariate_normal_populations/python
 python discrimination_two_populations_practice.py
 
 # Run all Python scripts in organized structure
-for f in contents/5_Discriminant_Analysis/*/python/*_practice.py; do
+for f in beamers/5_Discriminant_Analysis/*/python/*_practice.py; do
   echo "--- running $f ---"
   python "$f" || break
 done
