@@ -26,20 +26,25 @@ pip install -e .
 
 **Run practice scripts:**
 ```bash
-# Single Python script (current Factor Analysis structure)
+# Single subtopic practice script
 cd beamers/4_Factor_Analysis/practice/4.1_objectives
 python objectives_factor_analysis_practice.py
 
-# All Python scripts in Factor Analysis chapter
+# All subtopics in a chapter
+for dir in beamers/4_Factor_Analysis/practice/4.*/; do
+  cd "$dir" && python *_practice.py && cd - > /dev/null
+done
+
+# Alternative execution from repo root (recommended)
+.venv/bin/python beamers/4_Factor_Analysis/practice/4.1_objectives/objectives_factor_analysis_practice.py
+
+# All subtopics using repo root execution
 for f in beamers/4_Factor_Analysis/practice/*/*_practice.py; do
   echo "--- running $f ---"
   .venv/bin/python "$f" || break
 done
 
-# Alternative single script execution from repo root
-.venv/bin/python beamers/4_Factor_Analysis/practice/4.1_objectives/objectives_factor_analysis_practice.py
-
-# Compile lesson presentations (Factor Analysis chapter)
+# Compile chapter presentation
 cd beamers/4_Factor_Analysis/lesson
 pdflatex factor_analysis.tex
 ```
@@ -91,28 +96,36 @@ pdflatex factor_analysis.tex
 - `pyproject.toml` defines package metadata
 
 **Course Content Structure:**
-**Current Factor Analysis Structure:**
+**Current Chapter Organization (Factor Analysis Model):**
 
 ```
-4_Factor_Analysis/
-├── README.md                          # Chapter overview
-├── lesson/                            # Centralized presentation materials
-│   ├── factor_analysis.tex           # Main Beamer presentation
-│   ├── factor_analysis.pdf           # Compiled presentation  
+X_Chapter_Name/
+├── README.md                          # Comprehensive chapter overview with:
+│                                      #   - Learning objectives
+│                                      #   - Chapter structure outline  
+│                                      #   - Usage instructions
+│                                      #   - Prerequisites and key concepts
+├── lesson/                            # Single consolidated presentation
+│   ├── [chapter].tex                 # Complete chapter Beamer presentation
+│   ├── [chapter].pdf                 # Compiled presentation
 │   └── ... (LaTeX auxiliary files)
-└── practice/                          # Topic-organized exercises
-    ├── 4.1_objectives/
+└── practice/                          # Subtopic-organized exercises
+    ├── X.1_subtopic_name/
+    │   ├── README.md                  # Brief subtopic practice instructions
+    │   ├── [subtopic]_practice.py     # Main executable practice script
+    │   └── [optional analysis modules]
+    ├── X.2_subtopic_name/
     │   ├── README.md
-    │   ├── objectives_factor_analysis_practice.py
-    │   └── [additional analysis modules]
-    ├── 4.2_equations/
-    │   ├── README.md
-    │   └── equations_practice.py
-    ├── 4.3_number_of_factors/
-    ├── 4.4_rotation/
-    ├── 4.5_oblique_rotation/
-    └── 4.6_software/
+    │   └── [subtopic]_practice.py
+    └── ... (continue for all subtopics)
 ```
+
+**Key Organizational Principles:**
+- **Chapter-level consolidation**: Single presentation covers all subtopics
+- **Comprehensive chapter README**: Serves as complete learning guide
+- **Modular practice exercises**: Each subtopic has independent practice folder
+- **Self-contained scripts**: Practice scripts include embedded documentation
+- **Consistent naming**: `X.Y_descriptive_name` pattern for subtopic folders
 
 **Future Standardized Structure (Target):**
 
@@ -136,12 +149,13 @@ X.Y_Topic_Name/
 - `julia/` folder - Julia implementations (removed for maintainability)
 - Separate `latex/` and `python/` folders (now `lesson/` and `practice/`)
 
-**When refactoring existing exercises:**
-1. **Eliminate redundancy**: Remove separate report files, merge content into README.md
-2. **Remove Julia implementations**: Single Python codebase is easier to maintain  
-3. **Rename folders**: `latex/` → `lesson/`, `python/` → `practice/`
-4. **Create notes**: Add comprehensive `notes/` folder with LaTeX article
-5. **Modular code**: Separate analysis functions from reporting in practice folder
+**Chapter Development Pattern (Based on Factor Analysis):**
+1. **Create comprehensive chapter README**: Include learning objectives, structure outline, prerequisites, and usage examples
+2. **Single consolidated presentation**: One Beamer file covers all chapter subtopics with clear section breaks
+3. **Modular subtopic practice folders**: Each `X.Y_subtopic/` folder contains independent practice implementation
+4. **Self-documenting practice scripts**: Each script includes embedded purpose, workflow, and section documentation
+5. **Minimal subtopic READMEs**: Brief usage instructions since main documentation is in chapter README
+6. **Consistent naming convention**: Use `X.Y_descriptive_name` pattern for all subtopic folders
 
 **Key Utilities:**
 - `setup_logger()` - Configured logger with duplicate handler prevention and `propagate = False`
@@ -165,10 +179,11 @@ X.Y_Topic_Name/
 - **Test practice scripts** to ensure they work out-of-the-box
 
 ### Content Guidelines  
-- **Student presentations** should focus on statistical problems, objectives, and interpretation
-- **Practice exercises** should demonstrate real-world applications with meaningful data
-- **Notes documentation** should provide pedagogical guidance and teaching strategies
-- **README files** serve as comprehensive overviews - eliminate redundant report files
+- **Chapter presentations** should cover all subtopics in a unified narrative flow
+- **Practice exercises** should be self-contained with clear documentation and real-world applications
+- **Chapter README** serves as the primary learning resource with comprehensive overview
+- **Subtopic READMs** should be minimal - just usage instructions and file descriptions
+- **Practice scripts** must include embedded documentation explaining purpose and workflow sections
 
 ## Current Repository State
 
@@ -189,10 +204,10 @@ X.Y_Topic_Name/
 - Chapter 7: Multivariate Regression
 
 **Current Priorities:**
-1. Complete Factor Analysis practice implementations
-2. Implement missing practice scripts (4.5_oblique_rotation currently missing)
-3. Test all existing practice scripts for functionality
-4. Consider migration to standardized per-topic structure for better organization
+1. Complete Factor Analysis practice implementations (4.5_oblique_rotation missing)
+2. Test all existing practice scripts for functionality
+3. Apply this organizational pattern to future chapters
+4. Validate the chapter-level consolidation approach before expanding
 
 ## Conversation Management
 
@@ -216,20 +231,34 @@ When working with this repository, conversation exports should be saved to maint
 - **Logger Usage**: Always use `from utils import setup_logger` and call `setup_logger(__name__)` for consistent logging across scripts
 - Course covers 7 main topics: Regression Analysis, Multivariate Analysis, PCA, Factor Analysis, Discriminant Analysis, Cluster Analysis, and Multivariate Regression
 
-## Standardized Lesson Template
+## Chapter Template (Factor Analysis Model)
 
-When creating new lessons, use this template structure:
+When creating new chapters, use this organizational structure:
 
 ```
-X.Y_Topic_Name/
-├── README.md                          # Comprehensive overview
-├── lesson/                            # Beamer presentation for students  
-├── practice/                          # Modular Python implementation
-└── notes/                             # LaTeX article for instructors/learners
+X_Chapter_Name/
+├── README.md                          # Complete chapter learning resource
+│                                      # • Learning objectives & outcomes
+│                                      # • Subtopic structure & overview
+│                                      # • Prerequisites & key concepts  
+│                                      # • Usage instructions & examples
+│                                      # • Mathematical notation guide
+├── lesson/
+│   ├── [chapter].tex                 # Unified Beamer presentation
+│   └── [chapter].pdf                 # Compiled slides
+└── practice/
+    ├── X.1_subtopic_name/            # Independent practice modules
+    │   ├── README.md                  # Brief usage instructions
+    │   └── [subtopic]_practice.py     # Self-documented executable
+    ├── X.2_subtopic_name/
+    │   └── ... (same pattern)
+    └── X.N_final_subtopic/
 ```
 
-**Key principles:**
-- **Student-focused lessons**: Problem-oriented presentations, not code architecture
-- **Modular practice code**: Separate analysis from reporting for reusability
-- **Comprehensive documentation**: README as single source of truth
-- **Pedagogical guidance**: Notes folder with teaching strategies and tips
+**Implementation Guidelines:**
+- **Chapter README structure**: Follow Factor Analysis README as template (learning objectives, structure outline, prerequisites, key concepts, mathematical notation)
+- **Unified presentation**: Single Beamer file with clear section breaks for each subtopic
+- **Independent subtopics**: Each practice folder should work standalone
+- **Embedded documentation**: Practice scripts contain purpose, workflow sections, and usage examples
+- **Consistent naming**: Always use `X.Y_descriptive_name` pattern
+- **Minimal redundancy**: Subtopic READMEs should only contain essential usage info
