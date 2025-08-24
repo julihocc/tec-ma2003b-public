@@ -1,9 +1,9 @@
 \documentclass[aspectratio=169]{beamer}
-\usetheme{metropolis}
-\usecolortheme{default}
-\usefonttheme{default}
-\setbeamertemplate{navigation symbols}{}
-\setbeamertemplate{caption}[numbered]
+% Add themes directory to TeX input path
+\makeatletter
+\def\input@path{{../../../themes//}}
+\makeatother
+\usetheme{ma2003b}
 
 \usepackage[utf8]{inputenc}
 \usepackage{amsmath}
@@ -29,6 +29,9 @@
 \end{frame}
 
 \section{Introduction}
+\begin{frame}[plain,noframenumbering]
+  \sectionpage
+\end{frame}
 \begin{frame}{What is Factor Analysis?}
   \begin{itemize}
     \item A statistical method for identifying latent variables that explain observed correlations
@@ -48,6 +51,9 @@
 \end{frame}
 
 \section{Core Objectives}
+\begin{frame}[plain,noframenumbering]
+  \sectionpage
+\end{frame}
 \begin{frame}{Primary Objectives of Factor Analysis}
   \begin{enumerate}
     \item \textbf{Dimensionality Reduction}
@@ -196,6 +202,9 @@
 \end{frame}
 
 \section{Hands-On Practice}
+\begin{frame}[plain,noframenumbering]
+  \sectionpage
+\end{frame}
 
 \begin{frame}{The Research Problem}
   \textbf{Scenario:} You are a psychologist studying cognitive abilities
