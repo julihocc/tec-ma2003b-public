@@ -9,38 +9,54 @@
 \usepackage{framed}
 \usepackage{listings}
 
-% Custom environments (boxed notes)
+% Tufte classes manage headers/footers; use title/author and tufte sidenotes
+
+% Custom environments
 \definecolor{notecolor}{RGB}{255,248,220}
 \definecolor{tipcolor}{RGB}{240,248,255}
 \definecolor{warningcolor}{RGB}{255,240,240}
 
+% Reuse MA2003B branding colors from the beamer theme
+\definecolor{tecblue}{RGB}{0,88,170}
+\definecolor{tecorange}{RGB}{255,122,0}
+
+% Helper commands for colored note titles
+\newcommand{\noteTitle}[1]{\textcolor{tecblue}{\textbf{#1}}}
+\newcommand{\issueTitle}[1]{\textcolor{tecorange}{\textbf{#1}}}
+
 \newenvironment{pedagogicalnote}{%
   \begin{framed}
-  \noindent\textbf{Pedagogical Note:}\\
+  \noindent\noteTitle{Pedagogical Note:}\\
 }{%
   \end{framed}
 }
 
 \newenvironment{learningtip}{%
   \begin{framed}
-  \noindent\textcolor{blue}{\textbf{Learning Tip:}}\\
+  \noindent\noteTitle{Learning Tip:}\\
 }{%
   \end{framed}
 }
 
 \newenvironment{commonissue}{%
-  \begin{framed}
-  \noindent\textcolor{red}{\textbf{Common Issue:}}\\
+    \begin{framed}
+    \noindent\issueTitle{Common Issue:}\\
 }{%
-  \end{framed}
-}
+    \end{framed}}
 
 \title{Objectives of Factor Analysis\\\large Topic 4.1}
 \author{Dr. Juliho Castillo\\Tec de Monterrey}
 \date{\today}
 
 \begin{document}
-\maketitle
+% Render a colored title block (avoid coloring the PDF metadata)
+\begingroup
+  \centering
+  {\Huge\textcolor{tecblue}{Objectives of Factor Analysis}}\\[0.5em]
+  {\large Topic 4.1}\\[1em]
+  {\normalsize Dr. Juliho Castillo\\Tec de Monterrey}\\[0.5em]
+  {\normalsize \today}
+\par\vspace{1em}\endgroup
 
 % Preface: self-contained notes independent of slides
 These notes are a self-contained reading resource on the objectives and core ideas of factor analysis. They are written to be understandable without the accompanying slide deck.
