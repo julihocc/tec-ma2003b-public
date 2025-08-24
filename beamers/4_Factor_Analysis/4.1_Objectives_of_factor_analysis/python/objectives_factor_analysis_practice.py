@@ -1,13 +1,46 @@
-"""4.1 Objectives of Factor Analysis
+"""Objectives of Factor Analysis — practice/demo script
 
-Practice script: demonstrate the key objectives and applications of factor analysis,
-comparing it with PCA and showing practical examples.
+This script is a self-contained demonstration used in the course material
+MA2003B (chapter 4.1). It generates synthetic psychology test data with a
+known two-factor structure (Intelligence and Verbal ability), then shows how
+to inspect the correlation structure, run PCA for comparison, and run factor
+analysis (using either the `factor_analyzer` package or a simple eigen-based
+fallback implementation).
 
-This demonstrates the key concepts from the presentation:
-- Factor analysis vs PCA comparison
-- Dimensionality reduction objectives
-- Latent variable identification
-- Practical applications
+Sections demonstrated:
+ - Correlation analysis and inspection of high correlations
+ - Principal Component Analysis (PCA) for variance-explanation comparison
+ - Factor Analysis (FA) to identify latent constructs and communalities
+ - A short comparison of FA vs PCA objectives
+ - Sketch of applied areas where FA is useful
+
+Requirements
+ - Python 3.8+ (developed and tested on Python 3.10/3.11)
+ - numpy (required)
+ - scikit-learn (optional; used for StandardScaler and PCA if available)
+ - factor_analyzer (optional; used for a full factor analysis if available)
+
+If optional packages are not installed the script falls back to simple
+implementations so it still runs and demonstrates the core ideas.
+
+Quick run (from repository root)
+  - Create and activate a virtual environment (recommended):
+      python3 -m venv .venv
+      source .venv/bin/activate
+  - Install required packages (minimal):
+      pip install -r requirements.txt
+  - Run this practice script:
+      python beamers/4_Factor_Analysis/4.1_Objectives_of_factor_analysis/python/objectives_factor_analysis_practice.py
+
+Outputs
+ - Prints correlation matrices, PCA explained variance, FA loadings/communalities
+ - A textual comparison of FA vs PCA objectives
+
+Notes for maintainers
+ - The script is intentionally dependency-tolerant: it prefers sklearn/factor_analyzer
+   but uses basic implementations when those packages are absent. This keeps the
+   demonstration runnable in stripped environments (e.g., teaching machines).
+
 """
 
 import numpy as np
