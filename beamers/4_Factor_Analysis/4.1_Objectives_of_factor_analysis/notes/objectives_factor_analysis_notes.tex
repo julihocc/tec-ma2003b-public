@@ -1,23 +1,15 @@
-\documentclass[11pt,a4paper]{article}
+% Clean, self-contained Tufte-style notes for Topic 4.1: Objectives of Factor Analysis
+\documentclass[a4paper,11pt]{tufte-book}
 \usepackage[utf8]{inputenc}
-\usepackage[margin=1in]{geometry}
 \usepackage{amsmath,amssymb,amsfonts}
 \usepackage{graphicx}
 \usepackage{hyperref}
 \usepackage{enumitem}
-\usepackage{fancyhdr}
 \usepackage{xcolor}
 \usepackage{framed}
 \usepackage{listings}
 
-% Header and footer setup
-\pagestyle{fancy}
-\fancyhf{}
-\rhead{MA2003B - Expanded Notes}
-\lhead{4.1 Objectives of Factor Analysis}
-\cfoot{\thepage}
-
-% Custom environments
+% Custom environments (boxed notes)
 \definecolor{notecolor}{RGB}{255,248,220}
 \definecolor{tipcolor}{RGB}{240,248,255}
 \definecolor{warningcolor}{RGB}{255,240,240}
@@ -25,24 +17,33 @@
 \newenvironment{pedagogicalnote}{%
   \begin{framed}
   \noindent\textbf{Pedagogical Note:}\\
-}{\end{framed}}
+}{%
+  \end{framed}
+}
 
 \newenvironment{learningtip}{%
   \begin{framed}
   \noindent\textcolor{blue}{\textbf{Learning Tip:}}\\
-}{\end{framed}}
+}{%
+  \end{framed}
+}
 
 \newenvironment{commonissue}{%
   \begin{framed}
   \noindent\textcolor{red}{\textbf{Common Issue:}}\\
-}{\end{framed}}
+}{%
+  \end{framed}
+}
 
-\title{Expanded Notes: Objectives of Factor Analysis}
-\author{MA2003B - Application of Multivariate Methods in Data Science}
+\title{Objectives of Factor Analysis\\\large Topic 4.1}
+\author{Dr. Juliho Castillo\\Tec de Monterrey}
 \date{\today}
 
 \begin{document}
 \maketitle
+
+% Preface: self-contained notes independent of slides
+These notes are a self-contained reading resource on the objectives and core ideas of factor analysis. They are written to be understandable without the accompanying slide deck.
 
 \tableofcontents
 \newpage
@@ -50,275 +51,167 @@
 \section{Lesson Overview}
 
 \subsection{Learning Objectives}
-By the end of this lesson, students should be able to:
+By the end of this document the reader should be able to:
 \begin{itemize}
-    \item Distinguish between factor analysis and PCA objectives
-    \item Identify when to use factor analysis vs other dimensionality reduction techniques  
-    \item Interpret factor loadings and communalities in context
-    \item Apply factor analysis to real-world problems (psychology, marketing, etc.)
-    \item Understand the theoretical foundation behind factor analysis
+  \item Distinguish between factor analysis and PCA objectives
+  \item Identify when to use factor analysis versus other dimensionality reduction techniques
+  \item Interpret factor loadings and communalities in context
+  \item Apply factor analysis to real-world problems (psychology, marketing, etc.)
+  \item Explain the theoretical foundations behind factor analysis
 \end{itemize}
 
 \subsection{Prerequisites}
 \begin{itemize}
-    \item Basic understanding of correlation and covariance
-    \item Familiarity with matrix operations
-    \item Introduction to PCA (from previous lessons)
-    \item Basic Python programming skills
+  \item Basic understanding of correlation and covariance
+  \item Familiarity with matrix operations
+  \item Introduction to PCA
+  \item Basic Python programming (for practice scripts)
 \end{itemize}
 
-\subsection{Lesson Structure}
-\begin{enumerate}
-    \item Introduction to Factor Analysis (15 minutes)
-    \item Core vs Secondary Objectives (10 minutes) 
-    \item Factor Analysis vs PCA Comparison (15 minutes)
-    \item Applications Across Fields (10 minutes)
-    \item Fundamental Concepts (15 minutes)
-    \item Types of Factor Analysis (10 minutes)
-    \item Hands-On Practice Introduction (15 minutes)
-    \item Discussion and Q\&A (10 minutes)
-\end{enumerate}
+\subsection{Structure}
+This document contains conceptual explanations, short mathematical notes, practical advice, and suggested exercises for independent study.
 
-\section{Detailed Teaching Guide}
-
-\subsection{Introduction (Slides 1-4)}
+\section{Introduction}
 
 \begin{pedagogicalnote}
-Start with a motivating question: "Why do we need another dimensionality reduction technique when we already have PCA?" This immediately positions FA as solving a different type of problem.
+Start with a motivating question: ``Why do we need another dimensionality reduction technique when we already have PCA?'' Factor analysis addresses different goals than PCA.
 \end{pedagogicalnote}
 
-\textbf{Key Points to Emphasize:}
-\begin{itemize}
-    \item Factor analysis is about finding \textit{causes} (latent variables)
-    \item PCA is about finding \textit{summaries} (linear combinations)
-    \item The word "factor" comes from the idea that latent variables are the underlying "factors" that produce correlations
-\end{itemize}
+Factor analysis aims to uncover latent variables (factors) that explain observed correlations among measured variables. PCA finds linear combinations that summarize variance but does not model measurement error explicitly.
 
 \begin{learningtip}
-Use the analogy: "PCA asks 'How can I summarize this data?' while FA asks 'What hidden forces are creating these patterns?'"
+Think: PCA summarizes; Factor Analysis explains.
 \end{learningtip}
 
-\subsection{Core Objectives (Slides 5-6)}
+\section{Core Objectives}
 
-\textbf{Slide 5: Primary Objectives}
-
-\begin{pedagogicalnote}
-When explaining dimensionality reduction, emphasize that FA doesn't just reduce dimensions—it explains \textit{why} the dimensions can be reduced. The underlying factors are the explanation.
-\end{pedagogicalnote}
-
-\textbf{Mathematical Note:} The factor model $\mathbf{X} = \mathbf{\Lambda F} + \mathbf{\epsilon}$ explicitly models both:
+\subsection{Primary Objectives}
 \begin{itemize}
-    \item Common variance (explained by factors $\mathbf{F}$)
-    \item Unique variance (measurement error $\mathbf{\epsilon}$)
+  \item Dimensionality reduction while explaining common variance
+  \item Latent variable identification (discovering constructs that cause correlations)
+  \item Understanding data structure and grouping related variables
+\end{itemize}
+
+\subsection{Secondary Objectives}
+\begin{itemize}
+  \item Measurement purification: separating common signal from unique measurement error
+  \item Informing theory development and variable selection
+  \item Reducing multicollinearity for downstream models
+\end{itemize}
+
+\section{Factor Analysis vs PCA}
+
+\subsection{Mathematical contrast}
+\begin{align*}
+  &\text{Factor model: } \mathbf{X} = \mathbf{\Lambda F} + \mathbf{\epsilon}\\
+  &\text{PCA model: } \mathbf{X} = \mathbf{PY}
+\end{align*}
+
+Key differences:
+\begin{itemize}
+  \item FA models common and unique variance explicitly; PCA does not
+  \item FA factors are latent constructs with theoretical interpretation; PCA components are mathematical summaries
+  \item FA typically extracts fewer factors and focuses on common variance
 \end{itemize}
 
 \begin{commonissue}
-Students often confuse "latent variable identification" with "variable creation." Clarify that we're \textit{discovering} variables that already exist conceptually, not inventing new ones.
+Negative loadings are meaningful: they indicate inverse relationships between a variable and a factor.
 \end{commonissue}
 
-\textbf{Slide 6: Secondary Objectives}
+\section{Applications}
+Factor analysis is widely used in psychology (intelligence, personality), marketing (brand perception, segmentation), finance (risk factor identification), education, health sciences, and environmental studies.
 
-\begin{pedagogicalnote}
-The "measurement purification" objective is crucial for psychology and social sciences. Explain that we can separate "signal" (what we're trying to measure) from "noise" (measurement error).
-\end{pedagogicalnote}
+\section{Key Concepts}
 
-\subsection{Factor Analysis vs PCA (Slides 7-8)}
+\textbf{Factor:} an unobserved variable influencing multiple observed variables.
 
-\textbf{Slide 7: Comparison Table}
+\textbf{Loading:} correlation between observed variable and factor.
 
-\begin{pedagogicalnote}
-This table is central to the lesson. Spend time on each row, especially the mathematical models. Draw the conceptual difference on the board if needed.
-\end{pedagogicalnote}
+\textbf{Communality:} proportion of a variable's variance explained by the common factors.
 
-\textbf{Key Distinctions to Highlight:}
+\textbf{Uniqueness:} variance unique to the variable (including measurement error).
+
+Simple relationship when variables are standardized: $h_i^2 + u_i^2 = 1.0$.
+
+\section{The Factor Model}
+Basic model and assumptions:
 \begin{itemize}
-    \item \textbf{Unique Variance:} FA explicitly models measurement error; PCA ignores it
-    \item \textbf{Number of Factors:} FA usually extracts fewer factors than variables; PCA can extract as many components as variables
-    \item \textbf{Interpretation:} FA factors represent real psychological/theoretical constructs; PCA components are mathematical summaries
+  \item $\mathbf{X} = \mathbf{\Lambda F} + \mathbf{\epsilon}$
+  \item $E[\mathbf{F}] = 0$, $E[\mathbf{\epsilon}] = 0$
+  \item $\mathrm{Cov}(\mathbf{F},\mathbf{\epsilon}) = 0$
 \end{itemize}
 
-\begin{learningtip}
-"If you care about theory and causation, use FA. If you just need to reduce dimensions efficiently, use PCA."
-\end{learningtip}
+Discuss identification issues and the role of rotations (orthogonal and oblique).
 
-\textbf{Slide 8: When to Choose Each Method}
+\section{Types of Factor Analysis}
+\textbf{Exploratory Factor Analysis (EFA):} data-driven, used for discovery.
+\newline
+\textbf{Confirmatory Factor Analysis (CFA):} hypothesis-driven, used to test pre-specified models.
 
-\begin{pedagogicalnote}
-This slide helps students make practical decisions. Emphasize that both methods are valuable—they just serve different purposes.
-\end{pedagogicalnote}
+\section{Practical Guide}
 
-\subsection{Applications (Slides 9-11)}
+\subsection{Research problem example}
+A psychologist administers six tests (Math, Logic, Spatial, Reading, Writing, Vocabulary) to 200 students and wants to know how many latent cognitive factors best explain performance.
 
-\begin{pedagogicalnote}
-These slides connect theory to practice. Choose examples relevant to your students' backgrounds. If teaching business students, emphasize marketing applications. For psychology students, focus on intelligence and personality research.
-\end{pedagogicalnote}
-
-\textbf{Teaching Strategy:} 
-\begin{itemize}
-    \item Ask students to suggest other applications in each field
-    \item Discuss why factor analysis is particularly useful in these domains
-    \item Connect back to the "latent variable identification" objective
-\end{itemize}
-
-\subsection{Fundamental Concepts (Slides 12-13)}
-
-\textbf{Slide 12: Key Concepts}
-
-\begin{commonissue}
-Students often struggle with the concept of "communality." Use this analogy: "If a variable is a person, communality is how much of that person's behavior can be explained by group membership (factors) vs individual quirks (uniqueness)."
-\end{commonissue}
-
-\textbf{Mathematical Relationships:}
-\begin{align}
-    \text{Communality} + \text{Uniqueness} &= 1.0 \\
-    h^2_i + u^2_i &= 1.0
-\end{align}
-
-\textbf{Slide 13: The Factor Model}
-
-\begin{pedagogicalnote}
-This is the most mathematical slide. If students struggle with matrix notation, focus on the conceptual meaning: each observed variable is a combination of common factors plus unique error.
-\end{pedagogicalnote}
-
-\subsection{Types of Factor Analysis (Slide 14)}
-
-\begin{pedagogicalnote}
-Connect EFA vs CFA to the research process: EFA for exploration and discovery, CFA for testing specific theories. This matches how science actually works.
-\end{pedagogicalnote}
-
-\section{Hands-On Practice Section}
-
-\subsection{The Research Problem (Slide 15)}
-
-\begin{pedagogicalnote}
-This slide sets up the practice exercise. Frame it as a real research scenario to increase engagement. Students should feel like they're doing actual psychological research.
-\end{pedagogicalnote}
-
-\textbf{Discussion Questions to Ask:}
-\begin{itemize}
-    \item "What do you think we'll find? Will there really be just 2 factors?"
-    \item "What would it mean if we found more or fewer factors than expected?"
-    \item "How might this affect educational policy?"
-\end{itemize}
-
-\subsection{Why This Matters (Slide 16)}
-
-\begin{pedagogicalnote}
-This slide answers the "So what?" question. Students need to understand why they should care about this analysis beyond just getting a grade.
-\end{pedagogicalnote}
-
-\subsection{Analysis Roadmap (Slide 17)}
-
-\begin{pedagogicalnote}
-This slide teaches scientific thinking, not just factor analysis. Emphasize that this is how professional data analysts approach problems: explore, compare, interpret, validate, apply.
-\end{pedagogicalnote}
-
-\begin{learningtip}
-"This roadmap applies to many statistical analyses, not just factor analysis. Learn this thinking process."
-\end{learningtip}
-
-\subsection{Expected Outcomes (Slide 18)}
-
-\begin{pedagogicalnote}
-Setting expectations helps students interpret results correctly. When they run the analysis, they'll know what to look for and whether their results are reasonable.
-\end{pedagogicalnote}
-
-\section{Practice Implementation}
-
-\subsection{How to Use the Practice Script (Slide 19)}
-
-\begin{pedagogicalnote}
-Keep the technical instructions simple. Students should focus on statistical interpretation, not debugging code. The practice is pre-built to "just work."
-\end{pedagogicalnote}
-
-\subsection{How to Interpret Results (Slide 20)}
-
-\begin{pedagogicalnote}
-This is where statistical literacy is built. Teach students to be critical consumers of statistical output, not just button-pushers.
-\end{pedagogicalnote}
-
-\textbf{Interpretation Checklist for Students:}
+\subsection{Analysis roadmap}
 \begin{enumerate}
-    \item Do the correlations make sense theoretically?
-    \item Are the factor loadings strong enough (> 0.5)?
-    \item Do the communalities seem reasonable (0.3-0.9)?
-    \item Can you give meaningful names to the factors?
-    \item Do the results match the theoretical expectation?
+  \item Inspect correlations and data quality
+  \item Choose extraction method and number of factors (eigenvalues, parallel analysis, scree plot)
+  \item Rotate factors for interpretability
+  \item Interpret loadings, communalities, and uniquenesses
+  \item Validate construct using theory and external criteria
 \end{enumerate}
 
-\subsection{Discussion Questions (Slide 21)}
-
-\begin{pedagogicalnote}
-These questions develop critical thinking skills. Encourage debate and different perspectives. There may not be single "correct" answers.
-\end{pedagogicalnote}
-
-\section{Assessment and Homework}
-
-\subsection{Formative Assessment Questions}
+\subsection{Interpretation checklist}
 \begin{enumerate}
-    \item When would you choose factor analysis over PCA? Give a specific example.
-    \item Explain what a communality of 0.7 means in practical terms.
-    \item If a factor loading is 0.85, what does this tell you about the relationship between the variable and factor?
-    \item Describe a research scenario where EFA would be more appropriate than CFA.
+  \item Do the correlations make theoretical sense?
+  \item Are loadings sufficiently large (commonly > 0.4--0.5)?
+  \item Do communalities indicate variables are well-explained?
+  \item Can factors be meaningfully named?
+  \item Are results robust to different extraction/rotation choices?
 \end{enumerate}
 
-\subsection{Suggested Homework}
+\section{Implementation notes}
+The repository includes a practice script \verb|objectives_factor_analysis_practice.py| which:
 \begin{itemize}
-    \item Run the practice script and write a 2-page interpretation of results
-    \item Find a real research paper that uses factor analysis and summarize how they interpreted their results
-    \item Design a hypothetical study where factor analysis would be appropriate
+  \item Generates example data
+  \item Runs correlation analysis, PCA, and Factor Analysis
+  \item Writes a short report file with results
 \end{itemize}
 
-\section{Common Student Questions}
+To run locally from this folder:
+\begin{verbatim}
+python objectives_factor_analysis_practice.py
+\end{verbatim}
 
-\subsection{Technical Questions}
+\section{Exercises and Assessment}
+\subsection{Formative questions}
+\begin{enumerate}
+  \item When is FA preferred to PCA? Give a real example.
+  \item What does a communality of 0.7 mean in practice?
+  \item How would you proceed if two variables cross-load strongly on two factors?
+\end{enumerate}
+
+\subsection{Suggested homework}
 \begin{itemize}
-    \item \textbf{Q:} "How do we know how many factors to extract?"
-    \item \textbf{A:} Discuss eigenvalue criteria, scree plots, and theoretical considerations. Mention that this is more art than science.
-    
-    \item \textbf{Q:} "What if factor loadings are negative?"
-    \item \textbf{A:} Negative loadings are meaningful—they indicate inverse relationships. The factor might represent one pole of a bipolar dimension.
+  \item Run the practice script and write a two-page interpretation
+  \item Find a published paper using FA and summarise their interpretation
+  \item Propose a small study where FA would be the appropriate method
 \end{itemize}
 
-\subsection{Conceptual Questions}
+\section{Further Reading}
 \begin{itemize}
-    \item \textbf{Q:} "Are factors 'real' or just statistical artifacts?"
-    \item \textbf{A:} This is a philosophical question. Factors are models that may correspond to real psychological or physical processes, but we must validate them theoretically and empirically.
-    
-    \item \textbf{Q:} "Why not just use all the original variables?"
-    \item \textbf{A:} Factor analysis helps us understand underlying structure and reduces complexity while maintaining theoretical interpretability.
+  \item Tabachnick \& Fidell: "Using Multivariate Statistics"
+  \item Field: "Discovering Statistics with SPSS"
+  \item Thompson: "Exploratory and Confirmatory Factor Analysis"
 \end{itemize}
 
-\section{Extension Activities}
-
-\subsection{Advanced Students}
+\section{Online resources}
 \begin{itemize}
-    \item Explore different rotation methods (varimax, promax, oblimin)
-    \item Compare results with different numbers of factors
-    \item Investigate factor analysis assumptions and diagnostic tests
+  \item UCLA Statistical Consulting: Factor Analysis Examples
+  \item StatQuest: Factor Analysis vs PCA (YouTube)
 \end{itemize}
 
-\subsection{Struggling Students}
-\begin{itemize}
-    \item Focus on interpreting provided results rather than generating new analyses
-    \item Use conceptual analogies and avoid mathematical details
-    \item Pair with stronger students for collaborative interpretation
-\end{itemize}
-
-\section{Resources and References}
-
-\subsection{Recommended Readings}
-\begin{itemize}
-    \item Tabachnick \& Fidell: "Using Multivariate Statistics" (Chapter on Factor Analysis)
-    \item Field: "Discovering Statistics with SPSS" (Factor Analysis chapter)
-    \item Thompson: "Exploratory and Confirmatory Factor Analysis" (Advanced)
-\end{itemize}
-
-\subsection{Online Resources}
-\begin{itemize}
-    \item UCLA Statistical Consulting: Factor Analysis Examples
-    \item Khan Academy: Principal Component Analysis (for comparison)
-    \item StatQuest: Factor Analysis vs PCA (YouTube)
-\end{itemize}
+% no closing section: this is a continuous reading document
 
 \end{document}
