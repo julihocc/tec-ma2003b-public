@@ -58,23 +58,60 @@ By the end of this chapter, students will be able to:
 - SPSS and SAS procedures
 - Practical considerations and best practices
 
-## Folder Organization
+## Consolidated Structure
 
-Each subtopic follows the organized structure:
+The chapter now uses a consolidated structure with:
+- **Single beamer presentation** covering all 6 subtopics
+- **Single comprehensive notes** document 
+- **Modular practice exercises** organized by subtopic
 
+### Contents
+
+#### Lesson Materials
+- `lesson/factor_analysis.tex` - Complete chapter presentation (Beamer)
+- `lesson/factor_analysis.pdf` - Compiled presentation
+
+#### Comprehensive Notes
+- `notes/factor_analysis_notes.tex` - Complete chapter documentation
+- `notes/factor_analysis_notes.pdf` - Compiled notes
+
+#### Practice Exercises
 ```
-4.X_Topic_Name/
-├── README.md                          # Topic-specific learning objectives
-├── [topic]_report.txt                 # Exercise description and hints
-├── 📁 latex/                          # LaTeX presentation files
-│   ├── [topic].tex                    # Beamer presentation source
-│   ├── [topic].pdf                    # Compiled presentation
-│   └── ... (LaTeX auxiliary files)
-├── 📁 python/                         # Python implementation
-│   ├── [topic]_practice.py           # Main practice script
-│   └── test_[topic].py               # Unit tests
-└── 📁 julia/                          # Julia pseudocode version
-    └── [topic]_practice.jl           # Mathematical pseudocode
+practice/
+├── 4.1_objectives/           # Objectives and applications
+├── 4.2_equations/           # Mathematical foundations
+├── 4.3_number_of_factors/   # Factor retention methods
+├── 4.4_rotation/            # Orthogonal rotation
+├── 4.5_oblique_rotation/    # Oblique rotation methods
+└── 4.6_software/            # Cross-platform implementation
+```
+
+### Usage
+
+#### Compile Presentation
+```bash
+cd lesson/
+pdflatex factor_analysis.tex
+```
+
+#### Compile Notes
+```bash
+cd notes/
+pdflatex factor_analysis_notes.tex
+```
+
+#### Run Practice Exercises
+```bash
+# Individual subtopic
+cd practice/4.1_objectives/
+python objectives_factor_analysis_practice.py
+
+# All subtopics
+for dir in practice/4.*/; do
+  cd "$dir"
+  python *_practice.py
+  cd ../..
+done
 ```
 
 ## Prerequisites
