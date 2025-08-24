@@ -172,15 +172,19 @@ def perform_factor_analysis(X, variable_names):
     fa = FactorAnalyzer(n_factors=2, rotation="varimax")
     fa.fit(X_scaled)
 
-    # Get factor loadings
+    # Get factor loadings (may be None on some installations/versions)
     loadings = fa.loadings_
 
     print("Factor Analysis Results (2 factors):")
-    print("Factor Loadings:")
-    print("Variable       Factor 1  Factor 2")
-    print("-" * 35)
-    for i, var in enumerate(variable_names):
-        print(f"{var:12}  {loadings[i,0]:8.3f}  {loadings[i,1]:8.3f}")
+    if loadings is None:
+        # Defensive handling: avoid subscripting None
+        print("Factor loadings are unavailable (None). Skipping detailed loadings display.")
+    else:
+        print("Factor Loadings:")
+        print("Variable       Factor 1  Factor 2")
+        print("-" * 35)
+        for i, var in enumerate(variable_names):
+            print(f"{var:12}  {loadings[i,0]:8.3f}  {loadings[i,1]:8.3f}")
 
     # Calculate communalities
     communalities = fa.get_communalities()
