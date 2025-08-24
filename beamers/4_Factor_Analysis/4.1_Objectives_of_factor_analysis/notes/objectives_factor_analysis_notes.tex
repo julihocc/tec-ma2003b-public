@@ -12,31 +12,26 @@
 \usepackage{titlesec}
 % Note: natbib is already loaded by tufte-book class
 
+% Load shared MA2003B color definitions
+\usepackage{../../../themes/ma2003b-colors}
+
 % Tufte classes manage headers/footers; use title/author and tufte sidenotes
 
-% MA2003B branding colors from the beamer theme
-\definecolor{tecblue}{RGB}{0,88,170}
-\definecolor{tecorange}{RGB}{255,122,0}
-\definecolor{tecbluelight}{RGB}{230,240,250}
-\definecolor{tecorangelight}{RGB}{255,245,230}
-
-% Enhanced color commands for consistent styling
-\newcommand{\tecbluetext}[1]{\textcolor{tecblue}{\textbf{#1}}}
-\newcommand{\tecorangetext}[1]{\textcolor{tecorange}{\textbf{#1}}}
-\newcommand{\sectioncolor}[1]{\textcolor{tecblue}{#1}}
+% Enhanced color commands for consistent styling (using shared colors)
+\newcommand{\sectioncolor}[1]{\textcolor{primary}{#1}}
 
 % Section formatting with brand colors (but tufte-book may override these)
 \AtBeginDocument{
-  \titleformat{\section}{\Large\bfseries\color{tecblue}}{\thesection}{1em}{}
-  \titleformat{\subsection}{\large\bfseries\color{tecorange}}{\thesubsection}{1em}{}
+  \titleformat{\section}{\Large\bfseries\color{primary}}{\thesection}{1em}{}
+  \titleformat{\subsection}{\large\bfseries\color{secondary}}{\thesubsection}{1em}{}
 }
 
-% Modern colored environments using tcolorbox for better styling
+% Modern colored environments using tcolorbox with shared colors
 \newtcolorbox{pedagogicalnote}[1][]{
-  colback=tecbluelight,
-  colframe=tecblue,
+  colback=primarybg,
+  colframe=primary,
   coltitle=white,
-  colbacktitle=tecblue,
+  colbacktitle=primary,
   fonttitle=\bfseries,
   title=Pedagogical Note,
   rounded corners,
@@ -45,10 +40,10 @@
 }
 
 \newtcolorbox{learningtip}[1][]{
-  colback=tecorangelight,
-  colframe=tecorange,
+  colback=successbg,
+  colframe=success,
   coltitle=white,
-  colbacktitle=tecorange,
+  colbacktitle=success,
   fonttitle=\bfseries,
   title=Learning Tip,
   rounded corners,
@@ -57,10 +52,10 @@
 }
 
 \newtcolorbox{commonissue}[1][]{
-  colback=tecorangelight,
-  colframe=tecorange,
+  colback=warningbg,
+  colframe=warning,
   coltitle=white,
-  colbacktitle=tecorange,
+  colbacktitle=warning,
   fonttitle=\bfseries,
   title=Common Issue,
   rounded corners,
@@ -76,17 +71,17 @@
 % Enhanced title block with brand colors and better typography
 \begingroup
   \centering
-  {\Huge\tecbluetext{Objectives of Factor Analysis}}\\[0.8em]
-  {\Large\tecorangetext{Topic 4.1 - Multivariate Statistical Analysis}}\\[1.2em]
+  {\Huge\primarytext{Objectives of Factor Analysis}}\\[0.8em]
+  {\Large\secondarytext{Topic 4.1 - Multivariate Statistical Analysis}}\\[1.2em]
   {\large Dr. Juliho Castillo}\\[0.3em]
   {\normalsize\textsc{Tecnológico de Monterrey}}\\[0.8em]
-  {\small\textcolor{tecblue}{\today}}
+  {\small\textcolor{primary}{\today}}
 \par\vspace{2em}\endgroup
 
 % Enhanced preface with color accents
-\noindent\tecbluetext{About These Notes:} These notes provide a \textit{self-contained} introduction to the objectives and core concepts of factor analysis. They are designed as standalone reading material that complements but does not require the accompanying lecture slides.
+\noindent\primarytext{About These Notes:} These notes provide a \textit{self-contained} introduction to the objectives and core concepts of factor analysis. They are designed as standalone reading material that complements but does not require the accompanying lecture slides.
 
-\marginnote{\small\textcolor{tecorange}{\textbf{Quick Reference:} Factor analysis identifies latent variables that explain observed correlations among measured variables.}}
+\marginnote{\small\textcolor{secondary}{\textbf{Quick Reference:} Factor analysis identifies latent variables that explain observed correlations among measured variables.}}
 
 \tableofcontents
 \newpage
@@ -96,14 +91,14 @@
 \subsection{Learning Objectives}
 By the end of this document the reader should be able to:
 \begin{enumerate}[leftmargin=*,itemsep=0.5em]
-  \item \tecbluetext{Distinguish} between factor analysis and PCA objectives
-  \item \tecbluetext{Identify} when to use factor analysis versus other dimensionality reduction techniques
-  \item \tecbluetext{Interpret} factor loadings and communalities in context
-  \item \tecbluetext{Apply} factor analysis to real-world problems (psychology, marketing, etc.)
-  \item \tecbluetext{Explain} the theoretical foundations behind factor analysis
+  \item \primarytext{Distinguish} between factor analysis and PCA objectives
+  \item \primarytext{Identify} when to use factor analysis versus other dimensionality reduction techniques
+  \item \primarytext{Interpret} factor loadings and communalities in context
+  \item \primarytext{Apply} factor analysis to real-world problems (psychology, marketing, etc.)
+  \item \primarytext{Explain} the theoretical foundations behind factor analysis
 \end{enumerate}
 
-\marginnote{\small\textcolor{tecorange}{\textbf{Key Insight:} Factor analysis \textit{explains} correlations; PCA \textit{summarizes} variance.}}
+\marginnote{\small\secondarytext{\textbf{Key Insight:} Factor analysis \textit{explains} correlations; PCA \textit{summarizes} variance.}}
 
 \subsection{Prerequisites}
 \begin{itemize}
@@ -127,25 +122,25 @@ Factor analysis addresses fundamentally different goals than PCA. While PCA find
 Factor analysis aims to uncover \textbf{latent variables} (factors) that explain observed correlations among measured variables. Unlike PCA, which finds linear combinations that summarize variance, factor analysis explicitly models measurement error and focuses on the \textit{common} variance shared among variables.
 
 \begin{learningtip}
-Remember the key distinction: \tecbluetext{PCA summarizes}; \tecorangetext{Factor Analysis explains}.
+Remember the key distinction: \primarytext{PCA summarizes}; \secondarytext{Factor Analysis explains}.
 \end{learningtip}
 
 \section{Core Objectives}
 
 \subsection{Primary Objectives}
 \begin{enumerate}[leftmargin=*,itemsep=0.8em]
-  \item \tecbluetext{Dimensionality reduction} while explaining common variance
-  \item \tecbluetext{Latent variable identification} — discovering constructs that cause correlations
-  \item \tecbluetext{Data structure understanding} — grouping related variables conceptually
+  \item \primarytext{Dimensionality reduction} while explaining common variance
+  \item \primarytext{Latent variable identification} — discovering constructs that cause correlations
+  \item \primarytext{Data structure understanding} — grouping related variables conceptually
 \end{enumerate}
 
-\marginnote{\small\textcolor{tecblue}{\textbf{Historical Note:} Factor analysis was developed by psychologists like Charles Spearman (1904) to understand intelligence testing.}}
+\marginnote{\small\primarytext{\textbf{Historical Note:} Factor analysis was developed by psychologists like Charles Spearman (1904) to understand intelligence testing.}}
 
 \subsection{Secondary Objectives}
 \begin{enumerate}[leftmargin=*,itemsep=0.8em]
-  \item \tecorangetext{Measurement purification} — separating common signal from unique measurement error
-  \item \tecorangetext{Theory development} — informing construct validity and variable selection
-  \item \tecorangetext{Multicollinearity reduction} — preprocessing for downstream statistical models
+  \item \secondarytext{Measurement purification} — separating common signal from unique measurement error
+  \item \secondarytext{Theory development} — informing construct validity and variable selection
+  \item \secondarytext{Multicollinearity reduction} — preprocessing for downstream statistical models
 \end{enumerate}
 
 \section{Factor Analysis vs PCA}
@@ -154,17 +149,17 @@ Remember the key distinction: \tecbluetext{PCA summarizes}; \tecorangetext{Facto
 The fundamental difference lies in their mathematical formulations:
 
 \begin{align*}
-  \textcolor{tecblue}{\text{Factor model: }} &\textcolor{tecblue}{\mathbf{X} = \mathbf{\Lambda F} + \mathbf{\epsilon}}\\[0.5em]
-  \textcolor{tecorange}{\text{PCA model: }} &\textcolor{tecorange}{\mathbf{X} = \mathbf{PY}}
+  \textcolor{primary}{\text{Factor model: }} &\textcolor{primary}{\mathbf{X} = \mathbf{\Lambda F} + \mathbf{\epsilon}}\\[0.5em]
+  \textcolor{secondary}{\text{PCA model: }} &\textcolor{secondary}{\mathbf{X} = \mathbf{PY}}
 \end{align*}
 
-\marginnote{\small\textcolor{tecblue}{\textbf{Notation:} $\mathbf{\Lambda}$ = factor loadings, $\mathbf{F}$ = factors, $\mathbf{\epsilon}$ = unique errors}}
+\marginnote{\small\primarytext{\textbf{Notation:} $\mathbf{\Lambda}$ = factor loadings, $\mathbf{F}$ = factors, $\mathbf{\epsilon}$ = unique errors}}
 
 \subsection{Key Philosophical Differences}
 \begin{enumerate}[leftmargin=*,itemsep=0.8em]
-  \item \tecbluetext{Error modeling:} FA models common and unique variance explicitly; PCA does not separate measurement error
-  \item \tecbluetext{Interpretability:} FA factors represent latent constructs with theoretical meaning; PCA components are mathematical summaries
-  \item \tecbluetext{Parsimony:} FA typically extracts fewer factors, focusing on \textit{common} variance structure
+  \item \primarytext{Error modeling:} FA models common and unique variance explicitly; PCA does not separate measurement error
+  \item \primarytext{Interpretability:} FA factors represent latent constructs with theoretical meaning; PCA components are mathematical summaries
+  \item \primarytext{Parsimony:} FA typically extracts fewer factors, focusing on \textit{common} variance structure
 \end{enumerate}
 
 \begin{commonissue}

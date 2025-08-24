@@ -1,0 +1,50 @@
+\documentclass{beamer}
+
+% Load the shared color package directly
+\RequirePackage{../../../themes/ma2003b-colors}
+
+% Use default beamer theme with manual color customization
+\usetheme{default}
+\usecolortheme{default}
+
+% Apply custom colors to beamer elements
+\setbeamercolor{structure}{fg=primary}
+\setbeamercolor{frametitle}{bg=primary, fg=white}
+\setbeamercolor{title}{fg=primary}
+
+\title{Factor Analysis Objectives}
+\subtitle{Testing Shared Color System}
+\author{MA2003B Course}
+\date{\today}
+
+\begin{document}
+
+\begin{frame}
+\titlepage
+\end{frame}
+
+\begin{frame}{Primary Objectives}
+\begin{enumerate}
+  \item \primarytext{Dimensionality reduction} while explaining common variance
+  \item \primarytext{Latent variable identification} — discovering constructs
+  \item \primarytext{Data structure understanding} — grouping related variables
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Mathematical Models}
+\begin{align*}
+  \textcolor{primary}{\text{Factor model: }} &\textcolor{primary}{\mathbf{X} = \mathbf{\Lambda F} + \mathbf{\epsilon}}\\[0.5em]
+  \textcolor{secondary}{\text{PCA model: }} &\textcolor{secondary}{\mathbf{X} = \mathbf{PY}}
+\end{align*}
+\end{frame}
+
+\begin{frame}{Color Test}
+\begin{itemize}
+  \item \primarytext{Primary color text}
+  \item \secondarytext{Secondary color text}  
+  \item \successtext{Success color text}
+  \item \warningtext{Warning color text}
+\end{itemize}
+\end{frame}
+
+\end{document}
