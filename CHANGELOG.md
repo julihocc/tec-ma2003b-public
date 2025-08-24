@@ -25,3 +25,30 @@ Notes
 
 - This is an incremental (patch) release: documentation, tests, small examples, and course material additions.
 - For future releases, follow the tagging procedure in `.github/prompts/update-version.prompt.md` and update this file with a short summary of included commits.
+
+## v0.2.1 - 2025-08-24
+
+Included commits (selected):
+
+- 1271511 — Updates title font in head/foot
+- 24366ec — Disables automatic section pages in the base theme
+- cea2154 — Reduces contrast on section pages
+- 824220f — Clarifies practice code architecture and structure
+- f0f4cdb — Refactors course content structure documentation
+- 7038521 — Restructures Factor Analysis chapter materials
+- f64618e — Adds initial software practice file
+- 61ce2eb — Implements factor rotation analysis practice
+- c08a4cd — Adds factor retention analysis practice
+- 09314f4 — Implements factor analysis equations for demonstration
+- 983ca02 — Adds README for factor analysis objectives demo
+- 35c761a — Creates factor analysis practice script
+- 9db4d44 — Adds factor analysis computation module
+- 64ef1a1 — docs: add factor analysis lecture notes (Chapter 4)
+- 7e7f14f — Adds factor analysis reporting module
+- 9b94c67 — Adds factor analysis objectives report
+- 2a682df — Adds a lesson on Factor Analysis
+
+Notes
+
+- Patch release: primarily documentation, course materials, and practice exercises for the Factor Analysis chapter.
+- Tag created: `v0.2.1` (patch bump from `v0.2.0`).
