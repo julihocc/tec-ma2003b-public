@@ -111,8 +111,6 @@
     \item Focus is on explaining common variance only
   \end{itemize}
   
-  \vspace{0.5cm}
-  
   \textbf{Choose PCA when:}
   \begin{itemize}
     \item Primary goal is dimensionality reduction
@@ -172,7 +170,6 @@
     \item $\mathbf{\epsilon}$: Unique factors $(p \times 1)$
   \end{itemize}
   
-  \vspace{0.3cm}
   Key assumptions:
   \begin{itemize}
     \item $E[\mathbf{F}] = \mathbf{0}$, $E[\mathbf{\epsilon}] = \mathbf{0}$
@@ -190,8 +187,6 @@
     \item Used for theory generation and scale development
   \end{itemize}
   
-  \vspace{0.5cm}
-  
   \textbf{Confirmatory Factor Analysis (CFA):}
   \begin{itemize}
     \item Test specific theoretical model
@@ -200,102 +195,163 @@
   \end{itemize}
 \end{frame}
 
-\section{Practice Overview}
-\begin{frame}{Practice Script Architecture}
-  The practice implementation demonstrates clean separation of concerns:
+\section{Hands-On Practice}
+
+\begin{frame}{The Research Problem}
+  \textbf{Scenario:} You are a psychologist studying cognitive abilities
+  
   \begin{itemize}
-    \item \textbf{\texttt{factor\_analysis.py}}: Pure computational functions
-    \begin{itemize}
-      \item Data generation with known factor structure
-      \item Correlation analysis, PCA, and factor analysis computations
-      \item Returns structured results (dataclasses)
-    \end{itemize}
-    \item \textbf{\texttt{factor\_analysis\_reporter.py}}: Formatting functions  
-    \begin{itemize}
-      \item Converts analysis results to formatted strings
-      \item No I/O operations, pure string formatting
-    \end{itemize}
-    \item \textbf{\texttt{objectives\_factor\_analysis\_practice.py}}: Orchestration
-    \begin{itemize}
-      \item Coordinates analysis workflow
-      \item Handles logging and file output
-    \end{itemize}
+    \item Administered 6 different tests to 200 students
+    \pause
+    \item \textbf{Tests:} Math, Logic, Spatial, Reading, Writing, Vocabulary
+    \pause
+    \item \textbf{Challenge:} Are these really 6 separate abilities?
+    \pause
+    \item \textbf{Hypothesis:} Maybe there are fewer underlying cognitive factors
   \end{itemize}
+  
+  \pause
+  
+  \begin{center}
+    \textcolor{red}{\textbf{Research Question:} How many latent factors explain performance?}
+  \end{center}
 \end{frame}
 
-\begin{frame}{Practice Demonstration Features}
-  \textbf{What the practice script demonstrates:}
+\begin{frame}{Why This Matters}
+  \textbf{Real-world implications:}
+  
+  \begin{itemize}
+    \item \textbf{Educational Assessment:} Design better cognitive tests
+    \pause
+    \item \textbf{Personnel Selection:} Which abilities predict job performance?
+    \pause
+    \item \textbf{Clinical Diagnosis:} Identify specific learning difficulties
+    \pause
+    \item \textbf{Theory Building:} Understand the structure of human intelligence
+  \end{itemize}
+  
+  \pause
+  
+  \begin{center}
+    \textbf{Factor analysis helps us see the ``big picture'' behind complex data}
+  \end{center}
+\end{frame}
+
+\begin{frame}{Analysis Roadmap}
+  \textbf{Step-by-step approach to solve the problem:}
+  
   \begin{enumerate}
-    \item \textbf{Synthetic Data Generation}
-    \begin{itemize}
-      \item Psychology test data with known 2-factor structure
-      \item Intelligence factor (Math, Logic, Spatial)  
-      \item Verbal factor (Reading, Writing, Vocabulary)
-    \end{itemize}
-    
-    \item \textbf{Analysis Workflow}
-    \begin{itemize}
-      \item Correlation matrix analysis with high correlation identification
-      \item PCA for variance explanation comparison
-      \item Factor analysis with varimax rotation
-      \item Side-by-side FA vs PCA comparison
-    \end{itemize}
-    
-    \item \textbf{Practical Applications}
-    \begin{itemize}
-      \item Examples across Psychology, Marketing, Finance, Education
-    \end{itemize}
+    \item \textbf{Explore:} Examine correlations between test scores
+    \pause
+    \item \textbf{Compare Methods:} Run both PCA and Factor Analysis
+    \pause
+    \item \textbf{Interpret Results:} What do the factors represent?
+    \pause
+    \item \textbf{Validate:} Do the results make theoretical sense?
+    \pause
+    \item \textbf{Apply:} What would you recommend to educators?
   \end{enumerate}
+  
+  \pause
+  
+  \begin{center}
+    \textcolor{blue}{\textbf{This is how real data analysis works!}}
+  \end{center}
 \end{frame}
 
-\section{Python Practice}
-\begin{frame}{Python Practice: Factor Analysis Objectives}
-  \textbf{Practice Script Features:}
+\begin{frame}{Expected Outcomes}
+  \textbf{What should we expect to find?}
+  
   \begin{itemize}
-    \item \textbf{File Output}: Detailed report written to \texttt{factor\_analysis\_report.txt}
-    \item \textbf{Logging}: Execution progress logged with timestamps using centralized logger
-    \item \textbf{Modular Design}: Separates analysis, formatting, and orchestration
-    \item \textbf{Reusable Components}: Analysis functions can be imported by other scripts
+    \item \textbf{High correlations} within groups (Math-Logic-Spatial, Reading-Writing-Vocabulary)
+    \pause
+    \item \textbf{Two main factors} emerging from the analysis
+    \pause
+    \item \textbf{Factor 1:} ``Intelligence'' (quantitative/spatial reasoning)
+    \pause
+    \item \textbf{Factor 2:} ``Verbal Ability'' (language-based skills)
   \end{itemize}
   
-  \vspace{0.5cm}
-  \textbf{Key Learning Outcomes:}
-  \begin{itemize}
-    \item Understand FA vs PCA differences through direct comparison  
-    \item See factor loadings and communalities in practice
-    \item Experience real-world factor analysis workflow
-  \end{itemize}
+  \pause
+  
+  \begin{center}
+    \textbf{Will our analysis confirm this psychological theory?}
+  \end{center}
 \end{frame}
 
-\begin{frame}[fragile]{Running the Practice}
-  \textbf{Setup and Installation:}
-  \begin{verbatim}
-# Create and activate virtual environment
-python3 -m venv .venv
-source .venv/bin/activate
+\section{Running the Analysis}
 
-# Install required packages  
-pip install -r requirements.txt
+\begin{frame}{How to Use the Practice Script}
+  \textbf{Simple command to run:}
+  
+  \begin{center}
+    \Large \texttt{python objectives\_factor\_analysis\_practice.py}
+  \end{center}
+  
+  \pause
+  
+  \textbf{What it does:}
+  \begin{itemize}
+    \item Generates the psychology test data
+    \pause
+    \item Runs correlation analysis, PCA, and Factor Analysis
+    \pause
+    \item Saves complete results to \texttt{factor\_analysis\_report.txt}
+  \end{itemize}
+  
+  \pause
+  
+  \begin{center}
+    \textcolor{green}{\textbf{Everything is automated - just run and analyze results!}}
+  \end{center}
+\end{frame}
 
-# Install project in editable mode (for utils access)
-pip install -e .
-  \end{verbatim}
+\begin{frame}{How to Interpret Your Results}
+  \textbf{Look for these key findings in your report:}
   
-  \vspace{0.3cm}
-  \textbf{Run the script:}
-  \begin{verbatim}
-python beamers/4_Factor_Analysis/4.1_Objectives_of_factor_analysis/\
-       python/objectives_factor_analysis_practice.py
-  \end{verbatim}
+  \begin{enumerate}
+    \item \textbf{Correlation Matrix:} Which test scores are highly correlated?
+    \pause
+    \item \textbf{Factor Loadings:} Which tests load on which factors?
+    \pause
+    \item \textbf{Communalities:} How much of each test is explained by factors?
+    \pause
+    \item \textbf{Factor Interpretation:} Do the factors match our theory?
+  \end{enumerate}
   
-  \vspace{0.3cm}
-  \textbf{Output:} Detailed analysis report saved to \texttt{factor\_analysis\_report.txt}
+  \pause
+  
+  \begin{center}
+    \textbf{Your job: Make sense of the statistical output!}
+  \end{center}
+\end{frame}
+
+\begin{frame}{Discussion Questions}
+  \textbf{After reviewing your results, consider:}
+  
+  \begin{itemize}
+    \item Did we find the expected 2-factor structure?
+    \pause
+    \item Do Math, Logic, Spatial tests load on one factor?
+    \pause
+    \item Do Reading, Writing, Vocabulary tests load on another factor?
+    \pause
+    \item How would you explain these factors to a school principal?
+    \pause
+    \item What practical recommendations would you make?
+  \end{itemize}
+  
+  \pause
+  
+  \begin{center}
+    \textcolor{red}{\textbf{This is the real skill: Turning statistics into insights!}}
+  \end{center}
 \end{frame}
 
 \begin{frame}
   \centering
   \Huge Thank You!
-  \vspace{1cm}
+  
   \normalsize Questions?
 \end{frame}
 
