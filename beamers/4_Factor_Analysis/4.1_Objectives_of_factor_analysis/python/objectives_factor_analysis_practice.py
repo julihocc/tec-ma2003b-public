@@ -56,13 +56,13 @@ from factor_analysis import (
 )
 
 from factor_analysis_reporter import (
-    report_data_generation,
-    report_correlation_analysis,
-    report_pca_results,
-    report_factor_analysis,
-    report_fa_vs_pca_comparison,
-    report_applications,
-    report_summary
+    format_data_generation,
+    format_correlation_analysis,
+    format_pca_results,
+    format_factor_analysis,
+    format_fa_vs_pca_comparison,
+    format_applications,
+    format_summary
 )
 
 # Suppress warnings for cleaner output
@@ -73,35 +73,54 @@ warnings.filterwarnings("ignore")
 
 def main():
     """Main demonstration of factor analysis objectives."""
-
+    
+    output_file = "factor_analysis_report.txt"
+    
     print("MA2003B - Objectives of Factor Analysis")
     print("Comprehensive demonstration of factor analysis purposes and applications")
+    print(f"Writing detailed report to: {output_file}")
+
+    # Collect all report sections
+    report_sections = []
+    
+    # Header
+    report_sections.append("MA2003B - Objectives of Factor Analysis")
+    report_sections.append("Comprehensive demonstration of factor analysis purposes and applications")
+    report_sections.append("=" * 80)
 
     # 1. Generate synthetic data with known factor structure
     X, variable_names = generate_psychology_data(n_samples=200)
-    report_data_generation(X, variable_names)
+    report_sections.append(format_data_generation(X, variable_names))
 
     # 2. Analyze correlation structure
     correlation_results = compute_correlation_matrix(X, variable_names)
-    report_correlation_analysis(correlation_results)
+    report_sections.append(format_correlation_analysis(correlation_results))
 
     # 3. Perform PCA for comparison
     pca_results = perform_pca_computation(X)
-    report_pca_results(pca_results)
+    report_sections.append(format_pca_results(pca_results))
 
     # 4. Perform factor analysis
     fa_results = perform_factor_analysis_computation(X, variable_names)
-    report_factor_analysis(fa_results)
+    report_sections.append(format_factor_analysis(fa_results))
 
     # 5. Compare FA vs PCA
-    report_fa_vs_pca_comparison(pca_results)
+    report_sections.append(format_fa_vs_pca_comparison(pca_results))
 
     # 6. Show applications
     applications_data = get_applications_data()
-    report_applications(applications_data)
+    report_sections.append(format_applications(applications_data))
 
     # 7. Final summary
-    report_summary()
+    report_sections.append(format_summary())
+    
+    # Write complete report to file
+    full_report = "\n".join(report_sections)
+    with open(output_file, 'w') as f:
+        f.write(full_report)
+    
+    print(f"✓ Report successfully written to {output_file}")
+    print(f"✓ Analysis complete - {len(report_sections)} sections generated")
 
 
 if __name__ == "__main__":
