@@ -26,31 +26,31 @@ pip install -e .
 
 **Run practice scripts:**
 ```bash
-# Single Python script (organized structure)
-cd beamers/5_Discriminant_Analysis/5.1_Discrimination_for_two_multivariate_normal_populations/python
-python discrimination_two_populations_practice.py
+# Single Python script (standardized structure)
+cd beamers/4_Factor_Analysis/4.1_Objectives_of_factor_analysis/practice
+python objectives_factor_analysis_practice.py
 
-# Single Julia script (organized structure)  
-cd beamers/5_Discriminant_Analysis/5.1_Discrimination_for_two_multivariate_normal_populations/julia
-julia discrimination_two_populations_practice.jl
-
-# All Python scripts in a section (legacy structure)
-for f in beamers/5_Discriminant_Analysis/*/*_practice.py; do
+# All Python scripts in a chapter (standardized structure)
+for f in beamers/4_Factor_Analysis/*/practice/*_practice.py; do
   echo "--- running $f ---"
   python "$f" || break
 done
 
-# All Python scripts in organized structure (all chapters)
+# All Python scripts across chapters
 for chapter in beamers/{1_Regression_Analysis,4_Factor_Analysis,5_Discriminant_Analysis}; do
-  for f in $chapter/*/python/*_practice.py; do
+  for f in $chapter/*/practice/*_practice.py; do
     echo "--- running $f ---"
     python "$f" || break
   done
 done
 
-# Compile LaTeX presentations
-cd beamers/5_Discriminant_Analysis/5.1_Discrimination_for_two_multivariate_normal_populations/latex
-pdflatex discrimination_two_populations.tex
+# Compile lesson presentations
+cd beamers/4_Factor_Analysis/4.1_Objectives_of_factor_analysis/lesson
+pdflatex objectives_factor_analysis.tex
+
+# Compile comprehensive notes
+cd beamers/4_Factor_Analysis/4.1_Objectives_of_factor_analysis/notes
+pdflatex objectives_factor_analysis_notes.tex
 ```
 
 **Data pull script:**
@@ -99,30 +99,37 @@ pdflatex discrimination_two_populations.tex
 - `pyproject.toml` defines package metadata
 
 **Course Content Structure:**
-**IMPORTANT: Use organized folder structure for new/refactored exercises:**
+**IMPORTANT: Use standardized folder structure for all lessons:**
 
 ```
 X.Y_Topic_Name/
-├── README.md                          # Organization guide and learning objectives
-├── [topic]_report.txt                 # Exercise description and hints  
-├── 📁 latex/                          # LaTeX presentation files
+├── README.md                          # Comprehensive overview (merged content)
+├── lesson/                            # Student presentation materials
 │   ├── [topic].tex                    # Beamer presentation source
 │   ├── [topic].pdf                    # Compiled presentation
 │   └── ... (LaTeX auxiliary files)
-├── 📁 python/                         # Python implementation
-│   ├── [topic]_practice.py           # Main practice script (simplified for 2-hour class)
-│   └── test_[topic].py               # Unit tests
-└── 📁 julia/                          # Julia pseudocode version
-    └── [topic]_practice.jl           # Mathematical pseudocode implementation
+├── practice/                          # Hands-on programming exercises
+│   ├── [topic]_practice.py           # Main practice script
+│   ├── [topic]_analysis.py           # Core analysis functions (modular)
+│   ├── [topic]_reporter.py           # Report generation functions
+│   └── README.md                      # Practice-specific instructions
+└── notes/                             # Expanded content and guidance
+    ├── [topic]_notes.tex              # Comprehensive LaTeX article
+    ├── [topic]_notes.pdf              # Compiled documentation
+    └── additional_resources/          # Extra materials, datasets, etc.
 ```
 
-**Legacy structure (for reference only):**
-- `[topic]_practice.py` - Python implementation
-- `[topic].tex` - LaTeX beamer presentation  
-- `[topic]_report.txt` - Exercise description and hints
-- `test_[topic].py` - Unit tests
+**Legacy structure (deprecated):**
+- `[topic]_report.txt` - Exercise description (now merged into README.md)
+- `julia/` folder - Julia implementations (removed for maintainability)
+- Separate `latex/` and `python/` folders (now `lesson/` and `practice/`)
 
-**When refactoring existing exercises:** Create subfolders (`latex/`, `python/`, `julia/`) and organize files by type for cleaner structure. Always include a README.md explaining the organization.
+**When refactoring existing exercises:**
+1. **Eliminate redundancy**: Remove separate report files, merge content into README.md
+2. **Remove Julia implementations**: Single Python codebase is easier to maintain  
+3. **Rename folders**: `latex/` → `lesson/`, `python/` → `practice/`
+4. **Create notes**: Add comprehensive `notes/` folder with LaTeX article
+5. **Modular code**: Separate analysis functions from reporting in practice folder
 
 **Key Utilities:**
 - `setup_logger()` - Configured logger with duplicate handler prevention and `propagate = False`
@@ -130,25 +137,48 @@ X.Y_Topic_Name/
 
 ## Development Guidelines
 
+### Code Quality
 - **All scripts should use** the centralized `setup_logger()` function from utils
 - **When adding new utilities**, export them through `utils/__init__.py`
 - **Follow existing error handling patterns** seen in `pull_data.py`
 - **Use type hints** as demonstrated in the logger module
-- **Preserve existing course content structure** when making changes
 - **Always use the project's virtual environment** for consistency
+
+### Lesson Development
+- **Use standardized structure** for all new lessons (lesson/, practice/, notes/)
+- **Consolidate documentation** in comprehensive README.md files
+- **Create modular practice code** with separate analysis and reporting functions
+- **Focus on student learning** in lesson presentations, not implementation details
+- **Provide expanded notes** for instructors and advanced learners
+- **Test practice scripts** to ensure they work out-of-the-box
+
+### Content Guidelines  
+- **Student presentations** should focus on statistical problems, objectives, and interpretation
+- **Practice exercises** should demonstrate real-world applications with meaningful data
+- **Notes documentation** should provide pedagogical guidance and teaching strategies
+- **README files** serve as comprehensive overviews - eliminate redundant report files
 
 ## Chapter Status and Organization
 
-**Organized Structure (Recommended):**
-- ✅ **Chapter 1**: Regression Analysis (5 topics, fully refactored with organized subfolders)
-- ✅ **Chapter 4**: Factor Analysis (6 topics, created with organized structure from start) 
-- ✅ **Chapter 5**: Discriminant Analysis (6 topics, fully refactored with organized subfolders)
+**Standardized Structure (New Format):**
+- ✅ **Chapter 4**: Factor Analysis (6 topics, using new standardized structure)
+  - Topic 4.1: Objectives of Factor Analysis (lesson/, practice/, notes/ structure)
 
-**Future Chapters (May need organization):**
+**Legacy Structure (Needs Migration):**
+- ✅ **Chapter 1**: Regression Analysis (5 topics, organized subfolders - needs standardization)
+- ✅ **Chapter 5**: Discriminant Analysis (6 topics, organized subfolders - needs standardization)
+
+**Future Chapters (Need Organization):**
 - Chapter 2: Multivariate Analysis
 - Chapter 3: Principal Component Analysis (PCA)
 - Chapter 6: Cluster Analysis  
 - Chapter 7: Multivariate Regression
+
+**Migration Priority:**
+1. Standardize existing Chapter 1 and Chapter 5 topics to new structure
+2. Remove Julia implementations from all chapters
+3. Consolidate report files into README.md files
+4. Create comprehensive notes/ folders for instructor guidance
 
 ## Conversation Management
 
@@ -164,7 +194,26 @@ When working with this repository, conversation exports should be saved to maint
 ## Important Notes
 
 - The `scripts/pull_data.py` contains machine-specific OneDrive paths and may not work on all systems
-- Some practice scripts use optional libraries (numpy, scipy, scikit-learn)
-- **LaTeX Compilation**: Use `pdflatex` to compile .tex files in `latex/` subfolders
-- **Julia Scripts**: Mathematical pseudocode implementations for educational purposes
+- Some practice scripts use optional libraries (numpy, scipy, scikit-learn, factor_analyzer)
+- **LaTeX Compilation**: Use `pdflatex` to compile .tex files in `lesson/` and `notes/` subfolders
+- **Practice Scripts**: All practice implementations are in Python for maintainability
+- **Virtual Environment**: Always use `pip install -e .` for development to access utils module
 - Course covers 7 main topics: Regression Analysis, Multivariate Analysis, PCA, Factor Analysis, Discriminant Analysis, Cluster Analysis, and Multivariate Regression
+
+## Standardized Lesson Template
+
+When creating new lessons, use this template structure:
+
+```
+X.Y_Topic_Name/
+├── README.md                          # Comprehensive overview
+├── lesson/                            # Beamer presentation for students  
+├── practice/                          # Modular Python implementation
+└── notes/                             # LaTeX article for instructors/learners
+```
+
+**Key principles:**
+- **Student-focused lessons**: Problem-oriented presentations, not code architecture
+- **Modular practice code**: Separate analysis from reporting for reusability
+- **Comprehensive documentation**: README as single source of truth
+- **Pedagogical guidance**: Notes folder with teaching strategies and tips
