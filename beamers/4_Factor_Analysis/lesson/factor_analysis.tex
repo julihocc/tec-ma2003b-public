@@ -1,0 +1,535 @@
+\documentclass[aspectratio=169]{beamer}
+% Add themes directory to TeX input path
+\makeatletter
+\def\input@path{{../../themes//}}
+\makeatother
+\usetheme{ma2003b}
+
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{verbatim}
+\usepackage{booktabs}
+
+\title[Factor Analysis]{MA2003B - Application of Multivariate Methods in Data Science}
+\subtitle{Chapter 4: Factor Analysis}
+\author{Dr. Juliho Castillo}
+\institute{Tec de Monterrey}
+\date{\today}
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+\begin{frame}{Outline}
+  \tableofcontents
+\end{frame}
+
+% =============================================================================
+% SECTION 1: OBJECTIVES OF FACTOR ANALYSIS
+% =============================================================================
+
+\section{Objectives of Factor Analysis}
+\begin{frame}[plain,noframenumbering]
+  \sectionpage
+\end{frame}
+
+\begin{frame}{What is Factor Analysis?}
+  \begin{itemize}
+    \item A statistical method for identifying latent variables that explain observed correlations
+    \item Reduces dimensionality by finding fewer underlying factors
+    \item \textbf{Goal:} Explain maximum variance with minimum number of factors
+    \item Widely used in psychology, social sciences, and marketing research
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Why Factor Analysis?}
+  \begin{itemize}
+    \item \textbf{Data Simplification:} Reduce many variables to fewer meaningful factors
+    \item \textbf{Theory Testing:} Validate theoretical constructs with empirical data
+    \item \textbf{Scale Development:} Create reliable measurement instruments
+    \item \textbf{Noise Reduction:} Separate signal from measurement error
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Primary Objectives}
+  \begin{enumerate}
+    \item \textbf{Dimensionality Reduction:} Transform $p$ observed variables into $k$ factors ($k < p$)
+    \item \textbf{Latent Variable Identification:} Discover unobserved constructs
+    \item \textbf{Data Structure Understanding:} Identify patterns of relationships
+    \item \textbf{Measurement Purification:} Remove measurement error from analysis
+    \item \textbf{Theory Development:} Generate hypotheses about underlying structures
+  \end{enumerate}
+\end{frame}
+
+\begin{frame}{Factor Analysis vs. PCA}
+  \begin{table}[h]
+  \centering
+  \scriptsize
+  \begin{tabular}{@{}lll@{}}
+  \toprule
+  \textbf{Aspect} & \textbf{Factor Analysis} & \textbf{PCA} \\
+  \midrule
+  Purpose & Identify latent constructs & Reduce dimensionality \\
+  Model & $\mathbf{X} = \boldsymbol{\Lambda}\mathbf{F} + \boldsymbol{\varepsilon}$ & $\mathbf{X} = \mathbf{PY}$ \\
+  Variance & Common variance only & Total variance \\
+  Factors/Components & Usually $< p$ variables & Can be $= p$ variables \\
+  Interpretation & Latent constructs & Linear combinations \\
+  Unique Variance & Explicitly modeled & Not considered \\
+  \bottomrule
+  \end{tabular}
+  \end{table}
+\end{frame}
+
+\begin{frame}{Applications}
+  \begin{columns}
+    \begin{column}{0.5\textwidth}
+      \textbf{Psychology}
+      \begin{itemize}
+        \item Intelligence testing (g-factor)
+        \item Personality assessment (Big Five)
+        \item Clinical assessment scales
+      \end{itemize}
+      
+      \textbf{Marketing}
+      \begin{itemize}
+        \item Customer segmentation
+        \item Brand positioning
+        \item Product attribute analysis
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.5\textwidth}
+      \textbf{Finance}
+      \begin{itemize}
+        \item Risk factor identification
+        \item Portfolio analysis
+        \item Economic indicator grouping
+      \end{itemize}
+      
+      \textbf{Education}
+      \begin{itemize}
+        \item Academic ability assessment
+        \item Learning style identification
+        \item Curriculum evaluation
+      \end{itemize}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% =============================================================================
+% SECTION 2: FACTOR ANALYSIS EQUATIONS
+% =============================================================================
+
+\section{Factor Analysis Equations}
+\begin{frame}[plain,noframenumbering]
+  \sectionpage
+\end{frame}
+
+\begin{frame}{The Factor Model}
+  \textbf{Basic Factor Model:}
+  $$\mathbf{X} = \boldsymbol{\Lambda}\mathbf{F} + \boldsymbol{\varepsilon}$$
+  
+  Where:
+  \begin{itemize}
+    \item $\mathbf{X}$: Observed variables matrix ($n \times p$)
+    \item $\boldsymbol{\Lambda}$: Factor loadings matrix ($p \times k$)
+    \item $\mathbf{F}$: Factor scores matrix ($n \times k$)
+    \item $\boldsymbol{\varepsilon}$: Unique factors matrix ($n \times p$)
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Factor Loadings and Communalities}
+  \textbf{Factor Loadings ($\lambda_{ij}$):}
+  \begin{itemize}
+    \item Correlation between variable $i$ and factor $j$
+    \item Range from -1 to +1
+    \item High loadings indicate strong relationship
+  \end{itemize}
+  
+  \textbf{Communality ($h_i^2$):}
+  $$h_i^2 = \sum_{j=1}^{k} \lambda_{ij}^2$$
+  \begin{itemize}
+    \item Proportion of variable's variance explained by all factors
+    \item $0 \leq h_i^2 \leq 1$
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Uniqueness and Variance Decomposition}
+  \textbf{Uniqueness ($u_i^2$):}
+  $$u_i^2 = 1 - h_i^2$$
+  
+  \textbf{Variance Decomposition:}
+  $$\text{Total Variance} = \text{Common Variance} + \text{Unique Variance}$$
+  $$1 = h_i^2 + u_i^2$$
+  
+  \begin{itemize}
+    \item Common variance: Explained by factors
+    \item Unique variance: Specific to each variable + error
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Estimation Methods}
+  \textbf{Principal Axis Factoring:}
+  \begin{itemize}
+    \item Uses reduced correlation matrix (communalities on diagonal)
+    \item Iterative estimation of communalities
+    \item Most common method
+  \end{itemize}
+  
+  \textbf{Maximum Likelihood:}
+  \begin{itemize}
+    \item Assumes multivariate normality
+    \item Provides goodness-of-fit statistics
+    \item Allows for significance testing
+  \end{itemize}
+\end{frame}
+
+% =============================================================================
+% SECTION 3: CHOOSING NUMBER OF FACTORS
+% =============================================================================
+
+\section{Choosing the Number of Factors}
+\begin{frame}[plain,noframenumbering]
+  \sectionpage
+\end{frame}
+
+\begin{frame}{Kaiser Criterion}
+  \textbf{Eigenvalue > 1 Rule:}
+  \begin{itemize}
+    \item Retain factors with eigenvalues greater than 1
+    \item Rationale: Factor should explain more variance than a single variable
+    \item Simple but often over-extracts factors
+    \item Works better with 20-50 variables
+  \end{itemize}
+  
+  \textbf{Limitations:}
+  \begin{itemize}
+    \item Not accurate with large numbers of variables
+    \item Doesn't consider sample size
+    \item Can be affected by number of variables
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Scree Plot Method}
+  \textbf{Cattell's Scree Test:}
+  \begin{itemize}
+    \item Plot eigenvalues in descending order
+    \item Look for "elbow" or break in the plot
+    \item Retain factors before the break
+    \item Subjective interpretation required
+  \end{itemize}
+  
+  \textbf{Advantages:}
+  \begin{itemize}
+    \item Visual and intuitive
+    \item Less affected by number of variables
+    \item Often provides reasonable solutions
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Parallel Analysis}
+  \textbf{Horn's Parallel Analysis:}
+  \begin{enumerate}
+    \item Generate random data with same dimensions
+    \item Compute eigenvalues for random data
+    \item Repeat many times (e.g., 1000)
+    \item Retain factors where real eigenvalues > random eigenvalues
+  \end{enumerate}
+  
+  \textbf{Benefits:}
+  \begin{itemize}
+    \item Accounts for chance relationships
+    \item More accurate than Kaiser criterion
+    \item Considers sample size and number of variables
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Goodness-of-Fit Measures}
+  \textbf{Model Fit Statistics:}
+  \begin{itemize}
+    \item $\chi^2$ test (for ML estimation)
+    \item RMSEA (Root Mean Square Error of Approximation)
+    \item CFI (Comparative Fit Index)
+    \item TLI (Tucker-Lewis Index)
+  \end{itemize}
+  
+  \textbf{Strategy:}
+  \begin{itemize}
+    \item Compare models with different numbers of factors
+    \item Balance parsimony with fit
+    \item Consider theoretical meaningfulness
+  \end{itemize}
+\end{frame}
+
+% =============================================================================
+% SECTION 4: FACTOR ROTATION
+% =============================================================================
+
+\section{Factor Rotation}
+\begin{frame}[plain,noframenumbering]
+  \sectionpage
+\end{frame}
+
+\begin{frame}{Need for Rotation}
+  \textbf{Why Rotate?}
+  \begin{itemize}
+    \item Initial factor solution is often difficult to interpret
+    \item Many variables load moderately on multiple factors
+    \item Rotation improves "simple structure"
+    \item Total variance explained remains unchanged
+  \end{itemize}
+  
+  \textbf{Simple Structure Goals:}
+  \begin{itemize}
+    \item Each variable loads highly on one factor
+    \item Each factor has high loadings on few variables
+    \item Factors are clearly interpretable
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Orthogonal Rotation Methods}
+  \textbf{Varimax Rotation:}
+  \begin{itemize}
+    \item Maximizes variance of squared loadings within factors
+    \item Most popular orthogonal method
+    \item Produces factors that are uncorrelated
+    \item Good for identifying distinct factors
+  \end{itemize}
+  
+  \textbf{Other Orthogonal Methods:}
+  \begin{itemize}
+    \item \textbf{Quartimax:} Maximizes variance of squared loadings within variables
+    \item \textbf{Equimax:} Combination of Varimax and Quartimax
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Rotation Algorithm}
+  \textbf{Varimax Criterion:}
+  $$V = \sum_{j=1}^{k} \left[ \frac{1}{p}\sum_{i=1}^{p} \lambda_{ij}^4 - \left(\frac{1}{p}\sum_{i=1}^{p} \lambda_{ij}^2\right)^2 \right]$$
+  
+  \textbf{Iterative Process:}
+  \begin{enumerate}
+    \item Start with unrotated factor matrix
+    \item Apply rotation transformation
+    \item Check convergence criterion
+    \item Repeat until convergence
+  \end{enumerate}
+\end{frame}
+
+% =============================================================================
+% SECTION 5: OBLIQUE ROTATION
+% =============================================================================
+
+\section{Oblique Rotation Methods}
+\begin{frame}[plain,noframenumbering]
+  \sectionpage
+\end{frame}
+
+\begin{frame}{When to Use Oblique Rotation}
+  \textbf{Theoretical Considerations:}
+  \begin{itemize}
+    \item When factors are expected to be correlated
+    \item More realistic in many research contexts
+    \item Examples: Intelligence factors, personality traits
+  \end{itemize}
+  
+  \textbf{Empirical Indicators:}
+  \begin{itemize}
+    \item High correlations between orthogonal factors
+    \item Complex loading patterns persist after orthogonal rotation
+    \item Theoretical reasons to expect factor correlations
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Oblique Rotation Methods}
+  \textbf{Direct Oblimin:}
+  \begin{itemize}
+    \item Most general oblique method
+    \item $\delta$ parameter controls degree of obliqueness
+    \item $\delta = 0$: Quartimin (most oblique)
+    \item Popular and flexible approach
+  \end{itemize}
+  
+  \textbf{Promax:}
+  \begin{itemize}
+    \item Two-step procedure
+    \item First: Varimax rotation
+    \item Second: Allow correlations between factors
+    \item Computationally efficient
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Pattern vs. Structure Matrices}
+  \textbf{Pattern Matrix ($\mathbf{P}$):}
+  \begin{itemize}
+    \item Unique relationships between variables and factors
+    \item Partial regression coefficients
+    \item Used for factor interpretation
+  \end{itemize}
+  
+  \textbf{Structure Matrix ($\mathbf{S}$):}
+  \begin{itemize}
+    \item Total correlations (including indirect effects)
+    \item $\mathbf{S} = \mathbf{P}\boldsymbol{\Phi}$ where $\boldsymbol{\Phi}$ is factor correlation matrix
+    \item Higher values than pattern matrix
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Interpreting Factor Correlations}
+  \textbf{Factor Correlation Matrix ($\boldsymbol{\Phi}$):}
+  \begin{itemize}
+    \item Shows correlations between factors
+    \item Values close to 0: Factors are independent
+    \item High correlations: Consider fewer factors or higher-order factors
+  \end{itemize}
+  
+  \textbf{Guidelines:}
+  \begin{itemize}
+    \item $|r| < 0.32$: Orthogonal rotation preferred
+    \item $|r| > 0.32$: Oblique rotation justified
+    \item Very high correlations $(|r| > 0.85)$: May indicate over-extraction
+  \end{itemize}
+\end{frame}
+
+% =============================================================================
+% SECTION 6: SOFTWARE IMPLEMENTATION
+% =============================================================================
+
+\section{Coding and Commercial Software}
+\begin{frame}[plain,noframenumbering]
+  \sectionpage
+\end{frame}
+
+\begin{frame}{Python Implementation}
+  \textbf{scikit-learn:}
+  \begin{itemize}
+    \item \texttt{FactorAnalysis} class
+    \item Simple interface, limited rotation options
+    \item Good for basic exploratory analysis
+  \end{itemize}
+  
+  \textbf{factor\_analyzer:}
+  \begin{itemize}
+    \item More comprehensive factor analysis package
+    \item Multiple rotation methods
+    \item Parallel analysis implementation
+    \item Better for advanced analysis
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Python Code Example}
+\begin{verbatim}
+from factor_analyzer import FactorAnalyzer
+import pandas as pd
+
+# Load data
+data = pd.read_csv('data.csv')
+
+# Create factor analyzer
+fa = FactorAnalyzer(n_factors=3, rotation='varimax')
+
+# Fit model
+fa.fit(data)
+
+# Get results
+loadings = fa.loadings_
+communalities = fa.get_communalities()
+eigenvalues = fa.get_eigenvalues()
+\end{verbatim}
+\end{frame}
+
+\begin{frame}{R Implementation}
+  \textbf{psych Package:}
+  \begin{itemize}
+    \item \texttt{fa()} function for factor analysis
+    \item Multiple extraction and rotation methods
+    \item Comprehensive output and diagnostics
+    \item Parallel analysis: \texttt{fa.parallel()}
+  \end{itemize}
+  
+  \textbf{GPArotation Package:}
+  \begin{itemize}
+    \item Advanced rotation methods
+    \item Both orthogonal and oblique rotations
+    \item Used by psych package
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Commercial Software}
+  \textbf{SPSS:}
+  \begin{itemize}
+    \item \texttt{FACTOR} command
+    \item User-friendly interface
+    \item Limited customization options
+  \end{itemize}
+  
+  \textbf{SAS:}
+  \begin{itemize}
+    \item \texttt{PROC FACTOR}
+    \item Extensive options and methods
+    \item Good for large datasets
+  \end{itemize}
+  
+  \textbf{Considerations:}
+  \begin{itemize}
+    \item Different default settings across software
+    \item Verify results across platforms
+    \item Understand software-specific options
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Best Practices}
+  \textbf{Implementation Guidelines:}
+  \begin{itemize}
+    \item Always examine scree plot and parallel analysis
+    \item Try multiple rotation methods
+    \item Validate results with different software
+    \item Report all major decisions and criteria used
+  \end{itemize}
+  
+  \textbf{Common Pitfalls:}
+  \begin{itemize}
+    \item Using only Kaiser criterion for factor extraction
+    \item Ignoring factor correlations in oblique rotation
+    \item Over-interpreting small loadings
+    \item Not considering sample size limitations
+  \end{itemize}
+\end{frame}
+
+% =============================================================================
+% CONCLUSION
+% =============================================================================
+
+\section{Summary}
+\begin{frame}[plain,noframenumbering]
+  \sectionpage
+\end{frame}
+
+\begin{frame}{Key Takeaways}
+  \begin{enumerate}
+    \item \textbf{Objectives:} Factor analysis identifies latent variables and reduces dimensionality
+    \item \textbf{Model:} $\mathbf{X} = \boldsymbol{\Lambda}\mathbf{F} + \boldsymbol{\varepsilon}$ partitions variance
+    \item \textbf{Extraction:} Use multiple criteria (eigenvalues, scree plot, parallel analysis)
+    \item \textbf{Rotation:} Improves interpretability; choose orthogonal vs. oblique based on theory
+    \item \textbf{Implementation:} Multiple software options with different strengths
+  \end{enumerate}
+\end{frame}
+
+\begin{frame}{Next Steps}
+  \begin{itemize}
+    \item Practice with real datasets
+    \item Compare results across different software
+    \item Explore confirmatory factor analysis
+    \item Apply to your research domain
+  \end{itemize}
+  
+  \vspace{1em}
+  \centering
+  \Large\textbf{Questions?}
+\end{frame}
+
+\end{document}
