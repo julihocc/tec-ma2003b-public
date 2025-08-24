@@ -200,32 +200,96 @@
   \end{itemize}
 \end{frame}
 
-\section{Python Practice}
-\begin{frame}{Python Practice: Factor Analysis Objectives}
+\section{Practice Overview}
+\begin{frame}{Practice Script Architecture}
+  The practice implementation demonstrates clean separation of concerns:
   \begin{itemize}
-    \item Try the script: \texttt{objectives\_factor\_analysis\_practice.py}
-    \item Demonstrates factor analysis vs PCA comparison
-    \item Shows practical applications with real data examples
-    \item Illustrates key concepts and interpretations
+    \item \textbf{\texttt{factor\_analysis.py}}: Pure computational functions
+    \begin{itemize}
+      \item Data generation with known factor structure
+      \item Correlation analysis, PCA, and factor analysis computations
+      \item Returns structured results (dataclasses)
+    \end{itemize}
+    \item \textbf{\texttt{factor\_analysis\_reporter.py}}: Formatting functions  
+    \begin{itemize}
+      \item Converts analysis results to formatted strings
+      \item No I/O operations, pure string formatting
+    \end{itemize}
+    \item \textbf{\texttt{objectives\_factor\_analysis\_practice.py}}: Orchestration
+    \begin{itemize}
+      \item Coordinates analysis workflow
+      \item Handles logging and file output
+    \end{itemize}
   \end{itemize}
 \end{frame}
 
-\begin{frame}[fragile]{Running the Script}
+\begin{frame}{Practice Demonstration Features}
+  \textbf{What the practice script demonstrates:}
+  \begin{enumerate}
+    \item \textbf{Synthetic Data Generation}
+    \begin{itemize}
+      \item Psychology test data with known 2-factor structure
+      \item Intelligence factor (Math, Logic, Spatial)  
+      \item Verbal factor (Reading, Writing, Vocabulary)
+    \end{itemize}
+    
+    \item \textbf{Analysis Workflow}
+    \begin{itemize}
+      \item Correlation matrix analysis with high correlation identification
+      \item PCA for variance explanation comparison
+      \item Factor analysis with varimax rotation
+      \item Side-by-side FA vs PCA comparison
+    \end{itemize}
+    
+    \item \textbf{Practical Applications}
+    \begin{itemize}
+      \item Examples across Psychology, Marketing, Finance, Education
+    \end{itemize}
+  \end{enumerate}
+\end{frame}
+
+\section{Python Practice}
+\begin{frame}{Python Practice: Factor Analysis Objectives}
+  \textbf{Practice Script Features:}
   \begin{itemize}
-    \item Install required libraries if needed:
+    \item \textbf{File Output}: Detailed report written to \texttt{factor\_analysis\_report.txt}
+    \item \textbf{Logging}: Execution progress logged with timestamps using centralized logger
+    \item \textbf{Modular Design}: Separates analysis, formatting, and orchestration
+    \item \textbf{Reusable Components}: Analysis functions can be imported by other scripts
   \end{itemize}
+  
   \vspace{0.5cm}
-  \begin{verbatim}
-pip install numpy scipy scikit-learn factor-analyzer
-  \end{verbatim}
-  \vspace{0.5cm}
+  \textbf{Key Learning Outcomes:}
   \begin{itemize}
-    \item Run the script:
+    \item Understand FA vs PCA differences through direct comparison  
+    \item See factor loadings and communalities in practice
+    \item Experience real-world factor analysis workflow
   \end{itemize}
-  \vspace{0.5cm}
+\end{frame}
+
+\begin{frame}[fragile]{Running the Practice}
+  \textbf{Setup and Installation:}
   \begin{verbatim}
-python objectives_factor_analysis_practice.py
+# Create and activate virtual environment
+python3 -m venv .venv
+source .venv/bin/activate
+
+# Install required packages  
+pip install -r requirements.txt
+
+# Install project in editable mode (for utils access)
+pip install -e .
   \end{verbatim}
+  
+  \vspace{0.3cm}
+  \textbf{Run the script:}
+  \begin{verbatim}
+python beamers/4_Factor_Analysis/4.1_Objectives_of_factor_analysis/\
+       python/objectives_factor_analysis_practice.py
+  \end{verbatim}
+  
+  \vspace{0.3cm}
+  \textbf{Output:} Detailed analysis report saved to \texttt{factor\_analysis\_report.txt}
 \end{frame}
 
 \begin{frame}
