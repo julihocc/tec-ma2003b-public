@@ -45,6 +45,7 @@ Notes for maintainers
 """
 
 import warnings
+import logging
 
 # Local modules for separated analysis and reporting
 from factor_analysis import (
@@ -68,6 +69,25 @@ from factor_analysis_reporter import (
 # Suppress warnings for cleaner output
 warnings.filterwarnings("ignore")
 
+# Configure logger
+def setup_logger(name: str, level: int = logging.INFO) -> logging.Logger:
+    """Set up a logger with stream handler."""
+    logger = logging.getLogger(name)
+    
+    if not logger.handlers:
+        handler = logging.StreamHandler()
+        formatter = logging.Formatter(
+            '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+        )
+        handler.setFormatter(formatter)
+        logger.addHandler(handler)
+        logger.setLevel(level)
+        logger.propagate = False
+    
+    return logger
+
+logger = setup_logger(__name__, level=logging.INFO)
+
 
 
 
@@ -76,9 +96,9 @@ def main():
     
     output_file = "factor_analysis_report.txt"
     
-    print("MA2003B - Objectives of Factor Analysis")
-    print("Comprehensive demonstration of factor analysis purposes and applications")
-    print(f"Writing detailed report to: {output_file}")
+    logger.info("MA2003B - Objectives of Factor Analysis")
+    logger.info("Comprehensive demonstration of factor analysis purposes and applications")
+    logger.info(f"Writing detailed report to: {output_file}")
 
     # Collect all report sections
     report_sections = []
@@ -89,38 +109,46 @@ def main():
     report_sections.append("=" * 80)
 
     # 1. Generate synthetic data with known factor structure
+    logger.info("Generating synthetic psychology test data")
     X, variable_names = generate_psychology_data(n_samples=200)
     report_sections.append(format_data_generation(X, variable_names))
 
     # 2. Analyze correlation structure
+    logger.info("Computing correlation matrix")
     correlation_results = compute_correlation_matrix(X, variable_names)
     report_sections.append(format_correlation_analysis(correlation_results))
 
     # 3. Perform PCA for comparison
+    logger.info("Performing PCA analysis")
     pca_results = perform_pca_computation(X)
     report_sections.append(format_pca_results(pca_results))
 
     # 4. Perform factor analysis
+    logger.info("Performing factor analysis")
     fa_results = perform_factor_analysis_computation(X, variable_names)
     report_sections.append(format_factor_analysis(fa_results))
 
     # 5. Compare FA vs PCA
+    logger.info("Generating FA vs PCA comparison")
     report_sections.append(format_fa_vs_pca_comparison(pca_results))
 
     # 6. Show applications
+    logger.info("Formatting applications data")
     applications_data = get_applications_data()
     report_sections.append(format_applications(applications_data))
 
     # 7. Final summary
+    logger.info("Generating summary section")
     report_sections.append(format_summary())
     
     # Write complete report to file
+    logger.info(f"Writing report to {output_file}")
     full_report = "\n".join(report_sections)
     with open(output_file, 'w') as f:
         f.write(full_report)
     
-    print(f"✓ Report successfully written to {output_file}")
-    print(f"✓ Analysis complete - {len(report_sections)} sections generated")
+    logger.info(f"✓ Report successfully written to {output_file}")
+    logger.info(f"✓ Analysis complete - {len(report_sections)} sections generated")
 
 
 if __name__ == "__main__":
