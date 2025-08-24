@@ -6,6 +6,11 @@ known two-factor structure (Intelligence and Verbal ability), then shows how
 to inspect the correlation structure, run PCA for comparison, and run factor
 analysis using the standard Python libraries.
 
+This refactored version separates analysis from reporting:
+ - factor_analysis.py: Pure computational functions
+ - factor_analysis_reporter.py: Output formatting and display
+ - This script: Orchestrates the demonstration workflow
+
 Sections demonstrated:
  - Correlation analysis and inspection of high correlations
  - Principal Component Analysis (PCA) for variance-explanation comparison
@@ -18,10 +23,6 @@ Requirements
  - numpy
  - scikit-learn (required; used for StandardScaler and PCA)
  - factor_analyzer (required; used for FactorAnalyzer)
-
-This version of the script assumes scikit-learn and factor_analyzer are
-installed. Lightweight illustrative implementations of the core algorithms
-are provided in the companion Julia examples in the same exercise folder.
 
 Quick run (from repository root)
   - Create and activate a virtual environment (recommended):
@@ -37,313 +38,37 @@ Outputs
  - A textual comparison of FA vs PCA objectives
 
 Notes for maintainers
- - The script is intentionally dependency-tolerant: it prefers sklearn/factor_analyzer
-   but uses basic implementations when those packages are absent. This keeps the
-   demonstration runnable in stripped environments (e.g., teaching machines).
+ - Analysis functions are in factor_analysis.py (pure computation)
+ - Reporting functions are in factor_analysis_reporter.py (output formatting)
+ - This allows for easier testing and reuse of analysis components
 
 """
 
-import numpy as np
 import warnings
-from typing import Tuple, List, Any
 
-# Required packages for this demonstration
-from sklearn.decomposition import PCA
-from sklearn.preprocessing import StandardScaler
-from factor_analyzer import FactorAnalyzer
+# Local modules for separated analysis and reporting
+from factor_analysis import (
+    generate_psychology_data,
+    compute_correlation_matrix, 
+    perform_pca_computation,
+    perform_factor_analysis_computation,
+    get_applications_data
+)
+
+from factor_analysis_reporter import (
+    report_data_generation,
+    report_correlation_analysis,
+    report_pca_results,
+    report_factor_analysis,
+    report_fa_vs_pca_comparison,
+    report_applications,
+    report_summary
+)
 
 # Suppress warnings for cleaner output
 warnings.filterwarnings("ignore")
 
-np.random.seed(42)
 
-
-# Note: a minimal PCA/factor-analysis demonstration (without sklearn/factor_analyzer)
-# is available in the companion Julia examples under the same exercise folder.
-
-
-def generate_psychology_data(n_samples: int = 200) -> Tuple[np.ndarray, List[str]]:
-    """Generate synthetic psychology test data with known underlying factors.
-
-    The synthetic dataset contains six observed variables influenced by two
-    latent factors (Intelligence and Verbal ability). The function returns the
-    design matrix X and the list of variable names.
-
-    Args:
-        n_samples: Number of observations to generate.
-
-    Returns:
-        A tuple (X, variable_names) where X is an (n_samples x 6) numpy array
-        and variable_names is a list of 6 strings.
-    """
-
-    print("Generating Synthetic Psychology Test Data")
-    print("========================================")
-
-    # Create underlying factors (latent variables)
-    intelligence = np.random.normal(0, 1, n_samples)
-    verbal_ability = np.random.normal(0, 1, n_samples)
-
-    # Create observed variables influenced by factors
-    # Intelligence factor influences math, logic, spatial
-    math_score = 0.8 * intelligence + 0.2 * np.random.normal(0, 1, n_samples)
-    logic_score = 0.7 * intelligence + 0.3 * np.random.normal(0, 1, n_samples)
-    spatial_score = 0.6 * intelligence + 0.4 * np.random.normal(0, 1, n_samples)
-
-    # Verbal factor influences reading, writing, vocabulary
-    reading_score = 0.8 * verbal_ability + 0.2 * np.random.normal(0, 1, n_samples)
-    writing_score = 0.7 * verbal_ability + 0.3 * np.random.normal(0, 1, n_samples)
-    vocabulary_score = 0.9 * verbal_ability + 0.1 * np.random.normal(0, 1, n_samples)
-
-    # Combine into data matrix
-    X = np.column_stack(
-        [
-            math_score,
-            logic_score,
-            spatial_score,
-            reading_score,
-            writing_score,
-            vocabulary_score,
-        ]
-    )
-
-    variable_names = ["Math", "Logic", "Spatial", "Reading", "Writing", "Vocabulary"]
-
-    print(f"Created {n_samples} observations with {X.shape[1]} variables")
-    print("Variables:", variable_names)
-    print("True underlying factors: Intelligence, Verbal Ability")
-
-    return X, variable_names
-
-
-def demonstrate_correlation_structure(X: np.ndarray, variable_names: List[str]) -> None:
-    """Print the correlation matrix and highlight high correlations.
-
-    Args:
-        X: 2D data array with shape (n_samples, n_variables).
-        variable_names: List of variable names matching columns in X.
-
-    Side effects:
-        Prints a formatted correlation matrix and pairs with high absolute
-        correlation (> 0.4) to stdout.
-    """
-
-    print("\nCorrelation Analysis")
-    print("===================")
-
-    # Calculate correlation matrix
-    corr_matrix = np.corrcoef(X.T)
-
-    print("Correlation Matrix:")
-    print("Variables:", variable_names)
-    for i, var1 in enumerate(variable_names):
-        row_str = f"{var1:10}"
-        for j, var2 in enumerate(variable_names):
-            row_str += f" {corr_matrix[i,j]:6.3f}"
-        print(row_str)
-
-    # Identify high correlations
-    print("\nHigh Correlations (> 0.4):")
-    for i in range(len(variable_names)):
-        for j in range(i + 1, len(variable_names)):
-            if abs(corr_matrix[i, j]) > 0.4:
-                print(
-                    f"{variable_names[i]} - {variable_names[j]}: {corr_matrix[i,j]:.3f}"
-                )
-
-
-def perform_pca_analysis(
-    X: np.ndarray, variable_names: List[str]
-) -> Tuple[PCA, np.ndarray]:
-    """Run PCA on standardized data and print explained variance.
-
-    Args:
-        X: 2D data array (n_samples, n_features).
-        variable_names: Names of the variables (unused for computation but
-            useful for printing elsewhere).
-
-    Returns:
-        A tuple (pca, X_scaled) where `pca` is a fitted scikit-learn PCA
-        instance and `X_scaled` is the standardized data matrix used for PCA.
-    """
-
-    print("\nPrincipal Component Analysis")
-    print("============================")
-
-    # Standardize data using scikit-learn's StandardScaler (required)
-    scaler = StandardScaler()
-    X_scaled = scaler.fit_transform(X)
-
-    # Perform PCA using scikit-learn (required)
-    pca = PCA()
-    pca.fit(X_scaled)
-
-    # Show results
-    print("PCA Results:")
-    print(f"Number of components: {len(pca.explained_variance_ratio_)}")
-    print("Explained variance ratio by component:")
-    for i, var_exp in enumerate(pca.explained_variance_ratio_):
-        print(f"  PC{i+1}: {var_exp:.3f} ({var_exp*100:.1f}%)")
-
-    print(
-        f"Cumulative variance explained by first 2 PCs: {sum(pca.explained_variance_ratio_[:2]):.3f}"
-    )
-
-    return pca, X_scaled
-
-
-def perform_factor_analysis(X: np.ndarray, variable_names: List[str]) -> Any:
-    """Perform factor analysis using the `factor_analyzer` package.
-
-    Args:
-        X: 2D data array (n_samples, n_features).
-        variable_names: List of variable names used for printing results.
-
-    Returns:
-        The fitted FactorAnalyzer instance. The function prints loadings and
-        communalities. May raise import/runtime errors if the factor_analyzer
-        package is misconfigured.
-    """
-
-    print("\nFactor Analysis")
-    print("===============")
-
-    # Standardize data and run FactorAnalyzer (factor_analyzer required)
-    scaler = StandardScaler()
-    X_scaled = scaler.fit_transform(X)
-
-    # Perform factor analysis with 2 factors
-    fa = FactorAnalyzer(n_factors=2, rotation="varimax")
-    fa.fit(X_scaled)
-
-    # Get factor loadings (may be None on some installations/versions)
-    loadings = fa.loadings_
-
-    print("Factor Analysis Results (2 factors):")
-    if loadings is None:
-        # Defensive handling: avoid subscripting None
-        print(
-            "Factor loadings are unavailable (None). Skipping detailed loadings display."
-        )
-    else:
-        print("Factor Loadings:")
-        print("Variable       Factor 1  Factor 2")
-        print("-" * 35)
-        for i, var in enumerate(variable_names):
-            print(f"{var:12}  {loadings[i,0]:8.3f}  {loadings[i,1]:8.3f}")
-
-    # Calculate communalities
-    communalities = fa.get_communalities()
-    print("\nCommunalities:")
-    for i, var in enumerate(variable_names):
-        print(f"{var:12}: {communalities[i]:.3f}")
-
-    # Factor interpretation
-    print("\nFactor Interpretation:")
-    print("Factor 1 (high loadings): Math, Logic, Spatial → Intelligence Factor")
-    print("Factor 2 (high loadings): Reading, Writing, Vocabulary → Verbal Factor")
-
-    return fa
-
-
-def simple_factor_analysis(X: np.ndarray, variable_names: List[str]) -> np.ndarray:
-    """Placeholder for a minimal eigen-based factor analysis implementation.
-
-    This function intentionally raises a RuntimeError in the Python demo
-    to direct users to the Julia companion examples or to the
-    `factor_analyzer` package. If you want a compact, teachable Python
-    implementation, port the Julia code and return factor loadings as an
-    (n_variables x n_factors) numpy array.
-
-    Args:
-        X: 2D data array (n_samples, n_features).
-        variable_names: Names of the variables (for printing or debugging).
-
-    Raises:
-        RuntimeError: Always raised in this demo to indicate the function is
-            intentionally not implemented in Python here.
-
-    Returns:
-        Would return the factor loadings array if implemented.
-    """
-    raise RuntimeError(
-        "simple_factor_analysis is not available in the Python demo. "
-        "See the Julia companion examples for a minimal implementation or "
-        "install the 'factor_analyzer' package to run the Python demonstration."
-    )
-
-
-def compare_fa_vs_pca(pca: PCA, X_scaled: np.ndarray) -> None:
-    """Print a short comparison of Factor Analysis and PCA objectives.
-
-    Args:
-        pca: A fitted scikit-learn PCA instance (used to read component loadings).
-        X_scaled: The standardized data matrix used for PCA (unused directly but
-            kept for signature symmetry with other functions).
-    """
-
-    print("\nComparison: Factor Analysis vs PCA")
-    print("==================================")
-
-    print("Factor Analysis Objectives:")
-    print("✓ Identify latent constructs (Intelligence, Verbal ability)")
-    print("✓ Explain correlations between observed variables")
-    print("✓ Model measurement error explicitly")
-    print("✓ Focus on common variance only")
-
-    print("\nPCA Objectives:")
-    print("✓ Maximize variance explained by components")
-    print("✓ Create uncorrelated linear combinations")
-    print("✓ Reduce dimensionality efficiently")
-    print("✓ Include all variance (common + unique)")
-
-    # Show PCA loadings for comparison
-    pca_loadings = pca.components_[:2].T
-    print("\nPCA Component Loadings (first 2 components):")
-    print("Variable       Comp 1    Comp 2")
-    print("-" * 35)
-    variable_names = ["Math", "Logic", "Spatial", "Reading", "Writing", "Vocabulary"]
-    for i, var in enumerate(variable_names):
-        print(f"{var:12}  {pca_loadings[i,0]:8.3f}  {pca_loadings[i,1]:8.3f}")
-
-
-def demonstrate_applications():
-    """Show different applications of factor analysis."""
-
-    print("\nFactor Analysis Applications")
-    print("============================")
-
-    applications = {
-        "Psychology": [
-            "Intelligence testing (g-factor)",
-            "Personality assessment (Big Five)",
-            "Attitude measurement",
-            "Clinical assessment scales",
-        ],
-        "Marketing": [
-            "Customer segmentation",
-            "Brand positioning",
-            "Product attribute analysis",
-            "Market research simplification",
-        ],
-        "Finance": [
-            "Risk factor identification",
-            "Portfolio analysis",
-            "Economic indicator grouping",
-            "Credit scoring models",
-        ],
-        "Education": [
-            "Academic ability assessment",
-            "Learning style identification",
-            "Curriculum evaluation",
-            "Student performance analysis",
-        ],
-    }
-
-    for field, apps in applications.items():
-        print(f"\n{field}:")
-        for app in apps:
-            print(f"  • {app}")
 
 
 def main():
@@ -354,35 +79,29 @@ def main():
 
     # 1. Generate synthetic data with known factor structure
     X, variable_names = generate_psychology_data(n_samples=200)
+    report_data_generation(X, variable_names)
 
     # 2. Analyze correlation structure
-    demonstrate_correlation_structure(X, variable_names)
+    correlation_results = compute_correlation_matrix(X, variable_names)
+    report_correlation_analysis(correlation_results)
 
     # 3. Perform PCA for comparison
-    pca, X_scaled = perform_pca_analysis(X, variable_names)
+    pca_results = perform_pca_computation(X)
+    report_pca_results(pca_results)
 
-    # 4. Perform factor analysis (results printed by the function)
-    perform_factor_analysis(X, variable_names)
+    # 4. Perform factor analysis
+    fa_results = perform_factor_analysis_computation(X, variable_names)
+    report_factor_analysis(fa_results)
 
     # 5. Compare FA vs PCA
-    compare_fa_vs_pca(pca, X_scaled)
+    report_fa_vs_pca_comparison(pca_results)
 
     # 6. Show applications
-    demonstrate_applications()
+    applications_data = get_applications_data()
+    report_applications(applications_data)
 
-    print("\nSummary")
-    print("=======")
-    print("✓ Generated data with known factor structure")
-    print("✓ Demonstrated correlation patterns")
-    print("✓ Performed both PCA and Factor Analysis")
-    print("✓ Compared objectives and interpretations")
-    print("✓ Showed practical applications across fields")
-
-    print("\nKey Takeaways:")
-    print("• Factor Analysis identifies latent variables that cause correlations")
-    print("• PCA creates linear combinations that maximize variance")
-    print("• FA is theory-driven, PCA is data-driven")
-    print("• Choose method based on research objectives")
+    # 7. Final summary
+    report_summary()
 
 
 if __name__ == "__main__":
