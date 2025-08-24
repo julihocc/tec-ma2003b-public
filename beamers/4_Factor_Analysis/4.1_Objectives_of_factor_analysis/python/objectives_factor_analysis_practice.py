@@ -45,6 +45,7 @@ Notes for maintainers
 
 import numpy as np
 import warnings
+from typing import Tuple, List, Any
 
 # Required packages for this demonstration
 from sklearn.decomposition import PCA
@@ -61,8 +62,20 @@ np.random.seed(42)
 # is available in the companion Julia examples under the same exercise folder.
 
 
-def generate_psychology_data(n_samples=200):
-    """Generate synthetic psychology test data with underlying factors."""
+def generate_psychology_data(n_samples: int = 200) -> Tuple[np.ndarray, List[str]]:
+    """Generate synthetic psychology test data with known underlying factors.
+
+    The synthetic dataset contains six observed variables influenced by two
+    latent factors (Intelligence and Verbal ability). The function returns the
+    design matrix X and the list of variable names.
+
+    Args:
+        n_samples: Number of observations to generate.
+
+    Returns:
+        A tuple (X, variable_names) where X is an (n_samples x 6) numpy array
+        and variable_names is a list of 6 strings.
+    """
 
     print("Generating Synthetic Psychology Test Data")
     print("========================================")
@@ -103,8 +116,17 @@ def generate_psychology_data(n_samples=200):
     return X, variable_names
 
 
-def demonstrate_correlation_structure(X, variable_names):
-    """Show correlation patterns in the data."""
+def demonstrate_correlation_structure(X: np.ndarray, variable_names: List[str]) -> None:
+    """Print the correlation matrix and highlight high correlations.
+
+    Args:
+        X: 2D data array with shape (n_samples, n_variables).
+        variable_names: List of variable names matching columns in X.
+
+    Side effects:
+        Prints a formatted correlation matrix and pairs with high absolute
+        correlation (> 0.4) to stdout.
+    """
 
     print("\nCorrelation Analysis")
     print("===================")
@@ -130,8 +152,20 @@ def demonstrate_correlation_structure(X, variable_names):
                 )
 
 
-def perform_pca_analysis(X, variable_names):
-    """Perform PCA analysis for comparison."""
+def perform_pca_analysis(
+    X: np.ndarray, variable_names: List[str]
+) -> Tuple[PCA, np.ndarray]:
+    """Run PCA on standardized data and print explained variance.
+
+    Args:
+        X: 2D data array (n_samples, n_features).
+        variable_names: Names of the variables (unused for computation but
+            useful for printing elsewhere).
+
+    Returns:
+        A tuple (pca, X_scaled) where `pca` is a fitted scikit-learn PCA
+        instance and `X_scaled` is the standardized data matrix used for PCA.
+    """
 
     print("\nPrincipal Component Analysis")
     print("============================")
@@ -158,8 +192,18 @@ def perform_pca_analysis(X, variable_names):
     return pca, X_scaled
 
 
-def perform_factor_analysis(X, variable_names):
-    """Perform factor analysis if library is available."""
+def perform_factor_analysis(X: np.ndarray, variable_names: List[str]) -> Any:
+    """Perform factor analysis using the `factor_analyzer` package.
+
+    Args:
+        X: 2D data array (n_samples, n_features).
+        variable_names: List of variable names used for printing results.
+
+    Returns:
+        The fitted FactorAnalyzer instance. The function prints loadings and
+        communalities. May raise import/runtime errors if the factor_analyzer
+        package is misconfigured.
+    """
 
     print("\nFactor Analysis")
     print("===============")
@@ -178,7 +222,9 @@ def perform_factor_analysis(X, variable_names):
     print("Factor Analysis Results (2 factors):")
     if loadings is None:
         # Defensive handling: avoid subscripting None
-        print("Factor loadings are unavailable (None). Skipping detailed loadings display.")
+        print(
+            "Factor loadings are unavailable (None). Skipping detailed loadings display."
+        )
     else:
         print("Factor Loadings:")
         print("Variable       Factor 1  Factor 2")
@@ -200,8 +246,26 @@ def perform_factor_analysis(X, variable_names):
     return fa
 
 
-def simple_factor_analysis(X, variable_names):
-    """Simple factor analysis using eigendecomposition."""
+def simple_factor_analysis(X: np.ndarray, variable_names: List[str]) -> np.ndarray:
+    """Placeholder for a minimal eigen-based factor analysis implementation.
+
+    This function intentionally raises a RuntimeError in the Python demo
+    to direct users to the Julia companion examples or to the
+    `factor_analyzer` package. If you want a compact, teachable Python
+    implementation, port the Julia code and return factor loadings as an
+    (n_variables x n_factors) numpy array.
+
+    Args:
+        X: 2D data array (n_samples, n_features).
+        variable_names: Names of the variables (for printing or debugging).
+
+    Raises:
+        RuntimeError: Always raised in this demo to indicate the function is
+            intentionally not implemented in Python here.
+
+    Returns:
+        Would return the factor loadings array if implemented.
+    """
     raise RuntimeError(
         "simple_factor_analysis is not available in the Python demo. "
         "See the Julia companion examples for a minimal implementation or "
@@ -209,8 +273,14 @@ def simple_factor_analysis(X, variable_names):
     )
 
 
-def compare_fa_vs_pca(pca, X_scaled):
-    """Compare Factor Analysis and PCA objectives."""
+def compare_fa_vs_pca(pca: PCA, X_scaled: np.ndarray) -> None:
+    """Print a short comparison of Factor Analysis and PCA objectives.
+
+    Args:
+        pca: A fitted scikit-learn PCA instance (used to read component loadings).
+        X_scaled: The standardized data matrix used for PCA (unused directly but
+            kept for signature symmetry with other functions).
+    """
 
     print("\nComparison: Factor Analysis vs PCA")
     print("==================================")
