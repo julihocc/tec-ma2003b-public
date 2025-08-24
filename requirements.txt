@@ -1,2 +1,4 @@
 # Minimal runtime/development dependencies for this repo
 pytest>=8.4
+scikit-learn>=1.0
+factor_analyzer>=0.4.0

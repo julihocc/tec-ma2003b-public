@@ -4,8 +4,7 @@ This script is a self-contained demonstration used in the course material
 MA2003B (chapter 4.1). It generates synthetic psychology test data with a
 known two-factor structure (Intelligence and Verbal ability), then shows how
 to inspect the correlation structure, run PCA for comparison, and run factor
-analysis (using either the `factor_analyzer` package or a simple eigen-based
-fallback implementation).
+analysis using the standard Python libraries.
 
 Sections demonstrated:
  - Correlation analysis and inspection of high correlations
@@ -16,12 +15,13 @@ Sections demonstrated:
 
 Requirements
  - Python 3.8+ (developed and tested on Python 3.10/3.11)
- - numpy (required)
- - scikit-learn (optional; used for StandardScaler and PCA if available)
- - factor_analyzer (optional; used for a full factor analysis if available)
+ - numpy
+ - scikit-learn (required; used for StandardScaler and PCA)
+ - factor_analyzer (required; used for FactorAnalyzer)
 
-If optional packages are not installed the script falls back to simple
-implementations so it still runs and demonstrates the core ideas.
+This version of the script assumes scikit-learn and factor_analyzer are
+installed. Lightweight illustrative implementations of the core algorithms
+are provided in the companion Julia examples in the same exercise folder.
 
 Quick run (from repository root)
   - Create and activate a virtual environment (recommended):
@@ -46,60 +46,19 @@ Notes for maintainers
 import numpy as np
 import warnings
 
+# Required packages for this demonstration
+from sklearn.decomposition import PCA
+from sklearn.preprocessing import StandardScaler
+from factor_analyzer import FactorAnalyzer
+
 # Suppress warnings for cleaner output
 warnings.filterwarnings("ignore")
-
-# Try to import sklearn components, fall back if not available
-try:
-    from sklearn.decomposition import PCA
-    from sklearn.preprocessing import StandardScaler
-
-    SKLEARN_AVAILABLE = True
-except ImportError:
-    SKLEARN_AVAILABLE = False
-    print("Note: sklearn not available, using basic implementations")
-
-# Try to import factor_analyzer, fall back to basic implementation if not available
-try:
-    from factor_analyzer import FactorAnalyzer
-
-    FACTOR_ANALYZER_AVAILABLE = True
-except ImportError:
-    FACTOR_ANALYZER_AVAILABLE = False
-    print("Note: factor_analyzer not available, using basic implementation")
 
 np.random.seed(42)
 
 
-def standardize_data(X):
-    """Standardize data to have mean 0 and std 1."""
-    return (X - np.mean(X, axis=0)) / np.std(X, axis=0)
-
-
-class SimplePCA:
-    """Basic PCA implementation using eigendecomposition."""
-
-    def __init__(self):
-        self.explained_variance_ratio_ = None
-        self.components_ = None
-
-    def fit(self, X):
-        # Calculate covariance matrix
-        cov_matrix = np.cov(X.T)
-
-        # Eigendecomposition
-        eigenvals, eigenvecs = np.linalg.eigh(cov_matrix)
-
-        # Sort by eigenvalues (descending)
-        idx = np.argsort(eigenvals)[::-1]
-        eigenvals = eigenvals[idx]
-        eigenvecs = eigenvecs[:, idx]
-
-        # Store results
-        self.explained_variance_ratio_ = eigenvals / np.sum(eigenvals)
-        self.components_ = eigenvecs.T
-
-        return self
+# Note: a minimal PCA/factor-analysis demonstration (without sklearn/factor_analyzer)
+# is available in the companion Julia examples under the same exercise folder.
 
 
 def generate_psychology_data(n_samples=200):
@@ -177,20 +136,13 @@ def perform_pca_analysis(X, variable_names):
     print("\nPrincipal Component Analysis")
     print("============================")
 
-    # Standardize data
-    if SKLEARN_AVAILABLE:
-        scaler = StandardScaler()
-        X_scaled = scaler.fit_transform(X)
-    else:
-        X_scaled = standardize_data(X)
+    # Standardize data using scikit-learn's StandardScaler (required)
+    scaler = StandardScaler()
+    X_scaled = scaler.fit_transform(X)
 
-    # Perform PCA
-    if SKLEARN_AVAILABLE:
-        pca = PCA()
-        pca.fit(X_scaled)
-    else:
-        pca = SimplePCA()
-        pca.fit(X_scaled)
+    # Perform PCA using scikit-learn (required)
+    pca = PCA()
+    pca.fit(X_scaled)
 
     # Show results
     print("PCA Results:")
@@ -212,18 +164,9 @@ def perform_factor_analysis(X, variable_names):
     print("\nFactor Analysis")
     print("===============")
 
-    if not FACTOR_ANALYZER_AVAILABLE:
-        print(
-            "Factor analysis library not available. Using correlation-based approach."
-        )
-        return simple_factor_analysis(X, variable_names)
-
-    # Standardize data
-    if SKLEARN_AVAILABLE:
-        scaler = StandardScaler()
-        X_scaled = scaler.fit_transform(X)
-    else:
-        X_scaled = standardize_data(X)
+    # Standardize data and run FactorAnalyzer (factor_analyzer required)
+    scaler = StandardScaler()
+    X_scaled = scaler.fit_transform(X)
 
     # Perform factor analysis with 2 factors
     fa = FactorAnalyzer(n_factors=2, rotation="varimax")
@@ -255,37 +198,11 @@ def perform_factor_analysis(X, variable_names):
 
 def simple_factor_analysis(X, variable_names):
     """Simple factor analysis using eigendecomposition."""
-
-    # Standardize data
-    if SKLEARN_AVAILABLE:
-        scaler = StandardScaler()
-        X_scaled = scaler.fit_transform(X)
-    else:
-        X_scaled = standardize_data(X)
-
-    # Calculate correlation matrix
-    R = np.corrcoef(X_scaled.T)
-
-    # Eigendecomposition
-    eigenvals, eigenvecs = np.linalg.eigh(R)
-
-    # Sort by eigenvalues (descending)
-    idx = np.argsort(eigenvals)[::-1]
-    eigenvals = eigenvals[idx]
-    eigenvecs = eigenvecs[:, idx]
-
-    # Take first 2 factors
-    loadings = eigenvecs[:, :2] * np.sqrt(eigenvals[:2])
-
-    print("Simple Factor Analysis Results (2 factors):")
-    print("Eigenvalues:", eigenvals[:3])
-    print("Factor Loadings:")
-    print("Variable       Factor 1  Factor 2")
-    print("-" * 35)
-    for i, var in enumerate(variable_names):
-        print(f"{var:12}  {loadings[i,0]:8.3f}  {loadings[i,1]:8.3f}")
-
-    return loadings
+    raise RuntimeError(
+        "simple_factor_analysis is not available in the Python demo. "
+        "See the Julia companion examples for a minimal implementation or "
+        "install the 'factor_analyzer' package to run the Python demonstration."
+    )
 
 
 def compare_fa_vs_pca(pca, X_scaled):
@@ -370,8 +287,8 @@ def main():
     # 3. Perform PCA for comparison
     pca, X_scaled = perform_pca_analysis(X, variable_names)
 
-    # 4. Perform factor analysis
-    fa_results = perform_factor_analysis(X, variable_names)
+    # 4. Perform factor analysis (results printed by the function)
+    perform_factor_analysis(X, variable_names)
 
     # 5. Compare FA vs PCA
     compare_fa_vs_pca(pca, X_scaled)
