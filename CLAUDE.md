@@ -26,31 +26,22 @@ pip install -e .
 
 **Run practice scripts:**
 ```bash
-# Single Python script (standardized structure)
-cd beamers/4_Factor_Analysis/4.1_Objectives_of_factor_analysis/practice
+# Single Python script (current Factor Analysis structure)
+cd beamers/4_Factor_Analysis/practice/4.1_objectives
 python objectives_factor_analysis_practice.py
 
-# All Python scripts in a chapter (standardized structure)
-for f in beamers/4_Factor_Analysis/*/practice/*_practice.py; do
+# All Python scripts in Factor Analysis chapter
+for f in beamers/4_Factor_Analysis/practice/*/*_practice.py; do
   echo "--- running $f ---"
-  python "$f" || break
+  .venv/bin/python "$f" || break
 done
 
-# All Python scripts across chapters
-for chapter in beamers/{1_Regression_Analysis,4_Factor_Analysis,5_Discriminant_Analysis}; do
-  for f in $chapter/*/practice/*_practice.py; do
-    echo "--- running $f ---"
-    python "$f" || break
-  done
-done
+# Alternative single script execution from repo root
+.venv/bin/python beamers/4_Factor_Analysis/practice/4.1_objectives/objectives_factor_analysis_practice.py
 
-# Compile lesson presentations
-cd beamers/4_Factor_Analysis/4.1_Objectives_of_factor_analysis/lesson
-pdflatex objectives_factor_analysis.tex
-
-# Compile comprehensive notes
-cd beamers/4_Factor_Analysis/4.1_Objectives_of_factor_analysis/notes
-pdflatex objectives_factor_analysis_notes.tex
+# Compile lesson presentations (Factor Analysis chapter)
+cd beamers/4_Factor_Analysis/lesson
+pdflatex factor_analysis.tex
 ```
 
 **Data pull script:**
@@ -62,10 +53,10 @@ pdflatex objectives_factor_analysis_notes.tex
 ## Repository Structure
 
 **Course Materials:**
-- `beamers/1_Regression_Analysis/` - Regression analysis exercises and materials (5 topics, fully refactored)
-- `beamers/4_Factor_Analysis/` - Factor analysis exercises and materials (6 topics, organized structure)
-- `beamers/5_Discriminant_Analysis/` - Discriminant analysis exercises and materials (6 topics, fully refactored)
-- Each exercise folder contains organized subfolders (see Course Content Structure below)
+- `beamers/4_Factor_Analysis/` - Factor analysis exercises and materials (6 topics, current structure)
+  - Uses `practice/4.X_topic/` folder organization for exercise scripts
+  - Contains centralized `lesson/` folder with presentation materials
+- Former `beamers/1_Regression_Analysis/` and `beamers/5_Discriminant_Analysis/` chapters have been removed in current working branch
 
 **Utilities:**
 - `utils/` - Shared utilities package with logging functionality (exported via `__init__.py`)
@@ -77,9 +68,10 @@ pdflatex objectives_factor_analysis_notes.tex
 - `scripts/pull_data.py` - Data synchronization script that copies course materials from OneDrive source to local `backup/ma2003b/` directory
 
 **Documentation:**
-- `documentation/` - Course planning documents including hour allocation tables
-- `backup/` - Contains course materials copied from the OneDrive source
+- `documentation/` - Course planning documents including hour allocation tables  
+- `.github/copilot-instructions.md` - AI coding assistant instructions (contains some outdated paths)
 - `.claude/backup/conversations/` - Claude Code conversation exports for development history
+- `beamers/themes/` - LaTeX Beamer themes and styling for presentations
 
 ## Development Conventions
 
@@ -99,24 +91,44 @@ pdflatex objectives_factor_analysis_notes.tex
 - `pyproject.toml` defines package metadata
 
 **Course Content Structure:**
-**IMPORTANT: Use standardized folder structure for all lessons:**
+**Current Factor Analysis Structure:**
+
+```
+4_Factor_Analysis/
+├── README.md                          # Chapter overview
+├── lesson/                            # Centralized presentation materials
+│   ├── factor_analysis.tex           # Main Beamer presentation
+│   ├── factor_analysis.pdf           # Compiled presentation  
+│   └── ... (LaTeX auxiliary files)
+└── practice/                          # Topic-organized exercises
+    ├── 4.1_objectives/
+    │   ├── README.md
+    │   ├── objectives_factor_analysis_practice.py
+    │   └── [additional analysis modules]
+    ├── 4.2_equations/
+    │   ├── README.md
+    │   └── equations_practice.py
+    ├── 4.3_number_of_factors/
+    ├── 4.4_rotation/
+    ├── 4.5_oblique_rotation/
+    └── 4.6_software/
+```
+
+**Future Standardized Structure (Target):**
 
 ```
 X.Y_Topic_Name/
-├── README.md                          # Comprehensive overview (merged content)
+├── README.md                          # Comprehensive overview
 ├── lesson/                            # Student presentation materials
 │   ├── [topic].tex                    # Beamer presentation source
-│   ├── [topic].pdf                    # Compiled presentation
-│   └── ... (LaTeX auxiliary files)
+│   └── [topic].pdf                    # Compiled presentation
 ├── practice/                          # Hands-on programming exercises
 │   ├── [topic]_practice.py           # Main practice script
 │   ├── [topic]_analysis.py           # Core analysis functions (modular)
-│   ├── [topic]_reporter.py           # Report generation functions
-│   └── README.md                      # Practice-specific instructions
+│   └── [topic]_reporter.py           # Report generation functions
 └── notes/                             # Expanded content and guidance
     ├── [topic]_notes.tex              # Comprehensive LaTeX article
-    ├── [topic]_notes.pdf              # Compiled documentation
-    └── additional_resources/          # Extra materials, datasets, etc.
+    └── [topic]_notes.pdf              # Compiled documentation
 ```
 
 **Legacy structure (deprecated):**
@@ -158,27 +170,29 @@ X.Y_Topic_Name/
 - **Notes documentation** should provide pedagogical guidance and teaching strategies
 - **README files** serve as comprehensive overviews - eliminate redundant report files
 
-## Chapter Status and Organization
+## Current Repository State
 
-**Standardized Structure (New Format):**
-- ✅ **Chapter 4**: Factor Analysis (6 topics, using new standardized structure)
-  - Topic 4.1: Objectives of Factor Analysis (lesson/, practice/, notes/ structure)
+**Active Content (improving-design branch):**
+- ✅ **Chapter 4**: Factor Analysis (6 topics, using chapter-level organization)
+  - Topics: 4.1 Objectives, 4.2 Equations, 4.3 Number of Factors, 4.4 Rotation, 4.5 Oblique Rotation, 4.6 Software
+  - Structure: Central `lesson/` folder + `practice/4.X_topic/` subfolders
+  - Status: Partially implemented practice scripts
 
-**Legacy Structure (Needs Migration):**
-- ✅ **Chapter 1**: Regression Analysis (5 topics, organized subfolders - needs standardization)
-- ✅ **Chapter 5**: Discriminant Analysis (6 topics, organized subfolders - needs standardization)
+**Removed Content (staged for deletion):**
+- ❌ **Chapter 1**: Regression Analysis (5 topics) - removed from current branch
+- ❌ **Chapter 5**: Discriminant Analysis (6 topics) - removed from current branch
 
-**Future Chapters (Need Organization):**
+**Future Development:**
 - Chapter 2: Multivariate Analysis
-- Chapter 3: Principal Component Analysis (PCA)
-- Chapter 6: Cluster Analysis  
+- Chapter 3: Principal Component Analysis (PCA)  
+- Chapter 6: Cluster Analysis
 - Chapter 7: Multivariate Regression
 
-**Migration Priority:**
-1. Standardize existing Chapter 1 and Chapter 5 topics to new structure
-2. Remove Julia implementations from all chapters
-3. Consolidate report files into README.md files
-4. Create comprehensive notes/ folders for instructor guidance
+**Current Priorities:**
+1. Complete Factor Analysis practice implementations
+2. Implement missing practice scripts (4.5_oblique_rotation currently missing)
+3. Test all existing practice scripts for functionality
+4. Consider migration to standardized per-topic structure for better organization
 
 ## Conversation Management
 
@@ -193,11 +207,13 @@ When working with this repository, conversation exports should be saved to maint
 
 ## Important Notes
 
-- The `scripts/pull_data.py` contains machine-specific OneDrive paths and may not work on all systems
-- Some practice scripts use optional libraries (numpy, scipy, scikit-learn, factor_analyzer)
-- **LaTeX Compilation**: Use `pdflatex` to compile .tex files in `lesson/` and `notes/` subfolders
+- The `scripts/pull_data.py` contains machine-specific OneDrive paths; use `MA2003B_ORIGIN_PATH` environment variable to override
+- **Required dependencies**: numpy, scipy, scikit-learn, factor_analyzer (see `requirements.txt`)
+- **LaTeX Compilation**: Use `pdflatex` to compile .tex files in `lesson/` folders
 - **Practice Scripts**: All practice implementations are in Python for maintainability
 - **Virtual Environment**: Always use `pip install -e .` for development to access utils module
+- **Report Pattern**: Practice scripts should write human-readable reports to files (e.g., `*_report.txt`) rather than just printing to console
+- **Logger Usage**: Always use `from utils import setup_logger` and call `setup_logger(__name__)` for consistent logging across scripts
 - Course covers 7 main topics: Regression Analysis, Multivariate Analysis, PCA, Factor Analysis, Discriminant Analysis, Cluster Analysis, and Multivariate Regression
 
 ## Standardized Lesson Template

@@ -1,8 +1,0 @@
-5.2 Cost functions and prior probabilities
-
-Exercises
-- Compute decision thresholds under different priors.
-- Show numeric examples and discuss trade-offs between false positives and false negatives.
-
-Notes
-- For applied tasks, always document chosen priors and cost assumptions.

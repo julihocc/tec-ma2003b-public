@@ -1,8 +1,0 @@
-5.4 Stepwise selection
-
-Exercises
-- Run a simple forward-selection routine and report selected variables.
-- Repeat selection with cross-validation and compare results.
-
-Notes
-- Prefer penalized or wrapper methods with CV for real applications.
