@@ -47,6 +47,9 @@ Notes for maintainers
 import warnings
 import logging
 
+# Import centralized logger from utils
+from utils import setup_logger
+
 # Local modules for separated analysis and reporting
 from factor_analysis import (
     generate_psychology_data,
@@ -69,23 +72,7 @@ from factor_analysis_reporter import (
 # Suppress warnings for cleaner output
 warnings.filterwarnings("ignore")
 
-# Configure logger
-def setup_logger(name: str, level: int = logging.INFO) -> logging.Logger:
-    """Set up a logger with stream handler."""
-    logger = logging.getLogger(name)
-    
-    if not logger.handlers:
-        handler = logging.StreamHandler()
-        formatter = logging.Formatter(
-            '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-        )
-        handler.setFormatter(formatter)
-        logger.addHandler(handler)
-        logger.setLevel(level)
-        logger.propagate = False
-    
-    return logger
-
+# Configure logger using centralized utils
 logger = setup_logger(__name__, level=logging.INFO)
 
 
