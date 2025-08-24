@@ -124,6 +124,8 @@ X_Chapter_Name/
 - **Chapter-level consolidation**: Single presentation covers all subtopics
 - **Comprehensive chapter README**: Serves as complete learning guide
 - **Modular practice exercises**: Each subtopic has independent practice folder
+- **Separation of concerns**: Practice folders split into computation, reporting, and orchestration
+- **Clean code architecture**: Pure functions, dataclasses, type hints for undergraduate learning
 - **Self-contained scripts**: Practice scripts include embedded documentation
 - **Consistent naming**: `X.Y_descriptive_name` pattern for subtopic folders
 
@@ -157,6 +159,24 @@ X.Y_Topic_Name/
 5. **Minimal subtopic READMEs**: Brief usage instructions since main documentation is in chapter README
 6. **Consistent naming convention**: Use `X.Y_descriptive_name` pattern for all subtopic folders
 
+**Practice Folder Structure (Modular Pattern):**
+Each `X.Y_subtopic/` folder should contain:
+
+```
+X.Y_subtopic_name/
+├── README.md                          # Brief usage instructions
+├── [subtopic]_practice.py             # Main orchestration script
+├── [subject].py                       # Pure computational functions
+├── [subject]_reporter.py              # Output formatting functions
+└── [subject]_report.txt               # Generated demonstration output
+```
+
+**Separation of Concerns Pattern:**
+- **Orchestration script** (`*_practice.py`): Workflow coordination, logging, main() function
+- **Computation module** (`*.py`): Pure functions, dataclasses, type hints, no I/O
+- **Reporter module** (`*_reporter.py`): Output formatting, string generation, display logic
+- **Generated report** (`*_report.txt`): Human-readable demonstration output
+
 **Key Utilities:**
 - `setup_logger()` - Configured logger with duplicate handler prevention and `propagate = False`
 - Use existing utilities instead of creating ad-hoc helpers
@@ -167,8 +187,16 @@ X.Y_Topic_Name/
 - **All scripts should use** the centralized `setup_logger()` function from utils
 - **When adding new utilities**, export them through `utils/__init__.py`
 - **Follow existing error handling patterns** seen in `pull_data.py`
-- **Use type hints** as demonstrated in the logger module
+- **Use type hints** as demonstrated in the logger module and Factor Analysis computational functions
 - **Always use the project's virtual environment** for consistency
+
+### Practice Code Architecture (Undergraduate Focus)
+- **Keep it simple**: Priority is understanding statistical concepts, not software engineering
+- **Clean separation**: Computation, reporting, and orchestration in separate modules
+- **Type hints for learning**: Use dataclasses and type annotations to make data flow clear
+- **Pure functions**: Computational modules should have no side effects or I/O
+- **Self-documenting**: Each function includes docstrings with Args/Returns
+- **Avoid overengineering**: No complex abstractions - direct, readable implementations
 
 ### Lesson Development
 - **Use standardized structure** for all new lessons (lesson/, practice/, notes/)
@@ -258,7 +286,25 @@ X_Chapter_Name/
 **Implementation Guidelines:**
 - **Chapter README structure**: Follow Factor Analysis README as template (learning objectives, structure outline, prerequisites, key concepts, mathematical notation)
 - **Unified presentation**: Single Beamer file with clear section breaks for each subtopic
-- **Independent subtopics**: Each practice folder should work standalone
+- **Independent subtopics**: Each practice folder should work standalone with clean modular structure
 - **Embedded documentation**: Practice scripts contain purpose, workflow sections, and usage examples
 - **Consistent naming**: Always use `X.Y_descriptive_name` pattern
 - **Minimal redundancy**: Subtopic READMEs should only contain essential usage info
+
+**Practice Implementation Pattern:**
+1. **Create orchestration script** (`[subtopic]_practice.py`):
+   - Import from local computation and reporter modules
+   - Use centralized logger from utils
+   - Coordinate workflow: data → computation → formatting → output
+   - Write human-readable report to `*_report.txt`
+
+2. **Create computation module** (`[subject].py`):
+   - Define dataclasses for structured results
+   - Write pure functions with clear type hints
+   - No I/O operations or side effects
+   - Focus on statistical/mathematical operations
+
+3. **Create reporter module** (`[subject]_reporter.py`):
+   - Functions that take computation results and return formatted strings
+   - Handle all output formatting and display logic
+   - Clear section headers and educational explanations
