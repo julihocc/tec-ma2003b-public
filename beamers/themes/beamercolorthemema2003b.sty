@@ -1,16 +1,13 @@
 % MA2003B Color Theme
 % Based on Tec de Monterrey brand colors
+% Uses shared color definitions from ma2003b-colors.sty
 
 \mode<presentation>
 
-% Tec de Monterrey brand colors
-\definecolor{tecblue}{RGB}{0, 88, 170}      % Primary blue
-\definecolor{tecgray}{RGB}{102, 102, 102}   % Secondary gray
-\definecolor{tecgreen}{RGB}{0, 120, 74}     % Accent green
-\definecolor{tecorange}{RGB}{255, 122, 0}   % Accent orange
-\definecolor{teclightblue}{RGB}{173, 216, 230} % Light blue for backgrounds
+% Load shared color definitions
+\RequirePackage{ma2003b-colors}
 
-% Additional academic colors
+% Additional academic colors (specific to beamer)
 \definecolor{darkred}{RGB}{139, 0, 0}
 \definecolor{darkgreen}{RGB}{0, 100, 0}
 
@@ -54,11 +51,11 @@
 \setbeamercolor{section in toc}{fg=tecblue}
 \setbeamercolor{subsection in toc}{fg=tecgray}
 
-% Section pages with high contrast
+% Section pages with lighter blue background  
 \setbeamercolor{section page}{bg=tecblue}
 \setbeamercolor{section title}{fg=white, bg=tecblue}
-\setbeamercolor{section title box}{fg=white, bg=black!80}
-\setbeamercolor{subsection title}{fg=white, bg=tecorange!80}
+\setbeamercolor{section title box}{fg=white, bg=tecblue!70}
+\setbeamercolor{subsection title}{fg=white, bg=tecblue!50}
 
 % Bibliography
 \setbeamercolor{bibliography entry author}{fg=tecblue}

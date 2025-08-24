@@ -4,8 +4,8 @@
 
 \mode<presentation>
 
-% Base theme
-\usetheme{metropolis}
+% Base theme - disable automatic section pages
+\usetheme[sectionpage=none]{metropolis}
 \usecolortheme{default}
 \usefonttheme{structurebold}
 
@@ -15,11 +15,8 @@
 % Number captions
 \setbeamertemplate{caption}[numbered]
 
-% Color definitions for Tec de Monterrey branding
-\definecolor{tecblue}{RGB}{0, 88, 170}
-\definecolor{tecgray}{RGB}{102, 102, 102}
-\definecolor{tecgreen}{RGB}{0, 120, 74}
-\definecolor{tecorange}{RGB}{255, 122, 0}
+% Load shared color definitions
+\RequirePackage{ma2003b-colors}
 
 % Set theme colors
 \setbeamercolor{frametitle}{bg=tecblue, fg=white}
@@ -104,7 +101,7 @@
 
 % Footer fonts
 \setbeamerfont{author in head/foot}{series=\mdseries, size=\scriptsize}
-\setbeamerfont{title in head/foot}{series=\bfseries, size=\small}
+\setbeamerfont{title in head/foot}{series=\mdseries, size=\small}
 \setbeamerfont{date in head/foot}{series=\mdseries, size=\scriptsize}
 
 \setbeamertemplate{footline}
@@ -128,9 +125,9 @@
 \setbeamertemplate{section in toc}[sections numbered]
 \setbeamertemplate{subsection in toc}[subsections numbered]
 
-% Section page customization with high contrast
+% Section page customization with lighter blue background
 \setbeamercolor{section title}{fg=white, bg=tecblue}
-\setbeamercolor{section title box}{fg=white, bg=black!80}
+\setbeamercolor{section title box}{fg=white, bg=tecblue!70}
 \setbeamercolor{progress bar in section page}{fg=tecorange}
 \setbeamerfont{section title}{series=\bfseries, size=\Huge}
 
