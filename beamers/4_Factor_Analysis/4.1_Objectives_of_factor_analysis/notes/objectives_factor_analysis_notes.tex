@@ -1,5 +1,5 @@
 % Clean, self-contained Tufte-style notes for Topic 4.1: Objectives of Factor Analysis
-\documentclass[a4paper,11pt]{tufte-book}
+\documentclass[a4paper]{tufte-book}
 \usepackage[utf8]{inputenc}
 \usepackage{amsmath,amssymb,amsfonts}
 \usepackage{graphicx}
@@ -8,58 +8,85 @@
 \usepackage{xcolor}
 \usepackage{framed}
 \usepackage{listings}
+\usepackage{tcolorbox}
+\usepackage{titlesec}
+% Note: natbib is already loaded by tufte-book class
 
 % Tufte classes manage headers/footers; use title/author and tufte sidenotes
 
-% Custom environments
-\definecolor{notecolor}{RGB}{255,248,220}
-\definecolor{tipcolor}{RGB}{240,248,255}
-\definecolor{warningcolor}{RGB}{255,240,240}
-
-% Reuse MA2003B branding colors from the beamer theme
+% MA2003B branding colors from the beamer theme
 \definecolor{tecblue}{RGB}{0,88,170}
 \definecolor{tecorange}{RGB}{255,122,0}
+\definecolor{tecbluelight}{RGB}{230,240,250}
+\definecolor{tecorangelight}{RGB}{255,245,230}
 
-% Helper commands for colored note titles
-\newcommand{\noteTitle}[1]{\textcolor{tecblue}{\textbf{#1}}}
-\newcommand{\issueTitle}[1]{\textcolor{tecorange}{\textbf{#1}}}
+% Enhanced color commands for consistent styling
+\newcommand{\tecbluetext}[1]{\textcolor{tecblue}{\textbf{#1}}}
+\newcommand{\tecorangetext}[1]{\textcolor{tecorange}{\textbf{#1}}}
+\newcommand{\sectioncolor}[1]{\textcolor{tecblue}{#1}}
 
-\newenvironment{pedagogicalnote}{%
-  \begin{framed}
-  \noindent\noteTitle{Pedagogical Note:}\\
-}{%
-  \end{framed}
+% Section formatting with brand colors (but tufte-book may override these)
+\AtBeginDocument{
+  \titleformat{\section}{\Large\bfseries\color{tecblue}}{\thesection}{1em}{}
+  \titleformat{\subsection}{\large\bfseries\color{tecorange}}{\thesubsection}{1em}{}
 }
 
-\newenvironment{learningtip}{%
-  \begin{framed}
-  \noindent\noteTitle{Learning Tip:}\\
-}{%
-  \end{framed}
+% Modern colored environments using tcolorbox for better styling
+\newtcolorbox{pedagogicalnote}[1][]{
+  colback=tecbluelight,
+  colframe=tecblue,
+  coltitle=white,
+  colbacktitle=tecblue,
+  fonttitle=\bfseries,
+  title=Pedagogical Note,
+  rounded corners,
+  boxrule=1pt,
+  #1
 }
 
-\newenvironment{commonissue}{%
-    \begin{framed}
-    \noindent\issueTitle{Common Issue:}\\
-}{%
-    \end{framed}}
+\newtcolorbox{learningtip}[1][]{
+  colback=tecorangelight,
+  colframe=tecorange,
+  coltitle=white,
+  colbacktitle=tecorange,
+  fonttitle=\bfseries,
+  title=Learning Tip,
+  rounded corners,
+  boxrule=1pt,
+  #1
+}
 
-\title{Objectives of Factor Analysis\\\large Topic 4.1}
-\author{Dr. Juliho Castillo\\Tec de Monterrey}
+\newtcolorbox{commonissue}[1][]{
+  colback=tecorangelight,
+  colframe=tecorange,
+  coltitle=white,
+  colbacktitle=tecorange,
+  fonttitle=\bfseries,
+  title=Common Issue,
+  rounded corners,
+  boxrule=1pt,
+  #1
+}
+
+\title{Objectives of Factor Analysis}
+\author{Dr. Juliho Castillo}
 \date{\today}
 
 \begin{document}
-% Render a colored title block (avoid coloring the PDF metadata)
+% Enhanced title block with brand colors and better typography
 \begingroup
   \centering
-  {\Huge\textcolor{tecblue}{Objectives of Factor Analysis}}\\[0.5em]
-  {\large Topic 4.1}\\[1em]
-  {\normalsize Dr. Juliho Castillo\\Tec de Monterrey}\\[0.5em]
-  {\normalsize \today}
-\par\vspace{1em}\endgroup
+  {\Huge\tecbluetext{Objectives of Factor Analysis}}\\[0.8em]
+  {\Large\tecorangetext{Topic 4.1 - Multivariate Statistical Analysis}}\\[1.2em]
+  {\large Dr. Juliho Castillo}\\[0.3em]
+  {\normalsize\textsc{Tecnológico de Monterrey}}\\[0.8em]
+  {\small\textcolor{tecblue}{\today}}
+\par\vspace{2em}\endgroup
 
-% Preface: self-contained notes independent of slides
-These notes are a self-contained reading resource on the objectives and core ideas of factor analysis. They are written to be understandable without the accompanying slide deck.
+% Enhanced preface with color accents
+\noindent\tecbluetext{About These Notes:} These notes provide a \textit{self-contained} introduction to the objectives and core concepts of factor analysis. They are designed as standalone reading material that complements but does not require the accompanying lecture slides.
+
+\marginnote{\small\textcolor{tecorange}{\textbf{Quick Reference:} Factor analysis identifies latent variables that explain observed correlations among measured variables.}}
 
 \tableofcontents
 \newpage
@@ -68,13 +95,15 @@ These notes are a self-contained reading resource on the objectives and core ide
 
 \subsection{Learning Objectives}
 By the end of this document the reader should be able to:
-\begin{itemize}
-  \item Distinguish between factor analysis and PCA objectives
-  \item Identify when to use factor analysis versus other dimensionality reduction techniques
-  \item Interpret factor loadings and communalities in context
-  \item Apply factor analysis to real-world problems (psychology, marketing, etc.)
-  \item Explain the theoretical foundations behind factor analysis
-\end{itemize}
+\begin{enumerate}[leftmargin=*,itemsep=0.5em]
+  \item \tecbluetext{Distinguish} between factor analysis and PCA objectives
+  \item \tecbluetext{Identify} when to use factor analysis versus other dimensionality reduction techniques
+  \item \tecbluetext{Interpret} factor loadings and communalities in context
+  \item \tecbluetext{Apply} factor analysis to real-world problems (psychology, marketing, etc.)
+  \item \tecbluetext{Explain} the theoretical foundations behind factor analysis
+\end{enumerate}
+
+\marginnote{\small\textcolor{tecorange}{\textbf{Key Insight:} Factor analysis \textit{explains} correlations; PCA \textit{summarizes} variance.}}
 
 \subsection{Prerequisites}
 \begin{itemize}
@@ -90,48 +119,56 @@ This document contains conceptual explanations, short mathematical notes, practi
 \section{Introduction}
 
 \begin{pedagogicalnote}
-Start with a motivating question: ``Why do we need another dimensionality reduction technique when we already have PCA?'' Factor analysis addresses different goals than PCA.
+Start with a motivating question: ``Why do we need another dimensionality reduction technique when we already have PCA?'' 
+
+Factor analysis addresses fundamentally different goals than PCA. While PCA finds linear combinations that capture maximum variance, factor analysis seeks to \textit{explain} the correlations between variables through underlying latent constructs.
 \end{pedagogicalnote}
 
-Factor analysis aims to uncover latent variables (factors) that explain observed correlations among measured variables. PCA finds linear combinations that summarize variance but does not model measurement error explicitly.
+Factor analysis aims to uncover \textbf{latent variables} (factors) that explain observed correlations among measured variables. Unlike PCA, which finds linear combinations that summarize variance, factor analysis explicitly models measurement error and focuses on the \textit{common} variance shared among variables.
 
 \begin{learningtip}
-Think: PCA summarizes; Factor Analysis explains.
+Remember the key distinction: \tecbluetext{PCA summarizes}; \tecorangetext{Factor Analysis explains}.
 \end{learningtip}
 
 \section{Core Objectives}
 
 \subsection{Primary Objectives}
-\begin{itemize}
-  \item Dimensionality reduction while explaining common variance
-  \item Latent variable identification (discovering constructs that cause correlations)
-  \item Understanding data structure and grouping related variables
-\end{itemize}
+\begin{enumerate}[leftmargin=*,itemsep=0.8em]
+  \item \tecbluetext{Dimensionality reduction} while explaining common variance
+  \item \tecbluetext{Latent variable identification} — discovering constructs that cause correlations
+  \item \tecbluetext{Data structure understanding} — grouping related variables conceptually
+\end{enumerate}
+
+\marginnote{\small\textcolor{tecblue}{\textbf{Historical Note:} Factor analysis was developed by psychologists like Charles Spearman (1904) to understand intelligence testing.}}
 
 \subsection{Secondary Objectives}
-\begin{itemize}
-  \item Measurement purification: separating common signal from unique measurement error
-  \item Informing theory development and variable selection
-  \item Reducing multicollinearity for downstream models
-\end{itemize}
+\begin{enumerate}[leftmargin=*,itemsep=0.8em]
+  \item \tecorangetext{Measurement purification} — separating common signal from unique measurement error
+  \item \tecorangetext{Theory development} — informing construct validity and variable selection
+  \item \tecorangetext{Multicollinearity reduction} — preprocessing for downstream statistical models
+\end{enumerate}
 
 \section{Factor Analysis vs PCA}
 
-\subsection{Mathematical contrast}
+\subsection{Mathematical Contrast}
+The fundamental difference lies in their mathematical formulations:
+
 \begin{align*}
-  &\text{Factor model: } \mathbf{X} = \mathbf{\Lambda F} + \mathbf{\epsilon}\\
-  &\text{PCA model: } \mathbf{X} = \mathbf{PY}
+  \textcolor{tecblue}{\text{Factor model: }} &\textcolor{tecblue}{\mathbf{X} = \mathbf{\Lambda F} + \mathbf{\epsilon}}\\[0.5em]
+  \textcolor{tecorange}{\text{PCA model: }} &\textcolor{tecorange}{\mathbf{X} = \mathbf{PY}}
 \end{align*}
 
-Key differences:
-\begin{itemize}
-  \item FA models common and unique variance explicitly; PCA does not
-  \item FA factors are latent constructs with theoretical interpretation; PCA components are mathematical summaries
-  \item FA typically extracts fewer factors and focuses on common variance
-\end{itemize}
+\marginnote{\small\textcolor{tecblue}{\textbf{Notation:} $\mathbf{\Lambda}$ = factor loadings, $\mathbf{F}$ = factors, $\mathbf{\epsilon}$ = unique errors}}
+
+\subsection{Key Philosophical Differences}
+\begin{enumerate}[leftmargin=*,itemsep=0.8em]
+  \item \tecbluetext{Error modeling:} FA models common and unique variance explicitly; PCA does not separate measurement error
+  \item \tecbluetext{Interpretability:} FA factors represent latent constructs with theoretical meaning; PCA components are mathematical summaries
+  \item \tecbluetext{Parsimony:} FA typically extracts fewer factors, focusing on \textit{common} variance structure
+\end{enumerate}
 
 \begin{commonissue}
-Negative loadings are meaningful: they indicate inverse relationships between a variable and a factor.
+\textbf{Misconception Alert:} Negative factor loadings are \textit{meaningful} and indicate an inverse relationship between the variable and the underlying factor. Don't avoid or fear negative loadings—they provide important theoretical insights!
 \end{commonissue}
 
 \section{Applications}
@@ -188,7 +225,7 @@ A psychologist administers six tests (Math, Logic, Spatial, Reading, Writing, Vo
 \end{enumerate}
 
 \section{Implementation notes}
-The repository includes a practice script \verb|objectives_factor_analysis_practice.py| which:
+The repository includes a practice script \url{objectives_factor_analysis_practice.py} which:
 \begin{itemize}
   \item Generates example data
   \item Runs correlation analysis, PCA, and Factor Analysis
@@ -216,11 +253,19 @@ python objectives_factor_analysis_practice.py
 \end{itemize}
 
 \section{Further Reading}
-\begin{itemize}
-  \item Tabachnick \& Fidell: "Using Multivariate Statistics"
-  \item Field: "Discovering Statistics with SPSS"
-  \item Thompson: "Exploratory and Confirmatory Factor Analysis"
-\end{itemize}
+\begin{thebibliography}{9}
+\bibitem{Tabachnick2007}
+Tabachnick, B.~G. and Fidell, L.~S. (2007).
+Using Multivariate Statistics.
+
+\bibitem{Field2018}
+Field, A. (2018).
+Discovering Statistics with SPSS.
+
+\bibitem{Thompson2004}
+Thompson, B. (2004).
+Exploratory and Confirmatory Factor Analysis.
+\end{thebibliography}
 
 \section{Online resources}
 \begin{itemize}
