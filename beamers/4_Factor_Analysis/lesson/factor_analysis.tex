@@ -167,6 +167,19 @@
     \end{itemize}
 \end{frame}
 
+% --- Isolated R scripts: PCA ---
+\begin{frame}[fragile]
+    \frametitle{R script: PCA (princomp)}
+    \begin{verbatim}
+# Example: PCA with princomp (copy into R)
+pc <- princomp(~ var1 + var2 + var3 + var4 + var5, data = mydata, cor = TRUE)
+summary(pc)               # variance explained
+print(pc$loadings)        # loadings (eigenvectors)
+screeplot(pc, type = "lines")
+biplot(pc)
+    \end{verbatim}
+\end{frame}
+
 \begin{frame}
     \frametitle{PCA Example: Investments}
     \begin{itemize}
@@ -267,6 +280,23 @@
     \end{itemize}
 \end{frame}
 
+% --- Isolated R scripts: Factor Analysis (exploratory) ---
+\begin{frame}[fragile]
+    \frametitle{R script: Exploratory Factor Analysis (factanal)}
+    \begin{verbatim}
+# Exploratory FA with factanal
+fa <- factanal(~ CalFat + Cal + Fat + SatFat + Protein + Sodium + Carbs,
+               factors = 2, rotation = "varimax", data = mydata)
+print(fa)
+print(fa$loadings)
+
+# If you want to compare rotations:
+fa_promax <- factanal(~ CalFat + Cal + Fat + SatFat + Protein + Sodium + Carbs,
+                      factors = 2, rotation = "promax", data = mydata)
+print(fa_promax$loadings)
+    \end{verbatim}
+\end{frame}
+
 \begin{frame}
     \frametitle{FA: Interpretation}
     \begin{itemize}
@@ -315,6 +345,22 @@
     \end{itemize}
 \end{frame}
 
+    % --- Isolated R scripts: CFA (lavaan) ---
+    \begin{frame}[fragile]
+            \frametitle{R script: Confirmatory Factor Analysis (lavaan)}
+            \begin{verbatim}
+    # CFA with lavaan (copy into R)
+    library(lavaan)
+    model <- '
+        meat =~ CalFat + Cal + Fat + SatFat + Protein
+        added =~ Sodium + Carbs
+    '
+    fit <- cfa(model, data = mydata)
+    summary(fit, fit.measures = TRUE)
+    parameterEstimates(fit)
+            \end{verbatim}
+    \end{frame}
+
 \section{Path Analysis}
 
 \begin{frame}
@@ -362,6 +408,24 @@
         \item Package: \code{lavaan} (function \code{cfa()} or \code{sem()}). Visualization via \code{semPlot::semPaths()}.
         \item Model specification uses \texttt{=\~} for latent variables and \texttt{~} for regression relationships.
     \end{itemize}
+\end{frame}
+
+% --- Isolated R scripts: Path analysis / SEM ---
+\begin{frame}[fragile]
+        \frametitle{R script: Path Analysis / SEM (lavaan + semPlot)}
+        \begin{verbatim}
+# Path / SEM example with lavaan and semPlot
+library(lavaan)
+library(semPlot)
+model <- '
+    engine =~ hp + cyl + disp + carb
+    drive_train =~ gear + drat + am
+    mpg ~ engine + drive_train
+'
+fit <- sem(model, data = mydata)
+summary(fit, fit.measures = TRUE)
+semPaths(fit, "std", layout = "tree")
+        \end{verbatim}
 \end{frame}
 
 \begin{frame}
@@ -431,6 +495,44 @@
     \begin{itemize}
         \item \textbf{R Implementation}: \code{lavaan} package, using \code{sem()} function.
     \end{itemize}
+\end{frame}
+
+% --- Isolated R scripts: Latent Growth Model (LGM) ---
+\begin{frame}[fragile]
+    \frametitle{R script: Latent Growth Model (lavaan)}
+    \begin{verbatim}
+# LGM / growth model with lavaan
+library(lavaan)
+lgm <- '
+  # intercept and slope factors
+  i =~ 1*y1 + 1*y2 + 1*y3
+  s =~ 0*y1 + 1*y2 + 2*y3
+  # means for manifest variables
+  y1 ~ 1
+  y2 ~ 1
+  y3 ~ 1
+'
+fit_lgm <- growth(lgm, data = mydata)
+summary(fit_lgm, fit.measures = TRUE)
+    \end{verbatim}
+\end{frame}
+
+% --- Isolated R scripts: small helpers ---
+\begin{frame}[fragile]
+    \frametitle{R script: Small helpers and snippets}
+    \begin{verbatim}
+# Install required packages (run once)
+install.packages(c("lavaan", "semPlot", "psych", "MASS"))
+
+# Extracting PCA loadings and scores
+# pc is from princomp() above
+loadings <- pc$loadings
+scores <- pc$scores
+
+# Basic diagnostics for factanal
+print(fa$uniquenesses)   # uniquenesses
+print(fa$communalities)  # if computed
+    \end{verbatim}
 \end{frame}
 
 \begin{frame}
