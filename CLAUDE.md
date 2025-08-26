@@ -24,27 +24,30 @@ pip install -e .
 .venv/bin/python -m pytest -q
 ```
 
-**Run practice scripts:**
+**Run practice scripts (when implemented):**
 ```bash
-# Single subtopic practice script
+# Single subtopic practice script (template - folders don't exist yet)
 cd beamers/4_Factor_Analysis/practice/4.1_objectives
 python objectives_factor_analysis_practice.py
 
-# All subtopics in a chapter
+# All subtopics in a chapter (template - folders don't exist yet)
 for dir in beamers/4_Factor_Analysis/practice/4.*/; do
   cd "$dir" && python *_practice.py && cd - > /dev/null
 done
 
-# Alternative execution from repo root (recommended)
+# Alternative execution from repo root (recommended when implemented)
 .venv/bin/python beamers/4_Factor_Analysis/practice/4.1_objectives/objectives_factor_analysis_practice.py
 
-# All subtopics using repo root execution
+# All subtopics using repo root execution (template)
 for f in beamers/4_Factor_Analysis/practice/*/*_practice.py; do
   echo "--- running $f ---"
   .venv/bin/python "$f" || break
 done
+```
 
-# Compile chapter presentation
+**Compile presentations:**
+```bash
+# Factor analysis presentation (available)
 cd beamers/4_Factor_Analysis/lesson
 pdflatex factor_analysis.tex
 ```
@@ -59,8 +62,9 @@ pdflatex factor_analysis.tex
 
 **Course Materials:**
 - `beamers/4_Factor_Analysis/` - Factor analysis exercises and materials (6 topics, current structure)
-  - Uses `practice/4.X_topic/` folder organization for exercise scripts
-  - Contains centralized `lesson/` folder with presentation materials
+  - Contains centralized `lesson/` folder with compiled presentation materials
+  - Practice folders (`practice/4.X_topic/`) planned but not yet implemented
+  - Chapter README provides comprehensive learning guide
 - Former `beamers/1_Regression_Analysis/` and `beamers/5_Discriminant_Analysis/` chapters have been removed in current working branch
 
 **Utilities:**
@@ -74,9 +78,32 @@ pdflatex factor_analysis.tex
 
 **Documentation:**
 - `documentation/` - Course planning documents including hour allocation tables  
-- `.github/copilot-instructions.md` - AI coding assistant instructions (contains some outdated paths)
+- `.github/copilot-instructions.md` - AI coding assistant instructions (contains outdated paths from previous structure)
 - `.claude/backup/conversations/` - Claude Code conversation exports for development history
-- `beamers/themes/` - LaTeX Beamer themes and styling for presentations
+- `beamers/themes/` - LaTeX Beamer themes and styling for presentations (`ma2003b` custom theme)
+- `factor_analysis_report.txt` - Generated report artifact at repo root
+
+## Key Architecture Insights
+
+**Package Structure:** The repository is configured as an editable Python package (`ma2003b-course`) with `utils` as a proper Python package. This allows practice scripts to import shared functionality using `from utils import setup_logger`.
+
+**Centralized Logging Pattern:** All scripts use the `setup_logger()` utility from `utils/logger.py`. This logger:
+- Prevents handler duplication through existing handler checks
+- Sets `propagate = False` to avoid duplicate messages
+- Supports both console and file logging
+- Provides consistent formatting across all scripts
+
+**Chapter-level Consolidation Model:** Unlike traditional per-topic folders, Factor Analysis uses:
+- Single comprehensive README at chapter level
+- Single consolidated presentation covering all 6 subtopics
+- Modular practice exercises (planned but not implemented yet)
+- Clear separation between lesson materials and hands-on exercises
+
+**Data Management:** The `scripts/pull_data.py` implements a robust data synchronization pattern:
+- Environment variable override support (`MA2003B_ORIGIN_PATH`)
+- Safety checks to prevent recursive copying
+- Comprehensive error handling and logging
+- Dry-run capability for testing
 
 ## Development Conventions
 
@@ -215,11 +242,11 @@ X.Y_subtopic_name/
 
 ## Current Repository State
 
-**Active Content (improving-design branch):**
+**Active Content (analisis-por-factores branch):**
 - ✅ **Chapter 4**: Factor Analysis (6 topics, using chapter-level organization)
   - Topics: 4.1 Objectives, 4.2 Equations, 4.3 Number of Factors, 4.4 Rotation, 4.5 Oblique Rotation, 4.6 Software
-  - Structure: Central `lesson/` folder + `practice/4.X_topic/` subfolders
-  - Status: Partially implemented practice scripts
+  - Structure: Central `lesson/` folder with compiled presentation, practice folders need implementation
+  - Status: Presentation materials complete, practice scripts not yet implemented
 
 **Removed Content (staged for deletion):**
 - ❌ **Chapter 1**: Regression Analysis (5 topics) - removed from current branch
@@ -232,8 +259,8 @@ X.Y_subtopic_name/
 - Chapter 7: Multivariate Regression
 
 **Current Priorities:**
-1. Complete Factor Analysis practice implementations (4.5_oblique_rotation missing)
-2. Test all existing practice scripts for functionality
+1. Create Factor Analysis practice implementations (practice folders don't exist yet - need all 6 subtopics)
+2. Test all practice scripts for functionality once implemented
 3. Apply this organizational pattern to future chapters
 4. Validate the chapter-level consolidation approach before expanding
 
