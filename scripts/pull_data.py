@@ -7,6 +7,18 @@ from typing import Optional
 from utils import setup_logger
 
 
+# Load environment variables from .env file if it exists
+def load_dotenv(dotenv_path: str = ".env") -> None:
+    """Load environment variables from a .env file"""
+    if os.path.exists(dotenv_path):
+        with open(dotenv_path, "r") as f:
+            for line in f:
+                line = line.strip()
+                if line and not line.startswith("#") and "=" in line:
+                    key, value = line.split("=", 1)
+                    os.environ[key.strip()] = value.strip()
+
+
 def copy_tree(origin: str, backup: str, dry_run: bool = False) -> None:
     logger = setup_logger("pull_data")
     logger.info(f"Origin: {origin}")
@@ -49,6 +61,9 @@ def copy_tree(origin: str, backup: str, dry_run: bool = False) -> None:
 
 
 def main(argv: Optional[list[str]] = None) -> int:
+    # Load environment variables from .env file
+    load_dotenv()
+
     parser = argparse.ArgumentParser(
         description="Pull course files from a source folder into repo backup"
     )
