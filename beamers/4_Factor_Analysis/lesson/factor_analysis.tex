@@ -31,8 +31,26 @@
     \frametitle{What are Factor Methods?}
     \begin{itemize}
         \item Deal with data where multiple variables are collected.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Why use Factor Methods?}
+    \begin{itemize}
         \item Goal: \alert{Data reduction} or \alert{structural simplification}.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Latent Structures}
+    \begin{itemize}
         \item Identify underlying (latent) structures within complex multivariate datasets.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{When to apply them}
+    \begin{itemize}
         \item Useful when variables are highly correlated, suggesting they measure common unobserved concepts.
     \end{itemize}
 \end{frame}
@@ -40,80 +58,168 @@
 \section{Principal Component Analysis (PCA)}
 
 \begin{frame}
-    \frametitle{Principal Component Analysis (PCA)}
-    \framesubtitle{Concept and Goal}
+    \frametitle{PCA: Concept}
     \begin{itemize}
         \item A technique to transform a large set of correlated variables into a smaller set of uncorrelated variables called \alert{principal components}.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{PCA: Components}
+    \begin{itemize}
         \item Each principal component is a linear combination of the original variables.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{PCA: Variance}
+    \begin{itemize}
         \item The first principal component accounts for the largest possible variance in the data.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{PCA: Orthogonality}
+    \begin{itemize}
         \item Subsequent components account for decreasing amounts of variance and are \alert{orthogonal} to the preceding components.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{PCA: Goal}
+    \begin{itemize}
         \item Goal: To capture as much variance as possible with as few components as possible, thereby reducing dimensionality.
     \end{itemize}
 \end{frame}
 
 \begin{frame}
-    \frametitle{Principal Component Analysis (PCA)}
-    \framesubtitle{Mathematical Basis and Interpretation}
+    \frametitle{PCA: Mathematical Basis}
     \begin{itemize}
-        \item \textbf{Mathematical Basis}: Involves finding the \alert{eigenvalues} and \alert{eigenvectors} of the covariance (or correlation) matrix $\mathbf{S}$ of the data.
-            \begin{itemize}
-                \item Eigenvalues ($\lambda_i$): Represent the variance explained by each principal component.
-                \item Eigenvectors: Define the directions (loadings) of the principal components in the original variable space.
-            \end{itemize}
-        \item \textbf{Loadings}: Coefficients $w_{ij}$ indicating the contribution of each original variable to a principal component. Largest absolute loadings are most important for interpretation.
-        \item \textbf{Variance Explained}: The proportion of total variance accounted for by each component (eigenvalue / sum of all eigenvalues).
+        \item Involves finding the \alert{eigenvalues} and \alert{eigenvectors} of the covariance (or correlation) matrix $\mathbf{S}$ of the data.
     \end{itemize}
 \end{frame}
 
 \begin{frame}
-    \frametitle{Principal Component Analysis (PCA)}
-    \framesubtitle{Visualizations and \R Implementation}
+    \frametitle{PCA: Eigen-quantities}
     \begin{itemize}
-        \item \textbf{Scree Plot}: Plots ordered eigenvalues ($\lambda_1 \ge \lambda_2 \ge \dots \ge \lambda_p$) to visually assess the number of important components. Look for an "elbow" in the plot.
-        \item \textbf{Biplot}: Displays both observations and variable loadings in a low-dimensional space (usually the first two principal components). Arrows indicate variable directions; points represent observations.
-        \item \textbf{\R Implementation}:
-            \begin{itemize}
-        	\item Function: \code{princomp()}
-            \item Output: \code{summary()} for variance explained, \code{pc\$loadings} for eigenvectors, \code{screeplot()}, \code{biplot()}.
-            \end{itemize}
+        \item Eigenvalues ($\lambda_i$) represent the variance explained by each principal component.
+        \item Eigenvectors define the directions (loadings) of the principal components in the original variable space.
     \end{itemize}
 \end{frame}
 
 \begin{frame}
-    \frametitle{PCA Examples}
-    \framesubtitle{Investment Allocations, Kuiper Belt Objects, US Hospitals}
+    \frametitle{PCA: Loadings}
     \begin{itemize}
-        \item \textbf{Investment Allocations}: Reduce 8 investment categories to fewer components. First PC might capture difference between US stocks and alternative investments.
-        \item \textbf{Kuiper Belt Objects}: Characterize these celestial bodies (e.g., Pluto's reclassification).
-        \item \textbf{Health Outcomes in US Hospitals}: Simplify multiple health metrics.
-        \item PCA helps to find simpler, interpretable dimensions in complex datasets, providing insights into underlying structures.
+        \item Loadings: Coefficients $w_{ij}$ indicating the contribution of each original variable to a principal component. Largest absolute loadings are most important for interpretation.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{PCA: Variance Explained}
+    \begin{itemize}
+        \item The proportion of total variance accounted for by each component (eigenvalue / sum of all eigenvalues).
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Scree Plot}
+    \begin{itemize}
+        \item Plots ordered eigenvalues ($\lambda_1 \ge \lambda_2 \ge \dots \ge \lambda_p$) to visually assess the number of important components. Look for an "elbow" in the plot.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Biplot}
+    \begin{itemize}
+        \item Displays both observations and variable loadings in a low-dimensional space (usually the first two principal components). Arrows indicate variable directions; points represent observations.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{R: PCA Implementation}
+    \begin{itemize}
+        \item Function: \code{princomp()}
+        \item Output: \code{summary()} for variance explained, \texttt{pc\_loadings} (or \code{pc\$loadings}) for eigenvectors, \code{screeplot()}, \code{biplot()}.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{PCA Example: Investments}
+    \begin{itemize}
+        \item Reduce 8 investment categories to fewer components. First PC might capture difference between US stocks and alternative investments.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{PCA Example: Kuiper Belt}
+    \begin{itemize}
+        \item Characterize Kuiper Belt objects (e.g., Pluto's reclassification) via lower-dimensional summaries.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{PCA Example: Health Outcomes}
+    \begin{itemize}
+        \item Simplify multiple health metrics in hospitals to a few interpretable components.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{PCA: Takeaway}
+    \begin{itemize}
+        \item PCA finds simpler, interpretable dimensions in complex datasets, providing insights into underlying structures.
     \end{itemize}
 \end{frame}
 
 \section{Factor Analysis}
 
 \begin{frame}
-    \frametitle{Factor Analysis}
-    \framesubtitle{Distinction from PCA and Concept}
+    \frametitle{Factor Analysis: Key idea}
     \begin{itemize}
-        \item While similar to PCA in aim (dimensionality reduction), Factor Analysis explicitly posits \alert{latent variables} (factors) that cause the observed correlations among variables.
+        \item Factor Analysis explicitly posits \alert{latent variables} (factors) that cause the observed correlations among variables.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{FA vs PCA}
+    \begin{itemize}
         \item PCA is a data transformation technique; Factor Analysis is a statistical model that explains observed variance using common factors and unique variances.
-        \item \textbf{Concept}: Each observed variable is a linear combination of one or more common factors (shared variance) and a unique factor (specific variance and error).
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{FA: Concept}
+    \begin{itemize}
+        \item Each observed variable is a linear combination of one or more common factors (shared variance) and a unique factor (specific variance and error).
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{FA: Goal}
+    \begin{itemize}
         \item Goal: Identify these latent factors and quantify their influence on the observed variables.
     \end{itemize}
 \end{frame}
 
 \begin{frame}
-    \frametitle{Factor Analysis}
-    \framesubtitle{Rotation and \R Implementation}
+    \frametitle{Factor Rotation}
     \begin{itemize}
-        \item \textbf{Factor Rotation}: A crucial step to improve interpretability of factor loadings. Rotations (e.g., Varimax, Promax) aim to achieve "simple structure" where each variable loads highly on only one factor and near zero on others.
-        \item \textbf{\R Implementation}:
-            \begin{itemize}
-                \item Function: \code{factanal()}
-                \item Requires specifying the number of factors.
-                \item Example: Hamburger nutritional data (Calories, Fat, Sodium, etc.) might reveal factors like "Meat Content" and "Added Ingredients" (e.g., from bun/sauce).
-            \end{itemize}
+        \item A crucial step to improve interpretability of factor loadings. Rotations (e.g., Varimax, Promax) aim to achieve "simple structure" where each variable loads highly on only one factor and near zero on others.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{FA: R Implementation}
+    \begin{itemize}
+        \item Function: \code{factanal()}
+        \item Requires specifying the number of factors.
+        \item Example: Hamburger nutritional data (Calories, Fat, Sodium, etc.) might reveal factors like "Meat Content" and "Added Ingredients".
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{FA: Interpretation}
+    \begin{itemize}
         \item Interpretation often involves a blend of statistical output and domain-specific knowledge.
     \end{itemize}
 \end{frame}
@@ -152,72 +258,132 @@
 \section{Path Analysis}
 
 \begin{frame}
-    \frametitle{Path Analysis}
-    \framesubtitle{Concept and Model}
+    \frametitle{Path Analysis: Purpose}
     \begin{itemize}
         \item A multivariate statistical technique used to evaluate \alert{causal models} by examining the relationships between observed and latent variables.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Path Analysis: Directed relations}
+    \begin{itemize}
         \item Focuses on directed relationships (causal paths) among variables.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Path Analysis: Latent variables}
+    \begin{itemize}
         \item Can include both observed and \alert{latent variables} (which are themselves defined by observed indicators).
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Path Diagrams}
+    \begin{itemize}
         \item Model structure is visually represented by a \alert{path diagram}, showing arrows for directed effects and double-headed arrows for covariances.
     \end{itemize}
 \end{frame}
 
 \begin{frame}
-    \frametitle{Path Analysis}
-    \framesubtitle{\R Implementation and Example}
+    \frametitle{Path Analysis: R tools}
     \begin{itemize}
-        \item \textbf{\R Implementation}:
-            \begin{itemize}
-                \item Package: \code{lavaan} (function \code{cfa()} or \code{sem()})
-                \item Visualization: \code{semPlot::semPaths()} to draw path diagrams.
-                \item Model specification uses \code{`=~`} for latent variables and \code{`~`} for regression relationships.
-            \end{itemize}
-        \item \textbf{Example: Car Data}
-            \begin{itemize}
-                \item Latent variables: \code{engine} (hp, cyl, disp, carb) and \code{drive\_train} (gear, drat, am).
-                \item These latent variables predict empirical measures like miles per gallon (\code{mpg}), weight (\code{wt}), and quarter-mile time (\code{qsec}).
-                \item Path diagrams offer a clear way to convey complex structural relationships.
-            \end{itemize}
-    \end{itemize}
-\end{frame}
-
-\section{Structural Equation Models (SEM) \& Latent Growth Models (LGM)}
-
-\begin{frame}
-    \frametitle{Structural Equation Models (SEM)}
-    \framesubtitle{A General Framework}
-    \begin{itemize}
-        \item SEM is a powerful, comprehensive statistical methodology that combines and extends factor analysis and path analysis.
-        \item It allows for the simultaneous estimation of measurement models (how latent variables are measured by observed variables) and structural models (how latent and observed variables relate to each other).
-        \item Can model complex relationships, including indirect effects, mediation, and moderation.
-        \item \textbf{\R Implementation}: \code{lavaan} package, using \code{sem()} function.
+        \item Package: \code{lavaan} (function \code{cfa()} or \code{sem()}). Visualization via \code{semPlot::semPaths()}.
+        \item Model specification uses \texttt{=\~} for latent variables and \texttt{~} for regression relationships.
     \end{itemize}
 \end{frame}
 
 \begin{frame}
-    \frametitle{Latent Growth Models (LGM)}
-    \framesubtitle{Modeling Change Over Time}
+    \frametitle{Path Example: Car data}
     \begin{itemize}
-        \item A special type of SEM used for analyzing \alert{longitudinal data} (repeated measurements over time).
-        \item Models individual trajectories of change using latent variables for initial status (intercept) and rate of change (slope).
-        \item Allows investigating factors that predict individual differences in growth trajectories.
-        \item \textbf{\R Implementation}: \code{lavaan} package, using \code{growth()} function.
-        \item \textbf{Example: Home Price Index Data}
-            \begin{itemize}
-                \item Modeling trends in home prices for different cities over time (e.g., pre-2007 bubble, post-2007 decline).
-                \item Latent slopes and intercepts can be influenced by demographic variables (e.g., population growth).
-            \end{itemize}
+        \item Latent variables: \texttt{engine} (hp, cyl, disp, carb) and \texttt{drive\_train} (gear, drat, am).
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Path Example: Predictions}
+    \begin{itemize}
+        \item These latent variables predict empirical measures like miles per gallon (\texttt{mpg}), weight (\texttt{wt}), and quarter-mile time (\texttt{qsec}).
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Path Example: Visualisation}
+    \begin{itemize}
+        \item Path diagrams offer a clear way to convey complex structural relationships.
+    \end{itemize}
+\end{frame}
+
+\section{SEM and LGM}
+
+\begin{frame}
+    \frametitle{SEM: Overview}
+    \begin{itemize}
+        \item SEM combines and extends factor analysis and path analysis.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{SEM: Measurement \& Structural}
+    \begin{itemize}
+        \item Simultaneously estimate measurement models (how latent variables are measured) and structural models (relationships between variables).
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{SEM: Features}
+    \begin{itemize}
+        \item Can model complex relationships: indirect effects, mediation, moderation.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{SEM: R Implementation}
+    \begin{itemize}
+        \item \textbf{R Implementation}: \code{lavaan} package, using \code{sem()} function.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{LGM: Purpose}
+    \begin{itemize}
+        \item Latent Growth Models analyze longitudinal data by modeling individual trajectories (intercept and slope latent variables).
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{LGM: Applications}
+    \begin{itemize}
+        \item Example: Modeling home price index trends across cities; latent slopes/intercepts can be influenced by demographics.
     \end{itemize}
 \end{frame}
 
 \section{Conclusion}
 
 \begin{frame}
-    \frametitle{Key Takeaways}
+    \frametitle{Key Takeaway 1}
     \begin{itemize}
         \item Factor methods (PCA, Factor Analysis, CFA, Path Analysis, SEM/LGM) are essential tools for understanding complex multivariate data.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Key Takeaway 2}
+    \begin{itemize}
         \item They help in \alert{data reduction}, uncovering \alert{latent structures}, and \alert{testing theoretical models}.
-        \item The choice of method depends on the research question and the extent of prior knowledge about the relationships between variables (exploratory vs. confirmatory).
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Key Takeaway 3}
+    \begin{itemize}
+        \item The choice of method depends on the research question and the extent of prior knowledge (exploratory vs. confirmatory).
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Tools}
+    \begin{itemize}
         \item \code{R} packages like \code{stats}, \code{MVA}, \code{lavaan}, and \code{semPlot} provide robust functionalities for implementing these methods.
     \end{itemize}
 \end{frame}
