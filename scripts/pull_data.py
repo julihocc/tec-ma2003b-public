@@ -73,6 +73,10 @@ def main(argv: Optional[list[str]] = None) -> int:
     origin = args.origin or default_origin
     logger.info(f"Using origin: {origin}")
 
+    if origin is None:
+        logger.error("No origin path provided via --origin or MA2003B_ORIGIN_PATH")
+        return 2
+
     if not os.path.exists(origin):
         logger.error(f"Origin path does not exist: {origin}")
         return 2
