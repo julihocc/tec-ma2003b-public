@@ -55,7 +55,7 @@
     \end{itemize}
 \end{frame}
 
-\section{Principal Component Analysis (PCA)}
+\section{Principal Component Analysis}
 
 \begin{frame}
     \frametitle{PCA: Concept}
@@ -150,6 +150,8 @@
     \end{itemize}
 \end{frame}
 
+\section{Example 1: Investment Allocations}
+
 \begin{frame}
     \frametitle{PCA Example: Kuiper Belt}
     \begin{itemize}
@@ -157,12 +159,16 @@
     \end{itemize}
 \end{frame}
 
+\section{Example 2: Kuiper Belt Objects}
+
 \begin{frame}
     \frametitle{PCA Example: Health Outcomes}
     \begin{itemize}
         \item Simplify multiple health metrics in hospitals to a few interpretable components.
     \end{itemize}
 \end{frame}
+
+\section{Example 3: Health Outcomes in US Hospitals}
 
 \begin{frame}
     \frametitle{PCA: Takeaway}
@@ -224,7 +230,7 @@
     \end{itemize}
 \end{frame}
 
-\section{Confirmatory Factor Analysis (CFA)}
+\section{Confirmatory Factor Analysis}
 
 \begin{frame}
     \frametitle{Confirmatory Factor Analysis (CFA)}
@@ -314,8 +320,7 @@
     \end{itemize}
 \end{frame}
 
-\section{SEM and LGM}
-
+\section{Structural Equations and Latent Growth Modeling}
 \begin{frame}
     \frametitle{SEM: Overview}
     \begin{itemize}
@@ -386,6 +391,19 @@
     \begin{itemize}
         \item \code{R} packages like \code{stats}, \code{MVA}, \code{lavaan}, and \code{semPlot} provide robust functionalities for implementing these methods.
     \end{itemize}
+\end{frame}
+\section{Exercises}
+
+\begin{frame}
+    \frametitle{Exercises}
+    \begin{enumerate}
+        \item Apply PCA to the investment allocation dataset: compute PCs, plot a scree, and interpret the first two components.
+        \item Repeat PCA for the Kuiper Belt objects dataset and discuss which physical attributes group together.
+        \item Use PCA on hospital health outcomes data to derive a compact health-index and compare facility rankings.
+        \item Fit an exploratory Factor Analysis on a psychology-style dataset, experiment with rotations (Varimax, Promax) and interpret factors.
+        \item Specify and fit a CFA using \code{lavaan} for a hypothesized measurement model; report fit statistics and modifications.
+        \item Build a simple path model (or SEM) combining measurement and structural parts; visualize with \code{semPlot}.
+    \end{enumerate}
 \end{frame}
 
 \section*{References}
