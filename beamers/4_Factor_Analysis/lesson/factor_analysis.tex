@@ -115,6 +115,30 @@
 \end{frame}
 
 \begin{frame}
+    \frametitle{PCA: Mathematical formulation}
+    \begin{itemize}
+        \item Let $\mathbf{X}$ be the $n\times p$ data matrix (centered). The sample covariance matrix is $\mathbf{S}=\frac{1}{n-1}\mathbf{X}^\top\mathbf{X}$.
+        \item Principal components are found by solving the eigenproblem
+        \[\mathbf{S}\mathbf{v}_i=\lambda_i\mathbf{v}_i,\qquad i=1,\dots,p,
+        \]
+        where $\lambda_i$ are eigenvalues and $\mathbf{v}_i$ eigenvectors (loadings).
+        \item The $k$-dimensional principal score for observation $\mathbf{x}$ is
+        \[\mathbf{z}=\mathbf{V}_k^\top(\mathbf{x}-\bar{\mathbf{x}}),\]
+        where $\mathbf{V}_k=[\mathbf{v}_1,\dots,\mathbf{v}_k]$.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{PCA: Variance explained (formula)}
+    \begin{itemize}
+        \item Total variance: $\mathrm{tr}(\mathbf{S})=\sum_{i=1}^p\lambda_i$.
+        \item Proportion explained by component $i$:
+        \[\mathrm{Prop}_i=\frac{\lambda_i}{\sum_{j=1}^p\lambda_j}.\]
+        \item Cumulative proportion for first $k$ components: $\sum_{i=1}^k\mathrm{Prop}_i$.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
     \frametitle{PCA: Variance Explained}
     \begin{itemize}
         \item The proportion of total variance accounted for by each component (eigenvalue / sum of all eigenvalues).
@@ -201,6 +225,26 @@
 \end{frame}
 
 \begin{frame}
+    \frametitle{Factor Analysis: Model equations}
+    \begin{itemize}
+        \item Observed-vector model (common factor model):
+        \[\mathbf{x}=\boldsymbol{\mu}+\mathbf{\Lambda}\mathbf{f}+\boldsymbol{\epsilon},\]
+        where $\mathbf{x}$ is $p\times 1$, $\mathbf{\Lambda}$ is the $p\times m$ loading matrix, $\mathbf{f}$ is $m\times1$ latent factors, and $\boldsymbol{\epsilon}$ is unique/error terms.
+        \item Covariance decomposition:
+        \[\boldsymbol{\Sigma}=\mathrm{Cov}(\mathbf{x})=\mathbf{\Lambda}\,\mathrm{Cov}(\mathbf{f})\,\mathbf{\Lambda}^\top+\boldsymbol{\Psi},\]
+        with $\boldsymbol{\Psi}$ diagonal (unique variances).
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{FA: Identification and uniqueness}
+    \begin{itemize}
+        \item Common choices: assume $\mathrm{Cov}(\mathbf{f})=\mathbf{I}_m$ (orthonormal factors) and estimate $\mathbf{\Lambda}$ and $\boldsymbol{\Psi}$.
+        \item The uniqueness for variable $j$ is $\psi_{jj}$; communalities are $h_j^2=\sum_{i=1}^m\lambda_{ji}^2$ when factors are orthonormal.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
     \frametitle{FA: Goal}
     \begin{itemize}
         \item Goal: Identify these latent factors and quantify their influence on the observed variables.
@@ -244,6 +288,16 @@
 \end{frame}
 
 \begin{frame}
+    \frametitle{CFA: Measurement model (matrix form)}
+    \begin{itemize}
+        \item Measurement model (same as FA) but with a pre-specified zero pattern in $\mathbf{\Lambda}$:
+        \[\mathbf{x}=\boldsymbol{\mu}+\mathbf{\Lambda}\mathbf{f}+\boldsymbol{\epsilon}.
+        \]
+        \item In CFA the researcher fixes which $\lambda_{ji}=0$ (not estimated) and tests model fit (e.g., $\chi^2$, RMSEA, CFI, TLI).
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
     \frametitle{Confirmatory Factor Analysis (CFA)}
     \framesubtitle{\R Implementation and Example}
     \begin{itemize}
@@ -274,6 +328,17 @@
     \frametitle{Path Analysis: Directed relations}
     \begin{itemize}
         \item Focuses on directed relationships (causal paths) among variables.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Path Analysis: Structural equations}
+    \begin{itemize}
+        \item A path model is a system of linear equations. Example for three variables:
+        \[y_1=\beta_{12}y_2+\beta_{13}y_3+\varepsilon_1,\]
+        \[y_2=\beta_{23}y_3+\varepsilon_2,\]
+        where $\varepsilon_i$ are disturbance terms and $\beta_{ij}$ are path coefficients.
+        \item Path matrices let us write the system compactly: $\mathbf{y}=\mathbf{B}\mathbf{y}+\boldsymbol{\varepsilon}$ and solve $(\mathbf{I}-\mathbf{B})\mathbf{y}=\boldsymbol{\varepsilon}$.
     \end{itemize}
 \end{frame}
 
@@ -325,6 +390,25 @@
     \frametitle{SEM: Overview}
     \begin{itemize}
         \item SEM combines and extends factor analysis and path analysis.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{SEM: Compact notation}
+    \begin{itemize}
+        \item Measurement model: $\mathbf{x}=\mathbf{\Lambda}_x\mathbf{\xi}+\boldsymbol{\delta}$, $\mathbf{y}=\mathbf{\Lambda}_y\mathbf{\eta}+\boldsymbol{\varepsilon}$.
+        \item Structural model: $\mathbf{\eta}=\mathbf{B}\mathbf{\eta}+\mathbf{\Gamma}\mathbf{\xi}+\boldsymbol{\zeta}$.
+        \item Combine and estimate parameters using covariance-implied fitting: minimize $\|\mathbf{S}-\boldsymbol{\Sigma}(\theta)\|$ under chosen loss (ML, GLS).
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Latent Growth Model (LGM)}
+    \begin{itemize}
+        \item Individual trajectory model for repeated measures $y_{it}$ (time $t$):
+        \[y_{it}=\alpha_i+\beta_i t+\epsilon_{it},\]
+        where $\alpha_i$ (intercept) and $\beta_i$ (slope) are latent variables with their own distribution across individuals.
+        \item In matrix form, the growth factors are estimated as part of an SEM.
     \end{itemize}
 \end{frame}
 
