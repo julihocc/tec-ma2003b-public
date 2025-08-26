@@ -66,14 +66,15 @@ def main(argv: Optional[list[str]] = None) -> int:
     args = parser.parse_args(argv)
 
     # Resolve origin: CLI, env var, or default
-    default_origin = os.environ.get(
-        "MA2003B_ORIGIN_PATH",
-        "/mnt/c/Users/L03071644/OneDrive - Instituto Tecnologico y de Estudios Superiores de Monterrey/Escritorio/202513/Clases/MA2003B",
-    )
+    default_origin = os.environ.get("MA2003B_ORIGIN_PATH")
+
+    logger = setup_logger("pull_data")
+    logger.info(f"default origin: {default_origin}")
     origin = args.origin or default_origin
+    logger.info(f"Using origin: {origin}")
 
     if not os.path.exists(origin):
-        print(f"Origin path does not exist: {origin}")
+        logger.error(f"Origin path does not exist: {origin}")
         return 2
 
     # Resolve backup
