@@ -78,7 +78,7 @@ pdflatex factor_analysis.tex
 
 **Documentation:**
 - `documentation/` - Course planning documents including hour allocation tables  
-- `.github/copilot-instructions.md` - AI coding assistant instructions (contains outdated paths from previous structure)
+- `.github/copilot-instructions.md` - Legacy AI coding assistant instructions (contains outdated paths, use CLAUDE.md instead)
 - `.claude/backup/conversations/` - Claude Code conversation exports for development history
 - `beamers/themes/` - LaTeX Beamer themes and styling for presentations (`ma2003b` custom theme)
 - `factor_analysis_report.txt` - Generated report artifact at repo root
