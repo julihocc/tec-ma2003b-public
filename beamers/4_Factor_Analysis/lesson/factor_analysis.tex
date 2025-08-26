@@ -41,11 +41,43 @@
     \end{itemize}
 \end{frame}
 
-\begin{frame}
-    \frametitle{Latent Structures}
-    \begin{itemize}
-        \item Identify underlying (latent) structures within complex multivariate datasets.
-    \end{itemize}
+% --- Additional PCA examples extracted from Z08_Factor_Analysis.pdf ---
+\begin{frame}[fragile]
+    \frametitle{R script: PCA — concrete examples}
+    \begin{verbatim}
+# PCA on 'invest' dataset (from Z08)
+pc <- princomp(invest)
+summary(pc)
+pc$loadings
+screeplot(pc, col = "red", pch = 16, type = "lines", cex = 2, lwd = 2)
+biplot(pc, col = c(2,3), cex = c(.75, 1.5), cex.lab = 1.25,
+       xlim = c(-.45, .45), xlab = "First principal component",
+       ylab = "Second principal component")
+    \end{verbatim}
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{R script: PCA — Kuiper examples}
+    \begin{verbatim}
+# Kuiper dataset PCs (Z08)
+KuiPC <- princomp(Kuiper)
+summary(KuiPC)
+KuiPC$loadings
+
+# PCA on Kuiper with correlation scaling
+KuiPCc <- princomp(Kuiper, cor = TRUE)
+summary(KuiPCc)
+KuiPCc$loadings
+    \end{verbatim}
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{R script: PCA — eigen/cor helpers}
+    \begin{verbatim}
+# Low-level helpers shown in Z08
+sqrt(eigen(cor(invest))$values)
+princomp(invest, cor = TRUE)
+    \end{verbatim}
 \end{frame}
 
 \begin{frame}
@@ -297,6 +329,39 @@ print(fa_promax$loadings)
     \end{verbatim}
 \end{frame}
 
+\begin{frame}[fragile]
+    \frametitle{R script: FA — Hemangioma / biological example}
+    \begin{verbatim}
+# Hemangioma example (Z08)
+factanal(hemangioma, factors = 3)
+
+# Output includes uniquenesses, loadings, SS loadings, and chi-square test
+    \end{verbatim}
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{R script: FA — Burger dataset examples}
+    \begin{verbatim}
+# Burger nutritional dataset examples (Z08)
+library(stats)
+burger <- read.table(file = "burger.txt", header = TRUE)
+factanal(burger[, -1], factors = 2) # omit id column
+# Try 3 factors as an alternative
+factanal(burger[, -1], factors = 3)
+    \end{verbatim}
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{R script: FA — covariance matrix usage}
+    \begin{verbatim}
+# Using covariance / correlation matrices (Z08)
+# Example: factanal(factors = m, covmat = Harman23.cor)
+ability.cor <- cov2cor(ability.cov$cov)
+princomp(ability.cor)
+princomp(ability.cor)$loadings
+    \end{verbatim}
+\end{frame}
+
 \begin{frame}
     \frametitle{FA: Interpretation}
     \begin{itemize}
@@ -360,6 +425,18 @@ print(fa_promax$loadings)
     parameterEstimates(fit)
             \end{verbatim}
     \end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{R script: CFA — burger concrete example}
+    \begin{verbatim}
+# From Z08: fit CFA on burger data
+library(lavaan)
+burger_model <- 'meat =~ CalFat + Cal + Fat + SatFat + Protein
+added =~ Sodium + Carbs'
+fit <- cfa(model = burger_model, data = scale(burger))
+summary(fit, fit.measures = TRUE)
+    \end{verbatim}
+\end{frame}
 
 \section{Path Analysis}
 
