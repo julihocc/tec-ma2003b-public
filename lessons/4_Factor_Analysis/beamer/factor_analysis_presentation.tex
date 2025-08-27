@@ -130,15 +130,15 @@ Common heuristics and formal approaches:
 \begin{frame}
 \frametitle{PCA: quick code example — overview}
 \begin{itemize}
-    \item Script location: \texttt{lessons/4\_Factor\_Analysis/code/pca\_example.py}. \pause
+    	\item Script location: \texttt{lessons/4\_Factor\_Analysis/code/pca\_example/pca\_example.py}. \pause
     \item Main steps performed by the script: \pause
     \begin{itemize}
         \item Generate a small synthetic dataset with two latent factors and noise. \pause
         \item Standardize variables (so the correlation matrix behavior is used). \pause
         \item Fit PCA, extract eigenvalues and explained-variance ratios. \pause
-        \item Print eigenvalues, explained ratio and cumulative explained variance; save a scree plot to \texttt{lessons/4\_Factor\_Analysis/code/pca\_scree.png}. \pause
+    \item Print eigenvalues, explained ratio and cumulative explained variance; save a scree plot to \texttt{lessons/4\_Factor\_Analysis/code/pca\_example/pca\_scree.png}. \pause
     \end{itemize}
-    \item How to run (recommended): \texttt{cd lessons/4\_Factor\_Analysis/code \&\& python pca\_example.py} — run this before compiling the slides if you want to embed the generated image. \pause
+    	\item How to run (recommended): \texttt{cd lessons/4\_Factor\_Analysis/code/pca\_example \&\& python pca\_example.py} — run this before compiling the slides if you want to embed the generated image. \pause
     \item Why we keep code separate: cleaner slides, easier to test and version examples, and learners can run the script locally to reproduce results.\pause
 \end{itemize}
 \vspace{6pt}
@@ -171,12 +171,12 @@ Common heuristics and formal approaches:
 \frametitle{Investment allocation example — overview}
 This section reproduces the style of the classic `invest` example using a synthetic dataset when the original `invest` data is not available.
 \begin{itemize}
-    \item Script: \texttt{lessons/4\_Factor\_Analysis/code/invest\_example.py} — generates an invest-like dataset (several asset returns), runs PCA and saves a scree plot and a biplot. \pause
+    \item Script: \texttt{lessons/4\_Factor\_Analysis/code/invest\_example/invest\_example.py} — generates an invest-like dataset (several asset returns), runs PCA and saves a scree plot and a biplot. \pause
     \item Outputs: eigenvalues table, proportion and cumulative variance, scree plot, simple biplot of the first two components. \pause
     \item How to reproduce: run the script in the `code` directory and then include generated images in slides if desired. \pause
 \end{itemize}
 \vspace{6pt}
-% If you want the images embedded in the slides, run the script and add an \includegraphics command here pointing to ../code/invest_scree.png or ../code/invest_biplot.png
+% If you want the images embedded in the slides, run the script and add an \includegraphics command here pointing to ../code/invest_example/invest_scree.png or ../code/invest_example/invest_biplot.png
 \end{frame}
 
 
