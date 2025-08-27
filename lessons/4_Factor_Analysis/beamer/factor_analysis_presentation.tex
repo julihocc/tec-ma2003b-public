@@ -34,42 +34,48 @@
 
 \section{Introduction}
 
-\begin{frame}{What is Factor Analysis?}
-  \begin{itemize}
-    \item A statistical method for modeling relationships among \textbf{observed variables}.
-    \item It uses a smaller number of \textit{unobserved variables}, known as \textbf{factors}.
+\begin{frame}[fragile]
+\frametitle{What is Factor Analysis?}
+\begin{itemize}
+    \item A statistical method for modeling relationships among \textbf{observed variables}. \pause
+    \item It uses a smaller number of \textit{unobserved variables}, known as \textbf{factors}. \pause
     \item Often used in an \textit{unsupervised manner} to discover underlying patterns.
-  \end{itemize}
+\end{itemize}
 \end{frame}
 
-\begin{frame}{Key Concepts}
-  \begin{itemize}
-    \item \textbf{Factors (or Latent Variables):}
-      \begin{itemize}
-        \item These are the underlying, unobserved variables.
+\begin{frame}[fragile]
+\frametitle{Key Concepts}
+\begin{itemize}
+    \item \textbf{Factors (or Latent Variables):} \pause
+    \begin{itemize}
+        \item These are the underlying, unobserved variables. \pause
         \item Example: A latent variable like "fairness" might be composed of observed variables like "demeanor" and "preparation for trial."
-      \end{itemize}
-    \item \textbf{The Core Assumption:}
-      \begin{itemize}
+    \end{itemize}
+    \item \textbf{The Core Assumption:} \pause
+    \begin{itemize}
         \item Observed variables are a linear combination of a few common factors and a unique factor for each variable.
-      \end{itemize}
-  \end{itemize}
+    \end{itemize}
+\end{itemize}
 \end{frame}
 
-\begin{frame}{Factor Analysis vs. Principal Component Analysis (PCA)}
-  \begin{itemize}
-    \item \textbf{PCA:} Primarily a \textit{dimensionality reduction} technique. It focuses on summarizing the data by finding the directions of maximum variance.
-    \item \textbf{Factor Analysis:} Aims to explain the \textit{latent structure} of the data and identify the underlying constructs that explain the observed correlations.
+\begin{frame}[fragile]
+\frametitle{Factor Analysis vs. Principal Component Analysis (PCA)}
+\begin{itemize}
+    \item \textbf{PCA:} Primarily a \textit{dimensionality reduction} technique. It focuses on summarizing the data by finding the directions of maximum variance. \pause
+    \item \textbf{Factor Analysis:} Aims to explain the \textit{latent structure} of the data and identify the underlying constructs that explain the observed correlations. \pause
     \item \textbf{Summary:} While both reduce the number of variables, they have different goals.
-  \end{itemize}
+\end{itemize}
 \end{frame}
 
-\begin{frame}{A Word of Caution}
-  \begin{itemize}
-    \item Factor analysis is a \textit{modeling technique}.
-    \item A confirmatory factor analysis cannot \textit{prove} a model is correct, only that it is plausible.
-    \item The method can because multiple, equally valid models might exist for the same dataset.
-  \end{itemize}
+\begin{frame}[fragile]
+\frametitle{A Word of Caution}
+\begin{itemize}
+    \item Factor analysis is a \textit{modeling technique}. \pause
+    \item A confirmatory factor analysis cannot \textit{prove} a model is correct, only that it is plausible. \pause
+    \item The method can be ``fragile'' because multiple, equally valid models might exist for the same dataset.
+\end{itemize}
 \end{frame}
+
+
 
 \end{document}
