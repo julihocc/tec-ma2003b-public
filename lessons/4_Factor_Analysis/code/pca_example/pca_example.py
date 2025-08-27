@@ -1,35 +1,36 @@
 # %% [markdown]
-"""
-PCA example (py-percent style)
-
-This script demonstrates a minimal PCA workflow using a small synthetic
-dataset. It is split into py-percent cells so you can run it interactively
-in editors that support the Run Cell feature (for example, VS Code).
-
-High-level steps:
-- build a synthetic dataset with two latent factors and additive noise
-- optionally standardize variables
-- fit PCA, inspect eigenvalues and explained-variance ratios
-- save a scree plot to a PNG file
-
-Requirements: numpy, matplotlib, scikit-learn
-
-Contract (what this script expects and produces):
-- Inputs (variables you can edit in the Parameters cell):
-    - n_samples: int, number of simulated observations
-    - random_seed: int, RNG seed for reproducible simulation
-    - save_path: str, path to write the scree plot image
-    - standardize: bool, whether to z-score variables before PCA
-- Outputs (printed and written files):
-    - printed eigenvalues, explained ratios, and cumulative explained
-    - a scree plot saved to `save_path`
-
-Edge cases and notes:
-- PCA is applied to the preprocessed matrix `Xs` (same shape as `X`).
-- If `n_samples` is small relative to the number of variables the
-    eigenvalue estimates may be noisy. This script does not perform
-    cross-validation or statistical testing — it's meant for pedagogy.
-"""
+# # PCA example (py-percent style)
+#
+# This script demonstrates a minimal PCA workflow using a small synthetic
+# dataset. It is split into py-percent cells so you can run it interactively
+# in editors that support the Run Cell feature (for example, VS Code).
+#
+# ## High-level steps
+# - build a synthetic dataset with two latent factors and additive noise
+# - optionally standardize variables
+# - fit PCA, inspect eigenvalues and explained-variance ratios
+# - save a scree plot to a PNG file
+#
+# ## Requirements
+# numpy, matplotlib, scikit-learn
+#
+# ## Contract (what this script expects and produces)
+#
+# ### Inputs (variables you can edit in the Parameters cell):
+# - `n_samples`: int, number of simulated observations
+# - `random_seed`: int, RNG seed for reproducible simulation
+# - `save_path`: str/path, path to write the scree plot image
+# - `standardize`: bool, whether to z-score variables before PCA
+#
+# ### Outputs (printed and written files):
+# - printed eigenvalues, explained ratios, and cumulative explained
+# - a scree plot saved to `save_path`
+#
+# ## Edge cases and notes
+# - PCA is applied to the preprocessed matrix `Xs` (same shape as `X`).
+# - If `n_samples` is small relative to the number of variables the
+#   eigenvalue estimates may be noisy. This script does not perform
+#   cross-validation or statistical testing — it's meant for pedagogy.
 
 # %%
 import numpy as np
@@ -39,12 +40,12 @@ from sklearn.preprocessing import StandardScaler
 from pathlib import Path
 
 # %% [markdown]
-# Parameters
+# ## Parameters
 # Edit these variables before executing the rest of the notebook-style cells.
-# - n_samples: number of simulated observations (rows)
-# - random_seed: RNG seed for reproducibility
-# - save_path: file path where the scree plot will be saved
-# - standardize: if True, variables are z-scored before PCA (recommended)
+# - `n_samples`: number of simulated observations (rows)
+# - `random_seed`: RNG seed for reproducibility
+# - `save_path`: file path where the scree plot will be saved
+# - `standardize`: if True, variables are z-scored before PCA (recommended)
 
 # %%
 
@@ -67,7 +68,7 @@ print(
 save_path.parent.mkdir(parents=True, exist_ok=True)
 
 # %% [markdown]
-# Build synthetic dataset
+# ## Build synthetic dataset
 #
 # We create two latent factors (f1, f2). Each observed variable is a linear
 # combination of one factor plus Gaussian noise. This produces a small
@@ -96,7 +97,7 @@ X = np.hstack(
 print("Data shape:", X.shape)  # (n_samples, n_features)
 
 # %% [markdown]
-# Preprocess and run PCA
+# ## Preprocess and run PCA
 #
 # - If `standardize` is True we z-score each column so variables with different
 #   scales do not dominate the PCA. If False we simply center by the mean.
@@ -126,7 +127,7 @@ print("Explained ratio:", np.round(explained_ratio, 3))
 print("Cumulative:", np.round(np.cumsum(explained_ratio), 3))
 
 # %% [markdown]
-# Scree plot
+# ## Scree plot
 #
 # The scree plot displays eigenvalues by component index. A steep drop after
 # the first components followed by a long tail is a classical visual cue that
