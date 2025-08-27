@@ -81,10 +81,10 @@
 \begin{frame}
 \frametitle{Refresher: What is PCA?}
 \begin{itemize}
-    \item Principal Component Analysis (PCA) is a linear method for \textbf{dimension reduction}. 
-    \item It finds orthogonal directions (principal components) that capture the largest possible variance in the data.
-    \item PCA produces new variables (components) that are linear combinations of the original observed variables.
-    \item Use cases: visualization, noise reduction, pre-processing before supervised learning, and exploratory data analysis.
+    \item Principal Component Analysis (PCA) is a linear method for \textbf{dimension reduction}. \pause
+    \item It finds orthogonal directions (principal components) that capture the largest possible variance in the data. \pause
+    \item PCA produces new variables (components) that are linear combinations of the original observed variables. \pause
+    \item Use cases: visualization, noise reduction, pre-processing before supervised learning, and exploratory data analysis. \pause
 \end{itemize}
 \end{frame}
 
@@ -92,20 +92,20 @@
 \frametitle{Mathematical formulation}
 Let $\mathbf{x}\in\mathbb{R}^p$ be a random vector with mean $\mu$ and covariance matrix $\Sigma$. After centering the data ($\mathbf{x}-\mu$):
 \begin{itemize}
-    \item Find eigenvalues $\lambda_1\ge\lambda_2\ge\cdots\ge\lambda_p$ and orthonormal eigenvectors $\mathbf{v}_1,\dots,\mathbf{v}_p$ of $\Sigma$: $\Sigma\mathbf{v}_j=\lambda_j\mathbf{v}_j$.
-    \item The $j$-th principal component is $z_j=\mathbf{v}_j^{\top}(\mathbf{x}-\mu)$. 
-    \item Variance explained by component $j$ is $\mathrm{Var}(z_j)=\lambda_j$. The proportion explained is $\lambda_j/\sum_{k=1}^p\lambda_k$.
+    \item Find eigenvalues $\lambda_1\ge\lambda_2\ge\cdots\ge\lambda_p$ and orthonormal eigenvectors $\mathbf{v}_1,\dots,\mathbf{v}_p$ of $\Sigma$: $\Sigma\mathbf{v}_j=\lambda_j\mathbf{v}_j$. \pause
+    \item The $j$-th principal component is $z_j=\mathbf{v}_j^{\top}(\mathbf{x}-\mu)$. \pause
+    \item Variance explained by component $j$ is $\mathrm{Var}(z_j)=\lambda_j$. The proportion explained is $\lambda_j/\sum_{k=1}^p\lambda_k$. \pause
 \end{itemize}
 \end{frame}
 
 \begin{frame}
 \frametitle{Computation steps (practical)}
 \begin{enumerate}
-    \item Standardize variables if they are on different scales (use correlation matrix) or center only if scales are comparable (use covariance matrix).
-    \item Compute covariance (or correlation) matrix $S$ from the data.
-    \item Compute eigen decomposition $S=V\Lambda V^{\top}$.
-    \item Form principal component scores: $Z = X_c V$ (where $X_c$ is centered data and columns of $V$ are eigenvectors).
-    \item Inspect eigenvalues, cumulative variance, and scree plot to decide how many components to keep.
+    \item Standardize variables if they are on different scales (use correlation matrix) or center only if scales are comparable (use covariance matrix). \pause
+    \item Compute covariance (or correlation) matrix $S$ from the data. \pause
+    \item Compute eigen decomposition $S=V\Lambda V^{\top}$. \pause
+    \item Form principal component scores: $Z = X_c V$ (where $X_c$ is centered data and columns of $V$ are eigenvectors). \pause
+    \item Inspect eigenvalues, cumulative variance, and scree plot to decide how many components to keep. \pause
 \end{enumerate}
 \end{frame}
 
@@ -113,30 +113,30 @@ Let $\mathbf{x}\in\mathbb{R}^p$ be a random vector with mean $\mu$ and covarianc
 \frametitle{Deciding how many components to retain}
 Common heuristics and formal approaches:
 \begin{itemize}
-    \item Kaiser criterion: keep components with eigenvalue $>1$ (applies when using correlation matrix).
-    \item Cumulative variance: keep the smallest number of components that explain a target (e.g., 70--90\%) of total variance.
-    \item Scree plot: look for the "elbow" where additional components contribute little incremental variance.
-    \item Parallel analysis: compare empirical eigenvalues to those obtained from random data — keep components with larger eigenvalues than random.
+    \item Kaiser criterion: keep components with eigenvalue $>1$ (applies when using correlation matrix). \pause
+    \item Cumulative variance: keep the smallest number of components that explain a target (e.g., 70--90\%) of total variance. \pause
+    \item Scree plot: look for the "elbow" where additional components contribute little incremental variance. \pause
+    \item Parallel analysis: compare empirical eigenvalues to those obtained from random data — keep components with larger eigenvalues than random. \pause
 \end{itemize}
 \end{frame}
 
 \begin{frame}
 \frametitle{PCA vs Factor Analysis (reminder)}
 \begin{itemize}
-    \item PCA: descriptive linear combinations that maximize variance; components are exact linear functions of observed variables and need not have a causal or measurement model interpretation.
-    \item Factor Analysis: a statistical model that explicitly decomposes observed variance into common (shared) variance explained by latent factors and unique variance (errors).
-    \item Practical rule: use PCA for dimension reduction and data compression; use Factor Analysis when your goal is to model latent constructs and separate common from unique variance.
+    \item PCA: descriptive linear combinations that maximize variance; components are exact linear functions of observed variables and need not have a causal or measurement model interpretation. \pause
+    \item Factor Analysis: a statistical model that explicitly decomposes observed variance into common (shared) variance explained by latent factors and unique variance (errors). \pause
+    \item Practical rule: use PCA for dimension reduction and data compression; use Factor Analysis when your goal is to model latent constructs and separate common from unique variance. \pause
 \end{itemize}
 \end{frame}
 
 \begin{frame}
 \frametitle{Practical tips and pitfalls}
 \begin{itemize}
-    \item Always check variable scales; standardize when necessary.
-    \item PCA is sensitive to outliers — inspect data and consider robust alternatives if needed.
-    \item Interpret components via loadings (eigenvectors) and by examining which variables contribute strongly to each component.
-    \item Rotation is not standard in PCA (rotation reassigns variance) — if interpretability is a priority, consider Factor Analysis with rotation.
-    \item When reporting, include: eigenvalues table, proportion of variance, cumulative variance, scree plot, and a table of loadings (component matrix).
+    \item Always check variable scales; standardize when necessary. \pause
+    \item PCA is sensitive to outliers — inspect data and consider robust alternatives if needed. \pause
+    \item Interpret components via loadings (eigenvectors) and by examining which variables contribute strongly to each component. \pause
+    \item Rotation is not standard in PCA (rotation reassigns variance) — if interpretability is a priority, consider Factor Analysis with rotation. \pause
+    \item When reporting, include: eigenvalues table, proportion of variance, cumulative variance, scree plot, and a table of loadings (component matrix). \pause
 \end{itemize}
 \end{frame}
 
