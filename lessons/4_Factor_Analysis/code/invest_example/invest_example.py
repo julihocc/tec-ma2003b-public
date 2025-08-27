@@ -1,21 +1,19 @@
 # %% [markdown]
-"""
-Invest PCA example
-
-This script loads a small CSV of asset returns and runs PCA on the
-correlation-like matrix (by standardizing returns first). It contains
-py-percent cells and detailed comments so you can run it interactively
-and read the explanation of the outputs inline.
-
-What to expect when you run this file:
-- Printed `eigenvalues`: the variances explained by each principal component.
-- Printed `explained_ratio`: proportion of total variance per component.
-- Printed `cumulative`: cumulative explained variance used to decide how many
-    components to retain.
-
-The file also saves two figures next to the script: a scree plot and a
-biplot for the first two PCs.
-"""
+# Invest PCA example
+#
+# This script loads a small CSV of asset returns and runs PCA on the
+# correlation-like matrix (by standardizing returns first). It contains
+# py-percent cells and detailed comments so you can run it interactively
+# and read the explanation of the outputs inline.
+#
+# What to expect when you run this file:
+# - Printed `eigenvalues`: the variances explained by each principal component.
+# - Printed `explained_ratio`: proportion of total variance per component.
+# - Printed `cumulative`: cumulative explained variance used to decide how many
+#   components to retain.
+#
+# The file also saves two figures next to the script: a scree plot and a
+# biplot for the first two PCs.
 
 # %%
 from pathlib import Path
@@ -39,12 +37,11 @@ if cols and cols[0].lower() in ("rownames", "index"):
 
 # %% [markdown]
 # Preprocessing and PCA
-"""
-We standardize the input columns so PCA operates on a correlation-like
-matrix (each column will have mean ~0 and unit variance). This is common
-when variables are on different scales or when you want components to be
-scale-invariant (e.g., asset returns).
-"""
+#
+# We standardize the input columns so PCA operates on a correlation-like
+# matrix (each column will have mean ~0 and unit variance). This is common
+# when variables are on different scales or when you want components to be
+# scale-invariant (e.g., asset returns).
 
 # %%
 # Standardize (use correlation-like behavior)
@@ -62,29 +59,27 @@ print("Explained ratio:", np.round(explained_ratio, 3))
 print("Cumulative:", np.round(np.cumsum(explained_ratio), 3))
 
 # %% [markdown]
-"""
-Interpreting the printed results (example and guidance):
-
-- `eigenvalues`: these are the variances of the principal components.
-    Larger eigenvalues mean the component explains more variance in the data.
-    Example output: `[3.895, 0.092, 0.011, 0.004]` indicates the first
-    component explains most of the variance.
-
-- `explained_ratio`: fraction of total variance explained by each component.
-    If the first entry is ~0.97, then PC1 explains 97% of the variance and a
-    one-component summary may be adequate for many purposes (dimensionality
-    reduction, visualization, or constructing a single-factor model).
-
-- `cumulative`: shows how variance accumulates across components. Common
-    decision rules: choose the smallest number of components that reach a
-    target (e.g., 80-95%) of cumulative variance, or use the scree plot elbow.
-
-Notes on this dataset and outputs:
-- Financial return matrices often have one dominant component (market), so
-    it's common to see a very large first eigenvalue and small remaining ones.
-- PCA here is descriptive — further steps (rotation, factor models,
-    or supervised dimension reduction) may be required depending on your goal.
-"""
+# Interpreting the printed results (example and guidance):
+#
+# - `eigenvalues`: these are the variances of the principal components.
+#   Larger eigenvalues mean the component explains more variance in the data.
+#   Example output: `[3.895, 0.092, 0.011, 0.004]` indicates the first
+#   component explains most of the variance.
+#
+# - `explained_ratio`: fraction of total variance explained by each component.
+#   If the first entry is ~0.97, then PC1 explains 97% of the variance and a
+#   one-component summary may be adequate for many purposes (dimensionality
+#   reduction, visualization, or constructing a single-factor model).
+#
+# - `cumulative`: shows how variance accumulates across components. Common
+#   decision rules: choose the smallest number of components that reach a
+#   target (e.g., 80-95%) of cumulative variance, or use the scree plot elbow.
+#
+# Notes on this dataset and outputs:
+# - Financial return matrices often have one dominant component (market), so
+#   it's common to see a very large first eigenvalue and small remaining ones.
+# - PCA here is descriptive — further steps (rotation, factor models,
+#   or supervised dimension reduction) may be required depending on your goal.
 
 # %%
 # Scree plot
