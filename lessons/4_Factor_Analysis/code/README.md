@@ -15,3 +15,6 @@ pip install numpy matplotlib scikit-learn
 Then run:
 
 python pca_example.py
+
+Interactive use:
+- Open `pca_example.py` in VS Code and run individual cells (Run Cell) using the `# %%` markers. Edit the parameters in the parameters cell before executing following cells to experiment with different seeds or sample sizes.
