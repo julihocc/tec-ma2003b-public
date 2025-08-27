@@ -12,14 +12,19 @@ from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler
 
 script_dir = os.path.dirname(__file__)
-data_path = os.path.normpath(os.path.join(script_dir, "..", "data", "invest.csv"))
+# Simple behaviour: expect invest.csv in the same folder as this script
+data_path = os.path.join(script_dir, "invest.csv")
 if not os.path.exists(data_path):
     raise SystemExit(
-        f"Data file not found: {data_path}. Please place 'invest.csv' there and retry."
+        f"Data file not found: {data_path}. Please run fetch_invest.py or place 'invest.csv' there."
     )
 
 X = pd.read_csv(data_path)
+# If the CSV has a leading index-like column (common in some exports), drop it
 cols = list(X.columns)
+if cols and cols[0].lower() in ("rownames", "index"):
+    X = X.iloc[:, 1:]
+    cols = list(X.columns)
 
 # Standardize (use correlation-like behavior)
 Xs = StandardScaler().fit_transform(X.values)
