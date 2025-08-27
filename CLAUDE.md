@@ -78,7 +78,7 @@ done
 
 **Documentation:**
 - `documentation/` - Course planning documents including hour allocation tables  
-- `.github/copilot-instructions.md` - Legacy AI coding assistant instructions (contains outdated paths, use CLAUDE.md instead)
+- `.github/copilot-instructions.md` - GitHub Copilot instructions (recently updated to reflect current `lessons/` structure)
 - `.claude/backup/conversations/` - Claude Code conversation exports for development history (directory may not exist yet)
 - `lessons/themes/` - LaTeX Beamer themes and styling for presentations (`ma2003b` custom theme)
 - `factor_analysis_report.txt` - Generated report artifact at repo root
@@ -119,8 +119,8 @@ done
 
 **Package Management:**
 - Use editable install (`pip install -e .`) for development
-- Dependencies: `requirements.txt` contains minimal runtime/dev dependencies
-- `pyproject.toml` defines package metadata
+- Dependencies: `requirements.txt` contains full pinned dependencies including scientific computing stack
+- `pyproject.toml` defines package metadata and build configuration
 
 **Course Content Structure:**
 **Current Chapter Organization (Factor Analysis Model):**
@@ -208,6 +208,8 @@ X.Y_subtopic_name/
 - `setup_logger()` - Configured logger with duplicate handler prevention and `propagate = False`
 - Use existing utilities instead of creating ad-hoc helpers
 
+**Scientific Computing Stack:** The repository includes a full scientific Python environment with numpy, pandas, matplotlib, scikit-learn, and Jupyter ecosystem for data analysis and visualization in practice exercises.
+
 ## Development Guidelines
 
 ### Code Quality
@@ -278,7 +280,7 @@ When working with this repository, conversation exports should be saved to maint
 ## Important Notes
 
 - The `scripts/pull_data.py` contains machine-specific OneDrive paths; use `MA2003B_ORIGIN_PATH` environment variable to override
-- **Required dependencies**: numpy, scipy, scikit-learn, factor_analyzer (see `requirements.txt`)
+- **Required dependencies**: Full dependency list in `requirements.txt` includes numpy, scipy, scikit-learn, matplotlib, pandas, jupyter ecosystem
 - **LaTeX Compilation**: Use `pdflatex` to compile .tex files in lesson folders
 - **Practice Scripts**: All practice implementations are in Python for maintainability
 - **Virtual Environment**: Always use `pip install -e .` for development to access utils module
