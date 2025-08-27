@@ -86,92 +86,80 @@ X_Chapter_Name/
 │                                      # • Learning objectives & outcomes
 │                                      # • Subtopic structure & overview
 │                                      # • Prerequisites & key concepts  
-│                                      # • Usage instructions & examples
-├── lesson/
-│   ├── [chapter].tex                 # Unified Beamer presentation
-│   └── [chapter].pdf                 # Compiled slides
-└── practice/
-    ├── X.1_subtopic_name/            # Independent practice modules
-    │   ├── README.md                  # Brief usage instructions
-    │   └── [subtopic]_practice.py     # Self-documented executable
-    ├── X.2_subtopic_name/
-    │   └── ... (same pattern)
-    └── X.N_final_subtopic/
-```
+# AI coding agent instructions — tec-ma2003b-public
 
-**Implementation Guidelines:**
-- **Chapter README structure**: Follow Factor Analysis README as template (learning objectives, structure outline, prerequisites, key concepts, mathematical notation)
-- **Unified presentation**: Single Beamer file with clear section breaks for each subtopic
-- **Independent subtopics**: Each practice folder should work standalone with clean modular structure
-- **Embedded documentation**: Practice scripts contain purpose, workflow sections, and usage examples
-- **Consistent naming**: Always use `X.Y_descriptive_name` pattern
-- **Minimal redundancy**: Subtopic READMEs should only contain essential usage info
+Purpose: concise, actionable guidance so an AI coding agent can be productive quickly.
 
-**Practice Implementation Pattern:**
-1. **Create orchestration script** (`[subtopic]_practice.py`):
-   - Import from local computation and reporter modules
-   - Use centralized logger from utils
-   - Coordinate workflow: data → computation → formatting → output
-   - Write human-readable report to `*_report.txt`
-
-2. **Create computation module** (`[subject].py`):
-   - Define dataclasses for structured results
-   - Write pure functions with clear type hints
-   - No I/O operations or side effects
-   - Focus on statistical/mathematical operations
-
-3. **Create reporter module** (`[subject]_reporter.py`):
-   - Functions that take computation results and return formatted strings
-   - Handle all output formatting and display logic
-   - Clear section headers and educational explanations
-# AI coding agent instructions for this repository
-
-Purpose: short, actionable guidance so an AI coding agent can be productive quickly in tec-ma2003b-public.
-
-Quick start (most common developer flow)
-- Create & activate the local venv used by the project:
-  - python3 -m venv .venv
-  - source .venv/bin/activate
-- Install editable package so practice scripts import local modules:
-  - pip install -e .
+Quick start (common developer flow)
+- Create & activate venv:
+  ```bash
+  python3 -m venv .venv
+  source .venv/bin/activate
+  ```
+- Install package editable so practice scripts import local modules:
+  ```bash
+  pip install -e .
+  ```
 - Run tests from repo root:
-  - .venv/bin/python -m pytest -q
+  ```bash
+  .venv/bin/python -m pytest -q
+  ```
 
-What this repo contains (big picture)
-- Course materials arranged under `beamers/`. Each topic (chapter) folder contains subfolders for exercises with: a `python/` practice script, optional `julia/` examples, `latex/` slides, and a `_report.txt` or `_report.md` output artifact.
-- Small utilities under `utils/` (exported via `utils/__init__.py`) provide shared helpers — e.g. `utils/logger.py` exposes `setup_logger(...)` and configures a repository logger used by practice scripts.
-- Top-level packaging files: `setup.py`, `pyproject.toml` (optional), and `requirements.txt` drive local development.
+Repo layout (big picture)
+- `lessons/` — course content per chapter. Each chapter contains `lesson/`, `practice/` (exercises), and example `code/` folders.
+- `utils/` — shared helpers; key file: `utils/logger.py` (`setup_logger(...)`) used across practice scripts.
+- `scripts/` — automation helpers (e.g., `scripts/pull_data.py`); some use absolute paths and expect env overrides.
 
-Key developer workflows and commands
-- Run a single practice script (example):
-  - .venv/bin/python beamers/4_Factor_Analysis/4.1_Objectives_of_factor_analysis/python/objectives_factor_analysis_practice.py
-- Run a chapter smoke test (example pattern):
-  - for f in beamers/5_Discriminant_Analysis/*/*_practice.py; do .venv/bin/python "$f" || break; done
-- Install new runtime dependency: add to `requirements.txt` and include a one-line note in the exercise `README.md` under the relevant `python/` folder.
+Key workflows & concrete commands
+- Run one practice script:
+  ```bash
+  .venv/bin/python lessons/4_Factor_Analysis/code/invest_example/invest_example.py
+  ```
+- Convert `.py` to notebook with jupytext (project uses py-percent cells):
+  ```bash
+  jupytext --to ipynb lessons/**/*.py
+  ```
+- Compile Beamer slides (run twice):
+  ```bash
+  cd lessons/4_Factor_Analysis/lesson && pdflatex factor_analysis.tex
+  ```
 
-Project-specific conventions (important to follow)
-- Preserve the `beamers/` folder layout. Do not move `.tex` files or `_report.txt` artifacts — they are referenced by teaching materials.
-- Practice scripts should write human-readable reports to a report file in their folder (e.g. `objectives_factor_analysis_report.txt`) and use the repository logger for informational/errors. Shared logger: `from utils.logger import setup_logger`.
-- Tests are lightweight and sit next to modules. When changing `utils/` utilities, update their tests in the same folder.
+Project conventions (follow these exactly)
+- Practice scripts should write a human-readable report file next to the script (not only print). See `utils/test_logger.py` and practice examples.
+- Use the shared logger:
+  ```py
+  from utils.logger import setup_logger
+  logger = setup_logger(__name__)
+  ```
+  The helper sets `propagate=False`; prefer it over ad-hoc loggers.
+- Keep `lesson/` `.tex` and `_report` artifacts and folder layout unchanged — other materials reference these paths.
 
-Integration points and gotchas
-- `scripts/pull_data.py` contains an absolute path; prefer parameterizing with `MA2003B_ORIGIN_PATH` env var when changing it and add tests for both fallback and override.
-- Packaging: `setup.py` is present (legacy); prefer editable install (`pip install -e .`) for development and tests.
-- Some practice scripts support both Python and Julia; the Python scripts may expect `scikit-learn` and `factor_analyzer`. If you add or require these, update `requirements.txt`.
+Style & interactive patterns (code authorship details)
+- Scripts use py-percent cell markers (`# %%` / `# %% [markdown]`) so they run as interactive cells in VS Code. Preserve cell boundaries when editing.
+- Prefer commented markdown blocks for rendered text in interactive mode, e.g.:
+  ```py
+  # %% [markdown]
+  # # Title
+  # explanatory text...
+  ```
+- Use `pathlib.Path(__file__).resolve().parent` for file outputs and create parent dirs with `mkdir(parents=True, exist_ok=True)` (pattern used in `pca_example.py` and `invest_example.py`).
 
-Examples and concrete references
-- Shared logger: `utils/logger.py` — create a logger with `setup_logger(__name__)` and call `logger.info(...)` for progress messages; do not replace the global logger behavior unless necessary.
-- Report pattern: practice script opens a report file next to the script and writes the demonstration text there (see `beamers/.../objectives_factor_analysis_practice.py`). Keep prints for interactive debugging only; prefer writing reports to files.
+Integration notes & gotchas
+- `scripts/pull_data.py` uses an absolute OneDrive path; use `MA2003B_ORIGIN_PATH` env var to override in CI.
+- LaTeX edits are fragile: avoid breaking `\begin{frame}`/`\end{frame}` or verbatim blocks when programmatically modifying slides.
+- When adding runtime deps (e.g., `scikit-learn`, `factor_analyzer`), update `requirements.txt` and mention the change in the chapter README.
+
+Files to inspect first (fast path)
+- `utils/logger.py` — logger pattern and helper signature
+- `lessons/4_Factor_Analysis/code/*` — examples of practice scripts (PCA, invest) showing py-percent cells and Path usage
+- `scripts/pull_data.py` — example with absolute-path gotcha
+
+If you change behavior
+- Add or update a lightweight test next to the module (project keeps tests adjacent to code).
+- If you introduce external data paths, add CI-friendly env overrides and document them in the chapter README.
+
+When editing this file
+- Merge, don't overwrite. Keep guidance short (20–50 lines). If you'd like, I can expand with CI snippets or a script to standardize py-percent styling across lessons.
+
+If anything is unclear or you want a follow-up (eg. auto-format all lesson scripts to this style), tell me which folder to target and I'll implement it.
 - Absolute-path helper: `scripts/pull_data.py` — convert hard-coded paths to use `os.getenv('MA2003B_ORIGIN_PATH', '<fallback>')` when parameterizing.
-
-Additional practical notes (from internal guidance)
-- Logger details: `setup_logger(name=None, level=logging.INFO, logfile=None)` is the common helper; it configures stream+file handlers and sets `logger.propagate = False` to avoid duplicated messages — prefer this helper over ad-hoc loggers.
-- Conversation exports: save chat/conversation exports to `.claude/backup/conversations/` using a clear name like `YYYY-MM-DD-brief-description.txt` so development history is reproducible and auditable.
-- Standard lesson template (short): each topic should follow the `lesson/`, `practice/`, `notes/` layout to keep materials consistent across chapters.
-
-When updating this file
-- Merge, do not overwrite. Keep guidance short (20-50 lines). Preserve maintainers' custom notes when present.
-
-If anything is unclear or you want a CI snippet, packaging details, or example test updates added, tell me which section to expand.
-
----
