@@ -5,6 +5,7 @@ Assumes a CSV at ../data/invest.csv with columns for assets (e.g. USst, USb, ...
 """
 
 import os
+from pathlib import Path
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -12,8 +13,9 @@ from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler
 
 # Simple behaviour: expect invest.csv in the same folder as this script
-script_dir = os.path.dirname(__file__)
-data_path = os.path.join(script_dir, "invest.csv")
+# Use Path to make paths robust regardless of current working directory.
+script_dir = Path(__file__).resolve().parent
+data_path = script_dir / "invest.csv"
 X = pd.read_csv(data_path)
 # If the CSV has a leading index-like column (common in some exports), drop it
 cols = list(X.columns)
@@ -44,7 +46,9 @@ plt.ylabel("Eigenvalue")
 plt.title("Invest example: Scree plot")
 plt.grid(True, ls=":")
 plt.tight_layout()
-scree_out = os.path.join(script_dir, "invest_scree.png")
+# Ensure output directory exists and write the figure using Path
+scree_out = script_dir / "invest_scree.png"
+scree_out.parent.mkdir(parents=True, exist_ok=True)
 plt.savefig(scree_out, dpi=150)
 print(f"Saved {scree_out}")
 
@@ -62,6 +66,7 @@ plt.ylabel("PC2")
 plt.title("Invest example: Biplot (PC1 vs PC2)")
 plt.grid(True, ls=":")
 plt.tight_layout()
-biplot_out = os.path.join(script_dir, "invest_biplot.png")
+biplot_out = script_dir / "invest_biplot.png"
+biplot_out.parent.mkdir(parents=True, exist_ok=True)
 plt.savefig(biplot_out, dpi=150)
 print(f"Saved {biplot_out}")
