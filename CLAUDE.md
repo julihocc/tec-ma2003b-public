@@ -24,32 +24,32 @@ pip install -e .
 .venv/bin/python -m pytest -q
 ```
 
+**Compile presentations:**
+```bash
+# Factor analysis presentation (available)
+cd lessons/4_Factor_Analysis
+pdflatex factor_analysis.tex
+```
+
 **Run practice scripts (when implemented):**
 ```bash
-# Single subtopic practice script (template - folders don't exist yet)
-cd beamers/4_Factor_Analysis/practice/4.1_objectives
+# Single subtopic practice script (template - practice folders not yet implemented)
+cd lessons/4_Factor_Analysis/practice/4.1_objectives
 python objectives_factor_analysis_practice.py
 
-# All subtopics in a chapter (template - folders don't exist yet)
-for dir in beamers/4_Factor_Analysis/practice/4.*/; do
+# All subtopics in a chapter (template - practice folders not yet implemented)
+for dir in lessons/4_Factor_Analysis/practice/4.*/; do
   cd "$dir" && python *_practice.py && cd - > /dev/null
 done
 
 # Alternative execution from repo root (recommended when implemented)
-.venv/bin/python beamers/4_Factor_Analysis/practice/4.1_objectives/objectives_factor_analysis_practice.py
+.venv/bin/python lessons/4_Factor_Analysis/practice/4.1_objectives/objectives_factor_analysis_practice.py
 
 # All subtopics using repo root execution (template)
-for f in beamers/4_Factor_Analysis/practice/*/*_practice.py; do
+for f in lessons/4_Factor_Analysis/practice/*/*_practice.py; do
   echo "--- running $f ---"
   .venv/bin/python "$f" || break
 done
-```
-
-**Compile presentations:**
-```bash
-# Factor analysis presentation (available)
-cd beamers/4_Factor_Analysis/lesson
-pdflatex factor_analysis.tex
 ```
 
 **Data pull script:**
@@ -61,11 +61,11 @@ pdflatex factor_analysis.tex
 ## Repository Structure
 
 **Course Materials:**
-- `beamers/4_Factor_Analysis/` - Factor analysis exercises and materials (6 topics, current structure)
-  - Contains centralized `lesson/` folder with compiled presentation materials
-  - Practice folders (`practice/4.X_topic/`) planned but not yet implemented
+- `lessons/4_Factor_Analysis/` - Factor analysis exercises and materials (current structure)
+  - Contains LaTeX presentation source (`factor_analysis.tex`) and compiled PDF
   - Chapter README provides comprehensive learning guide
-- Former `beamers/1_Regression_Analysis/` and `beamers/5_Discriminant_Analysis/` chapters have been removed in current working branch
+  - Practice folders not yet implemented
+- Former chapters (Regression Analysis, Discriminant Analysis) have been removed in current working branch
 
 **Utilities:**
 - `utils/` - Shared utilities package with logging functionality (exported via `__init__.py`)
@@ -79,8 +79,8 @@ pdflatex factor_analysis.tex
 **Documentation:**
 - `documentation/` - Course planning documents including hour allocation tables  
 - `.github/copilot-instructions.md` - Legacy AI coding assistant instructions (contains outdated paths, use CLAUDE.md instead)
-- `.claude/backup/conversations/` - Claude Code conversation exports for development history
-- `beamers/themes/` - LaTeX Beamer themes and styling for presentations (`ma2003b` custom theme)
+- `.claude/backup/conversations/` - Claude Code conversation exports for development history (directory may not exist yet)
+- `lessons/themes/` - LaTeX Beamer themes and styling for presentations (`ma2003b` custom theme)
 - `factor_analysis_report.txt` - Generated report artifact at repo root
 
 ## Key Architecture Insights
@@ -108,7 +108,7 @@ pdflatex factor_analysis.tex
 ## Development Conventions
 
 **File Organization:**
-- Exercise materials stay in their respective folders under `beamers/`
+- Course materials stay in their respective folders under `lessons/`
 - New utilities go in `utils/` and are exported via `utils/__init__.py`
 - Tests sit next to modules (e.g., `utils/test_logger.py`)
 - Save conversation exports in `.claude/backup/conversations/` for organized documentation
@@ -243,9 +243,9 @@ X.Y_subtopic_name/
 ## Current Repository State
 
 **Active Content (analisis-por-factores branch):**
-- ✅ **Chapter 4**: Factor Analysis (6 topics, using chapter-level organization)
-  - Topics: 4.1 Objectives, 4.2 Equations, 4.3 Number of Factors, 4.4 Rotation, 4.5 Oblique Rotation, 4.6 Software
-  - Structure: Central `lesson/` folder with compiled presentation, practice folders need implementation
+- ✅ **Chapter 4**: Factor Analysis 
+  - Location: `lessons/4_Factor_Analysis/`
+  - Structure: LaTeX presentation source and PDF, comprehensive chapter README
   - Status: Presentation materials complete, practice scripts not yet implemented
 
 **Removed Content (staged for deletion):**
@@ -259,10 +259,10 @@ X.Y_subtopic_name/
 - Chapter 7: Multivariate Regression
 
 **Current Priorities:**
-1. Create Factor Analysis practice implementations (practice folders don't exist yet - need all 6 subtopics)
+1. Create Factor Analysis practice implementations (practice folders don't exist yet)
 2. Test all practice scripts for functionality once implemented
 3. Apply this organizational pattern to future chapters
-4. Validate the chapter-level consolidation approach before expanding
+4. Validate the current consolidation approach before expanding
 
 ## Conversation Management
 
@@ -279,7 +279,7 @@ When working with this repository, conversation exports should be saved to maint
 
 - The `scripts/pull_data.py` contains machine-specific OneDrive paths; use `MA2003B_ORIGIN_PATH` environment variable to override
 - **Required dependencies**: numpy, scipy, scikit-learn, factor_analyzer (see `requirements.txt`)
-- **LaTeX Compilation**: Use `pdflatex` to compile .tex files in `lesson/` folders
+- **LaTeX Compilation**: Use `pdflatex` to compile .tex files in lesson folders
 - **Practice Scripts**: All practice implementations are in Python for maintainability
 - **Virtual Environment**: Always use `pip install -e .` for development to access utils module
 - **Report Pattern**: Practice scripts should write human-readable reports to files (e.g., `*_report.txt`) rather than just printing to console
