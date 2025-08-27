@@ -43,3 +43,6 @@ settings.local.json
 *.run.xml
 .vscode/settings.json
 .env
+
+*.png
+*.csv
