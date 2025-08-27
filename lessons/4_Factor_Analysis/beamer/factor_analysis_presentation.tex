@@ -126,13 +126,23 @@ Common heuristics and formal approaches:
 \end{itemize}
 \end{frame}
 
-% Quick code example frame (references external snippet files)
-\begin{frame}[fragile]
-\frametitle{PCA: quick code example}
-See the example code in the course repository: \texttt{lessons/4\_Factor\_Analysis/code/pca\_example.py}.
-
+% Quick code example overview (refer to external script instead of showing full code)
+\begin{frame}
+\frametitle{PCA: quick code example — overview}
+\begin{itemize}
+    \item Script location: \texttt{lessons/4\_Factor\_Analysis/code/pca\_example.py}. \pause
+    \item Main steps performed by the script: \pause
+    \begin{itemize}
+        \item Generate a small synthetic dataset with two latent factors and noise. \pause
+        \item Standardize variables (so the correlation matrix behavior is used). \pause
+        \item Fit PCA, extract eigenvalues and explained-variance ratios. \pause
+        \item Print eigenvalues, explained ratio and cumulative explained variance; save a scree plot to \texttt{lessons/4\_Factor\_Analysis/code/pca\_scree.png}. \pause
+    \end{itemize}
+    \item How to run (recommended): \texttt{cd lessons/4\_Factor\_Analysis/code \&\& python pca\_example.py} — run this before compiling the slides if you want to embed the generated image. \pause
+    \item Why we keep code separate: cleaner slides, easier to test and version examples, and learners can run the script locally to reproduce results.\pause
+\end{itemize}
 \vspace{6pt}
-\lstinputlisting[language=Python,caption={PCA example (file: ../code/pca\_example.py)}]{../code/pca_example.py}
+% Optional: if you prefer the scree plot inside the slides, run the example first and then add an \includegraphics command here.
 \end{frame}
 
 \begin{frame}
