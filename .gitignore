@@ -45,3 +45,4 @@ settings.local.json
 .env
 
 *.png
+*.csv
