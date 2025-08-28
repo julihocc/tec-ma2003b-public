@@ -168,15 +168,144 @@
 \section{Investment allocation example}
 
 \begin{frame}
-    \frametitle{Investment allocation example — overview}
-    This section reproduces the style of the classic `invest` example using a synthetic dataset when the original `invest` data is not available.
+    \frametitle{European Stock Markets: PCA Analysis}
+    This section demonstrates PCA applied to financial markets using synthetic European stock market data.
     \begin{itemize}
-        \item Script: \texttt{lessons/4\_Factor\_Analysis/code/invest\_example/invest\_example.py} — generates an invest-like dataset (several asset returns), runs PCA and saves a scree plot and a biplot. \pause
-        \item Outputs: eigenvalues table, proportion and cumulative variance, scree plot, simple biplot of the first two components. \pause
-        \item How to reproduce: run the script in the `code` directory and then include generated images in slides if desired. \pause
+        \item \textbf{Dataset}: 4 major European indices (DAX, SMI, CAC, FTSE) over 1,860 trading days. \pause
+        \item \textbf{Research Question}: How integrated are European financial markets? Can we identify common market factors? \pause
+        \item \textbf{Method}: Standardized PCA on correlation matrix of daily returns. \pause
     \end{itemize}
     \vspace{6pt}
-    % If you want the images embedded in the slides, run the script and add an \includegraphics command here pointing to ../code/invest_example/invest_scree.png or ../code/invest_example/invest_biplot.png
+    Script: \texttt{lessons/4\_Factor\_Analysis/code/invest\_example/invest\_example.py}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Dataset: European Market Indices}
+    \begin{itemize}
+        \item \textbf{DAX (Germany)}: Frankfurt Stock Exchange — largest European economy \pause
+        \item \textbf{SMI (Switzerland)}: Swiss Market Index — major financial center \pause
+        \item \textbf{CAC (France)}: Paris Stock Exchange — core eurozone market \pause
+        \item \textbf{FTSE (UK)}: London Stock Exchange — major international hub \pause
+    \end{itemize}
+    \vspace{12pt}
+    \textbf{Financial Context:}
+    \begin{itemize}
+        \item Daily returns standardized (mean=0, std=1) for scale-invariant analysis \pause
+        \item Captures correlation structure across different currencies and economies \pause
+        \item Reflects market integration through EU membership and globalization \pause
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Typical PCA Results: Market Integration}
+    When running the analysis, we observe:
+    \begin{itemize}
+        \item \textbf{PC1}: Explains $\sim$97\% of total variance \pause
+              \begin{itemize}
+                  \item Eigenvalue $\approx$ 3.9 (well above Kaiser threshold of 1.0) \pause
+                  \item Represents a \textit{common European market factor} \pause
+                  \item All markets load positively — they move together \pause
+              \end{itemize}
+        \item \textbf{PC2-PC4}: Explain only $\sim$3\% combined variance \pause
+              \begin{itemize}
+                  \item Capture market-specific idiosyncrasies \pause
+                  \item Currency effects, country-specific political events \pause
+                  \item Largely noise for portfolio construction \pause
+              \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Financial Interpretation: Market Factor}
+    \textbf{PC1 as a Market Factor:}
+    \begin{itemize}
+        \item Captures \textit{systematic risk} — movements common to all markets \pause
+        \item Driven by: EU-wide economic conditions, global financial sentiment, major central bank policies \pause
+        \item High loadings on all indices $\rightarrow$ European markets are highly integrated \pause
+    \end{itemize}
+    \vspace{12pt}
+    \textbf{Implications for Portfolio Management:}
+    \begin{itemize}
+        \item \textit{Limited diversification benefit} from spreading across European markets alone \pause
+        \item Most portfolio variance comes from exposure to the common factor \pause
+        \item Geographic diversification requires markets with different factor exposures \pause
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Visualization: Scree Plot Analysis}
+    The scree plot shows a dramatic \textit{``cliff''} pattern:
+    \begin{itemize}
+        \item Sharp drop from PC1 ($\lambda \approx 3.9$) to PC2 ($\lambda \approx 0.09$) \pause
+        \item Clear ``elbow'' indicates one dominant factor \pause
+        \item Remaining components are essentially flat (noise floor) \pause
+    \end{itemize}
+    \vspace{12pt}
+    \textbf{Decision Rule:}
+    \begin{itemize}
+        \item Kaiser criterion: Retain PC1 only ($\lambda > 1$) \pause
+        \item Variance threshold: PC1 alone exceeds any reasonable cutoff (80\%, 90\%, 95\%) \pause
+        \item Practical conclusion: European markets can be summarized by a single factor \pause
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Biplot: Markets and Time Periods}
+    The biplot reveals the factor structure:
+    \begin{itemize}
+        \item \textbf{Variable arrows} (red): Show market loadings on PC1-PC2 \pause
+              \begin{itemize}
+                  \item All arrows point in similar direction $\rightarrow$ positive correlation \pause
+                  \item Arrow length reflects contribution to variance \pause
+                  \item Angle between arrows shows correlation strength \pause
+              \end{itemize}
+        \item \textbf{Observation points}: Individual trading days in PC space \pause
+              \begin{itemize}
+                  \item Horizontal spread (PC1): Common market movements \pause
+                  \item Vertical spread (PC2): Minor market-specific deviations \pause
+                  \item Outliers may represent crisis periods or major events \pause
+              \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Practical Applications}
+    \textbf{Risk Management:}
+    \begin{itemize}
+        \item Use PC1 scores as a single \textit{European market risk factor} \pause
+        \item Portfolio $\beta$ to PC1 determines systematic risk exposure \pause
+        \item Stress testing: model extreme PC1 movements \pause
+    \end{itemize}
+    \vspace{6pt}
+    \textbf{Portfolio Construction:}
+    \begin{itemize}
+        \item Market-neutral strategies require offsetting PC1 exposure \pause
+        \item Alpha generation focuses on PC2-PC4 (idiosyncratic components) \pause
+        \item Diversification requires assets uncorrelated with European factor \pause
+    \end{itemize}
+    \vspace{6pt}
+    \textbf{Performance Attribution:}
+    \begin{itemize}
+        \item Decompose returns into market factor (PC1) + specific factors (PC2+) \pause
+        \item Distinguish skill from market timing \pause
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Code Example: Running the Analysis}
+    \begin{itemize}
+        \item \textbf{Data preparation}: \texttt{fetch\_invest.py} generates synthetic European market data \pause
+        \item \textbf{Main analysis}: \texttt{invest\_example.py} performs PCA with detailed financial interpretation \pause
+        \item \textbf{Outputs}: 
+              \begin{itemize}
+                  \item Eigenvalues, explained variance ratios, cumulative variance \pause
+                  \item \texttt{invest\_scree.png}: Scree plot for component selection \pause
+                  \item \texttt{invest\_biplot.png}: Biplot of markets and time periods \pause
+              \end{itemize}
+        \item \textbf{Usage}: \texttt{cd code/invest\_example \&\& python invest\_example.py} \pause
+    \end{itemize}
+    \vspace{6pt}
+    The script includes detailed py-percent comments for interactive exploration and financial interpretation of all results.
 \end{frame}
 
 
