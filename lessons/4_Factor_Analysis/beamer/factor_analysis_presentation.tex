@@ -308,6 +308,173 @@
     The script includes detailed py-percent comments for interactive exploration and financial interpretation of all results.
 \end{frame}
 
+\section{Kuiper Belt Objects: Astronomical PCA}
+
+\begin{frame}
+    \frametitle{Kuiper Belt Objects: PCA Analysis}
+    This section demonstrates PCA applied to astronomical data from the outer solar system.
+    \begin{itemize}
+        \item \textbf{Dataset}: Orbital parameters of 98 trans-Neptunian objects (TNOs) and Kuiper Belt objects \pause
+        \item \textbf{Research Question}: What are the main modes of orbital variation? Can we identify distinct dynamical populations? \pause
+        \item \textbf{Method}: Standardized PCA on 5 orbital elements with different physical units \pause
+    \end{itemize}
+    \vspace{6pt}
+    Script: \texttt{lessons/4\_Factor\_Analysis/code/kuiper\_example/kuiper\_example.py}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Dataset: Orbital Parameters}
+    Five key orbital elements describe each object's motion:
+    \begin{itemize}
+        \item \textbf{a} (AU): Semi-major axis — average distance from Sun (30-150 AU) \pause
+        \item \textbf{e}: Eccentricity — orbital shape (0=circle, 1=parabola) \pause
+        \item \textbf{i} (degrees): Inclination — tilt relative to solar system plane \pause
+        \item \textbf{H} (magnitude): Absolute magnitude — brightness/size indicator \pause
+    \end{itemize}
+    \vspace{12pt}
+    \textbf{Physical Context:}
+    \begin{itemize}
+        \item Objects beyond Neptune's orbit ($\sim$30 AU) in the outer solar system \pause
+        \item Different units require standardization for meaningful PCA \pause
+        \item Orbital correlations reflect gravitational interactions and formation history \pause
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Dynamical Populations in the Kuiper Belt}
+    Three main populations with distinct orbital signatures:
+    \begin{itemize}
+        \item \textbf{Classical Kuiper Belt} (60\%): Low eccentricity, low inclination \pause
+              \begin{itemize}
+                  \item Nearly circular orbits around 39-48 AU \pause
+                  \item ``Cold'' population — likely formed in place \pause
+              \end{itemize}
+        \item \textbf{Scattered Disk Objects} (30\%): High eccentricity, distant \pause
+              \begin{itemize}
+                  \item $e > 0.3$, semi-major axis $> 50$ AU \pause
+                  \item Scattered outward by gravitational encounters with Neptune \pause
+              \end{itemize}
+        \item \textbf{Resonant Objects} (10\%): Locked in orbital resonances \pause
+              \begin{itemize}
+                  \item 3:2 resonance at $\sim$39.4 AU (like Pluto) \pause
+                  \item Captured during Neptune's outward migration \pause
+              \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Typical PCA Results: Orbital Excitation}
+    When running the analysis, we observe a more balanced variance distribution:
+    \begin{itemize}
+        \item \textbf{PC1} (36.5\% variance): Orbital excitation dimension \pause
+              \begin{itemize}
+                  \item Correlates semi-major axis, eccentricity, and inclination \pause
+                  \item Separates dynamically ``hot'' (excited) from ``cold'' (pristine) populations \pause
+              \end{itemize}
+        \item \textbf{PC2} (23.2\% variance): Size-distance relationship \pause
+              \begin{itemize}
+                  \item May reflect observational bias or physical size distribution \pause
+              \end{itemize}
+        \item \textbf{PC3} (17.8\% variance): Additional orbital structure \pause
+              \begin{itemize}
+                  \item First 3 components explain $\sim$77.5\% of variance \pause
+                  \item More complex structure than financial markets example \pause
+              \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Astronomical Interpretation: Dynamical Evolution}
+    \textbf{PC1 as Dynamical Excitation:}
+    \begin{itemize}
+        \item High loadings on distance (a), eccentricity (e), and inclination (i) \pause
+        \item Represents gravitational ``heating'' of orbits over solar system history \pause
+        \item Separates pristine objects from those scattered by planetary migration \pause
+    \end{itemize}
+    \vspace{12pt}
+    \textbf{Astrophysical Implications:}
+    \begin{itemize}
+        \item \textit{Formation models}: PC1 scores distinguish formation mechanisms \pause
+        \item \textit{Dynamical families}: Objects with similar PC scores likely share evolutionary history \pause
+        \item \textit{Size segregation}: Large objects may preferentially survive in certain orbital regions \pause
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Scree Plot: Multiple Components Matter}
+    Unlike financial markets, the Kuiper Belt shows more distributed variance:
+    \begin{itemize}
+        \item Gradual decline rather than sharp cliff — no single dominant factor \pause
+        \item First eigenvalue $\sim$1.8, others $\sim$1.2, 0.9, 0.8 (above noise level) \pause
+        \item Suggests 2-3 meaningful components for dimensional reduction \pause
+    \end{itemize}
+    \vspace{12pt}
+    \textbf{Decision Rules:}
+    \begin{itemize}
+        \item Kaiser criterion: Retain 2 components ($\lambda > 1$) \pause
+        \item 80\% variance threshold: Need 3 components (77.5\% with 3) \pause
+        \item Physical interpretation: Multiple gravitational processes create complex structure \pause
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Biplot: Objects in Orbital Space}
+    The biplot reveals orbital relationships:
+    \begin{itemize}
+        \item \textbf{Variable arrows}: Orbital parameter loadings \pause
+              \begin{itemize}
+                  \item Clustered arrows (a, e, i) show correlated excitation \pause
+                  \item H (brightness) may point differently — size-orbital coupling \pause
+              \end{itemize}
+        \item \textbf{Object points}: Individual Kuiper Belt objects in PC space \pause
+              \begin{itemize}
+                  \item Clustering reveals dynamical families \pause
+                  \item Outliers represent unusual objects (highly eccentric, large inclination) \pause
+                  \item Can identify candidates for detailed follow-up observations \pause
+              \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Scientific Applications}
+    \textbf{Population Studies:}
+    \begin{itemize}
+        \item Classify objects into dynamical families using PC scores \pause
+        \item Test formation and migration models against observed distributions \pause
+        \item Identify rare populations (detached objects, extreme resonances) \pause
+    \end{itemize}
+    \vspace{6pt}
+    \textbf{Observational Planning:}
+    \begin{itemize}
+        \item Target unusual objects (outliers in PC space) for detailed study \pause
+        \item Optimize survey strategies based on population structure \pause
+        \item Predict undiscovered populations in unsampled orbital regions \pause
+    \end{itemize}
+    \vspace{6pt}
+    \textbf{Comparative Planetology:}
+    \begin{itemize}
+        \item Compare our solar system structure to exoplanetary debris disks \pause
+        \item Understand how planetary migration shapes outer system architecture \pause
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Code Example: Astronomical Data Analysis}
+    \begin{itemize}
+        \item \textbf{Data generation}: \texttt{fetch\_kuiper.py} creates synthetic orbital database \pause
+        \item \textbf{Main analysis}: \texttt{kuiper\_example.py} performs PCA with astronomical interpretation \pause
+        \item \textbf{Outputs}:
+              \begin{itemize}
+                  \item Eigenvalues showing distributed variance structure \pause
+                  \item \texttt{kuiper\_scree.png}: Scree plot for component selection \pause
+                  \item \texttt{kuiper\_biplot.png}: Objects and orbital parameters in PC space \pause
+              \end{itemize}
+        \item \textbf{Usage}: \texttt{cd code/kuiper\_example \&\& python kuiper\_example.py} \pause
+    \end{itemize}
+    \vspace{6pt}
+    The script demonstrates PCA applied to scientific data with multiple meaningful components and physical interpretation of mathematical results.
+\end{frame}
+
 
 
 \end{document}
