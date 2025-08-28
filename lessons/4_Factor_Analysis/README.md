@@ -58,24 +58,38 @@ By the end of this chapter, students will be able to:
 - SPSS and SAS procedures
 - Practical considerations and best practices
 
-## Consolidated Structure
+## Chapter Implementation Status
 
-The chapter now uses a consolidated structure with:
-- **Single beamer presentation** covering all 6 subtopics
-- **Single comprehensive notes** document 
-- **Modular practice exercises** organized by subtopic
+The chapter currently includes:
+- ✅ **Complete Beamer presentation** covering all 6 subtopics
+- ✅ **Working code examples** with py-percent cells for interactive development
+- ⏳ **Practice exercises** organized by subtopic (planned for future implementation)
 
-### Contents
+### Interactive Development Features
+- All code examples use py-percent cells (`# %%` and `# %% [markdown]`) for VS Code/Jupyter integration
+- Examples generate output files (plots, reports) using robust pathlib-based file handling
+- Data fetching is separated from analysis for reproducibility across environments
+
+### Current Contents
 
 #### Lesson Materials
-- `lesson/factor_analysis.tex` - Complete chapter presentation (Beamer)
-- `lesson/factor_analysis.pdf` - Compiled presentation
+- `beamer/factor_analysis_presentation.tex` - Complete chapter presentation (Beamer)
+- `beamer/factor_analysis_presentation.pdf` - Compiled presentation
 
-#### Comprehensive Notes
-- `notes/factor_analysis_notes.tex` - Complete chapter documentation
-- `notes/factor_analysis_notes.pdf` - Compiled notes
+#### Working Code Examples
+```
+code/
+├── invest_example/          # PCA analysis with real stock market data
+│   ├── fetch_invest.py     # Data fetching script
+│   ├── invest_example.py   # Main PCA analysis with py-percent cells
+│   ├── invest.csv          # Downloaded data (created by fetch script)
+│   └── invest_*.png        # Generated figures
+└── pca_example/            # Synthetic PCA demonstration
+    ├── pca_example.py      # Self-contained PCA demo with py-percent cells
+    └── pca_scree.png       # Generated scree plot
+```
 
-#### Practice Exercises
+#### Planned Practice Exercises (Future)
 ```
 practice/
 ├── 4.1_objectives/           # Objectives and applications
@@ -90,17 +104,29 @@ practice/
 
 #### Compile Presentation
 ```bash
-cd lesson/
-pdflatex factor_analysis.tex
+cd beamer/
+pdflatex factor_analysis_presentation.tex
+# Run twice for proper cross-references
+pdflatex factor_analysis_presentation.tex
 ```
 
-#### Compile Notes
+#### Run Working Examples
 ```bash
-cd notes/
-pdflatex factor_analysis_notes.tex
+# Fetch data first (for invest example)
+.venv/bin/python code/invest_example/fetch_invest.py
+
+# Run PCA examples
+.venv/bin/python code/invest_example/invest_example.py
+.venv/bin/python code/pca_example/pca_example.py
 ```
 
-#### Run Practice Exercises
+#### Interactive Development
+```bash
+# Convert py-percent cell scripts to Jupyter notebooks
+jupytext --to ipynb code/*/*.py
+```
+
+#### Future Practice Exercises (when implemented)
 ```bash
 # Individual subtopic
 cd practice/4.1_objectives/
