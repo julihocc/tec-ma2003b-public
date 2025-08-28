@@ -23,7 +23,6 @@ jupyter_client==8.6.3
 jupyter_core==5.8.1
 jupytext==1.17.2
 kiwisolver==1.4.9
--e git+https://github.com/julihocc/tec-ma2003b-public.git@6c107e1f613f698832c1699cf7ba2f5b091355e8#egg=ma2003b_course&subdirectory=../../../ma2003b.worktrees/analisis-por-factores
 markdown-it-py==4.0.0
 matplotlib==3.10.5
 matplotlib-inline==0.1.7
