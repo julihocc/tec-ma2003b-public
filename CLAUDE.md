@@ -27,29 +27,29 @@ pip install -e .
 **Compile presentations:**
 ```bash
 # Factor analysis presentation (available)
-cd lessons/4_Factor_Analysis
-pdflatex factor_analysis.tex
+cd lessons/4_Factor_Analysis/beamer
+pdflatex factor_analysis_presentation.tex
+# Run twice for proper cross-references
+pdflatex factor_analysis_presentation.tex
 ```
 
-**Run practice scripts (when implemented):**
+**Run practice/code examples:**
 ```bash
-# Single subtopic practice script (template - practice folders not yet implemented)
-cd lessons/4_Factor_Analysis/practice/4.1_objectives
-python objectives_factor_analysis_practice.py
+# Fetch data first (for invest example)
+.venv/bin/python lessons/4_Factor_Analysis/code/invest_example/fetch_invest.py
 
-# All subtopics in a chapter (template - practice folders not yet implemented)
-for dir in lessons/4_Factor_Analysis/practice/4.*/; do
-  cd "$dir" && python *_practice.py && cd - > /dev/null
-done
+# Current examples (available now)
+.venv/bin/python lessons/4_Factor_Analysis/code/invest_example/invest_example.py
+.venv/bin/python lessons/4_Factor_Analysis/code/pca_example/pca_example.py
 
-# Alternative execution from repo root (recommended when implemented)
+# Future practice scripts (when implemented)
 .venv/bin/python lessons/4_Factor_Analysis/practice/4.1_objectives/objectives_factor_analysis_practice.py
+```
 
-# All subtopics using repo root execution (template)
-for f in lessons/4_Factor_Analysis/practice/*/*_practice.py; do
-  echo "--- running $f ---"
-  .venv/bin/python "$f" || break
-done
+**Convert Python scripts to notebooks:**
+```bash
+# Convert py-percent cell scripts to Jupyter notebooks
+jupytext --to ipynb lessons/4_Factor_Analysis/code/*/*.py
 ```
 
 **Data pull script:**
@@ -62,7 +62,8 @@ done
 
 **Course Materials:**
 - `lessons/4_Factor_Analysis/` - Factor analysis exercises and materials (current structure)
-  - Contains LaTeX presentation source (`factor_analysis.tex`) and compiled PDF
+  - `beamer/` - LaTeX presentation source (`factor_analysis_presentation.tex`) and compiled PDF
+  - `code/` - Working examples (`invest_example/`, `pca_example/`) with py-percent cell format
   - Chapter README provides comprehensive learning guide
   - Practice folders not yet implemented
 - Former chapters (Regression Analysis, Discriminant Analysis) have been removed in current working branch
@@ -132,28 +133,36 @@ X_Chapter_Name/
 │                                      #   - Chapter structure outline  
 │                                      #   - Usage instructions
 │                                      #   - Prerequisites and key concepts
-├── lesson/                            # Single consolidated presentation
-│   ├── [chapter].tex                 # Complete chapter Beamer presentation
-│   ├── [chapter].pdf                 # Compiled presentation
+├── beamer/                            # Single consolidated presentation
+│   ├── [chapter]_presentation.tex    # Complete chapter Beamer presentation
+│   ├── [chapter]_presentation.pdf    # Compiled presentation
 │   └── ... (LaTeX auxiliary files)
-└── practice/                          # Subtopic-organized exercises
+├── code/                              # Working examples with py-percent cells
+│   ├── invest_example/
+│   │   ├── fetch_invest.py           # Data fetching script
+│   │   ├── invest_example.py         # PCA analysis with # %% cells
+│   │   ├── invest.csv               # Downloaded data (created by fetch script)
+│   │   └── invest_*.png             # Generated figures
+│   └── pca_example/
+│       ├── pca_example.py           # Synthetic PCA demo with # %% cells
+│       └── pca_scree.png            # Generated scree plot
+└── practice/                          # Subtopic-organized exercises (future)
     ├── X.1_subtopic_name/
     │   ├── README.md                  # Brief subtopic practice instructions
     │   ├── [subtopic]_practice.py     # Main executable practice script
     │   └── [optional analysis modules]
-    ├── X.2_subtopic_name/
-    │   ├── README.md
-    │   └── [subtopic]_practice.py
     └── ... (continue for all subtopics)
 ```
 
 **Key Organizational Principles:**
 - **Chapter-level consolidation**: Single presentation covers all subtopics
 - **Comprehensive chapter README**: Serves as complete learning guide
-- **Modular practice exercises**: Each subtopic has independent practice folder
+- **Interactive examples**: Working code examples with py-percent cells for VS Code/Jupyter integration
+- **Data workflow separation**: Fetch scripts separate from analysis scripts (e.g., `fetch_invest.py` + `invest_example.py`)
+- **Modular practice exercises**: Each subtopic has independent practice folder (planned)
 - **Separation of concerns**: Practice folders split into computation, reporting, and orchestration
 - **Clean code architecture**: Pure functions, dataclasses, type hints for undergraduate learning
-- **Self-contained scripts**: Practice scripts include embedded documentation
+- **Self-contained scripts**: All scripts include embedded documentation and use Path for file operations
 - **Consistent naming**: `X.Y_descriptive_name` pattern for subtopic folders
 
 **Future Standardized Structure (Target):**
@@ -208,7 +217,11 @@ X.Y_subtopic_name/
 - `setup_logger()` - Configured logger with duplicate handler prevention and `propagate = False`
 - Use existing utilities instead of creating ad-hoc helpers
 
-**Scientific Computing Stack:** The repository includes a full scientific Python environment with numpy, pandas, matplotlib, scikit-learn, and Jupyter ecosystem for data analysis and visualization in practice exercises.
+**Scientific Computing Stack:** The repository includes a full scientific Python environment with numpy, pandas, matplotlib, scikit-learn, jupyter ecosystem (including jupytext for py-percent cell conversion), and additional tools like pdfminer for text extraction.
+
+**Interactive Development Pattern:** Code examples use py-percent cell markers (`# %%` and `# %% [markdown]`) for interactive execution in VS Code or conversion to Jupyter notebooks via jupytext. This allows seamless switching between script and notebook formats.
+
+**Data Fetching Pattern:** Examples that require external data use separate fetch scripts (e.g., `fetch_invest.py`) that download and prepare data files. This separation keeps data acquisition logic separate from analysis and makes examples reproducible across environments.
 
 ## Development Guidelines
 
@@ -221,7 +234,9 @@ X.Y_subtopic_name/
 
 ### Practice Code Architecture (Undergraduate Focus)
 - **Keep it simple**: Priority is understanding statistical concepts, not software engineering
-- **Clean separation**: Computation, reporting, and orchestration in separate modules
+- **Py-percent cell structure**: Use `# %%` and `# %% [markdown]` for interactive sections
+- **Path handling**: Use `pathlib.Path(__file__).resolve().parent` for file operations and `mkdir(parents=True, exist_ok=True)` for output directories
+- **Clean separation**: Computation, reporting, and orchestration in separate modules (when multiple files)
 - **Type hints for learning**: Use dataclasses and type annotations to make data flow clear
 - **Pure functions**: Computational modules should have no side effects or I/O
 - **Self-documenting**: Each function includes docstrings with Args/Returns
@@ -247,8 +262,8 @@ X.Y_subtopic_name/
 **Active Content (analisis-por-factores branch):**
 - ✅ **Chapter 4**: Factor Analysis 
   - Location: `lessons/4_Factor_Analysis/`
-  - Structure: LaTeX presentation source and PDF, comprehensive chapter README
-  - Status: Presentation materials complete, practice scripts not yet implemented
+  - Structure: LaTeX presentation in `beamer/`, working examples in `code/`, comprehensive chapter README
+  - Status: Presentation and code examples complete, formal practice scripts not yet implemented
 
 **Removed Content (staged for deletion):**
 - ❌ **Chapter 1**: Regression Analysis (5 topics) - removed from current branch
