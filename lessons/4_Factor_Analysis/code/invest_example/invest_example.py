@@ -59,28 +59,12 @@ print("Explained ratio:", np.round(explained_ratio, 3))
 print("Cumulative:", np.round(np.cumsum(explained_ratio), 3))
 
 # %% [markdown]
-# ## Interpreting the printed results (example and guidance):
+# ### Scree plot — quick interpretation
 #
-# ### Key outputs
-# - `eigenvalues`: these are the variances of the principal components.
-#   Larger eigenvalues mean the component explains more variance in the data.
-#   Example output: `[3.895, 0.092, 0.011, 0.004]` indicates the first
-#   component explains most of the variance.
-#
-# - `explained_ratio`: fraction of total variance explained by each component.
-#   If the first entry is ~0.97, then PC1 explains 97% of the variance and a
-#   one-component summary may be adequate for many purposes (dimensionality
-#   reduction, visualization, or constructing a single-factor model).
-#
-# - `cumulative`: shows how variance accumulates across components. Common
-#   decision rules: choose the smallest number of components that reach a
-#   target (e.g., 80-95%) of cumulative variance, or use the scree plot elbow.
-#
-# ### Notes on this dataset and outputs
-# - Financial return matrices often have one dominant component (market), so
-#   it's common to see a very large first eigenvalue and small remaining ones.
-# - PCA here is descriptive — further steps (rotation, factor models,
-#   or supervised dimension reduction) may be required depending on your goal.
+# The scree plot below shows eigenvalues (variance explained) by component
+# index. Look for an "elbow" where the curve flattens. Components left of
+# the elbow capture most structured variation. Complement the visual check
+# with the printed cumulative explained-variance numbers above.
 
 # %%
 # Scree plot
@@ -98,6 +82,14 @@ scree_out = script_dir / "invest_scree.png"
 scree_out.parent.mkdir(parents=True, exist_ok=True)
 plt.savefig(scree_out, dpi=150)
 print(f"Saved {scree_out}")
+
+# %% [markdown]
+# ### Biplot (first two components) — interpretation notes
+#
+# The biplot overlays observation scores (points) with variable loadings
+# (arrows). Arrows pointing together indicate correlated variables; longer
+# arrows indicate stronger contribution to the plotted PCs. Use the biplot to
+# see which variables drive separation among observations.
 
 # %%
 # Biplot (first two components)
@@ -118,3 +110,13 @@ biplot_out = script_dir / "invest_biplot.png"
 biplot_out.parent.mkdir(parents=True, exist_ok=True)
 plt.savefig(biplot_out, dpi=150)
 print(f"Saved {biplot_out}")
+
+# %% [markdown]
+# ## Conclusion
+#
+# - Use the scree plot to choose a small set of components that explain most
+#   variance; check the cumulative numbers for a quantitative threshold.
+# - Use the biplot or the `pca.components_` matrix to map retained components
+#   back to the original variables and form interpretations or factor
+#   constructions.
+# - Remember PCA is linear and sensitive to outliers — preprocess accordingly.

@@ -1,11 +1,10 @@
 # %% [markdown]
-# Kuiper PCA example (py-percent style)
+# # Kuiper PCA example
 #
 # This script loads a small CSV of Kuiper Belt / trans-Neptunian object
 # orbital parameters (generated from MPCORB in this repo) and runs PCA on the
 # standardized variables. It follows the same concise pattern used by
-# `invest_example.py` so it can be run interactively in editors that support
-# Run Cell.
+# `invest_example.py`.
 
 # %%
 from pathlib import Path
@@ -56,10 +55,12 @@ print("Explained ratio:", np.round(explained_ratio, 3))
 print("Cumulative:", np.round(np.cumsum(explained_ratio), 3))
 
 # %% [markdown]
-# ## Scree plot
+# ### Scree plot — quick interpretation (Kuiper data)
 #
-# The scree plot displays eigenvalues by component index. The script saves a
-# small PNG next to the script for quick inspection.
+# The scree plot below shows eigenvalues (variance explained) by component
+# index. Look for an "elbow" where the curve flattens. Components left of
+# the elbow capture most structured variation. Use the printed cumulative
+# values to choose how many components to retain (e.g., 80% coverage).
 
 # %%
 plt.figure(figsize=(6, 3))
@@ -77,9 +78,18 @@ plt.savefig(scree_out, dpi=150)
 print(f"Saved {scree_out}")
 
 # %% [markdown]
-# ## Biplot (PC1 vs PC2)
+# The scree plot helps decide how many components to examine. For orbital
+# parameters, the first few PCs often summarize contrasts between eccentricity,
+# inclination and semi-major axis. Inspect `pca.components_` to map PCs to
+# these physical parameters.
+
+# %% [markdown]
+# ### Biplot (PC1 vs PC2) — interpretation notes (Kuiper data)
 #
-# A simple biplot showing the first two PC scores and the variable loadings.
+# The biplot overlays observation scores and variable loadings. Points are
+# objects; arrows show how each orbital parameter loads on the first two
+# principal components. Arrows that point in the same direction indicate
+# positively correlated parameters; long arrows signal stronger influence.
 
 # %%
 plt.figure(figsize=(5, 5))
@@ -99,3 +109,14 @@ biplot_out = script_dir / "kuiper_biplot.png"
 biplot_out.parent.mkdir(parents=True, exist_ok=True)
 plt.savefig(biplot_out, dpi=150)
 print(f"Saved {biplot_out}")
+
+# %% [markdown]
+# ## Conclusion
+#
+# - Use the scree plot and cumulative numbers to choose how many components
+#   to keep (aim for a coverage target appropriate to your goal).
+# - Use the biplot and `pca.components_` to interpret which orbital
+#   parameters drive the main modes of variation; consider rotation if you
+#   need simpler factor-like interpretations.
+# - PCA is linear and can be sensitive to outliers; for robust inference,
+#   consider preprocessing and inspecting unusual observations.
