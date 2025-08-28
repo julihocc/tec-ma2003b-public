@@ -2,9 +2,12 @@
 # # Kuiper PCA example
 #
 # This script loads a small CSV of Kuiper Belt / trans-Neptunian object
-# orbital parameters (generated from MPCORB in this repo) and runs PCA on the
-# standardized variables. It follows the same concise pattern used by
-# `invest_example.py`.
+# orbital parameters (generated synthetically to match real astronomical data)
+# and runs PCA on the standardized variables. It follows the same concise pattern
+# used by `invest_example.py`.
+#
+# **Data Dictionary**: See `DATA_DICTIONARY.md` in this folder for detailed
+# explanations of each orbital parameter and their physical significance.
 
 # %%
 from pathlib import Path
@@ -21,7 +24,7 @@ script_dir = Path(__file__).resolve().parent
 data_path = script_dir / "kuiper.csv"
 if not data_path.exists():
     print(
-        f"Missing {data_path}. Run `fetch_kuiper.py` in the same folder to download kuiper.csv"
+        f"Missing {data_path}. Run `fetch_kuiper.py` in the same folder to generate kuiper.csv"
     )
     sys.exit(2)
 
