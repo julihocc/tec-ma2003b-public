@@ -11,6 +11,7 @@ This example demonstrates Principal Component Analysis (PCA) applied to hospital
 - `hospitals.csv` - Generated dataset (50 hospitals × 8 metrics)
 - `hospitals_scree.png` - Scree plot for component selection
 - `hospitals_biplot.png` - Biplot visualization of hospitals and variables
+- `HOSPITAL_OUTCOMES_DATA_DICTIONARY.md` - Detailed variable definitions and clinical context
 
 ## Health Outcome Variables
 

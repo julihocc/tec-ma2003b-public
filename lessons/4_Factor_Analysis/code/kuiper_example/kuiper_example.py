@@ -6,7 +6,7 @@
 # and runs PCA on the standardized variables. It follows the same concise pattern
 # used by `invest_example.py`.
 #
-# **Data Dictionary**: See `DATA_DICTIONARY.md` in this folder for detailed
+# **Data Dictionary**: See `KUIPER_BELT_DATA_DICTIONARY.md` in this folder for detailed
 # explanations of each orbital parameter and their physical significance.
 
 # %%
