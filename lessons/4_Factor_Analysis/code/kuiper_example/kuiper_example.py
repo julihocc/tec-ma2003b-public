@@ -55,6 +55,32 @@ print("Explained ratio:", np.round(explained_ratio, 3))
 print("Cumulative:", np.round(np.cumsum(explained_ratio), 3))
 
 # %% [markdown]
+# ### Quick interpretation of the printed results (concrete)
+#
+# Inspect the numeric summaries above before the figures. For a typical run
+# of this Kuiper example you might see:
+#
+# - Eigenvalues: `[1.846, 1.170, 0.900, 0.827, 0.309]`
+# - Explained ratio: `[0.365, 0.232, 0.178, 0.164, 0.061]`
+# - Cumulative: `[0.365, 0.597, 0.775, 0.939, 1.000]`
+#
+# Interpretation:
+# - The variance is distributed across multiple components: PC1 explains
+#   about 36.5% and the first three PCs explain ~77.5%. This suggests 2–3
+#   components are useful for a compact description of orbital-parameter
+#   variation.
+# - Use `pca.components_` to see which variables drive each PC. For example,
+#   a PC that loads on inclination and eccentricity indicates a dynamical
+#   excitation mode, while a contrast between semi-major axis and H could
+#   separate distant faint objects from nearer/brighter ones.
+#
+# Practical follow-ups:
+# - After examining the scree plot, inspect loadings and consider clustering
+#   on the first 2–3 PC scores to find groups of similar objects.
+# - If interpretability is needed, apply a rotation (varimax) to the leading
+#   components to obtain sparser, easier-to-label factors.
+
+# %% [markdown]
 # ### Scree plot — quick interpretation (Kuiper data)
 #
 # The scree plot below shows eigenvalues (variance explained) by component
