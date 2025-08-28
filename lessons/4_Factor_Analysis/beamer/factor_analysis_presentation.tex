@@ -41,142 +41,142 @@
 \section{Introduction}
 
 \begin{frame}[fragile]
-\frametitle{What is Factor Analysis?}
-\begin{itemize}
-    \item A statistical method for modeling relationships among \textbf{observed variables}. \pause
-    \item It uses a smaller number of \textit{unobserved variables}, known as \textbf{factors}. \pause
-    \item Often used in an \textit{unsupervised manner} to discover underlying patterns.
-\end{itemize}
-\end{frame}
-
-\begin{frame}[fragile]
-\frametitle{Key Concepts}
-\begin{itemize}
-    \item \textbf{Factors (or Latent Variables):} \pause
+    \frametitle{What is Factor Analysis?}
     \begin{itemize}
-        \item These are the underlying, unobserved variables. \pause
-        \item Example: A latent variable like "fairness" might be composed of observed variables like "demeanor" and "preparation for trial."
+        \item A statistical method for modeling relationships among \textbf{observed variables}. \pause
+        \item It uses a smaller number of \textit{unobserved variables}, known as \textbf{factors}. \pause
+        \item Often used in an \textit{unsupervised manner} to discover underlying patterns.
     \end{itemize}
-    \item \textbf{The Core Assumption:} \pause
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{Key Concepts}
     \begin{itemize}
-        \item Observed variables are a linear combination of a few common factors and a unique factor for each variable.
+        \item \textbf{Factors (or Latent Variables):} \pause
+              \begin{itemize}
+                  \item These are the underlying, unobserved variables. \pause
+                  \item Example: A latent variable like "fairness" might be composed of observed variables like "demeanor" and "preparation for trial."
+              \end{itemize}
+        \item \textbf{The Core Assumption:} \pause
+              \begin{itemize}
+                  \item Observed variables are a linear combination of a few common factors and a unique factor for each variable.
+              \end{itemize}
     \end{itemize}
-\end{itemize}
 \end{frame}
 
 \begin{frame}[fragile]
-\frametitle{Factor Analysis vs. Principal Component Analysis (PCA)}
-\begin{itemize}
-    \item \textbf{PCA:} Primarily a \textit{dimensionality reduction} technique. It focuses on summarizing the data by finding the directions of maximum variance. \pause
-    \item \textbf{Factor Analysis:} Aims to explain the \textit{latent structure} of the data and identify the underlying constructs that explain the observed correlations. \pause
-    \item \textbf{Summary:} While both reduce the number of variables, they have different goals.
-\end{itemize}
+    \frametitle{Factor Analysis vs. Principal Component Analysis (PCA)}
+    \begin{itemize}
+        \item \textbf{PCA:} Primarily a \textit{dimensionality reduction} technique. It focuses on summarizing the data by finding the directions of maximum variance. \pause
+        \item \textbf{Factor Analysis:} Aims to explain the \textit{latent structure} of the data and identify the underlying constructs that explain the observed correlations. \pause
+        \item \textbf{Summary:} While both reduce the number of variables, they have different goals.
+    \end{itemize}
 \end{frame}
 
 \begin{frame}[fragile]
-\frametitle{A Word of Caution}
-\begin{itemize}
-    \item Factor analysis is a \textit{modeling technique}. \pause
-    \item A confirmatory factor analysis cannot \textit{prove} a model is correct, only that it is plausible. \pause
-    \item The method can be ``fragile'' because multiple, equally valid models might exist for the same dataset.
-\end{itemize}
+    \frametitle{A Word of Caution}
+    \begin{itemize}
+        \item Factor analysis is a \textit{modeling technique}. \pause
+        \item A confirmatory factor analysis cannot \textit{prove} a model is correct, only that it is plausible. \pause
+        \item The method can be ``fragile'' because multiple, equally valid models might exist for the same dataset.
+    \end{itemize}
 \end{frame}
 
 \section{Principal Component Analysis}
 
 \begin{frame}
-\frametitle{Refresher: What is PCA?}
-\begin{itemize}
-    \item Principal Component Analysis (PCA) is a linear method for \textbf{dimension reduction}. \pause
-    \item It finds orthogonal directions (principal components) that capture the largest possible variance in the data. \pause
-    \item PCA produces new variables (components) that are linear combinations of the original observed variables. \pause
-    \item Use cases: visualization, noise reduction, pre-processing before supervised learning, and exploratory data analysis. \pause
-\end{itemize}
+    \frametitle{Refresher: What is PCA?}
+    \begin{itemize}
+        \item Principal Component Analysis (PCA) is a linear method for \textbf{dimension reduction}. \pause
+        \item It finds orthogonal directions (principal components) that capture the largest possible variance in the data. \pause
+        \item PCA produces new variables (components) that are linear combinations of the original observed variables. \pause
+        \item Use cases: visualization, noise reduction, pre-processing before supervised learning, and exploratory data analysis. \pause
+    \end{itemize}
 \end{frame}
 
 \begin{frame}
-\frametitle{Mathematical formulation}
-Let $\mathbf{x}\in\mathbb{R}^p$ be a random vector with mean $\mu$ and covariance matrix $\Sigma$. After centering the data ($\mathbf{x}-\mu$):
-\begin{itemize}
-    \item Find eigenvalues $\lambda_1\ge\lambda_2\ge\cdots\ge\lambda_p$ and orthonormal eigenvectors $\mathbf{v}_1,\dots,\mathbf{v}_p$ of $\Sigma$: $\Sigma\mathbf{v}_j=\lambda_j\mathbf{v}_j$. \pause
-    \item The $j$-th principal component is $z_j=\mathbf{v}_j^{\top}(\mathbf{x}-\mu)$. \pause
-    \item Variance explained by component $j$ is $\mathrm{Var}(z_j)=\lambda_j$. The proportion explained is $\lambda_j/\sum_{k=1}^p\lambda_k$. \pause
-\end{itemize}
+    \frametitle{Mathematical formulation}
+    Let $\mathbf{x}\in\mathbb{R}^p$ be a random vector with mean $\mu$ and covariance matrix $\Sigma$. After centering the data ($\mathbf{x}-\mu$):
+    \begin{itemize}
+        \item Find eigenvalues $\lambda_1\ge\lambda_2\ge\cdots\ge\lambda_p$ and orthonormal eigenvectors $\mathbf{v}_1,\dots,\mathbf{v}_p$ of $\Sigma$: $\Sigma\mathbf{v}_j=\lambda_j\mathbf{v}_j$. \pause
+        \item The $j$-th principal component is $z_j=\mathbf{v}_j^{\top}(\mathbf{x}-\mu)$. \pause
+        \item Variance explained by component $j$ is $\mathrm{Var}(z_j)=\lambda_j$. The proportion explained is $\lambda_j/\sum_{k=1}^p\lambda_k$. \pause
+    \end{itemize}
 \end{frame}
 
 \begin{frame}
-\frametitle{Computation steps (practical)}
-\begin{enumerate}
-    \item Standardize variables if they are on different scales (use correlation matrix) or center only if scales are comparable (use covariance matrix). \pause
-    \item Compute covariance (or correlation) matrix $S$ from the data. \pause
-    \item Compute eigen decomposition $S=V\Lambda V^{\top}$. \pause
-    \item Form principal component scores: $Z = X_c V$ (where $X_c$ is centered data and columns of $V$ are eigenvectors). \pause
-    \item Inspect eigenvalues, cumulative variance, and scree plot to decide how many components to keep. \pause
-\end{enumerate}
+    \frametitle{Computation steps (practical)}
+    \begin{enumerate}
+        \item Standardize variables if they are on different scales (use correlation matrix) or center only if scales are comparable (use covariance matrix). \pause
+        \item Compute covariance (or correlation) matrix $S$ from the data. \pause
+        \item Compute eigen decomposition $S=V\Lambda V^{\top}$. \pause
+        \item Form principal component scores: $Z = X_c V$ (where $X_c$ is centered data and columns of $V$ are eigenvectors). \pause
+        \item Inspect eigenvalues, cumulative variance, and scree plot to decide how many components to keep. \pause
+    \end{enumerate}
 \end{frame}
 
 \begin{frame}
-\frametitle{Deciding how many components to retain}
-Common heuristics and formal approaches:
-\begin{itemize}
-    \item Kaiser criterion: keep components with eigenvalue $>1$ (applies when using correlation matrix). \pause
-    \item Cumulative variance: keep the smallest number of components that explain a target (e.g., 70--90\%) of total variance. \pause
-    \item Scree plot: look for the "elbow" where additional components contribute little incremental variance. \pause
-    \item Parallel analysis: compare empirical eigenvalues to those obtained from random data — keep components with larger eigenvalues than random. \pause
-\end{itemize}
+    \frametitle{Deciding how many components to retain}
+    Common heuristics and formal approaches:
+    \begin{itemize}
+        \item Kaiser criterion: keep components with eigenvalue $>1$ (applies when using correlation matrix). \pause
+        \item Cumulative variance: keep the smallest number of components that explain a target (e.g., 70--90\%) of total variance. \pause
+        \item Scree plot: look for the "elbow" where additional components contribute little incremental variance. \pause
+        \item Parallel analysis: compare empirical eigenvalues to those obtained from random data — keep components with larger eigenvalues than random. \pause
+    \end{itemize}
 \end{frame}
 
 % Quick code example overview (refer to external script instead of showing full code)
 \begin{frame}
-\frametitle{PCA: quick code example — overview}
-\begin{itemize}
-    	\item Script location: \texttt{lessons/4\_Factor\_Analysis/code/pca\_example/pca\_example.py}. \pause
-    \item Main steps performed by the script: \pause
+    \frametitle{PCA: quick code example — overview}
     \begin{itemize}
-        \item Generate a small synthetic dataset with two latent factors and noise. \pause
-        \item Standardize variables (so the correlation matrix behavior is used). \pause
-        \item Fit PCA, extract eigenvalues and explained-variance ratios. \pause
-    \item Print eigenvalues, explained ratio and cumulative explained variance; save a scree plot to \texttt{lessons/4\_Factor\_Analysis/code/pca\_example/pca\_scree.png}. \pause
+        \item Script location: \texttt{lessons/4\_Factor\_Analysis/code/pca\_example/pca\_example.py}. \pause
+        \item Main steps performed by the script: \pause
+              \begin{itemize}
+                  \item Generate a small synthetic dataset with two latent factors and noise. \pause
+                  \item Standardize variables (so the correlation matrix behavior is used). \pause
+                  \item Fit PCA, extract eigenvalues and explained-variance ratios. \pause
+                  \item Print eigenvalues, explained ratio and cumulative explained variance; save a scree plot to \texttt{lessons/4\_Factor\_Analysis/code/pca\_example/pca\_scree.png}. \pause
+              \end{itemize}
+        \item How to run (recommended): \texttt{cd lessons/4\_Factor\_Analysis/code/pca\_example \&\& python pca\_example.py} — run this before compiling the slides if you want to embed the generated image. \pause
+        \item Why we keep code separate: cleaner slides, easier to test and version examples, and learners can run the script locally to reproduce results.\pause
     \end{itemize}
-    	\item How to run (recommended): \texttt{cd lessons/4\_Factor\_Analysis/code/pca\_example \&\& python pca\_example.py} — run this before compiling the slides if you want to embed the generated image. \pause
-    \item Why we keep code separate: cleaner slides, easier to test and version examples, and learners can run the script locally to reproduce results.\pause
-\end{itemize}
-\vspace{6pt}
-% Optional: if you prefer the scree plot inside the slides, run the example first and then add an \includegraphics command here.
+    \vspace{6pt}
+    % Optional: if you prefer the scree plot inside the slides, run the example first and then add an \includegraphics command here.
 \end{frame}
 
 \begin{frame}
-\frametitle{PCA vs Factor Analysis (reminder)}
-\begin{itemize}
-    \item PCA: descriptive linear combinations that maximize variance; components are exact linear functions of observed variables and need not have a causal or measurement model interpretation. \pause
-    \item Factor Analysis: a statistical model that explicitly decomposes observed variance into common (shared) variance explained by latent factors and unique variance (errors). \pause
-    \item Practical rule: use PCA for dimension reduction and data compression; use Factor Analysis when your goal is to model latent constructs and separate common from unique variance. \pause
-\end{itemize}
+    \frametitle{PCA vs Factor Analysis (reminder)}
+    \begin{itemize}
+        \item PCA: descriptive linear combinations that maximize variance; components are exact linear functions of observed variables and need not have a causal or measurement model interpretation. \pause
+        \item Factor Analysis: a statistical model that explicitly decomposes observed variance into common (shared) variance explained by latent factors and unique variance (errors). \pause
+        \item Practical rule: use PCA for dimension reduction and data compression; use Factor Analysis when your goal is to model latent constructs and separate common from unique variance. \pause
+    \end{itemize}
 \end{frame}
 
 \begin{frame}
-\frametitle{Practical tips and pitfalls}
-\begin{itemize}
-    \item Always check variable scales; standardize when necessary. \pause
-    \item PCA is sensitive to outliers — inspect data and consider robust alternatives if needed. \pause
-    \item Interpret components via loadings (eigenvectors) and by examining which variables contribute strongly to each component. \pause
-    \item Rotation is not standard in PCA (rotation reassigns variance) — if interpretability is a priority, consider Factor Analysis with rotation. \pause
-    \item When reporting, include: eigenvalues table, proportion of variance, cumulative variance, scree plot, and a table of loadings (component matrix). \pause
-\end{itemize}
+    \frametitle{Practical tips and pitfalls}
+    \begin{itemize}
+        \item Always check variable scales; standardize when necessary. \pause
+        \item PCA is sensitive to outliers — inspect data and consider robust alternatives if needed. \pause
+        \item Interpret components via loadings (eigenvectors) and by examining which variables contribute strongly to each component. \pause
+        \item Rotation is not standard in PCA (rotation reassigns variance) — if interpretability is a priority, consider Factor Analysis with rotation. \pause
+        \item When reporting, include: eigenvalues table, proportion of variance, cumulative variance, scree plot, and a table of loadings (component matrix). \pause
+    \end{itemize}
 \end{frame}
 
 \section{Investment allocation example}
 
 \begin{frame}
-\frametitle{Investment allocation example — overview}
-This section reproduces the style of the classic `invest` example using a synthetic dataset when the original `invest` data is not available.
-\begin{itemize}
-    \item Script: \texttt{lessons/4\_Factor\_Analysis/code/invest\_example/invest\_example.py} — generates an invest-like dataset (several asset returns), runs PCA and saves a scree plot and a biplot. \pause
-    \item Outputs: eigenvalues table, proportion and cumulative variance, scree plot, simple biplot of the first two components. \pause
-    \item How to reproduce: run the script in the `code` directory and then include generated images in slides if desired. \pause
-\end{itemize}
-\vspace{6pt}
-% If you want the images embedded in the slides, run the script and add an \includegraphics command here pointing to ../code/invest_example/invest_scree.png or ../code/invest_example/invest_biplot.png
+    \frametitle{Investment allocation example — overview}
+    This section reproduces the style of the classic `invest` example using a synthetic dataset when the original `invest` data is not available.
+    \begin{itemize}
+        \item Script: \texttt{lessons/4\_Factor\_Analysis/code/invest\_example/invest\_example.py} — generates an invest-like dataset (several asset returns), runs PCA and saves a scree plot and a biplot. \pause
+        \item Outputs: eigenvalues table, proportion and cumulative variance, scree plot, simple biplot of the first two components. \pause
+        \item How to reproduce: run the script in the `code` directory and then include generated images in slides if desired. \pause
+    \end{itemize}
+    \vspace{6pt}
+    % If you want the images embedded in the slides, run the script and add an \includegraphics command here pointing to ../code/invest_example/invest_scree.png or ../code/invest_example/invest_biplot.png
 \end{frame}
 
 
