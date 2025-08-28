@@ -52,3 +52,22 @@ Notes
 
 - Patch release: primarily documentation, course materials, and practice exercises for the Factor Analysis chapter.
 - Tag created: `v0.2.1` (patch bump from `v0.2.0`).
+
+## v1.0.2 - 2025-08-28
+
+Included commits (selected):
+
+- 64adfe0a — Adds style guide for Copilot edits
+- ce82c5b6 — Adds interpretation of PCA results
+- 4e08ac5e — Clarifies PCA example interpretations
+- b93a79ea — Refactors Kuiper PCA example script and improves CSV handling
+- 203f6ef4 — Adds scripts to fetch Kuiper CSV data and perform PCA visualizations
+- 5b18d6c4 — Improves readability of presentation
+- 83ab9589 — Updates developer setup and chapter documentation
+- 2d008973 — Simplifies environment setup instructions
+- 8fdfc60d — Adds requirements installation step
+- 09755108 — Improves factor analysis lesson structure
+
+Notes
+
+- Patch release: small feature additions (examples, fetch scripts), documentation, and educational refinements. This release updates example scripts to follow the project's py-percent interactive pattern and adds guidance for agent-driven edits.
