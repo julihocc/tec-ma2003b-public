@@ -162,50 +162,86 @@ A complete report on the real-world problem solution, including justification fo
   - Mathematics (270101)
   - Applied Mathematics (270301)
 
-## Developer setup & running scripts
+## Developer Setup & Running Scripts
 
-Quick steps to set up a development environment and run the repository's convenience scripts:
-
+Quick steps to set up a development environment and run the repository's scripts:
 
 1. Create and activate a local virtual environment in the repo root:
 
-  ```bash
-  python3 -m venv .venv
-  source .venv/bin/activate
-  ```
+   ```bash
+   python3 -m venv .venv
+   source .venv/bin/activate
+   ```
 
-1. Preferred: install the package in editable mode so `from utils import ...` works in scripts:
+2. Install required dependencies and the package in editable mode:
 
-  ```bash
-  pip install -e .
-  # fallback: pip install pytest
-  ```
+   ```bash
+   # Install core scientific computing packages
+   pip install numpy pandas matplotlib scikit-learn jupyter jupytext pytest
+   # Install package in editable mode for utils imports
+   pip install -e .
+   ```
 
-1. Run the unit tests from the repo root:
+3. Run the unit tests from the repo root:
 
-  ```bash
-  .venv/bin/python -m pytest -q
-  ```
+   ```bash
+   .venv/bin/python -m pytest -q
+   ```
 
-1. Run the convenience data-pull script (it expects the package to be importable). You can override the source path with an environment variable `MA2003B_ORIGIN_PATH`:
+4. Run working code examples:
 
-  ```bash
-  # use env override if your data lives elsewhere
-  MA2003B_ORIGIN_PATH="/path/to/origin" .venv/bin/python scripts/pull_data.py
-  ```
+   ```bash
+   # Fetch data for investment example
+   .venv/bin/python lessons/4_Factor_Analysis/code/invest_example/fetch_invest.py
+   
+   # Run PCA examples
+   .venv/bin/python lessons/4_Factor_Analysis/code/invest_example/invest_example.py
+   .venv/bin/python lessons/4_Factor_Analysis/code/pca_example/pca_example.py
+   ```
+
+5. Run the convenience data-pull script (optional - for course material sync):
+
+   ```bash
+   # use env override if your data lives elsewhere
+   MA2003B_ORIGIN_PATH="/path/to/origin" .venv/bin/python scripts/pull_data.py
+   ```
+
+### Interactive Development
+
+The code examples use py-percent cells (`# %%`) for interactive execution in VS Code or Jupyter:
+
+```bash
+# Convert Python scripts to Jupyter notebooks
+jupytext --to ipynb lessons/4_Factor_Analysis/code/*/*.py
+```
+
+## Current Repository Structure
+
+**Active Content (analisis-por-factores branch):**
+- ✅ **Chapter 4**: Factor Analysis 
+  - Location: `lessons/4_Factor_Analysis/`
+  - Structure: Beamer presentation in `beamer/`, working examples in `code/`
+  - Status: Presentation and code examples complete
+
+**Working Examples:**
+- `lessons/4_Factor_Analysis/code/invest_example/` - PCA analysis with real stock market data
+- `lessons/4_Factor_Analysis/code/pca_example/` - Synthetic PCA demonstration
 
 Notes:
 
-- The `scripts/pull_data.py` script copies the course source files into `backup/ma2003b` under the repository; it includes a safety check to avoid copying when the backup directory would be inside the origin.
-- If you add runtime dependencies, add a `requirements.txt` or `pyproject.toml` and document installation here.
+- The `scripts/pull_data.py` script copies course source files into `backup/ma2003b` with safety checks
+- Code examples use py-percent cells for interactive development in VS Code/Jupyter
+- All examples generate output files (plots, reports) next to the scripts using pathlib for robust paths
 
 ## Contributing
 
 Small changes, typos and lightweight utilities are welcome. Follow these conventions:
 
-- Keep exercise materials inside their exercise folders under `1_Regression_Analysis/`.
-- Add small utilities to `utils/` and export them through `utils/__init__.py`.
-- Update or add tests next to the module you change and run `python -m pytest -q`.
+- Keep lesson materials inside their chapter folders under `lessons/`
+- Add small utilities to `utils/` and export them through `utils/__init__.py`
+- Update or add tests next to the module you change and run `.venv/bin/python -m pytest -q`
+- Use py-percent cells (`# %%`) for interactive code examples
+- Use `pathlib.Path(__file__).resolve().parent` for robust file paths in examples
 
 ## Agent guidance
 

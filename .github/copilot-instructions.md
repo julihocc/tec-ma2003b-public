@@ -163,3 +163,26 @@ When editing this file
 
 If anything is unclear or you want a follow-up (eg. auto-format all lesson scripts to this style), tell me which folder to target and I'll implement it.
 - Absolute-path helper: `scripts/pull_data.py` — convert hard-coded paths to use `os.getenv('MA2003B_ORIGIN_PATH', '<fallback>')` when parameterizing.
+
+## Style ingestion — learn the maintainer's voice and patterns
+
+When making edits, follow these explicit style and workflow rules so the
+agent's output matches the author's expectations.
+
+- Preserve docstrings and teaching text verbatim unless asked; do not rewrite
+  protected narrative files (e.g., `objectives_factor_analysis_practice.py`).
+- Use py-percent cells (`# %%` / `# %% [markdown]`) and commented markdown for
+  educational text. Place short explanatory markdown cells immediately next to
+  the code or plot they describe (preamble → code → short interpretation).
+- Prefer concise, concrete explanations with example numbers. Example:
+  - After PCA prints, add a small markdown cell that shows typical eigenvalues
+    and an interpretation (do not append a long appendix at the file end).
+- File outputs and figures go next to the script using Path(). Example pattern:
+  - `scree_out = script_dir / "kuiper_scree.png"; scree_out.parent.mkdir(...); plt.savefig(scree_out)`
+- Always use the repo logger for progress / report lines (`from utils.logger import setup_logger`) and write human-readable report files next to practice scripts (see `utils/test_logger.py`).
+- Respect LaTeX fragility: never programmatically break `\begin{frame}`/`\end{frame}` or verbatim blocks; if an edit touches `lesson/*.tex`, run a quick `pdflatex` compile locally to check.
+- When adding runtime dependencies (scikit-learn, factor_analyzer, etc.), update `requirements.txt` and add a one-line note in the chapter README beside the changed script.
+- Validation rule: after any substantive code edit, run the relevant script or tests in the project's `.venv` and confirm it prints expected outputs and writes expected artifacts. If the edit touches data fetching, ensure `fetch_*` scripts produce CSVs in the expected location.
+- Prefer small, local edits over broad refactors. If a larger refactor is needed, summarize the plan and ask one clarifying question before proceeding.
+
+If you want the agent to internalize additional stylistic signals (commit message phrasing, doc tone, preferred variable names), provide 2–3 representative example commits or a short sample note and I will incorporate them into this file.
