@@ -61,8 +61,10 @@ By the end of this chapter, students will be able to:
 ## Chapter Implementation Status
 
 The chapter currently includes:
-- ✅ **Complete Beamer presentation** covering all 6 subtopics
-- ✅ **Working code examples** with py-percent cells for interactive development
+- ✅ **Complete Beamer presentation** covering all 6 subtopics with 4 comprehensive example sections
+- ✅ **Four working code examples** across different domains (education, finance, astronomy, healthcare)
+- ✅ **Comprehensive documentation** with detailed README files and data dictionaries
+- ✅ **Interactive development support** with py-percent cells for VS Code/Jupyter integration
 - ⏳ **Practice exercises** organized by subtopic (planned for future implementation)
 
 ### Interactive Development Features
@@ -73,20 +75,42 @@ The chapter currently includes:
 ### Current Contents
 
 #### Lesson Materials
-- `beamer/factor_analysis_presentation.tex` - Complete chapter presentation (Beamer)
-- `beamer/factor_analysis_presentation.pdf` - Compiled presentation
+- `beamer/factor_analysis_presentation.tex` - Complete chapter presentation (Beamer LaTeX)
+- `beamer/factor_analysis_presentation.pdf` - Compiled presentation with 4 comprehensive example sections
 
 #### Working Code Examples
 ```
 code/
-├── invest_example/          # PCA analysis with real stock market data
-│   ├── fetch_invest.py     # Data fetching script
-│   ├── invest_example.py   # Main PCA analysis with py-percent cells
-│   ├── invest.csv          # Downloaded data (created by fetch script)
-│   └── invest_*.png        # Generated figures
-└── pca_example/            # Synthetic PCA demonstration
-    ├── pca_example.py      # Self-contained PCA demo with py-percent cells
-    └── pca_scree.png       # Generated scree plot
+├── pca_example/               # Synthetic educational PCA demonstration
+│   ├── pca_example.py        # Educational assessment scenario with known factors
+│   ├── README.md             # Detailed pedagogical documentation
+│   ├── pca_scree.png         # Component selection visualization
+│   └── pca_biplot.png        # Students and abilities in PC space
+├── invest_example/           # European stock market PCA analysis
+│   ├── fetch_invest.py       # Generates synthetic European market data
+│   ├── invest_example.py     # Financial market integration analysis
+│   ├── invest.csv            # 1,860 trading days × 4 market indices
+│   ├── invest_scree.png      # Market factor identification
+│   ├── invest_biplot.png     # Time series and market loadings
+│   ├── README.md             # Financial context and interpretation
+│   └── EUROPEAN_STOCKS_DATA_DICTIONARY.md # Detailed market definitions
+├── kuiper_example/           # Astronomical PCA with Kuiper Belt objects
+│   ├── fetch_kuiper.py       # Generates synthetic orbital data
+│   ├── kuiper_example.py     # Orbital dynamics and population analysis
+│   ├── kuiper.csv            # 98 objects × 5 orbital parameters
+│   ├── kuiper_scree.png      # Dynamical component structure
+│   ├── kuiper_biplot.png     # Objects in orbital parameter space
+│   ├── README.md             # Astronomical context and interpretation
+│   └── KUIPER_BELT_DATA_DICTIONARY.md # Orbital parameter definitions
+├── hospitals_example/        # Healthcare quality PCA analysis
+│   ├── fetch_hospitals.py    # Generates synthetic hospital quality data
+│   ├── hospitals_example.py  # Healthcare quality assessment
+│   ├── hospitals.csv         # 50 hospitals × 8 quality metrics
+│   ├── hospitals_scree.png   # Quality factor identification
+│   ├── hospitals_biplot.png  # Hospitals in quality space
+│   ├── README.md             # Healthcare context and interpretation
+│   └── HOSPITAL_OUTCOMES_DATA_DICTIONARY.md # Quality metric definitions
+└── EXAMPLES_OVERVIEW.md      # Comparative guide to all examples
 ```
 
 #### Planned Practice Exercises (Future)
@@ -112,12 +136,20 @@ pdflatex factor_analysis_presentation.tex
 
 #### Run Working Examples
 ```bash
-# Fetch data first (for invest example)
-.venv/bin/python code/invest_example/fetch_invest.py
-
-# Run PCA examples
-.venv/bin/python code/invest_example/invest_example.py
+# Educational synthetic example (self-contained, no data fetching needed)
 .venv/bin/python code/pca_example/pca_example.py
+
+# Financial markets example  
+.venv/bin/python code/invest_example/fetch_invest.py
+.venv/bin/python code/invest_example/invest_example.py
+
+# Astronomical example
+.venv/bin/python code/kuiper_example/fetch_kuiper.py  
+.venv/bin/python code/kuiper_example/kuiper_example.py
+
+# Healthcare quality example
+.venv/bin/python code/hospitals_example/fetch_hospitals.py
+.venv/bin/python code/hospitals_example/hospitals_example.py
 ```
 
 #### Interactive Development
@@ -164,9 +196,36 @@ done
 - **Ψ**: Unique variances (diagonal matrix)
 - **Φ**: Factor correlation matrix (for oblique rotation)
 
+## Cross-Domain Examples Summary
+
+The four working examples demonstrate PCA applications across diverse fields:
+
+### 1. Educational Assessment (`pca_example/`)
+- **Pedagogical Focus**: Known factor structure allows validation of PCA concepts
+- **Variables**: MathTest, VerbalTest, SocialSkills, Leadership + noise controls
+- **Learning Value**: Ground truth validation, factor recovery, noise separation
+
+### 2. Financial Markets (`invest_example/`)  
+- **Domain**: European stock market integration analysis
+- **Variables**: DAX, SMI, CAC, FTSE indices over 1,860 trading days
+- **Learning Value**: Systematic vs idiosyncratic risk, market factor models
+
+### 3. Astronomy (`kuiper_example/`)
+- **Domain**: Kuiper Belt object orbital dynamics
+- **Variables**: 5 orbital parameters across 98 trans-Neptunian objects
+- **Learning Value**: Natural population structure, physical interpretation
+
+### 4. Healthcare (`hospitals_example/`)
+- **Domain**: Hospital quality assessment and benchmarking  
+- **Variables**: 8 quality metrics across 50 US hospitals
+- **Learning Value**: Multi-dimensional quality, organizational effectiveness
+
+Each example includes comprehensive documentation, data dictionaries, and domain-specific interpretation guides.
+
 ## Next Steps
 
 After completing this chapter, students will be prepared for:
 - Chapter 5: Discriminant Analysis
-- Chapter 6: Cluster Analysis
+- Chapter 6: Cluster Analysis  
 - Advanced multivariate modeling techniques
+- Real-world statistical consulting across multiple domains

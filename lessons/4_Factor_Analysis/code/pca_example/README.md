@@ -13,19 +13,21 @@ This example demonstrates Principal Component Analysis (PCA) using a carefully c
 
 ## Synthetic Data Structure
 
-The dataset contains **100 observations** across **5 variables** with a known 2-factor structure:
+The dataset contains **100 student observations** across **6 assessment variables** with a known 2-factor structure representing educational abilities:
 
 ### True Factor Structure
-- **Factor 1 (f1)**: Underlying latent factor driving variables 1-2
-- **Factor 2 (f2)**: Independent latent factor driving variables 3-4  
-- **Noise**: Random variation not explained by the factors
+- **Intelligence Factor**: Underlying cognitive ability affecting academic tests
+- **Personality Factor**: Underlying social/emotional traits affecting interpersonal skills
+- **Measurement Error**: Realistic noise added to meaningful variables
+- **Pure Noise**: Control variables with no latent structure
 
 ### Variable Definitions
-1. **Var1_F1** - Strong loading on Factor 1 (0.9 × f1 + noise)
-2. **Var2_F1** - Moderate loading on Factor 1 (0.8 × f1 + noise)
-3. **Var3_F2** - Strong loading on Factor 2 (0.7 × f2 + noise)
-4. **Var4_F2** - Moderate loading on Factor 2 (0.6 × f2 + noise)  
-5. **Noise** - Pure random noise (no factor influence)
+1. **MathTest** - Mathematics assessment (0.85 × Intelligence + measurement error)
+2. **VerbalTest** - Verbal reasoning assessment (0.80 × Intelligence + measurement error)  
+3. **SocialSkills** - Social competency rating (0.85 × Personality + measurement error)
+4. **Leadership** - Leadership ability rating (0.80 × Personality + measurement error)
+5. **RandomVar1** - Pure noise variable (no latent structure)
+6. **RandomVar2** - Pure noise variable (no latent structure)
 
 ## Usage
 
@@ -37,18 +39,19 @@ python pca_example.py
 ## Expected Results
 
 ### Typical Output
-- **Eigenvalues**: `[2.267, 1.501, 0.988, 0.258, 0.036]` (approximate)
-- **Explained variance**: PC1 (~44.9%), PC2 (~29.7%), PC3 (~19.6%)  
-- **Cumulative variance**: First 2 components explain ~74.6% of total variance
+- **Eigenvalues**: `[2.224, 1.870, 0.970, 0.862, 0.134, 0.000]` (approximate)
+- **Explained variance**: PC1 (~36.7%), PC2 (~30.8%), PC3-PC4 (~30.2%), PC5-PC6 (~2.3%)
+- **Cumulative variance**: First 2 components explain ~67.6% of total variance
 
 ### Factor Recovery Validation
 
 The script includes automatic validation of whether PCA correctly identified the known factor structure:
 
-- **PC1** should primarily load on Var1_F1 and Var2_F1 (Factor 1 variables)
-- **PC2** should primarily load on Var3_F2 and Var4_F2 (Factor 2 variables)
-- **PC3-PC5** should mainly capture noise and measurement error
-- The noise variable should have low loadings on the first two components
+- **PC1** captures general ability affecting all meaningful variables (Math, Verbal, Social, Leadership)
+- **PC2** may separate cognitive from social abilities
+- **PC3-PC4** capture additional structure and measurement error
+- **PC5-PC6** are pure noise components with very low eigenvalues (~0.13)
+- Random variables show weaker loadings than meaningful variables
 
 ## Educational Value
 
@@ -74,24 +77,27 @@ This example illustrates key PCA concepts:
 ### For Students
 1. **PCA finds directions of maximum variance** that often correspond to meaningful latent factors
 2. **Component selection** uses multiple criteria (scree plots, eigenvalues, explained variance)
-3. **Factor interpretation** relies on examining variable loadings and biological/domain meaning
+3. **Factor interpretation** relies on examining variable loadings and educational/domain meaning
 4. **Standardization is crucial** when variables have different scales or units
+5. **General vs specific factors** emerge naturally from correlated ability measures
 
 ### For Researchers  
 1. **Validation approach**: Use synthetic data to test method assumptions and behavior
 2. **Expected performance**: Well-structured data should show clear factor separation
-3. **Component retention**: Multiple criteria should converge on the same number of factors
+3. **Component retention**: Multiple criteria should converge on meaningful number of factors
 4. **Noise effects**: Even with clean factor structure, substantial variance may be unexplained
+5. **Educational measurement**: PCA reveals structure in assessment and survey data
 
 ## Comparison with Real Data
 
-| Aspect | Synthetic Example | Real Data |
-|--------|------------------|-----------|
-| Factor Structure | Known (2 factors) | Unknown |
-| Noise Level | Controlled | Variable |
-| Explained Variance | ~75% (high) | Typically 30-60% |
-| Component Interpretation | Validated against truth | Requires domain knowledge |
-| Factor Recovery | Can be verified | Must be inferred |
+| Aspect | Synthetic Example | Real Educational Data |
+|--------|------------------|----------------------|
+| Factor Structure | Known (Intelligence + Personality) | Unknown ability structure |
+| Noise Level | Controlled (0.2-0.25) | Variable measurement error |
+| Explained Variance | ~68% (high for education) | Typically 40-70% |
+| Component Interpretation | Validated against truth | Requires psychometric knowledge |
+| Factor Recovery | Can be verified | Must be inferred from theory |
+| Student Rankings | Based on known factors | Based on observed performance |
 
 ## Extensions
 
