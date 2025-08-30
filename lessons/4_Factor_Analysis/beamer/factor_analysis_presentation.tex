@@ -126,24 +126,6 @@
     \end{itemize}
 \end{frame}
 
-% Quick code example overview (refer to external script instead of showing full code)
-\begin{frame}
-    \frametitle{PCA: quick code example — overview}
-    \begin{itemize}
-        \item Script location: \texttt{lessons/4\_Factor\_Analysis/code/pca\_example/pca\_example.py}. \pause
-        \item Main steps performed by the script: \pause
-              \begin{itemize}
-                  \item Generate a small synthetic dataset with two latent factors and noise. \pause
-                  \item Standardize variables (so the correlation matrix behavior is used). \pause
-                  \item Fit PCA, extract eigenvalues and explained-variance ratios. \pause
-                  \item Print eigenvalues, explained ratio and cumulative explained variance; save a scree plot to \texttt{lessons/4\_Factor\_Analysis/code/pca\_example/pca\_scree.png}. \pause
-              \end{itemize}
-        \item How to run (recommended): \texttt{cd lessons/4\_Factor\_Analysis/code/pca\_example \&\& python pca\_example.py} — run this before compiling the slides if you want to embed the generated image. \pause
-        \item Why we keep code separate: cleaner slides, easier to test and version examples, and learners can run the script locally to reproduce results.\pause
-    \end{itemize}
-    \vspace{6pt}
-    % Optional: if you prefer the scree plot inside the slides, run the example first and then add an \includegraphics command here.
-\end{frame}
 
 \begin{frame}
     \frametitle{PCA vs Factor Analysis (reminder)}
@@ -163,6 +145,179 @@
         \item Rotation is not standard in PCA (rotation reassigns variance) — if interpretability is a priority, consider Factor Analysis with rotation. \pause
         \item When reporting, include: eigenvalues table, proportion of variance, cumulative variance, scree plot, and a table of loadings (component matrix). \pause
     \end{itemize}
+\end{frame}
+
+\section{Educational Assessment: Synthetic PCA Example}
+
+\begin{frame}
+    \frametitle{Educational Assessment: Synthetic PCA Example}
+    This section demonstrates PCA using controlled synthetic data with known factor structure to validate the method and teach key concepts.
+    \begin{itemize}
+        \item \textbf{Dataset}: Student assessment data with 6 variables (100 students) \pause
+        \item \textbf{Research Question}: Can PCA recover the underlying ability factors? How does it separate meaningful structure from noise? \pause
+        \item \textbf{Method}: Standardized PCA on synthetic data with known latent factors \pause
+    \end{itemize}
+    \vspace{6pt}
+    Script: \texttt{lessons/4\_Factor\_Analysis/code/pca\_example/pca\_example.py}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Dataset: Student Assessment Variables}
+    Six variables representing different aspects of student ability:
+    \begin{itemize}
+        \item \textbf{MathTest}: Mathematics assessment score \pause
+        \item \textbf{VerbalTest}: Verbal reasoning assessment score \pause
+        \item \textbf{SocialSkills}: Social competency rating \pause
+        \item \textbf{Leadership}: Leadership ability rating \pause
+    \end{itemize}
+    \vspace{6pt}
+    \begin{itemize}
+        \item \textbf{RandomVar1}: Pure noise variable (no latent structure) \pause
+        \item \textbf{RandomVar2}: Pure noise variable (no latent structure) \pause
+    \end{itemize}
+    \vspace{12pt}
+    \textbf{Known Structure:}
+    \begin{itemize}
+        \item \textit{Intelligence Factor}: Affects MathTest (0.85 loading) and VerbalTest (0.80 loading) \pause
+        \item \textit{Personality Factor}: Affects SocialSkills (0.85 loading) and Leadership (0.80 loading) \pause
+        \item Measurement error added to all meaningful variables (0.2-0.25 noise levels) \pause
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Educational Context and Validation}
+    \textbf{Pedagogical Value:}
+    \begin{itemize}
+        \item Ground truth known $\rightarrow$ can validate PCA's ability to recover factors \pause
+        \item Realistic psychological assessment scenario that students understand \pause
+        \item Clear separation between meaningful variables and pure noise \pause
+    \end{itemize}
+    \vspace{12pt}
+    \textbf{Expected Learning Outcomes:}
+    \begin{itemize}
+        \item Understand how PCA handles correlated variables driven by latent factors \pause
+        \item See how noise components are separated from meaningful structure \pause
+        \item Learn to interpret component loadings in context of known relationships \pause
+        \item Practice using scree plots and eigenvalue criteria for component selection \pause
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Typical PCA Results: Factor Recovery}
+    When running the analysis, we observe meaningful factor separation:
+    \begin{itemize}
+        \item \textbf{PC1} (36.7\% variance): General ability factor \pause
+              \begin{itemize}
+                  \item Eigenvalue $\approx$ 2.2 (well above Kaiser threshold) \pause
+                  \item Captures common variance across all meaningful measures \pause
+                  \item Reflects "halo effect" common in ability assessments \pause
+              \end{itemize}
+        \item \textbf{PC2} (30.8\% variance): Specific ability dimensions \pause
+              \begin{itemize}
+                  \item May separate cognitive from social abilities \pause
+                  \item Shows how PCA can capture multiple meaningful factors \pause
+              \end{itemize}
+        \item \textbf{PC3-PC4} (30.2\% variance): Additional structure and measurement error \pause
+        \item \textbf{PC5-PC6} (2.3\% variance): Pure noise components \pause
+              \begin{itemize}
+                  \item Very low eigenvalues ($<$ 0.15) clearly identify noise floor \pause
+              \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Educational Interpretation: Ability Structure}
+    \textbf{PC1 as General Ability:}
+    \begin{itemize}
+        \item Strong loadings on all meaningful variables (MathTest, VerbalTest, SocialSkills, Leadership) \pause
+        \item Weak loadings on noise variables (RandomVar1, RandomVar2) \pause
+        \item Demonstrates how PCA identifies common underlying factors \pause
+    \end{itemize}
+    \vspace{12pt}
+    \textbf{Validation Success:}
+    \begin{itemize}
+        \item \textit{Factor Recovery}: Meaningful variables show loading strength $\sim$0.45-0.50 \pause
+        \item \textit{Noise Separation}: Random variables show much weaker loadings $<$0.33 \pause
+        \item \textit{Structure Detection}: Clear eigenvalue drop separates signal from noise \pause
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Scree Plot: Learning Component Selection}
+    The scree plot demonstrates key decision-making concepts:
+    \begin{itemize}
+        \item Eigenvalues decline from meaningful structure ($>$0.8) to pure noise ($<$0.15) \pause
+        \item Kaiser criterion suggests retaining 4 components ($\lambda > 1$) \pause
+        \item 67\% variance explained by first 2 components is realistic for assessment data \pause
+    \end{itemize}
+    \vspace{12pt}
+    \textbf{Teaching Points:}
+    \begin{itemize}
+        \item No single "correct" number of components — depends on purpose \pause
+        \item Dramatic eigenvalue drop after PC4 indicates transition to noise \pause
+        \item Real data rarely shows as clean separation as this synthetic example \pause
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Biplot: Students and Abilities}
+    The biplot reveals educational assessment patterns:
+    \begin{itemize}
+        \item \textbf{Variable arrows}: Show how different abilities relate to PC dimensions \pause
+              \begin{itemize}
+                  \item Academic tests (Math, Verbal) cluster together if similar factor loadings \pause
+                  \item Social measures (Skills, Leadership) may point in different direction \pause
+                  \item Random variables show smaller, more scattered loadings \pause
+              \end{itemize}
+        \item \textbf{Student points}: Individual students positioned in ability space \pause
+              \begin{itemize}
+                  \item Spread along PC1 shows general ability differences \pause
+                  \item Students with high PC1 scores excel across multiple domains \pause
+                  \item Can identify students with specific ability profiles \pause
+              \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Educational Applications}
+    \textbf{Assessment Development:}
+    \begin{itemize}
+        \item Validate that tests measure intended constructs (factor loadings) \pause
+        \item Identify redundant measures that capture similar abilities \pause
+        \item Design balanced assessments across multiple ability dimensions \pause
+    \end{itemize}
+    \vspace{6pt}
+    \textbf{Student Analysis:}
+    \begin{itemize}
+        \item Create composite ability scores using PC1 weights \pause
+        \item Identify students with unusual ability profiles (outliers in PC space) \pause
+        \item Track ability development over time using consistent PC scoring \pause
+    \end{itemize}
+    \vspace{6pt}
+    \textbf{Research Applications:}
+    \begin{itemize}
+        \item Test theories about ability structure and factor relationships \pause
+        \item Compare ability patterns across different populations or contexts \pause
+        \item Develop more efficient assessment batteries based on factor structure \pause
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Code Example: Synthetic Data Analysis}
+    \begin{itemize}
+        \item \textbf{Data generation}: Creates realistic educational assessment scenario with known factors \pause
+        \item \textbf{Main analysis}: \texttt{pca\_example.py} performs PCA with detailed pedagogical interpretation \pause
+        \item \textbf{Outputs}:
+              \begin{itemize}
+                  \item Eigenvalues, explained variance ratios, factor recovery validation \pause
+                  \item \texttt{pca\_scree.png}: Scree plot showing signal-to-noise transition \pause
+                  \item \texttt{pca\_biplot.png}: Students and abilities in PC space \pause
+                  \item Student rankings by PC scores for practical interpretation \pause
+              \end{itemize}
+        \item \textbf{Usage}: \texttt{cd code/pca\_example \&\& python pca\_example.py} \pause
+    \end{itemize}
+    \vspace{6pt}
+    This example is ideal for learning PCA concepts because the ground truth is known, making it easy to validate whether the method works as expected.
 \end{frame}
 
 \section{Investment allocation example}
