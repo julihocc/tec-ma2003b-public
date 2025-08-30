@@ -69,7 +69,10 @@
         \item PCA theory and mathematical foundation
         \item Four comprehensive examples across different domains
     \end{itemize}
-    \vspace{12pt}
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{Course Structure Overview (cont.)}
     \textbf{Part II: Factor Analysis}
     \begin{itemize}
         \item Factor Analysis theory and modeling approach  
@@ -170,38 +173,40 @@
         \item \textbf{VerbalTest}: Verbal reasoning assessment score \pause
         \item \textbf{SocialSkills}: Social competency rating \pause
         \item \textbf{Leadership}: Leadership ability rating \pause
+        \item \textbf{RandomVar1, RandomVar2}: Pure noise controls \pause
     \end{itemize}
-    \vspace{6pt}
-    \begin{itemize}
-        \item \textbf{RandomVar1}: Pure noise variable (no latent structure) \pause
-        \item \textbf{RandomVar2}: Pure noise variable (no latent structure) \pause
-    \end{itemize}
-    \vspace{12pt}
-    \textbf{Known Structure:}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Known Factor Structure}
+    \textbf{Ground Truth for Validation:}
     \begin{itemize}
         \item \textit{Intelligence Factor}: Affects MathTest (0.85 loading) and VerbalTest (0.80 loading) \pause
         \item \textit{Personality Factor}: Affects SocialSkills (0.85 loading) and Leadership (0.80 loading) \pause
         \item Measurement error added to all meaningful variables (0.2-0.25 noise levels) \pause
     \end{itemize}
-\end{frame}
+\end{frame>
 
 \begin{frame}
-    \frametitle{Educational Context and Validation}
-    \textbf{Pedagogical Value:}
+    \frametitle{Educational Context: Pedagogical Value}
+    \textbf{Why This Example Works for Learning:}
     \begin{itemize}
         \item Ground truth known $\rightarrow$ can validate PCA's ability to recover factors \pause
         \item Realistic psychological assessment scenario that students understand \pause
         \item Clear separation between meaningful variables and pure noise \pause
     \end{itemize}
-    \vspace{12pt}
-    \textbf{Expected Learning Outcomes:}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Educational Context: Learning Outcomes}
+    \textbf{Key Concepts Students Will Master:}
     \begin{itemize}
         \item Understand how PCA handles correlated variables driven by latent factors \pause
         \item See how noise components are separated from meaningful structure \pause
         \item Learn to interpret component loadings in context of known relationships \pause
         \item Practice using scree plots and eigenvalue criteria for component selection \pause
     \end{itemize}
-\end{frame}
+\end{frame>
 
 \begin{frame}
     \frametitle{Typical PCA Results: Factor Recovery}
@@ -343,14 +348,17 @@
         \item \textbf{CAC (France)}: Paris Stock Exchange — core eurozone market \pause
         \item \textbf{FTSE (UK)}: London Stock Exchange — major international hub \pause
     \end{itemize}
-    \vspace{12pt}
-    \textbf{Financial Context:}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Financial Data Context}
+    \textbf{Analysis Setup:}
     \begin{itemize}
         \item Daily returns standardized (mean=0, std=1) for scale-invariant analysis \pause
         \item Captures correlation structure across different currencies and economies \pause
         \item Reflects market integration through EU membership and globalization \pause
     \end{itemize}
-\end{frame}
+\end{frame>
 
 \begin{frame}
     \frametitle{Typical PCA Results: Market Integration}
@@ -373,14 +381,17 @@
 
 \begin{frame}
     \frametitle{Financial Interpretation: Market Factor}
-    \textbf{PC1 as a Market Factor:}
+    \textbf{PC1 as Systematic Risk:}
     \begin{itemize}
         \item Captures \textit{systematic risk} — movements common to all markets \pause
-        \item Driven by: EU-wide economic conditions, global financial sentiment, major central bank policies \pause
+        \item Driven by: EU-wide economic conditions, global financial sentiment, central bank policies \pause
         \item High loadings on all indices $\rightarrow$ European markets are highly integrated \pause
     \end{itemize}
-    \vspace{12pt}
-    \textbf{Implications for Portfolio Management:}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Portfolio Management Implications}
+    \textbf{Key Insights for Investors:}
     \begin{itemize}
         \item \textit{Limited diversification benefit} from spreading across European markets alone \pause
         \item Most portfolio variance comes from exposure to the common factor \pause
@@ -396,8 +407,11 @@
         \item Clear ``elbow'' indicates one dominant factor \pause
         \item Remaining components are essentially flat (noise floor) \pause
     \end{itemize}
-    \vspace{12pt}
-    \textbf{Decision Rule:}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Component Selection Decision}
+    \textbf{Decision Rules Applied:}
     \begin{itemize}
         \item Kaiser criterion: Retain PC1 only ($\lambda > 1$) \pause
         \item Variance threshold: PC1 alone exceeds any reasonable cutoff (80\%, 90\%, 95\%) \pause
