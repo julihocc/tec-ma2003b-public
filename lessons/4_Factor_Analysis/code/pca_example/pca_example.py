@@ -37,37 +37,52 @@ print(f"Standardization: {standardize}")
 # %% [markdown]
 # ## Synthetic Data Generation
 #
-# We create a controlled dataset with **two underlying latent factors** (f1, f2)
-# plus noise. This allows us to validate whether PCA successfully recovers the
-# true factor structure. Each observed variable is a linear combination of:
-# - One or both latent factors (with different loadings)
-# - Independent Gaussian noise
+# We create a controlled dataset with **two underlying latent factors** representing:
+# - **Intelligence Factor**: Underlying cognitive ability affecting academic tests
+# - **Personality Factor**: Underlying social/emotional traits affecting interpersonal skills
 #
-# **Expected outcome**: PCA should identify 2 meaningful components that correspond
-# to the original factors, with the remaining components capturing noise.
+# Each observed variable is a linear combination of:
+# - One latent factor (with different loading strengths: 0.85 strong, 0.80 moderate)
+# - Measurement error (with different noise levels: 0.2 low, 0.25 medium)
+# - Two additional variables contain only noise (no latent structure)
+#
+# **Expected outcome**: PCA should identify meaningful components that capture the
+# latent factor structure, with clear separation from pure noise components.
 
 # %%
 rng = np.random.RandomState(random_seed)
 
-# Two latent factors (orthogonal by construction)
-f1 = rng.normal(size=(n_samples, 1))  # First latent factor
-f2 = rng.normal(size=(n_samples, 1))  # Second latent factor
+# Generate two orthogonal latent factors
+intelligence_factor = rng.normal(size=(n_samples, 1))  # Cognitive ability factor
+personality_factor = rng.normal(size=(n_samples, 1))   # Social/emotional factor
 
-# Create 6 observed variables with cleaner factor structure
-# Two variables for each factor plus two noise variables
-X = np.hstack(
-    [
-        0.85 * f1 + 0.2 * rng.normal(size=(n_samples, 1)),  # Var1: strong loading on f1
-        0.80 * f1 + 0.25 * rng.normal(size=(n_samples, 1)),  # Var2: strong loading on f1
-        0.85 * f2 + 0.2 * rng.normal(size=(n_samples, 1)),  # Var3: strong loading on f2
-        0.80 * f2 + 0.25 * rng.normal(size=(n_samples, 1)),  # Var4: strong loading on f2
-        0.6 * rng.normal(size=(n_samples, 1)),  # Var5: pure noise
-        0.5 * rng.normal(size=(n_samples, 1)),  # Var6: pure noise
-    ]
-)
+# Define noise terms for measurement error
+measurement_noise_low = rng.normal(size=(n_samples, 1))    # Low noise (σ = 0.2)  
+measurement_noise_med = rng.normal(size=(n_samples, 1))    # Medium noise (σ = 0.25)
+pure_noise_1 = rng.normal(size=(n_samples, 1))            # Pure noise variable 1
+pure_noise_2 = rng.normal(size=(n_samples, 1))            # Pure noise variable 2
 
-# Create variable names for interpretation
-variable_names = ["Var1_F1", "Var2_F1", "Var3_F2", "Var4_F2", "Noise1", "Noise2"]
+# Define factor loadings
+strong_loading = 0.85  # Strong relationship to latent factor
+moderate_loading = 0.80  # Moderate relationship to latent factor
+low_noise_level = 0.2   # Low measurement error
+med_noise_level = 0.25  # Medium measurement error
+noise_variance_1 = 0.6  # Variance for first noise variable
+noise_variance_2 = 0.5  # Variance for second noise variable
+
+# Create observed variables with meaningful structure
+math_test = strong_loading * intelligence_factor + low_noise_level * measurement_noise_low
+verbal_test = moderate_loading * intelligence_factor + med_noise_level * measurement_noise_med
+social_skills = strong_loading * personality_factor + low_noise_level * measurement_noise_low  
+leadership = moderate_loading * personality_factor + med_noise_level * measurement_noise_med
+random_var1 = noise_variance_1 * pure_noise_1  # Pure noise (no latent structure)
+random_var2 = noise_variance_2 * pure_noise_2  # Pure noise (no latent structure)
+
+# Combine into data matrix
+X = np.hstack([math_test, verbal_test, social_skills, leadership, random_var1, random_var2])
+
+# Create meaningful variable names for interpretation
+variable_names = ["MathTest", "VerbalTest", "SocialSkills", "Leadership", "RandomVar1", "RandomVar2"]
 print(f"Data shape: {X.shape} ({n_samples} observations, {X.shape[1]} variables)")
 print("Variables:", variable_names)
 
@@ -104,13 +119,14 @@ print("Cumulative:", np.round(np.cumsum(explained_ratio), 3))
 # - Cumulative: `[0.385, 0.653, 0.832, 0.975, 0.988, 1.000]` (approximate)
 #
 # **Interpretation**:
-# - **PC1** (~38.5%): Captures the strongest latent factor structure,
-#   mixing both factors due to PCA's variance maximization principle
-# - **PC2** (~26.8%): Captures the second dimension of factor structure
-# - **PC3-PC4** (~32.2%): Additional structure and some noise
-# - **PC5-PC6** (~2.5%): Pure noise components
-# - First two components explain ~65% of variance, which is good
-#   given the noise in our synthetic data
+# - **PC1** (~38.5%): Likely captures a general ability factor that affects
+#   both cognitive and social measures (common in psychological data)
+# - **PC2** (~26.8%): May separate cognitive (MathTest, VerbalTest) from 
+#   social (SocialSkills, Leadership) abilities
+# - **PC3-PC4** (~32.2%): Additional structure and measurement error
+# - **PC5-PC6** (~2.5%): Pure noise components (RandomVar1, RandomVar2)
+# - First two components explain ~65% of variance, which is realistic
+#   for psychological/educational assessment data
 #
 # **Validation check**: Since we know the true structure, PCA should show
 # clear separation between factor-related and noise components in the scree plot.
@@ -160,10 +176,11 @@ print(f"Saved {scree_out}")
 # identifies which variables belong to each factor.
 #
 # **Expected pattern**:
-# - Factor-related variables (Var1_F1, Var2_F1, Var3_F2, Var4_F2) should 
-#   show strong loadings and cluster together
-# - Noise variables (Noise1, Noise2) should have smaller loadings and 
-#   point in different directions from the factor variables
+# - Academic tests (MathTest, VerbalTest) should show similar loading patterns
+#   if they're driven by the same intelligence factor
+# - Social measures (SocialSkills, Leadership) should show similar loading patterns  
+#   if they're driven by the same personality factor
+# - Noise variables (RandomVar1, RandomVar2) should have smaller, more random loadings
 
 # %%
 plt.figure(figsize=(8, 6))
@@ -218,28 +235,29 @@ for row in loadings_table:
 
 # Validation: Check if factor structure was recovered
 print("\n--- Factor Recovery Validation ---")
-pc1_f1_vars = np.abs(pca.components_[0, :2])  # Var1_F1, Var2_F1 loadings on PC1
-pc2_f2_vars = np.abs(pca.components_[1, 2:4])  # Var3_F2, Var4_F2 loadings on PC2
-noise_max_loading = np.max(np.abs(pca.components_[:2, 4:6]))  # Noise variables on PC1,PC2
+cognitive_loadings = np.abs(pca.components_[0, :2])  # MathTest, VerbalTest loadings on PC1
+social_loadings = np.abs(pca.components_[1, 2:4])    # SocialSkills, Leadership loadings on PC2
+random_max_loading = np.max(np.abs(pca.components_[:2, 4:6]))  # RandomVar1, RandomVar2 on PC1,PC2
 
-print(f"F1 variables (Var1,Var2) average loading magnitude: {pc1_f1_vars.mean():.3f}")
-print(f"F2 variables (Var3,Var4) average loading magnitude: {pc2_f2_vars.mean():.3f}")
-print(f"Noise variables max loading on PC1/PC2: {noise_max_loading:.3f}")
+print(f"Cognitive tests (Math,Verbal) average loading magnitude: {cognitive_loadings.mean():.3f}")
+print(f"Social measures (Skills,Leadership) average loading magnitude: {social_loadings.mean():.3f}")
+print(f"Random variables max loading on PC1/PC2: {random_max_loading:.3f}")
 
-# Check if factor variables load more strongly than noise
-factor_strength = min(pc1_f1_vars.mean(), pc2_f2_vars.mean())
-if factor_strength > noise_max_loading * 2:
-    print("✓ SUCCESS: Factor variables show stronger loadings than noise!")
-    print(f"  Factor loading strength: {factor_strength:.3f}")
-    print(f"  vs Noise loading strength: {noise_max_loading:.3f}")
+# Check if meaningful variables load more strongly than random noise
+meaningful_strength = min(cognitive_loadings.mean(), social_loadings.mean())
+if meaningful_strength > random_max_loading * 2:
+    print("✓ SUCCESS: Meaningful variables show stronger loadings than random noise!")
+    print(f"  Meaningful variable loading strength: {meaningful_strength:.3f}")
+    print(f"  vs Random variable loading strength: {random_max_loading:.3f}")
 else:
-    print("⚠ NOTICE: Factor separation could be cleaner - this is typical for PCA")
+    print("⚠ NOTICE: Variable separation could be cleaner - this is typical for PCA")
 
 # %% [markdown]
 # ### Observation rankings by PC scores
 #
-# Since this is synthetic data, we can examine which observations score highest
-# on each principal component to understand what patterns PCA identified.
+# Since this is synthetic data representing student assessments, we can examine 
+# which "students" score highest on each principal component to understand 
+# what patterns PCA identified in abilities and performance.
 
 # %%
 # Create rankings based on PC1 and PC2 scores
@@ -254,17 +272,17 @@ observation_scores = np.column_stack(
 # Sort by PC1 scores (descending)
 pc1_rankings = observation_scores[observation_scores[:, 1].argsort()[::-1]]
 
-print("Top 5 observations by PC1 score (highest factor 1 influence):")
-print(f"{'Obs':<8} {'PC1':<10} {'PC2':<10}")
-print("-" * 28)
+print("Top 5 students by PC1 score (highest on general ability dimension):")
+print(f"{'Student':<10} {'PC1':<10} {'PC2':<10}")
+print("-" * 30)
 for i in range(5):
-    obs_id, pc1, pc2 = pc1_rankings[i]
-    print(f"{int(obs_id):<8} {pc1:<10.3f} {pc2:<10.3f}")
+    student_id, pc1, pc2 = pc1_rankings[i]
+    print(f"Student_{int(student_id):<3} {pc1:<10.3f} {pc2:<10.3f}")
 
-print("\nBottom 5 observations by PC1 score (lowest factor 1 influence):")
+print("\nBottom 5 students by PC1 score (lowest on general ability dimension):")
 for i in range(5):
-    obs_id, pc1, pc2 = pc1_rankings[-(i + 1)]
-    print(f"{int(obs_id):<8} {pc1:<10.3f} {pc2:<10.3f}")
+    student_id, pc1, pc2 = pc1_rankings[-(i + 1)]
+    print(f"Student_{int(student_id):<3} {pc1:<10.3f} {pc2:<10.3f}")
 
 # %% [markdown]
 # ## Conclusion
