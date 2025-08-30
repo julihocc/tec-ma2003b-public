@@ -36,49 +36,50 @@
     \tableofcontents
 \end{frame}
 
-% Section: Introducción
+% ============================================================================
+% PART I: PRINCIPAL COMPONENT ANALYSIS
+% ============================================================================
 
-\section{Introduction}
+\part{Principal Component Analysis}
 
-\begin{frame}[fragile]
-    \frametitle{What is Factor Analysis?}
-    \begin{itemize}
-        \item A statistical method for modeling relationships among \textbf{observed variables}. \pause
-        \item It uses a smaller number of \textit{unobserved variables}, known as \textbf{factors}. \pause
-        \item Often used in an \textit{unsupervised manner} to discover underlying patterns.
-    \end{itemize}
+\begin{frame}
+    \partpage
 \end{frame}
 
+\section{Introduction to Multivariate Analysis}
+
 \begin{frame}[fragile]
-    \frametitle{Key Concepts}
+    \frametitle{Multivariate Analysis Overview}
     \begin{itemize}
-        \item \textbf{Factors (or Latent Variables):} \pause
+        \item \textbf{Multivariate Analysis}: Statistical methods for analyzing multiple variables simultaneously \pause
+        \item \textbf{Key Challenge}: Understanding relationships among many correlated variables \pause
+        \item \textbf{Two Main Approaches}: 
               \begin{itemize}
-                  \item These are the underlying, unobserved variables. \pause
-                  \item Example: A latent variable like "fairness" might be composed of observed variables like "demeanor" and "preparation for trial."
+                  \item \textit{Principal Component Analysis (PCA)}: Dimensionality reduction technique \pause
+                  \item \textit{Factor Analysis}: Latent variable modeling technique \pause
               \end{itemize}
-        \item \textbf{The Core Assumption:} \pause
-              \begin{itemize}
-                  \item Observed variables are a linear combination of a few common factors and a unique factor for each variable.
-              \end{itemize}
+        \item \textbf{This Course}: We'll explore both methods using the same datasets for direct comparison
     \end{itemize}
 \end{frame}
 
 \begin{frame}[fragile]
-    \frametitle{Factor Analysis vs. Principal Component Analysis (PCA)}
+    \frametitle{Course Structure Overview}
+    \textbf{Part I: Principal Component Analysis}
     \begin{itemize}
-        \item \textbf{PCA:} Primarily a \textit{dimensionality reduction} technique. It focuses on summarizing the data by finding the directions of maximum variance. \pause
-        \item \textbf{Factor Analysis:} Aims to explain the \textit{latent structure} of the data and identify the underlying constructs that explain the observed correlations. \pause
-        \item \textbf{Summary:} While both reduce the number of variables, they have different goals.
+        \item PCA theory and mathematical foundation
+        \item Four comprehensive examples across different domains
     \end{itemize}
-\end{frame}
-
-\begin{frame}[fragile]
-    \frametitle{A Word of Caution}
+    \vspace{12pt}
+    \textbf{Part II: Factor Analysis}
     \begin{itemize}
-        \item Factor analysis is a \textit{modeling technique}. \pause
-        \item A confirmatory factor analysis cannot \textit{prove} a model is correct, only that it is plausible. \pause
-        \item The method can be ``fragile'' because multiple, equally valid models might exist for the same dataset.
+        \item Factor Analysis theory and modeling approach  
+        \item Same datasets analyzed with Factor Analysis
+    \end{itemize}
+    \vspace{12pt}
+    \textbf{Part III: Comparison and Applications}
+    \begin{itemize}
+        \item Side-by-side comparison of results
+        \item Guidelines for choosing the appropriate method
     \end{itemize}
 \end{frame}
 
@@ -794,6 +795,156 @@
     \end{itemize}
     \vspace{6pt}
     The script demonstrates PCA applied to healthcare quality assessment with practical interpretation for hospital management and policy applications.
+\end{frame}
+
+% ============================================================================
+% PART II: FACTOR ANALYSIS
+% ============================================================================
+
+\part{Factor Analysis}
+
+\begin{frame}
+    \partpage
+\end{frame}
+
+\section{Introduction to Factor Analysis}
+
+\begin{frame}[fragile]
+    \frametitle{What is Factor Analysis?}
+    \begin{itemize}
+        \item A statistical method for modeling relationships among \textbf{observed variables} using \textbf{latent factors}. \pause
+        \item It uses a smaller number of \textit{unobserved variables}, known as \textbf{common factors}. \pause
+        \item \textbf{Key Distinction from PCA}: Explicitly models measurement error and unique variance \pause
+        \item Often used to discover and validate underlying theoretical constructs
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{Factor Analysis Model}
+    \begin{itemize}
+        \item \textbf{Common Factors}: Latent variables that influence multiple observed variables \pause
+        \item \textbf{Factor Loadings}: Relationships between observed variables and common factors \pause
+        \item \textbf{Unique Factors}: Variable-specific variance not explained by common factors \pause
+        \item \textbf{Core Assumption}: $X_i = \lambda_{i1}F_1 + \lambda_{i2}F_2 + \cdots + \lambda_{ik}F_k + U_i$
+              \begin{itemize}
+                  \item $X_i$ = observed variable, $F_j$ = common factors, $U_i$ = unique factor
+              \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{Factor Analysis vs. PCA: Key Differences}
+    \begin{center}
+    \begin{tabular}{|p{5cm}|p{5cm}|}
+    \hline
+    \textbf{Principal Component Analysis} & \textbf{Factor Analysis} \\
+    \hline
+    Dimensionality reduction & Latent variable modeling \\
+    \hline
+    Components are linear combinations of all variables & Factors are hypothetical constructs \\
+    \hline
+    Explains total variance & Explains common variance only \\
+    \hline
+    No measurement error model & Explicitly models unique variance \\
+    \hline
+    Descriptive technique & Statistical model with assumptions \\
+    \hline
+    \end{tabular}
+    \end{center}
+    \vspace{12pt}
+    \textbf{Next}: We'll analyze the same four datasets with Factor Analysis to see these differences in practice!
+\end{frame}
+
+\section{Factor Analysis: Educational Assessment Example}
+
+\begin{frame}
+    \frametitle{Educational Assessment: Factor Analysis}
+    \textbf{Reanalyzing our synthetic student data with Factor Analysis}
+    \begin{itemize}
+        \item \textbf{Same Dataset}: 100 students, 6 variables (MathTest, VerbalTest, SocialSkills, Leadership, RandomVar1, RandomVar2) \pause
+        \item \textbf{Known Structure}: Intelligence factor + Personality factor + noise \pause
+        \item \textbf{FA Advantage}: Should better identify the true 2-factor structure \pause
+        \item \textbf{Comparison Goal}: See how FA handles measurement error vs PCA
+    \end{itemize}
+    \vspace{12pt}
+    \textbf{Expected FA Results}:
+    \begin{itemize}
+        \item Factor 1: Intelligence (Math, Verbal tests) \pause
+        \item Factor 2: Personality (Social skills, Leadership) \pause
+        \item Random variables should show low communalities \pause
+    \end{itemize}
+\end{frame}
+
+% Placeholder for additional FA examples and theory
+% Will be expanded with Factor Analysis implementations
+
+% ============================================================================
+% PART III: COMPARISON AND APPLICATIONS  
+% ============================================================================
+
+\part{Comparison and Applications}
+
+\begin{frame}
+    \partpage
+\end{frame}
+
+\section{PCA vs Factor Analysis: Direct Comparison}
+
+\begin{frame}
+    \frametitle{Method Comparison Overview}
+    \textbf{We will compare PCA and Factor Analysis results for:}
+    \begin{itemize}
+        \item \textbf{Educational Assessment}: Known 2-factor structure with noise
+        \item \textbf{European Stock Markets}: High correlation, potential single market factor  
+        \item \textbf{Kuiper Belt Objects}: Natural population structure in astronomy
+        \item \textbf{Hospital Quality}: Healthcare performance measurement
+    \end{itemize}
+    \vspace{12pt}
+    \textbf{Comparison Criteria}:
+    \begin{itemize}
+        \item Variance explained vs factor interpretability
+        \item Treatment of measurement error and unique variance
+        \item Practical applications and domain fit
+    \end{itemize}
+\end{frame}
+
+\section{Guidelines for Method Selection}
+
+\begin{frame}
+    \frametitle{When to Use PCA vs Factor Analysis}
+    \textbf{Use PCA when:}
+    \begin{itemize}
+        \item Primary goal is dimensionality reduction \pause
+        \item You want to maximize variance explained \pause
+        \item Data compression or noise reduction is the objective \pause
+        \item You don't have strong theoretical expectations about latent constructs \pause
+    \end{itemize}
+    \vspace{12pt}
+    \textbf{Use Factor Analysis when:}
+    \begin{itemize}
+        \item You want to model latent constructs or theoretical factors \pause
+        \item Understanding measurement error and unique variance is important \pause
+        \item You need factor rotation for cleaner interpretation \pause
+        \item Confirmatory analysis of hypothesized factor structures \pause
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{Practical Recommendations}
+    \begin{itemize}
+        \item \textbf{Start with EDA}: Use PCA first to understand your data structure \pause
+        \item \textbf{Theory-driven analysis}: Apply Factor Analysis when you have theoretical expectations \pause
+        \item \textbf{Compare both methods}: Results convergence strengthens conclusions \pause
+        \item \textbf{Consider sample size}: Factor Analysis requires larger samples \pause
+        \item \textbf{Validate results}: Use cross-validation, external criteria, or confirmatory approaches
+    \end{itemize}
+    \vspace{12pt}
+    \textbf{A Word of Caution}:
+    \begin{itemize}
+        \item Neither method can \textit{prove} a factor structure is correct \pause
+        \item Multiple equally valid models may exist for the same dataset \pause
+        \item Always combine statistical results with domain knowledge
+    \end{itemize}
 \end{frame}
 
 \end{document}
