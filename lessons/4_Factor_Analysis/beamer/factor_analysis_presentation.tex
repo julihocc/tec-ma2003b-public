@@ -475,6 +475,170 @@
     The script demonstrates PCA applied to scientific data with multiple meaningful components and physical interpretation of mathematical results.
 \end{frame}
 
+\section{Hospital Health Outcomes}
 
+\begin{frame}
+    \frametitle{Hospital Health Outcomes: PCA Analysis}
+    This section demonstrates PCA applied to healthcare quality assessment using hospital performance metrics.
+    \begin{itemize}
+        \item \textbf{Dataset}: 8 key performance indicators from 50 US hospitals \pause
+        \item \textbf{Research Question}: What are the main dimensions of hospital quality? Can we identify overall performance patterns? \pause
+        \item \textbf{Method}: Standardized PCA on health outcome metrics with different units \pause
+    \end{itemize}
+    \vspace{6pt}
+    Script: \texttt{lessons/4\_Factor\_Analysis/code/hospitals\_example/hospitals\_example.py}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Dataset: Hospital Performance Metrics}
+    Eight key hospital quality indicators across multiple domains:
+    \begin{itemize}
+        \item \textbf{MortalityRate} (\%): Hospital mortality rate — lower is better \pause
+        \item \textbf{ReadmissionRate} (\%): 30-day readmission rate — lower is better \pause
+        \item \textbf{PatientSatisfaction} (0-100): HCAHPS survey score — higher is better \pause
+        \item \textbf{AvgLengthStay} (days): Average inpatient stay — shorter generally better \pause
+    \end{itemize}
+    \vspace{6pt}
+    \begin{itemize}
+        \item \textbf{InfectionRate} (\%): Hospital-acquired infections — lower is better \pause
+        \item \textbf{NurseRatio}: Nurse-to-patient ratio — higher is better \pause
+        \item \textbf{SurgicalComplications} (\%): Surgical complication rate — lower is better \pause
+        \item \textbf{EDWaitTime} (minutes): Emergency department wait time — lower is better \pause
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Healthcare Quality Context}
+    \textbf{Clinical Significance:}
+    \begin{itemize}
+        \item Metrics reflect different aspects of hospital performance \pause
+        \item Used by CMS Hospital Compare and Value-Based Purchasing programs \pause
+        \item Different units require standardization for meaningful PCA \pause
+    \end{itemize}
+    \vspace{12pt}
+    \textbf{Quality Improvement Context:}
+    \begin{itemize}
+        \item Hospitals with good management typically excel across multiple metrics \pause
+        \item ``Halo effect'': organizational excellence affects all care aspects \pause
+        \item Understanding correlation patterns guides quality improvement strategies \pause
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Typical PCA Results: Quality Factor}
+    When running the analysis, we observe a dominant first component:
+    \begin{itemize}
+        \item \textbf{PC1} (70.5\% variance): Overall hospital quality factor \pause
+              \begin{itemize}
+                  \item Eigenvalue $\approx$ 5.6 (well above Kaiser threshold) \pause
+                  \item High loadings on all quality metrics in expected direction \pause
+                  \item Represents the ``halo effect'' of organizational excellence \pause
+              \end{itemize}
+        \item \textbf{PC2} (8.5\% variance): Efficiency vs. thoroughness trade-offs \pause
+              \begin{itemize}
+                  \item May separate different care philosophies or patient populations \pause
+                  \item Captures length-of-stay patterns and resource utilization \pause
+              \end{itemize}
+        \item \textbf{PC3-PC8}: Explain remaining 21\% variance \pause
+              \begin{itemize}
+                  \item Capture specific aspects of care not explained by general quality \pause
+              \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Healthcare Interpretation: Quality Assessment}
+    \textbf{PC1 as Overall Quality:}
+    \begin{itemize}
+        \item High negative loadings on ``bad'' metrics (mortality, readmissions, infections, complications, wait times) \pause
+        \item High positive loadings on ``good'' metrics (satisfaction, nurse ratios) \pause
+        \item Reflects systematic differences in organizational effectiveness \pause
+    \end{itemize}
+    \vspace{12pt}
+    \textbf{Implications for Healthcare Management:}
+    \begin{itemize}
+        \item \textit{Quality is largely unidimensional}: Good hospitals excel across multiple metrics \pause
+        \item \textit{Composite scoring}: Use PC1 scores to rank hospital performance \pause
+        \item \textit{Targeted improvement}: Focus on organizational excellence rather than isolated metrics \pause
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Visualization: Quality Performance Structure}
+    The scree plot shows a clear quality hierarchy:
+    \begin{itemize}
+        \item Dramatic drop from PC1 ($\lambda \approx 5.6$) to PC2 ($\lambda \approx 0.7$) \pause
+        \item Clear ``elbow'' indicates one dominant quality factor \pause
+        \item Remaining components are much smaller (noise or specific aspects) \pause
+    \end{itemize}
+    \vspace{12pt}
+    \textbf{Decision Rules:}
+    \begin{itemize}
+        \item Kaiser criterion: Retain PC1 only ($\lambda > 1$) \pause
+        \item 70\% variance: PC1 alone exceeds most reasonable cutoffs \pause
+        \item Practical conclusion: Hospital quality can be summarized by a single composite score \pause
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Biplot: Hospitals and Quality Metrics}
+    The biplot reveals the quality structure:
+    \begin{itemize}
+        \item \textbf{Variable arrows} (red): Show metric loadings on PC1-PC2 \pause
+              \begin{itemize}
+                  \item ``Bad'' metrics point left (negative PC1 direction) \pause
+                  \item ``Good'' metrics point right (positive PC1 direction) \pause
+                  \item Clear separation confirms quality interpretation \pause
+              \end{itemize}
+        \item \textbf{Hospital points}: Individual hospitals in quality space \pause
+              \begin{itemize}
+                  \item Horizontal spread (PC1): Overall quality differences \pause
+                  \item Right side: High-quality hospitals \pause
+                  \item Left side: Hospitals needing quality improvement \pause
+                  \item Outliers may represent specialized care models \pause
+              \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Healthcare Applications}
+    \textbf{Quality Assessment:}
+    \begin{itemize}
+        \item Use PC1 scores as composite quality ratings \pause
+        \item Identify high-performing hospitals for best practice sharing \pause
+        \item Target low-performing hospitals for quality improvement initiatives \pause
+    \end{itemize}
+    \vspace{6pt}
+    \textbf{Healthcare Management:}
+    \begin{itemize}
+        \item Benchmark hospital performance against peer institutions \pause
+        \item Guide resource allocation toward high-impact quality initiatives \pause
+        \item Track longitudinal quality improvement over time \pause
+    \end{itemize}
+    \vspace{6pt}
+    \textbf{Policy and Research:}
+    \begin{itemize}
+        \item Validate against CMS Hospital Star Ratings and other external measures \pause
+        \item Study relationships between quality and operational characteristics \pause
+        \item Support value-based purchasing and accountable care initiatives \pause
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Code Example: Healthcare Quality Analysis}
+    \begin{itemize}
+        \item \textbf{Data preparation}: \texttt{fetch\_hospitals.py} generates synthetic hospital quality data \pause
+        \item \textbf{Main analysis}: \texttt{hospitals\_example.py} performs PCA with healthcare interpretation \pause
+        \item \textbf{Outputs}:
+              \begin{itemize}
+                  \item Eigenvalues, explained variance, hospital quality rankings \pause
+                  \item \texttt{hospitals\_scree.png}: Scree plot for component selection \pause
+                  \item \texttt{hospitals\_biplot.png}: Hospitals and quality metrics in PC space \pause
+              \end{itemize}
+        \item \textbf{Usage}: \texttt{cd code/hospitals\_example \&\& python hospitals\_example.py} \pause
+    \end{itemize}
+    \vspace{6pt}
+    The script demonstrates PCA applied to healthcare quality assessment with practical interpretation for hospital management and policy applications.
+\end{frame}
 
 \end{document}
