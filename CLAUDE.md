@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is the MA2003B - Application of Multivariate Methods in Data Science course repository, an intermediate mathematics course focusing on analyzing multidimensional large databases using multivariate statistical techniques.
+This is the MA2003B - Application of Multivariate Methods in Data Science course repository, focusing on analyzing multidimensional databases using multivariate statistical techniques.
 
 **Course Topics:** Regression Analysis, Multivariate Analysis, PCA, Factor Analysis, Discriminant Analysis, Cluster Analysis, and Multivariate Regression.
 
@@ -14,7 +14,6 @@ Create and activate virtual environment:
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
-# Install core scientific computing packages
 pip install numpy pandas matplotlib scikit-learn jupyter jupytext pytest
 pip install -e .
 ```
@@ -28,329 +27,135 @@ pip install -e .
 
 **Compile presentations:**
 ```bash
-# Factor analysis presentation (available)
 cd lessons/4_Factor_Analysis/beamer
 pdflatex factor_analysis_presentation.tex
 # Run twice for proper cross-references
 pdflatex factor_analysis_presentation.tex
 ```
 
-**Run practice/code examples:**
+**Run code examples:**
 ```bash
-# Fetch data first (for invest example)
+# Fetch data first (for examples that need external data)
 .venv/bin/python lessons/4_Factor_Analysis/code/invest_example/fetch_invest.py
 
-# Current examples (available now)
+# Current working examples
 .venv/bin/python lessons/4_Factor_Analysis/code/invest_example/invest_example.py
+.venv/bin/python lessons/4_Factor_Analysis/code/hospitals_example/hospitals_example.py
+.venv/bin/python lessons/4_Factor_Analysis/code/kuiper_example/kuiper_example.py
 .venv/bin/python lessons/4_Factor_Analysis/code/pca_example/pca_example.py
-
-# Future practice scripts (when implemented)
-.venv/bin/python lessons/4_Factor_Analysis/practice/4.1_objectives/objectives_factor_analysis_practice.py
 ```
 
 **Convert Python scripts to notebooks:**
 ```bash
-# Convert py-percent cell scripts to Jupyter notebooks
 jupytext --to ipynb lessons/4_Factor_Analysis/code/*/*.py
 ```
 
-**Data pull script:**
+**Data synchronization:**
 ```bash
 .venv/bin/python scripts/pull_data.py
-# Override source path: MA2003B_ORIGIN_PATH="/path/to/origin" .venv/bin/python scripts/pull_data.py
+# Override source: MA2003B_ORIGIN_PATH="/path/to/origin" .venv/bin/python scripts/pull_data.py
 ```
 
 ## Repository Structure
 
 **Course Materials:**
-- `lessons/4_Factor_Analysis/` - Factor analysis exercises and materials (current structure)
-  - `beamer/` - LaTeX presentation source (`factor_analysis_presentation.tex`) and compiled PDF
-  - `code/` - Working examples (`invest_example/`, `pca_example/`) with py-percent cell format
+- `lessons/4_Factor_Analysis/` - Factor analysis chapter (current active content)
+  - `beamer/` - LaTeX presentation source and compiled PDF
+  - `code/` - Working examples with py-percent cells: `invest_example/`, `hospitals_example/`, `kuiper_example/`, `pca_example/`
   - Chapter README provides comprehensive learning guide
-  - Practice folders not yet implemented
-- Former chapters (Regression Analysis, Discriminant Analysis) have been removed in current working branch
 
 **Utilities:**
-- `utils/` - Shared utilities package with logging functionality (exported via `__init__.py`)
-- `utils/logger.py` - Centralized logging: `setup_logger(name=None, level=logging.INFO, logfile=None, fmt=None)`
-  - Supports both stream and file logging, prevents duplication with `propagate = False`
+- `utils/` - Shared utilities package with centralized logging
+- `utils/logger.py` - `setup_logger()` function with duplicate prevention and `propagate = False`
 - `utils/test_logger.py` - Unit tests for logger functionality
 
 **Scripts:**
-- `scripts/pull_data.py` - Data synchronization script that copies course materials from OneDrive source to local `backup/ma2003b/` directory
+- `scripts/pull_data.py` - Data synchronization from OneDrive source to local `backup/ma2003b/`
 
 **Documentation:**
-- `documentation/` - Course planning documents including hour allocation tables  
-- `.github/copilot-instructions.md` - GitHub Copilot instructions (recently updated to reflect current `lessons/` structure)
-- `.claude/backup/conversations/` - Claude Code conversation exports for development history (directory may not exist yet)
-- `lessons/themes/` - LaTeX Beamer themes and styling for presentations (`ma2003b` custom theme)
-- `factor_analysis_report.txt` - Generated report artifact at repo root
+- `documentation/` - Course planning documents and timeline
+- `backup/ma2003b/` - Synchronized course materials from external source
 
 ## Key Architecture Insights
 
-**Package Structure:** The repository is configured as an editable Python package (`ma2003b-course`) with `utils` as a proper Python package. This allows practice scripts to import shared functionality using `from utils import setup_logger`.
+**Package Structure:** Configured as editable Python package (`ma2003b-course`) enabling `from utils import setup_logger` imports.
 
-**Centralized Logging Pattern:** All scripts use the `setup_logger()` utility from `utils/logger.py`. This logger:
-- Prevents handler duplication through existing handler checks
-- Sets `propagate = False` to avoid duplicate messages
-- Supports both console and file logging
-- Provides consistent formatting across all scripts
+**Centralized Logging:** All scripts use `setup_logger()` from `utils/logger.py` with duplicate prevention and `propagate = False`.
 
-**Chapter-level Consolidation Model:** Unlike traditional per-topic folders, Factor Analysis uses:
-- Single comprehensive README at chapter level
-- Single consolidated presentation covering all 6 subtopics
-- Modular practice exercises (planned but not implemented yet)
-- Clear separation between lesson materials and hands-on exercises
+**Interactive Development:** Code examples use py-percent cells (`# %%` and `# %% [markdown]`) for VS Code/Jupyter integration.
 
-**Data Management:** The `scripts/pull_data.py` implements a robust data synchronization pattern:
-- Environment variable override support (`MA2003B_ORIGIN_PATH`)
-- Safety checks to prevent recursive copying
-- Comprehensive error handling and logging
-- Dry-run capability for testing
+**Data Workflow Separation:** Fetch scripts separate from analysis scripts (e.g., `fetch_invest.py` + `invest_example.py`).
+
+**Chapter Organization:** Single comprehensive README and consolidated presentation covering all subtopics.
 
 ## Development Conventions
 
 **File Organization:**
-- Course materials stay in their respective folders under `lessons/`
-- New utilities go in `utils/` and are exported via `utils/__init__.py`
-- Tests sit next to modules (e.g., `utils/test_logger.py`)
-- Save conversation exports in `.claude/backup/conversations/` for organized documentation
+- Course materials in `lessons/` folders
+- New utilities in `utils/` and exported via `utils/__init__.py`
+- Tests next to modules (e.g., `utils/test_logger.py`)
 
-**Testing:**
-- Use pytest with `tmp_path` fixtures for filesystem tests
-- Run tests after changes: `.venv/bin/python -m pytest -q`
+**Code Architecture (Undergraduate Focus):**
+- Use py-percent cells (`# %%` and `# %% [markdown]`) for interactive development
+- Use `pathlib.Path(__file__).resolve().parent` for file operations
+- Separate data fetching from analysis (e.g., `fetch_*.py` + `*_example.py`)
+- Always use centralized logger: `from utils import setup_logger`
 
-**Package Management:**
-- Use editable install (`pip install -e .`) for development
-- Dependencies: `requirements.txt` contains full pinned dependencies including scientific computing stack
-- `pyproject.toml` defines package metadata and build configuration
-
-**Course Content Structure:**
-**Current Chapter Organization (Factor Analysis Model):**
+**Chapter Structure (Current Model):**
 
 ```
 X_Chapter_Name/
-├── README.md                          # Comprehensive chapter overview with:
-│                                      #   - Learning objectives
-│                                      #   - Chapter structure outline  
-│                                      #   - Usage instructions
-│                                      #   - Prerequisites and key concepts
+├── README.md                          # Comprehensive learning guide
 ├── beamer/                            # Single consolidated presentation
-│   ├── [chapter]_presentation.tex    # Complete chapter Beamer presentation
-│   ├── [chapter]_presentation.pdf    # Compiled presentation
-│   └── ... (LaTeX auxiliary files)
-├── code/                              # Working examples with py-percent cells
-│   ├── invest_example/
-│   │   ├── fetch_invest.py           # Data fetching script
-│   │   ├── invest_example.py         # PCA analysis with # %% cells
-│   │   ├── invest.csv               # Downloaded data (created by fetch script)
-│   │   └── invest_*.png             # Generated figures
-│   └── pca_example/
-│       ├── pca_example.py           # Synthetic PCA demo with # %% cells
-│       └── pca_scree.png            # Generated scree plot
-└── practice/                          # Subtopic-organized exercises (future)
-    ├── X.1_subtopic_name/
-    │   ├── README.md                  # Brief subtopic practice instructions
-    │   ├── [subtopic]_practice.py     # Main executable practice script
-    │   └── [optional analysis modules]
-    └── ... (continue for all subtopics)
+│   ├── [chapter]_presentation.tex    # Beamer source
+│   └── [chapter]_presentation.pdf    # Compiled slides
+└── code/                              # Working examples with py-percent cells
+    ├── example_name/
+    │   ├── fetch_data.py             # Data fetching script
+    │   ├── example.py                # Main analysis with # %% cells
+    │   ├── data.csv                  # Downloaded/generated data
+    │   └── *.png                     # Generated figures
+    └── ...
 ```
 
-**Key Organizational Principles:**
-- **Chapter-level consolidation**: Single presentation covers all subtopics
-- **Comprehensive chapter README**: Serves as complete learning guide
-- **Interactive examples**: Working code examples with py-percent cells for VS Code/Jupyter integration
-- **Data workflow separation**: Fetch scripts separate from analysis scripts (e.g., `fetch_invest.py` + `invest_example.py`)
-- **Modular practice exercises**: Each subtopic has independent practice folder (planned)
-- **Separation of concerns**: Practice folders split into computation, reporting, and orchestration
-- **Clean code architecture**: Pure functions, dataclasses, type hints for undergraduate learning
-- **Self-contained scripts**: All scripts include embedded documentation and use Path for file operations
-- **Consistent naming**: `X.Y_descriptive_name` pattern for subtopic folders
-
-**Future Standardized Structure (Target):**
-
-```
-X.Y_Topic_Name/
-├── README.md                          # Comprehensive overview
-├── lesson/                            # Student presentation materials
-│   ├── [topic].tex                    # Beamer presentation source
-│   └── [topic].pdf                    # Compiled presentation
-├── practice/                          # Hands-on programming exercises
-│   ├── [topic]_practice.py           # Main practice script
-│   ├── [topic]_analysis.py           # Core analysis functions (modular)
-│   └── [topic]_reporter.py           # Report generation functions
-└── notes/                             # Expanded content and guidance
-    ├── [topic]_notes.tex              # Comprehensive LaTeX article
-    └── [topic]_notes.pdf              # Compiled documentation
-```
-
-**Legacy structure (deprecated):**
-- `[topic]_report.txt` - Exercise description (now merged into README.md)
-- `julia/` folder - Julia implementations (removed for maintainability)
-- Separate `latex/` and `python/` folders (now `lesson/` and `practice/`)
-
-**Chapter Development Pattern (Based on Factor Analysis):**
-1. **Create comprehensive chapter README**: Include learning objectives, structure outline, prerequisites, and usage examples
-2. **Single consolidated presentation**: One Beamer file covers all chapter subtopics with clear section breaks
-3. **Modular subtopic practice folders**: Each `X.Y_subtopic/` folder contains independent practice implementation
-4. **Self-documenting practice scripts**: Each script includes embedded purpose, workflow, and section documentation
-5. **Minimal subtopic READMEs**: Brief usage instructions since main documentation is in chapter README
-6. **Consistent naming convention**: Use `X.Y_descriptive_name` pattern for all subtopic folders
-
-**Practice Folder Structure (Modular Pattern):**
-Each `X.Y_subtopic/` folder should contain:
-
-```
-X.Y_subtopic_name/
-├── README.md                          # Brief usage instructions
-├── [subtopic]_practice.py             # Main orchestration script
-├── [subject].py                       # Pure computational functions
-├── [subject]_reporter.py              # Output formatting functions
-└── [subject]_report.txt               # Generated demonstration output
-```
-
-**Separation of Concerns Pattern:**
-- **Orchestration script** (`*_practice.py`): Workflow coordination, logging, main() function
-- **Computation module** (`*.py`): Pure functions, dataclasses, type hints, no I/O
-- **Reporter module** (`*_reporter.py`): Output formatting, string generation, display logic
-- **Generated report** (`*_report.txt`): Human-readable demonstration output
-
-**Key Utilities:**
-- `setup_logger()` - Configured logger with duplicate handler prevention and `propagate = False`
-- Use existing utilities instead of creating ad-hoc helpers
-
-**Scientific Computing Stack:** The repository includes a full scientific Python environment with numpy, pandas, matplotlib, scikit-learn, jupyter ecosystem (including jupytext for py-percent cell conversion), and additional tools like pdfminer for text extraction.
-
-**Interactive Development Pattern:** Code examples use py-percent cell markers (`# %%` and `# %% [markdown]`) for interactive execution in VS Code or conversion to Jupyter notebooks via jupytext. This allows seamless switching between script and notebook formats.
-
-**Data Fetching Pattern:** Examples that require external data use separate fetch scripts (e.g., `fetch_invest.py`) that download and prepare data files. This separation keeps data acquisition logic separate from analysis and makes examples reproducible across environments.
+**Key Principles:**
+- Single comprehensive README per chapter
+- Consolidated presentation covering all subtopics  
+- Interactive examples with py-percent cells
+- Self-contained scripts with embedded documentation
+- Pure functions with type hints and docstrings
 
 ## Development Guidelines
 
-### Code Quality
-- **All scripts should use** the centralized `setup_logger()` function from utils
-- **When adding new utilities**, export them through `utils/__init__.py`
-- **Follow existing error handling patterns** seen in `pull_data.py`
-- **Use type hints** as demonstrated in the logger module and Factor Analysis computational functions
-- **Always use the project's virtual environment** for consistency
+**Code Quality:**
+- Use centralized `setup_logger()` from utils
+- Export new utilities through `utils/__init__.py`
+- Use type hints and docstrings for clarity
+- Follow existing error handling patterns
 
-### Practice Code Architecture (Undergraduate Focus)
-- **Keep it simple**: Priority is understanding statistical concepts, not software engineering
-- **Py-percent cell structure**: Use `# %%` and `# %% [markdown]` for interactive sections
-- **Path handling**: Use `pathlib.Path(__file__).resolve().parent` for file operations and `mkdir(parents=True, exist_ok=True)` for output directories
-- **Clean separation**: Computation, reporting, and orchestration in separate modules (when multiple files)
-- **Type hints for learning**: Use dataclasses and type annotations to make data flow clear
-- **Pure functions**: Computational modules should have no side effects or I/O
-- **Self-documenting**: Each function includes docstrings with Args/Returns
-- **Avoid overengineering**: No complex abstractions - direct, readable implementations
+**Interactive Development:**
+- Use py-percent cells for VS Code/Jupyter compatibility
+- Keep statistical concepts clear - avoid over-engineering
+- Generate output files next to scripts using pathlib
+- Write human-readable report files, not just console output
 
-### Lesson Development
-- **Use standardized structure** for all new lessons (lesson/, practice/, notes/)
-- **Consolidate documentation** in comprehensive README.md files
-- **Create modular practice code** with separate analysis and reporting functions
-- **Focus on student learning** in lesson presentations, not implementation details
-- **Provide expanded notes** for instructors and advanced learners
-- **Test practice scripts** to ensure they work out-of-the-box
-
-### Content Guidelines  
-- **Chapter presentations** should cover all subtopics in a unified narrative flow
-- **Practice exercises** should be self-contained with clear documentation and real-world applications
-- **Chapter README** serves as the primary learning resource with comprehensive overview
-- **Subtopic READMs** should be minimal - just usage instructions and file descriptions
-- **Practice scripts** must include embedded documentation explaining purpose and workflow sections
+**Testing:**
+- Run tests after changes: `.venv/bin/python -m pytest -q`
+- Use pytest with `tmp_path` fixtures for filesystem tests
 
 ## Current Repository State
 
-**Active Content (analisis-por-factores branch):**
-- ✅ **Chapter 4**: Factor Analysis 
+**Active Content:**
+- ✅ **Chapter 4**: Factor Analysis - Complete presentation and working examples
   - Location: `lessons/4_Factor_Analysis/`
-  - Structure: LaTeX presentation in `beamer/`, working examples in `code/`, comprehensive chapter README
-  - Status: Presentation and code examples complete, formal practice scripts not yet implemented
+  - Examples: `invest_example/`, `hospitals_example/`, `kuiper_example/`, `pca_example/`
 
-**Removed Content (staged for deletion):**
-- ❌ **Chapter 1**: Regression Analysis (5 topics) - removed from current branch
-- ❌ **Chapter 5**: Discriminant Analysis (6 topics) - removed from current branch
-
-**Future Development:**
-- Chapter 2: Multivariate Analysis
-- Chapter 3: Principal Component Analysis (PCA)  
-- Chapter 6: Cluster Analysis
-- Chapter 7: Multivariate Regression
-
-**Current Priorities:**
-1. Create Factor Analysis practice implementations (practice folders don't exist yet)
-2. Test all practice scripts for functionality once implemented
-3. Apply this organizational pattern to future chapters
-4. Validate the current consolidation approach before expanding
-
-## Conversation Management
-
-When working with this repository, conversation exports should be saved to maintain development history:
-
-**Export Location:** `.claude/backup/conversations/`
-
-**Usage:**
-- Use `/export` command in Claude Code to save conversation history
-- Recommended naming: `YYYY-MM-DD-brief-description.txt`
-- Helpful for tracking development decisions and maintaining context
+**Future Chapters:** Multivariate Analysis, PCA, Discriminant Analysis, Cluster Analysis, Multivariate Regression
 
 ## Important Notes
 
-- The `scripts/pull_data.py` contains machine-specific OneDrive paths; use `MA2003B_ORIGIN_PATH` environment variable to override
-- **Required dependencies**: Full dependency list in `requirements.txt` includes numpy, scipy, scikit-learn, matplotlib, pandas, jupyter ecosystem
-- **LaTeX Compilation**: Use `pdflatex` to compile .tex files in lesson folders
-- **Practice Scripts**: All practice implementations are in Python for maintainability
-- **Virtual Environment**: Always use `pip install -e .` for development to access utils module
-- **Report Pattern**: Practice scripts should write human-readable reports to files (e.g., `*_report.txt`) rather than just printing to console
-- **Logger Usage**: Always use `from utils import setup_logger` and call `setup_logger(__name__)` for consistent logging across scripts
-- Course covers 7 main topics: Regression Analysis, Multivariate Analysis, PCA, Factor Analysis, Discriminant Analysis, Cluster Analysis, and Multivariate Regression
-
-## Chapter Template (Factor Analysis Model)
-
-When creating new chapters, use this organizational structure:
-
-```
-X_Chapter_Name/
-├── README.md                          # Complete chapter learning resource
-│                                      # • Learning objectives & outcomes
-│                                      # • Subtopic structure & overview
-│                                      # • Prerequisites & key concepts  
-│                                      # • Usage instructions & examples
-│                                      # • Mathematical notation guide
-├── lesson/
-│   ├── [chapter].tex                 # Unified Beamer presentation
-│   └── [chapter].pdf                 # Compiled slides
-└── practice/
-    ├── X.1_subtopic_name/            # Independent practice modules
-    │   ├── README.md                  # Brief usage instructions
-    │   └── [subtopic]_practice.py     # Self-documented executable
-    ├── X.2_subtopic_name/
-    │   └── ... (same pattern)
-    └── X.N_final_subtopic/
-```
-
-**Implementation Guidelines:**
-- **Chapter README structure**: Follow Factor Analysis README as template (learning objectives, structure outline, prerequisites, key concepts, mathematical notation)
-- **Unified presentation**: Single Beamer file with clear section breaks for each subtopic
-- **Independent subtopics**: Each practice folder should work standalone with clean modular structure
-- **Embedded documentation**: Practice scripts contain purpose, workflow sections, and usage examples
-- **Consistent naming**: Always use `X.Y_descriptive_name` pattern
-- **Minimal redundancy**: Subtopic READMEs should only contain essential usage info
-
-**Practice Implementation Pattern:**
-1. **Create orchestration script** (`[subtopic]_practice.py`):
-   - Import from local computation and reporter modules
-   - Use centralized logger from utils
-   - Coordinate workflow: data → computation → formatting → output
-   - Write human-readable report to `*_report.txt`
-
-2. **Create computation module** (`[subject].py`):
-   - Define dataclasses for structured results
-   - Write pure functions with clear type hints
-   - No I/O operations or side effects
-   - Focus on statistical/mathematical operations
-
-3. **Create reporter module** (`[subject]_reporter.py`):
-   - Functions that take computation results and return formatted strings
-   - Handle all output formatting and display logic
-   - Clear section headers and educational explanations
+- `scripts/pull_data.py` uses machine-specific paths; override with `MA2003B_ORIGIN_PATH` environment variable
+- Dependencies in `requirements.txt` include complete scientific computing stack
+- Use `pdflatex` twice for proper LaTeX cross-references
+- Always use virtual environment with `pip install -e .` for development
+- Scripts should write human-readable report files, not just console output
