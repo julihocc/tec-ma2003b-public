@@ -16,29 +16,30 @@
 # - **Rotation**: Varimax rotation for clearer astronomical interpretation
 
 # %%
+import sys
 from pathlib import Path
-import pandas as pd
-import numpy as np
+
 import matplotlib.pyplot as plt
-from sklearn.preprocessing import StandardScaler
+import numpy as np
+import pandas as pd
+import seaborn as sns
 from factor_analyzer import FactorAnalyzer
 from factor_analyzer.factor_analyzer import calculate_bartlett_sphericity, calculate_kmo
-import seaborn as sns
-import sys
+from sklearn.preprocessing import StandardScaler
 
 # %%
 # Simple behaviour: expect kuiper.csv in the same folder as this script
-script_dir = Path(__file__).resolve().parent
-data_path = script_dir / "kuiper.csv"
+script_dir: Path = Path(__file__).resolve().parent
+data_path: Path = script_dir / "kuiper.csv"
 if not data_path.exists():
     print(
         f"Missing {data_path}. Run `fetch_kuiper.py` in the same folder to generate kuiper.csv"
     )
     sys.exit(2)
 
-X = pd.read_csv(data_path)
+X: pd.DataFrame = pd.read_csv(data_path)
 # If the CSV has a leading index-like column (common in some exports), drop it
-cols = list(X.columns)
+cols: list[str] = list(X.columns)
 if cols and cols[0].lower() in ("rownames", "index"):
     X = X.iloc[:, 1:]
     cols = list(X.columns)
@@ -58,27 +59,32 @@ print("Variables:", cols)
 
 # %%
 # Standardize orbital parameters (different units: AU, degrees, etc.)
-Xs = StandardScaler().fit_transform(X.values)
+Xs: np.ndarray = StandardScaler().fit_transform(X.values)
 
 # Check Factor Analysis assumptions
+chi_square_value: float
+p_value: float
 chi_square_value, p_value = calculate_bartlett_sphericity(Xs)
+
+kmo_all: np.ndarray
+kmo_model: float
 kmo_all, kmo_model = calculate_kmo(Xs)
 
 print("--- Factor Analysis Assumptions for Orbital Data ---")
-print(f"Bartlett's Test of Sphericity:")
+print("Bartlett's Test of Sphericity:")
 print(f"  Chi-square: {chi_square_value:.3f}")
 print(f"  p-value: {p_value:.6f}")
 print(
     f"  Interpretation: {'✓ Suitable for FA' if p_value < 0.05 else '✗ May not be suitable'}"
 )
-print(f"\nKMO Test:")
+print("\nKMO Test:")
 print(f"  Overall MSA: {kmo_model:.3f}")
 print(
     f"  Interpretation: {'✓ Excellent' if kmo_model > 0.9 else '✓ Good' if kmo_model > 0.8 else '✓ Acceptable' if kmo_model > 0.6 else '✗ Unacceptable'} for orbital data"
 )
 
 # Show individual orbital parameter KMO values
-print(f"\nIndividual Orbital Parameter MSA:")
+print("\nIndividual Orbital Parameter MSA:")
 print(f"{'Parameter':<15} {'MSA':<8} {'Interpretation'}")
 print("-" * 40)
 for i, param_name in enumerate(cols):
@@ -103,7 +109,7 @@ eigenvalues_fa = fa_test.get_eigenvalues()[0]
 
 # Kaiser criterion: factors with eigenvalue > 1.0
 n_factors_kaiser = int(np.sum(eigenvalues_fa > 1.0))
-print(f"--- Factor Retention Analysis ---")
+print("--- Factor Retention Analysis ---")
 print(f"Eigenvalues: {np.round(eigenvalues_fa, 3)}")
 print(f"Kaiser criterion (eigenvalue > 1.0): {n_factors_kaiser} factors")
 
@@ -118,7 +124,7 @@ print(f"\nExtracting {n_factors} factors using Principal Axis Factoring")
 communalities = fa.get_communalities()
 uniquenesses = 1 - communalities
 
-print(f"\nCommunalities (h²) and Uniquenesses (u²):")
+print("\nCommunalities (h²) and Uniquenesses (u²):")
 print(f"{'Parameter':<15} {'h²':<8} {'u²':<8} {'Interpretation'}")
 print("-" * 50)
 for i, param_name in enumerate(cols):
@@ -132,7 +138,7 @@ factor_variance = np.sum(communalities)
 total_variance = len(cols)  # For standardized data
 variance_explained = factor_variance / total_variance
 
-print(f"\nVariance Analysis for Orbital Data:")
+print("\nVariance Analysis for Orbital Data:")
 print(f"Total variance (standardized): {total_variance:.1f}")
 print(f"Common variance (sum of h²): {factor_variance:.3f}")
 print(f"Proportion explained by factors: {variance_explained:.1%}")
@@ -163,7 +169,7 @@ fa_rotated.fit(Xs)
 loadings_unrotated = fa.loadings_
 loadings_rotated = fa_rotated.loadings_
 
-print(f"--- Factor Loadings: Unrotated vs Varimax Rotated ---")
+print("--- Factor Loadings: Unrotated vs Varimax Rotated ---")
 print(f"{'Parameter':<15} ", end="")
 for i in range(n_factors):
     print(f"{'Unrot-F' + str(i + 1):<10} {'Vmax-F' + str(i + 1):<10} ", end="")
@@ -261,9 +267,9 @@ for factor_idx in range(n_factors):
 
     # Astronomical interpretation based on loading patterns
     if not high_loadings:
-        print(f"  Interpretation: Weak factor - mostly noise or specific variance")
+        print("  Interpretation: Weak factor - mostly noise or specific variance")
     else:
-        print(f"  Astronomical interpretation: [Examine parameter combinations above]")
+        print("  Astronomical interpretation: [Examine parameter combinations above]")
 
 # %% [markdown]
 # ### Common Orbital Factor Patterns
@@ -319,7 +325,7 @@ print(f"Saved {scores_out}")
 plt.show()
 
 # Print extreme objects in factor space
-print(f"\n--- Extreme Objects in Factor Space ---")
+print("\n--- Extreme Objects in Factor Space ---")
 for factor_idx in range(min(2, n_factors)):  # Show first 2 factors
     scores = factor_scores[:, factor_idx]
 
@@ -367,7 +373,7 @@ print(
 
 # Factor determinacy (reliability of factor scores)
 factor_determinacy = np.diag(np.corrcoef(factor_scores.T, Xs.T)[:n_factors, n_factors:])
-print(f"\nFactor Score Determinacy:")
+print("\nFactor Score Determinacy:")
 for i, det in enumerate(factor_determinacy):
     print(
         f"  Factor {i + 1}: {det:.3f} ({'✓ Good' if det > 0.8 else '△ Acceptable' if det > 0.6 else '✗ Poor'} reliability)"
