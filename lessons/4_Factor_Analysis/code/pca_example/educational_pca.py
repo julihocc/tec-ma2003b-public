@@ -54,35 +54,52 @@ rng = np.random.RandomState(random_seed)
 
 # Generate two orthogonal latent factors
 intelligence_factor = rng.normal(size=(n_samples, 1))  # Cognitive ability factor
-personality_factor = rng.normal(size=(n_samples, 1))   # Social/emotional factor
+personality_factor = rng.normal(size=(n_samples, 1))  # Social/emotional factor
 
 # Define noise terms for measurement error
-measurement_noise_low = rng.normal(size=(n_samples, 1))    # Low noise (σ = 0.2)  
-measurement_noise_med = rng.normal(size=(n_samples, 1))    # Medium noise (σ = 0.25)
-pure_noise_1 = rng.normal(size=(n_samples, 1))            # Pure noise variable 1
-pure_noise_2 = rng.normal(size=(n_samples, 1))            # Pure noise variable 2
+measurement_noise_low = rng.normal(size=(n_samples, 1))  # Low noise (σ = 0.2)
+measurement_noise_med = rng.normal(size=(n_samples, 1))  # Medium noise (σ = 0.25)
+pure_noise_1 = rng.normal(size=(n_samples, 1))  # Pure noise variable 1
+pure_noise_2 = rng.normal(size=(n_samples, 1))  # Pure noise variable 2
 
 # Define factor loadings
 strong_loading = 0.85  # Strong relationship to latent factor
 moderate_loading = 0.80  # Moderate relationship to latent factor
-low_noise_level = 0.2   # Low measurement error
+low_noise_level = 0.2  # Low measurement error
 med_noise_level = 0.25  # Medium measurement error
 noise_variance_1 = 0.6  # Variance for first noise variable
 noise_variance_2 = 0.5  # Variance for second noise variable
 
 # Create observed variables with meaningful structure
-math_test = strong_loading * intelligence_factor + low_noise_level * measurement_noise_low
-verbal_test = moderate_loading * intelligence_factor + med_noise_level * measurement_noise_med
-social_skills = strong_loading * personality_factor + low_noise_level * measurement_noise_low  
-leadership = moderate_loading * personality_factor + med_noise_level * measurement_noise_med
+math_test = (
+    strong_loading * intelligence_factor + low_noise_level * measurement_noise_low
+)
+verbal_test = (
+    moderate_loading * intelligence_factor + med_noise_level * measurement_noise_med
+)
+social_skills = (
+    strong_loading * personality_factor + low_noise_level * measurement_noise_low
+)
+leadership = (
+    moderate_loading * personality_factor + med_noise_level * measurement_noise_med
+)
 random_var1 = noise_variance_1 * pure_noise_1  # Pure noise (no latent structure)
 random_var2 = noise_variance_2 * pure_noise_2  # Pure noise (no latent structure)
 
 # Combine into data matrix
-X = np.hstack([math_test, verbal_test, social_skills, leadership, random_var1, random_var2])
+X = np.hstack(
+    [math_test, verbal_test, social_skills, leadership, random_var1, random_var2]
+)
 
 # Create meaningful variable names for interpretation
-variable_names = ["MathTest", "VerbalTest", "SocialSkills", "Leadership", "RandomVar1", "RandomVar2"]
+variable_names = [
+    "MathTest",
+    "VerbalTest",
+    "SocialSkills",
+    "Leadership",
+    "RandomVar1",
+    "RandomVar2",
+]
 print(f"Data shape: {X.shape} ({n_samples} observations, {X.shape[1]} variables)")
 print("Variables:", variable_names)
 
@@ -121,7 +138,7 @@ print("Cumulative:", np.round(np.cumsum(explained_ratio), 3))
 # **Interpretation**:
 # - **PC1** (~38.5%): Likely captures a general ability factor that affects
 #   both cognitive and social measures (common in psychological data)
-# - **PC2** (~26.8%): May separate cognitive (MathTest, VerbalTest) from 
+# - **PC2** (~26.8%): May separate cognitive (MathTest, VerbalTest) from
 #   social (SocialSkills, Leadership) abilities
 # - **PC3-PC4** (~32.2%): Additional structure and measurement error
 # - **PC5-PC6** (~2.5%): Pure noise components (RandomVar1, RandomVar2)
@@ -135,7 +152,7 @@ print("Cumulative:", np.round(np.cumsum(explained_ratio), 3))
 # ### Scree plot — quick interpretation (Synthetic data)
 #
 # The scree plot below shows eigenvalues by component index. With our known
-# 2-factor structure, we expect to see higher eigenvalues for the first 
+# 2-factor structure, we expect to see higher eigenvalues for the first
 # several components that capture the factor structure, then a clear drop-off
 # when we reach the pure noise components (PC5-PC6).
 
@@ -178,7 +195,7 @@ print(f"Saved {scree_out}")
 # **Expected pattern**:
 # - Academic tests (MathTest, VerbalTest) should show similar loading patterns
 #   if they're driven by the same intelligence factor
-# - Social measures (SocialSkills, Leadership) should show similar loading patterns  
+# - Social measures (SocialSkills, Leadership) should show similar loading patterns
 #   if they're driven by the same personality factor
 # - Noise variables (RandomVar1, RandomVar2) should have smaller, more random loadings
 
@@ -235,12 +252,22 @@ for row in loadings_table:
 
 # Validation: Check if factor structure was recovered
 print("\n--- Factor Recovery Validation ---")
-cognitive_loadings = np.abs(pca.components_[0, :2])  # MathTest, VerbalTest loadings on PC1
-social_loadings = np.abs(pca.components_[1, 2:4])    # SocialSkills, Leadership loadings on PC2
-random_max_loading = np.max(np.abs(pca.components_[:2, 4:6]))  # RandomVar1, RandomVar2 on PC1,PC2
+cognitive_loadings = np.abs(
+    pca.components_[0, :2]
+)  # MathTest, VerbalTest loadings on PC1
+social_loadings = np.abs(
+    pca.components_[1, 2:4]
+)  # SocialSkills, Leadership loadings on PC2
+random_max_loading = np.max(
+    np.abs(pca.components_[:2, 4:6])
+)  # RandomVar1, RandomVar2 on PC1,PC2
 
-print(f"Cognitive tests (Math,Verbal) average loading magnitude: {cognitive_loadings.mean():.3f}")
-print(f"Social measures (Skills,Leadership) average loading magnitude: {social_loadings.mean():.3f}")
+print(
+    f"Cognitive tests (Math,Verbal) average loading magnitude: {cognitive_loadings.mean():.3f}"
+)
+print(
+    f"Social measures (Skills,Leadership) average loading magnitude: {social_loadings.mean():.3f}"
+)
 print(f"Random variables max loading on PC1/PC2: {random_max_loading:.3f}")
 
 # Check if meaningful variables load more strongly than random noise
@@ -255,8 +282,8 @@ else:
 # %% [markdown]
 # ### Observation rankings by PC scores
 #
-# Since this is synthetic data representing student assessments, we can examine 
-# which "students" score highest on each principal component to understand 
+# Since this is synthetic data representing student assessments, we can examine
+# which "students" score highest on each principal component to understand
 # what patterns PCA identified in abilities and performance.
 
 # %%

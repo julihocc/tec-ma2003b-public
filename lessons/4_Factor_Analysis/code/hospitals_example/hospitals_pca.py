@@ -35,7 +35,7 @@ if not data_path.exists():
 
 # Load data and prepare for analysis
 df = pd.read_csv(data_path)
-print(f"Loaded {len(df)} hospitals with {len(df.columns)-1} health outcome metrics")
+print(f"Loaded {len(df)} hospitals with {len(df.columns) - 1} health outcome metrics")
 
 # Extract numeric columns (excluding Hospital ID)
 X = df.iloc[:, 1:]  # Skip first column (Hospital names)

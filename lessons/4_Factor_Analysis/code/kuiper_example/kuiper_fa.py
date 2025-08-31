@@ -43,7 +43,9 @@ if cols and cols[0].lower() in ("rownames", "index"):
     X = X.iloc[:, 1:]
     cols = list(X.columns)
 
-print(f"Kuiper Belt Factor Analysis on {X.shape[0]} objects with {X.shape[1]} orbital parameters")
+print(
+    f"Kuiper Belt Factor Analysis on {X.shape[0]} objects with {X.shape[1]} orbital parameters"
+)
 print("Variables:", cols)
 
 # %% [markdown]
@@ -66,10 +68,14 @@ print("--- Factor Analysis Assumptions for Orbital Data ---")
 print(f"Bartlett's Test of Sphericity:")
 print(f"  Chi-square: {chi_square_value:.3f}")
 print(f"  p-value: {p_value:.6f}")
-print(f"  Interpretation: {'✓ Suitable for FA' if p_value < 0.05 else '✗ May not be suitable'}")
+print(
+    f"  Interpretation: {'✓ Suitable for FA' if p_value < 0.05 else '✗ May not be suitable'}"
+)
 print(f"\nKMO Test:")
 print(f"  Overall MSA: {kmo_model:.3f}")
-print(f"  Interpretation: {'✓ Excellent' if kmo_model > 0.9 else '✓ Good' if kmo_model > 0.8 else '✓ Acceptable' if kmo_model > 0.6 else '✗ Unacceptable'} for orbital data")
+print(
+    f"  Interpretation: {'✓ Excellent' if kmo_model > 0.9 else '✓ Good' if kmo_model > 0.8 else '✓ Acceptable' if kmo_model > 0.6 else '✗ Unacceptable'} for orbital data"
+)
 
 # Show individual orbital parameter KMO values
 print(f"\nIndividual Orbital Parameter MSA:")
@@ -91,7 +97,7 @@ for i, param_name in enumerate(cols):
 
 # %%
 # Determine optimal number of factors using eigenvalue criterion
-fa_test = FactorAnalyzer(n_factors=len(cols), method='principal')
+fa_test = FactorAnalyzer(n_factors=len(cols), method="principal")
 fa_test.fit(Xs)
 eigenvalues_fa = fa_test.get_eigenvalues()[0]
 
@@ -103,7 +109,7 @@ print(f"Kaiser criterion (eigenvalue > 1.0): {n_factors_kaiser} factors")
 
 # Use Kaiser criterion for factor extraction
 n_factors = max(n_factors_kaiser, 2)  # At least 2 factors for interpretation
-fa = FactorAnalyzer(n_factors=n_factors, method='principal')
+fa = FactorAnalyzer(n_factors=n_factors, method="principal")
 fa.fit(Xs)
 
 print(f"\nExtracting {n_factors} factors using Principal Axis Factoring")
@@ -151,7 +157,7 @@ print(f"Proportion explained by factors: {variance_explained:.1%}")
 
 # %%
 # Apply Varimax rotation for clearer astronomical interpretation
-fa_rotated = FactorAnalyzer(n_factors=n_factors, rotation='varimax', method='principal')
+fa_rotated = FactorAnalyzer(n_factors=n_factors, rotation="varimax", method="principal")
 fa_rotated.fit(Xs)
 
 loadings_unrotated = fa.loadings_
@@ -160,14 +166,17 @@ loadings_rotated = fa_rotated.loadings_
 print(f"--- Factor Loadings: Unrotated vs Varimax Rotated ---")
 print(f"{'Parameter':<15} ", end="")
 for i in range(n_factors):
-    print(f"{'Unrot-F' + str(i+1):<10} {'Vmax-F' + str(i+1):<10} ", end="")
+    print(f"{'Unrot-F' + str(i + 1):<10} {'Vmax-F' + str(i + 1):<10} ", end="")
 print()
 print("-" * (15 + 20 * n_factors))
 
 for i, param_name in enumerate(cols):
     print(f"{param_name:<15} ", end="")
     for j in range(n_factors):
-        print(f"{loadings_unrotated[i,j]:<10.3f} {loadings_rotated[i,j]:<10.3f} ", end="")
+        print(
+            f"{loadings_unrotated[i, j]:<10.3f} {loadings_rotated[i, j]:<10.3f} ",
+            end="",
+        )
     print()
 
 # %% [markdown]
@@ -181,22 +190,38 @@ for i, param_name in enumerate(cols):
 fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 6))
 
 # Unrotated loadings heatmap
-sns.heatmap(loadings_unrotated.T, annot=True, fmt='.2f',
-           xticklabels=cols, yticklabels=[f'Factor {i+1}' for i in range(n_factors)],
-           cmap='RdBu_r', center=0, ax=ax1, cbar_kws={'shrink': 0.8})
-ax1.set_title('Unrotated Factor Loadings\n(Kuiper Belt Orbital Parameters)')
-ax1.tick_params(axis='x', rotation=45)
+sns.heatmap(
+    loadings_unrotated.T,
+    annot=True,
+    fmt=".2f",
+    xticklabels=cols,
+    yticklabels=[f"Factor {i + 1}" for i in range(n_factors)],
+    cmap="RdBu_r",
+    center=0,
+    ax=ax1,
+    cbar_kws={"shrink": 0.8},
+)
+ax1.set_title("Unrotated Factor Loadings\n(Kuiper Belt Orbital Parameters)")
+ax1.tick_params(axis="x", rotation=45)
 
 # Rotated loadings heatmap
-sns.heatmap(loadings_rotated.T, annot=True, fmt='.2f',
-           xticklabels=cols, yticklabels=[f'Factor {i+1}' for i in range(n_factors)],
-           cmap='RdBu_r', center=0, ax=ax2, cbar_kws={'shrink': 0.8})
-ax2.set_title('Varimax Rotated Factor Loadings\n(Kuiper Belt Orbital Parameters)')
-ax2.tick_params(axis='x', rotation=45)
+sns.heatmap(
+    loadings_rotated.T,
+    annot=True,
+    fmt=".2f",
+    xticklabels=cols,
+    yticklabels=[f"Factor {i + 1}" for i in range(n_factors)],
+    cmap="RdBu_r",
+    center=0,
+    ax=ax2,
+    cbar_kws={"shrink": 0.8},
+)
+ax2.set_title("Varimax Rotated Factor Loadings\n(Kuiper Belt Orbital Parameters)")
+ax2.tick_params(axis="x", rotation=45)
 
 plt.tight_layout()
 loadings_out = script_dir / "kuiper_fa_loadings.png"
-plt.savefig(loadings_out, dpi=150, bbox_inches='tight')
+plt.savefig(loadings_out, dpi=150, bbox_inches="tight")
 print(f"Saved {loadings_out}")
 plt.show()
 
@@ -214,26 +239,26 @@ loading_threshold = 0.4
 for factor_idx in range(n_factors):
     factor_name = f"Factor {factor_idx + 1}"
     print(f"\n{factor_name}:")
-    
+
     high_loadings = []
     moderate_loadings = []
-    
+
     for param_idx, param_name in enumerate(cols):
         loading = loadings_rotated[param_idx, factor_idx]
         abs_loading = abs(loading)
-        
+
         if abs_loading > loading_threshold:
             sign = "+" if loading > 0 else "-"
             high_loadings.append(f"{sign}{param_name}({abs_loading:.2f})")
         elif abs_loading > 0.25:  # Moderate loadings
             sign = "+" if loading > 0 else "-"
             moderate_loadings.append(f"{sign}{param_name}({abs_loading:.2f})")
-    
+
     if high_loadings:
         print(f"  Primary loadings: {', '.join(high_loadings)}")
     if moderate_loadings:
         print(f"  Secondary loadings: {', '.join(moderate_loadings)}")
-    
+
     # Astronomical interpretation based on loading patterns
     if not high_loadings:
         print(f"  Interpretation: Weak factor - mostly noise or specific variance")
@@ -266,22 +291,30 @@ plt.figure(figsize=(10, 8))
 if len(cols) > 0:
     # Use first column for coloring (often semi-major axis or similar)
     color_var = X.iloc[:, 0]
-    scatter = plt.scatter(factor_scores[:, 0], factor_scores[:, 1], 
-                         c=color_var, cmap='viridis', alpha=0.7, s=50, edgecolors='black', linewidth=0.5)
-    plt.colorbar(scatter, label=f'{cols[0]}')
+    scatter = plt.scatter(
+        factor_scores[:, 0],
+        factor_scores[:, 1],
+        c=color_var,
+        cmap="viridis",
+        alpha=0.7,
+        s=50,
+        edgecolors="black",
+        linewidth=0.5,
+    )
+    plt.colorbar(scatter, label=f"{cols[0]}")
 else:
     plt.scatter(factor_scores[:, 0], factor_scores[:, 1], alpha=0.7, s=50)
 
-plt.xlabel(f'Factor 1 ({eigenvalues_fa[0]:.2f})')
-plt.ylabel(f'Factor 2 ({eigenvalues_fa[1]:.2f})')
-plt.title('Kuiper Belt Objects: Factor Scores\n(Classified by Dynamical Properties)')
-plt.grid(True, ls=':', alpha=0.3)
-plt.axhline(y=0, color='black', linewidth=0.5, alpha=0.5)
-plt.axvline(x=0, color='black', linewidth=0.5, alpha=0.5)
+plt.xlabel(f"Factor 1 ({eigenvalues_fa[0]:.2f})")
+plt.ylabel(f"Factor 2 ({eigenvalues_fa[1]:.2f})")
+plt.title("Kuiper Belt Objects: Factor Scores\n(Classified by Dynamical Properties)")
+plt.grid(True, ls=":", alpha=0.3)
+plt.axhline(y=0, color="black", linewidth=0.5, alpha=0.5)
+plt.axvline(x=0, color="black", linewidth=0.5, alpha=0.5)
 
 plt.tight_layout()
 scores_out = script_dir / "kuiper_fa_scores.png"
-plt.savefig(scores_out, dpi=150, bbox_inches='tight')
+plt.savefig(scores_out, dpi=150, bbox_inches="tight")
 print(f"Saved {scores_out}")
 plt.show()
 
@@ -289,11 +322,11 @@ plt.show()
 print(f"\n--- Extreme Objects in Factor Space ---")
 for factor_idx in range(min(2, n_factors)):  # Show first 2 factors
     scores = factor_scores[:, factor_idx]
-    
+
     # Highest and lowest factor scores
     high_idx = np.argmax(scores)
     low_idx = np.argmin(scores)
-    
+
     print(f"Factor {factor_idx + 1}:")
     print(f"  Highest score: Object {high_idx} (score: {scores[high_idx]:.3f})")
     print(f"  Lowest score:  Object {low_idx} (score: {scores[low_idx]:.3f})")
@@ -316,9 +349,11 @@ observed_corr = np.corrcoef(Xs.T)
 residual_corr = observed_corr - predicted_corr
 
 # Root mean square of residuals (RMSR)
-rmsr = np.sqrt(np.mean(np.triu(residual_corr, k=1)**2))
+rmsr = np.sqrt(np.mean(np.triu(residual_corr, k=1) ** 2))
 print(f"Root Mean Square of Residuals (RMSR): {rmsr:.4f}")
-print(f"  Interpretation: {'✓ Good fit' if rmsr < 0.05 else '△ Acceptable fit' if rmsr < 0.08 else '✗ Poor fit'}")
+print(
+    f"  Interpretation: {'✓ Good fit' if rmsr < 0.05 else '△ Acceptable fit' if rmsr < 0.08 else '✗ Poor fit'}"
+)
 
 # Proportion of residual correlations > |0.05|
 large_residuals = np.sum(np.abs(np.triu(residual_corr, k=1)) > 0.05)
@@ -326,13 +361,17 @@ total_correlations = (n_params * (n_params - 1)) // 2
 prop_large_residuals = large_residuals / total_correlations
 
 print(f"Proportion of |residual correlations| > 0.05: {prop_large_residuals:.1%}")
-print(f"  Interpretation: {'✓ Good' if prop_large_residuals < 0.1 else '△ Acceptable' if prop_large_residuals < 0.2 else '✗ Poor'} model fit")
+print(
+    f"  Interpretation: {'✓ Good' if prop_large_residuals < 0.1 else '△ Acceptable' if prop_large_residuals < 0.2 else '✗ Poor'} model fit"
+)
 
 # Factor determinacy (reliability of factor scores)
 factor_determinacy = np.diag(np.corrcoef(factor_scores.T, Xs.T)[:n_factors, n_factors:])
 print(f"\nFactor Score Determinacy:")
 for i, det in enumerate(factor_determinacy):
-    print(f"  Factor {i+1}: {det:.3f} ({'✓ Good' if det > 0.8 else '△ Acceptable' if det > 0.6 else '✗ Poor'} reliability)")
+    print(
+        f"  Factor {i + 1}: {det:.3f} ({'✓ Good' if det > 0.8 else '△ Acceptable' if det > 0.6 else '✗ Poor'} reliability)"
+    )
 
 # %% [markdown]
 # ## Conclusion: Factor Analysis for Orbital Dynamics
@@ -341,7 +380,7 @@ for i, det in enumerate(factor_determinacy):
 #
 # ### **Key Insights**:
 # - **Latent dynamical factors**: FA identifies common processes affecting multiple orbital elements
-# - **Communalities**: Show which orbital parameters are dominated by common vs unique processes  
+# - **Communalities**: Show which orbital parameters are dominated by common vs unique processes
 # - **Factor rotation**: Varimax rotation clarifies which parameters belong to each dynamical factor
 # - **Model validation**: Goodness-of-fit statistics indicate how well the factor model represents orbital relationships
 #

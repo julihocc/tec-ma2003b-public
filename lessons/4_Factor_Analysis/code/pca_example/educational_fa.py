@@ -1,7 +1,7 @@
 # %% [markdown]
 # # Factor Analysis vs PCA Comparison - Educational Assessment
 #
-# This script demonstrates the key differences between Factor Analysis (FA) and 
+# This script demonstrates the key differences between Factor Analysis (FA) and
 # Principal Component Analysis (PCA) using the same synthetic educational dataset.
 # This direct comparison highlights when and why to choose FA over PCA.
 #
@@ -13,7 +13,7 @@
 #
 # ## What to expect when you run this file:
 # - Comparative factor extraction using Principal Axis Factoring
-# - Communality estimates and uniquenesses interpretation  
+# - Communality estimates and uniquenesses interpretation
 # - Factor rotation (Varimax) for improved interpretability
 # - Direct comparison with PCA results from `pca_example.py`
 
@@ -44,10 +44,10 @@ print(f"Standardization: {standardize}")
 # We use identical data generation to `pca_example.py` to enable direct comparison.
 # This controlled dataset has **two underlying latent factors**:
 # - **Intelligence Factor**: Affects MathTest, VerbalTest
-# - **Personality Factor**: Affects SocialSkills, Leadership  
+# - **Personality Factor**: Affects SocialSkills, Leadership
 # - **Noise Variables**: RandomVar1, RandomVar2 (no latent structure)
 #
-# **Key for FA vs PCA comparison**: FA should better identify the true latent 
+# **Key for FA vs PCA comparison**: FA should better identify the true latent
 # factor structure since it models common variance specifically.
 
 # %%
@@ -56,35 +56,52 @@ rng = np.random.RandomState(random_seed)
 
 # Generate two orthogonal latent factors
 intelligence_factor = rng.normal(size=(n_samples, 1))  # Cognitive ability factor
-personality_factor = rng.normal(size=(n_samples, 1))   # Social/emotional factor
+personality_factor = rng.normal(size=(n_samples, 1))  # Social/emotional factor
 
 # Define noise terms for measurement error
-measurement_noise_low = rng.normal(size=(n_samples, 1))    # Low noise (σ = 0.2)  
-measurement_noise_med = rng.normal(size=(n_samples, 1))    # Medium noise (σ = 0.25)
-pure_noise_1 = rng.normal(size=(n_samples, 1))            # Pure noise variable 1
-pure_noise_2 = rng.normal(size=(n_samples, 1))            # Pure noise variable 2
+measurement_noise_low = rng.normal(size=(n_samples, 1))  # Low noise (σ = 0.2)
+measurement_noise_med = rng.normal(size=(n_samples, 1))  # Medium noise (σ = 0.25)
+pure_noise_1 = rng.normal(size=(n_samples, 1))  # Pure noise variable 1
+pure_noise_2 = rng.normal(size=(n_samples, 1))  # Pure noise variable 2
 
 # Define factor loadings (same as PCA example)
 strong_loading = 0.85  # Strong relationship to latent factor
 moderate_loading = 0.80  # Moderate relationship to latent factor
-low_noise_level = 0.2   # Low measurement error
+low_noise_level = 0.2  # Low measurement error
 med_noise_level = 0.25  # Medium measurement error
 noise_variance_1 = 0.6  # Variance for first noise variable
 noise_variance_2 = 0.5  # Variance for second noise variable
 
 # Create observed variables with meaningful structure
-math_test = strong_loading * intelligence_factor + low_noise_level * measurement_noise_low
-verbal_test = moderate_loading * intelligence_factor + med_noise_level * measurement_noise_med
-social_skills = strong_loading * personality_factor + low_noise_level * measurement_noise_low  
-leadership = moderate_loading * personality_factor + med_noise_level * measurement_noise_med
+math_test = (
+    strong_loading * intelligence_factor + low_noise_level * measurement_noise_low
+)
+verbal_test = (
+    moderate_loading * intelligence_factor + med_noise_level * measurement_noise_med
+)
+social_skills = (
+    strong_loading * personality_factor + low_noise_level * measurement_noise_low
+)
+leadership = (
+    moderate_loading * personality_factor + med_noise_level * measurement_noise_med
+)
 random_var1 = noise_variance_1 * pure_noise_1  # Pure noise (no latent structure)
 random_var2 = noise_variance_2 * pure_noise_2  # Pure noise (no latent structure)
 
 # Combine into data matrix
-X = np.hstack([math_test, verbal_test, social_skills, leadership, random_var1, random_var2])
+X = np.hstack(
+    [math_test, verbal_test, social_skills, leadership, random_var1, random_var2]
+)
 
 # Create meaningful variable names for interpretation
-variable_names = ["MathTest", "VerbalTest", "SocialSkills", "Leadership", "RandomVar1", "RandomVar2"]
+variable_names = [
+    "MathTest",
+    "VerbalTest",
+    "SocialSkills",
+    "Leadership",
+    "RandomVar1",
+    "RandomVar2",
+]
 print(f"Data shape: {X.shape} ({n_samples} observations, {X.shape[1]} variables)")
 print("Variables:", variable_names)
 
@@ -108,10 +125,14 @@ print("--- Factor Analysis Assumptions ---")
 print(f"Bartlett's Test of Sphericity:")
 print(f"  Chi-square: {chi_square_value:.3f}")
 print(f"  p-value: {p_value:.6f}")
-print(f"  Interpretation: {'✓ Reject null - suitable for FA' if p_value < 0.05 else '✗ Fail to reject - may not be suitable'}")
+print(
+    f"  Interpretation: {'✓ Reject null - suitable for FA' if p_value < 0.05 else '✗ Fail to reject - may not be suitable'}"
+)
 print(f"\nKMO Test:")
 print(f"  Overall MSA: {kmo_model:.3f}")
-print(f"  Interpretation: {'✓ Excellent' if kmo_model > 0.9 else '✓ Good' if kmo_model > 0.8 else '✓ Acceptable' if kmo_model > 0.6 else '✗ Unacceptable'} sampling adequacy")
+print(
+    f"  Interpretation: {'✓ Excellent' if kmo_model > 0.9 else '✓ Good' if kmo_model > 0.8 else '✓ Acceptable' if kmo_model > 0.6 else '✗ Unacceptable'} sampling adequacy"
+)
 
 # %%
 # Show individual variable KMO values
@@ -134,7 +155,9 @@ for i, var_name in enumerate(variable_names):
 # %%
 # Fit Factor Analysis with 2 factors (theory-driven: Intelligence + Personality)
 n_factors_theory = 2
-fa_theory = FactorAnalyzer(n_factors=n_factors_theory, rotation=None, method='principal')
+fa_theory = FactorAnalyzer(
+    n_factors=n_factors_theory, rotation=None, method="principal"
+)
 fa_theory.fit(Xs)
 
 print(f"--- Factor Analysis: {n_factors_theory} Factors (Theory-Driven) ---")
@@ -163,9 +186,9 @@ print(f"Proportion explained by factors: {variance_explained:.1%}")
 # %% [markdown]
 # ### Interpretation: Communalities
 #
-# **Communalities (h²)** represent the proportion of each variable's variance 
+# **Communalities (h²)** represent the proportion of each variable's variance
 # explained by the common factors. Compare these values:
-# - **MathTest & VerbalTest**: Should have high h² (driven by Intelligence factor)  
+# - **MathTest & VerbalTest**: Should have high h² (driven by Intelligence factor)
 # - **SocialSkills & Leadership**: Should have high h² (driven by Personality factor)
 # - **RandomVar1 & RandomVar2**: Should have low h² (mostly unique variance)
 
@@ -179,24 +202,30 @@ print(f"Proportion explained by factors: {variance_explained:.1%}")
 
 # %%
 # Apply Varimax rotation for better interpretability
-fa_rotated = FactorAnalyzer(n_factors=n_factors_theory, rotation='varimax', method='principal')
+fa_rotated = FactorAnalyzer(
+    n_factors=n_factors_theory, rotation="varimax", method="principal"
+)
 fa_rotated.fit(Xs)
 
 loadings_unrotated = fa_theory.loadings_
 loadings_rotated = fa_rotated.loadings_
 
 print("--- Factor Loadings Comparison: Unrotated vs Varimax ---")
-print(f"{'Variable':<12} {'Unrot-F1':<10} {'Unrot-F2':<10} {'Vmax-F1':<10} {'Vmax-F2':<10}")
+print(
+    f"{'Variable':<12} {'Unrot-F1':<10} {'Unrot-F2':<10} {'Vmax-F1':<10} {'Vmax-F2':<10}"
+)
 print("-" * 62)
 for i, var_name in enumerate(variable_names):
-    print(f"{var_name:<12} {loadings_unrotated[i,0]:<10.3f} {loadings_unrotated[i,1]:<10.3f} {loadings_rotated[i,0]:<10.3f} {loadings_rotated[i,1]:<10.3f}")
+    print(
+        f"{var_name:<12} {loadings_unrotated[i, 0]:<10.3f} {loadings_unrotated[i, 1]:<10.3f} {loadings_rotated[i, 0]:<10.3f} {loadings_rotated[i, 1]:<10.3f}"
+    )
 
 # %% [markdown]
 # ### Factor Loading Interpretation
 #
 # **Expected pattern after Varimax rotation**:
 # - **Factor 1**: High loadings for MathTest, VerbalTest (Intelligence factor)
-# - **Factor 2**: High loadings for SocialSkills, Leadership (Personality factor)  
+# - **Factor 2**: High loadings for SocialSkills, Leadership (Personality factor)
 # - **Random variables**: Low loadings on both factors
 # - **Simple structure**: Each variable loads primarily on one factor
 
@@ -205,20 +234,36 @@ for i, var_name in enumerate(variable_names):
 fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 5))
 
 # Unrotated loadings heatmap
-sns.heatmap(loadings_unrotated.T, annot=True, fmt='.2f', 
-           xticklabels=variable_names, yticklabels=[f'Factor {i+1}' for i in range(n_factors_theory)],
-           cmap='RdBu_r', center=0, ax=ax1, cbar_kws={'shrink': 0.8})
-ax1.set_title('Unrotated Factor Loadings')
+sns.heatmap(
+    loadings_unrotated.T,
+    annot=True,
+    fmt=".2f",
+    xticklabels=variable_names,
+    yticklabels=[f"Factor {i + 1}" for i in range(n_factors_theory)],
+    cmap="RdBu_r",
+    center=0,
+    ax=ax1,
+    cbar_kws={"shrink": 0.8},
+)
+ax1.set_title("Unrotated Factor Loadings")
 
-# Rotated loadings heatmap  
-sns.heatmap(loadings_rotated.T, annot=True, fmt='.2f',
-           xticklabels=variable_names, yticklabels=[f'Factor {i+1}' for i in range(n_factors_theory)], 
-           cmap='RdBu_r', center=0, ax=ax2, cbar_kws={'shrink': 0.8})
-ax2.set_title('Varimax Rotated Factor Loadings')
+# Rotated loadings heatmap
+sns.heatmap(
+    loadings_rotated.T,
+    annot=True,
+    fmt=".2f",
+    xticklabels=variable_names,
+    yticklabels=[f"Factor {i + 1}" for i in range(n_factors_theory)],
+    cmap="RdBu_r",
+    center=0,
+    ax=ax2,
+    cbar_kws={"shrink": 0.8},
+)
+ax2.set_title("Varimax Rotated Factor Loadings")
 
 plt.tight_layout()
 loadings_out = script_dir / "fa_loadings.png"
-plt.savefig(loadings_out, dpi=150, bbox_inches='tight')
+plt.savefig(loadings_out, dpi=150, bbox_inches="tight")
 print(f"Saved {loadings_out}")
 plt.show()
 
@@ -239,7 +284,9 @@ fa_scores = fa_rotated.transform(Xs)
 
 print("--- Factor Analysis vs PCA: Method Comparison ---")
 print("\n1. VARIANCE PERSPECTIVE:")
-print(f"PCA - Total variance explained by first 2 components: {pca.explained_variance_ratio_[:2].sum():.1%}")
+print(
+    f"PCA - Total variance explained by first 2 components: {pca.explained_variance_ratio_[:2].sum():.1%}"
+)
 print(f"FA  - Common variance explained by 2 factors: {variance_explained:.1%}")
 print(f"     Difference: PCA includes unique variance, FA models only shared variance")
 
@@ -247,7 +294,9 @@ print(f"\n2. LOADING COMPARISON (first 2 dimensions):")
 print(f"{'Variable':<12} {'PCA-PC1':<10} {'PCA-PC2':<10} {'FA-F1':<10} {'FA-F2':<10}")
 print("-" * 52)
 for i, var_name in enumerate(variable_names):
-    print(f"{var_name:<12} {pca_loadings[i,0]:<10.3f} {pca_loadings[i,1]:<10.3f} {loadings_rotated[i,0]:<10.3f} {loadings_rotated[i,1]:<10.3f}")
+    print(
+        f"{var_name:<12} {pca_loadings[i, 0]:<10.3f} {pca_loadings[i, 1]:<10.3f} {loadings_rotated[i, 0]:<10.3f} {loadings_rotated[i, 1]:<10.3f}"
+    )
 
 # %% [markdown]
 # ## Scree Plot: FA vs PCA Comparison
@@ -266,7 +315,15 @@ plt.figure(figsize=(10, 6))
 # PCA scree plot
 plt.subplot(1, 2, 1)
 components = np.arange(1, len(pca_eigenvalues) + 1)
-plt.plot(components, pca_eigenvalues, "o-", lw=2, color="steelblue", markersize=8, label='PCA')
+plt.plot(
+    components,
+    pca_eigenvalues,
+    "o-",
+    lw=2,
+    color="steelblue",
+    markersize=8,
+    label="PCA",
+)
 plt.axhline(y=1.0, color="red", linestyle="--", alpha=0.7, label="Kaiser criterion")
 plt.xlabel("Component")
 plt.ylabel("Eigenvalue")
@@ -277,7 +334,15 @@ plt.legend()
 
 # FA scree plot
 plt.subplot(1, 2, 2)
-plt.plot(components, fa_eigenvalues, "o-", lw=2, color="darkgreen", markersize=8, label='Factor Analysis')
+plt.plot(
+    components,
+    fa_eigenvalues,
+    "o-",
+    lw=2,
+    color="darkgreen",
+    markersize=8,
+    label="Factor Analysis",
+)
 plt.axhline(y=1.0, color="red", linestyle="--", alpha=0.7, label="Kaiser criterion")
 plt.xlabel("Factor")
 plt.ylabel("Eigenvalue")
@@ -288,7 +353,7 @@ plt.legend()
 
 plt.tight_layout()
 scree_out = script_dir / "fa_scree.png"
-plt.savefig(scree_out, dpi=150, bbox_inches='tight')
+plt.savefig(scree_out, dpi=150, bbox_inches="tight")
 print(f"Saved {scree_out}")
 plt.show()
 
@@ -315,20 +380,26 @@ print(f"Factor loadings above {loading_threshold} threshold:")
 for factor_idx in range(n_factors_theory):
     factor_name = f"Factor {factor_idx + 1}"
     high_loading_vars = []
-    
+
     for var_idx, var_name in enumerate(variable_names):
         loading = abs(loadings_rotated[var_idx, factor_idx])
         if loading > loading_threshold:
             high_loading_vars.append(f"{var_name}({loading:.2f})")
-    
-    print(f"{factor_name}: {', '.join(high_loading_vars) if high_loading_vars else 'None'}")
+
+    print(
+        f"{factor_name}: {', '.join(high_loading_vars) if high_loading_vars else 'None'}"
+    )
 
 # Compare communalities: meaningful vs noise variables
-meaningful_vars = ["MathTest", "VerbalTest", "SocialSkills", "Leadership"]  
+meaningful_vars = ["MathTest", "VerbalTest", "SocialSkills", "Leadership"]
 noise_vars = ["RandomVar1", "RandomVar2"]
 
-meaningful_communalities = [communalities[i] for i, var in enumerate(variable_names) if var in meaningful_vars]
-noise_communalities = [communalities[i] for i, var in enumerate(variable_names) if var in noise_vars]
+meaningful_communalities = [
+    communalities[i] for i, var in enumerate(variable_names) if var in meaningful_vars
+]
+noise_communalities = [
+    communalities[i] for i, var in enumerate(variable_names) if var in noise_vars
+]
 
 print(f"\nCommunality Analysis:")
 print(f"Meaningful variables average h²: {np.mean(meaningful_communalities):.3f}")
@@ -336,10 +407,14 @@ print(f"Noise variables average h²: {np.mean(noise_communalities):.3f}")
 
 # Success metric: meaningful variables should have higher communalities
 if np.mean(meaningful_communalities) > np.mean(noise_communalities) * 1.5:
-    print("✓ SUCCESS: Factor Analysis successfully separated meaningful variables from noise!")
+    print(
+        "✓ SUCCESS: Factor Analysis successfully separated meaningful variables from noise!"
+    )
     print("  Meaningful variables show higher communalities than noise variables")
 else:
-    print("⚠ NOTICE: Factor structure could be cleaner - consider more factors or different rotation")
+    print(
+        "⚠ NOTICE: Factor structure could be cleaner - consider more factors or different rotation"
+    )
 
 # %% [markdown]
 # ## Conclusion: When to Use Factor Analysis vs PCA
@@ -356,7 +431,7 @@ else:
 # ### **Choose PCA when**:
 # - Primary goal is data reduction/dimensionality reduction
 # - You want to maximize explained variance
-# - No specific theoretical model for latent structure  
+# - No specific theoretical model for latent structure
 # - Computational efficiency is important
 # - Exploratory data analysis for unknown structure
 #

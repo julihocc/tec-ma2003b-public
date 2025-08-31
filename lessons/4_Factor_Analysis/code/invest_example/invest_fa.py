@@ -124,7 +124,9 @@ interpretation = (
         else (
             "✓ Acceptable"
             if kmo_model > 0.6
-            else "⚠ Poor" if kmo_model > 0.5 else "✗ Unacceptable"
+            else "⚠ Poor"
+            if kmo_model > 0.5
+            else "✗ Unacceptable"
         )
     )
 )
@@ -167,13 +169,13 @@ for i, eigenval in enumerate(eigenvalues):
         n_factors_kaiser += 1
 
     print(
-        f"Factor {i+1:<2} {eigenval:<12.3f} {var_explained:<12.1f} {cumulative_var:<12.1f}"
+        f"Factor {i + 1:<2} {eigenval:<12.3f} {var_explained:<12.1f} {cumulative_var:<12.1f}"
     )
 
 print(f"\nFactor Retention Criteria:")
 print(f"  Kaiser criterion (eigenvalue > 1): {n_factors_kaiser} factors")
 print(
-    f"  70% variance rule: {np.argmax(np.cumsum(eigenvalues)/np.sum(eigenvalues) >= 0.70) + 1} factors"
+    f"  70% variance rule: {np.argmax(np.cumsum(eigenvalues) / np.sum(eigenvalues) >= 0.70) + 1} factors"
 )
 print(f"  Financial theory expectation: 1-2 common market factors")
 
@@ -215,8 +217,8 @@ print("-" * 78)
 for i, market in enumerate(df.columns):
     print(
         f"{market:<8} {communalities[i]:<8.3f} {uniquenesses[i]:<8.3f} "
-        f"{loadings_unrotated[i,0]:<10.3f} {loadings_unrotated[i,1]:<10.3f} "
-        f"{loadings_rotated[i,0]:<10.3f} {loadings_rotated[i,1]:<10.3f}"
+        f"{loadings_unrotated[i, 0]:<10.3f} {loadings_unrotated[i, 1]:<10.3f} "
+        f"{loadings_rotated[i, 0]:<10.3f} {loadings_rotated[i, 1]:<10.3f}"
     )
 
 # Calculate variance explained by factors
@@ -297,7 +299,7 @@ sns.heatmap(
     annot=True,
     fmt=".2f",
     xticklabels=df.columns,
-    yticklabels=[f"Factor {i+1}" for i in range(n_factors)],
+    yticklabels=[f"Factor {i + 1}" for i in range(n_factors)],
     cmap="RdBu_r",
     center=0,
     cbar_kws={"shrink": 0.8},
@@ -310,7 +312,7 @@ sns.heatmap(
     annot=True,
     fmt=".2f",
     xticklabels=df.columns,
-    yticklabels=[f"Factor {i+1}" for i in range(n_factors)],
+    yticklabels=[f"Factor {i + 1}" for i in range(n_factors)],
     cmap="RdBu_r",
     center=0,
     cbar_kws={"shrink": 0.8},

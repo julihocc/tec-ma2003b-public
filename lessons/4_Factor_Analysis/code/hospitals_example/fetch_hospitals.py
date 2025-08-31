@@ -12,6 +12,7 @@ Usage:
 Note: This generates synthetic but realistic data based on typical ranges
 for hospital quality metrics.
 """
+
 import os
 import pandas as pd
 import numpy as np

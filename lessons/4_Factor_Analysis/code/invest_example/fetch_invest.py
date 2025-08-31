@@ -10,6 +10,7 @@ Usage:
     python fetch_invest.py
 
 """
+
 import os
 import sys
 import pandas as pd
