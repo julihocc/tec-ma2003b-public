@@ -18,14 +18,15 @@
 # - Direct comparison with PCA results from `pca_example.py`
 
 # %%
-import numpy as np
-import matplotlib.pyplot as plt
-from sklearn.decomposition import PCA, FactorAnalysis
-from sklearn.preprocessing import StandardScaler
 from pathlib import Path
+
+import matplotlib.pyplot as plt
+import numpy as np
+import seaborn as sns
 from factor_analyzer import FactorAnalyzer
 from factor_analyzer.factor_analyzer import calculate_bartlett_sphericity, calculate_kmo
-import seaborn as sns
+from sklearn.decomposition import PCA
+from sklearn.preprocessing import StandardScaler
 
 # %%
 # Use same data generation as PCA example for direct comparison
@@ -122,13 +123,13 @@ chi_square_value, p_value = calculate_bartlett_sphericity(Xs)
 kmo_all, kmo_model = calculate_kmo(Xs)
 
 print("--- Factor Analysis Assumptions ---")
-print(f"Bartlett's Test of Sphericity:")
+print("Bartlett's Test of Sphericity:")
 print(f"  Chi-square: {chi_square_value:.3f}")
 print(f"  p-value: {p_value:.6f}")
 print(
     f"  Interpretation: {'✓ Reject null - suitable for FA' if p_value < 0.05 else '✗ Fail to reject - may not be suitable'}"
 )
-print(f"\nKMO Test:")
+print("\nKMO Test:")
 print(f"  Overall MSA: {kmo_model:.3f}")
 print(
     f"  Interpretation: {'✓ Excellent' if kmo_model > 0.9 else '✓ Good' if kmo_model > 0.8 else '✓ Acceptable' if kmo_model > 0.6 else '✗ Unacceptable'} sampling adequacy"
@@ -136,7 +137,7 @@ print(
 
 # %%
 # Show individual variable KMO values
-print(f"Individual Variable MSA values:")
+print("Individual Variable MSA values:")
 print(f"{'Variable':<12} {'MSA':<8}")
 print("-" * 20)
 for i, var_name in enumerate(variable_names):
@@ -160,6 +161,10 @@ fa_theory = FactorAnalyzer(
 )
 fa_theory.fit(Xs)
 
+# Check if fit was successful
+if fa_theory.loadings_ is None:
+    raise ValueError("Factor analysis fit failed - no loadings produced")
+
 print(f"--- Factor Analysis: {n_factors_theory} Factors (Theory-Driven) ---")
 print(f"Eigenvalues: {np.round(fa_theory.get_eigenvalues()[0][:n_factors_theory], 3)}")
 
@@ -167,7 +172,7 @@ print(f"Eigenvalues: {np.round(fa_theory.get_eigenvalues()[0][:n_factors_theory]
 communalities = fa_theory.get_communalities()
 uniquenesses = 1 - communalities
 
-print(f"\nCommunalities and Uniquenesses:")
+print("\nCommunalities and Uniquenesses:")
 print(f"{'Variable':<12} {'h²':<8} {'u²':<8}")
 print("-" * 28)
 for i, var_name in enumerate(variable_names):
@@ -178,7 +183,7 @@ factor_variance = np.sum(communalities)
 total_variance = len(variable_names)  # For standardized data
 variance_explained = factor_variance / total_variance
 
-print(f"\nVariance Analysis:")
+print("\nVariance Analysis:")
 print(f"Total variance (standardized): {total_variance:.1f}")
 print(f"Common variance (sum of h²): {factor_variance:.3f}")
 print(f"Proportion explained by factors: {variance_explained:.1%}")
@@ -209,6 +214,13 @@ fa_rotated.fit(Xs)
 
 loadings_unrotated = fa_theory.loadings_
 loadings_rotated = fa_rotated.loadings_
+
+# Add safety check: If rotated loadings failed, fall back to unrotated
+if loadings_rotated is None:
+    print("Warning: Varimax rotation failed or produced no loadings. Using unrotated loadings for comparison.")
+    loadings_rotated = loadings_unrotated
+
+assert loadings_rotated is not None
 
 print("--- Factor Loadings Comparison: Unrotated vs Varimax ---")
 print(
@@ -288,9 +300,9 @@ print(
     f"PCA - Total variance explained by first 2 components: {pca.explained_variance_ratio_[:2].sum():.1%}"
 )
 print(f"FA  - Common variance explained by 2 factors: {variance_explained:.1%}")
-print(f"     Difference: PCA includes unique variance, FA models only shared variance")
+print("     Difference: PCA includes unique variance, FA models only shared variance")
 
-print(f"\n2. LOADING COMPARISON (first 2 dimensions):")
+print("\n2. LOADING COMPARISON (first 2 dimensions):")
 print(f"{'Variable':<12} {'PCA-PC1':<10} {'PCA-PC2':<10} {'FA-F1':<10} {'FA-F2':<10}")
 print("-" * 52)
 for i, var_name in enumerate(variable_names):
@@ -401,7 +413,7 @@ noise_communalities = [
     communalities[i] for i, var in enumerate(variable_names) if var in noise_vars
 ]
 
-print(f"\nCommunality Analysis:")
+print("\nCommunality Analysis:")
 print(f"Meaningful variables average h²: {np.mean(meaningful_communalities):.3f}")
 print(f"Noise variables average h²: {np.mean(noise_communalities):.3f}")
 
