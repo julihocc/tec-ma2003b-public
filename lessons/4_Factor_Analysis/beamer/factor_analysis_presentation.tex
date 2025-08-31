@@ -165,7 +165,7 @@
         \item \textbf{Method}: Standardized PCA on synthetic data with known latent factors \pause
     \end{itemize}
     \vspace{6pt}
-    Script: \texttt{lessons/4\_Factor\_Analysis/code/pca\_example/pca\_example.py}
+    Script: \texttt{lessons/4\_Factor\_Analysis/code/pca\_example/educational\_pca.py}
 \end{frame}
 
 \begin{frame}
@@ -327,7 +327,7 @@
     \frametitle{Code Example: Synthetic Data Analysis}
     \begin{itemize}
         \item \textbf{Data generation}: Creates realistic educational assessment scenario with known factors \pause
-        \item \textbf{Main analysis}: \texttt{pca\_example.py} performs PCA with detailed pedagogical interpretation \pause
+        \item \textbf{Main analysis}: \texttt{educational\_pca.py} performs PCA with detailed pedagogical interpretation \pause
         \item \textbf{Outputs}:
               \begin{itemize}
                   \item Eigenvalues, explained variance ratios, factor recovery validation \pause
@@ -335,7 +335,7 @@
                   \item \texttt{pca\_biplot.png}: Students and abilities in PC space \pause
                   \item Student rankings by PC scores for practical interpretation \pause
               \end{itemize}
-        \item \textbf{Usage}: \texttt{cd code/pca\_example \&\& python pca\_example.py} \pause
+        \item \textbf{Usage}: \texttt{cd code/pca\_example \&\& python educational\_pca.py} \pause
     \end{itemize}
     \vspace{6pt}
     This example is ideal for learning PCA concepts because the ground truth is known, making it easy to validate whether the method works as expected.
@@ -352,7 +352,7 @@
         \item \textbf{Method}: Standardized PCA on correlation matrix of daily returns. \pause
     \end{itemize}
     \vspace{6pt}
-    Script: \texttt{lessons/4\_Factor\_Analysis/code/invest\_example/invest\_example.py}
+    Script: \texttt{lessons/4\_Factor\_Analysis/code/invest\_example/invest\_pca.py}
 \end{frame}
 
 \begin{frame}
@@ -486,14 +486,14 @@
     \frametitle{Code Example: Running the Analysis}
     \begin{itemize}
         \item \textbf{Data preparation}: \texttt{fetch\_invest.py} generates synthetic European market data \pause
-        \item \textbf{Main analysis}: \texttt{invest\_example.py} performs PCA with detailed financial interpretation \pause
+        \item \textbf{Main analysis}: \texttt{invest\_pca.py} performs PCA with detailed financial interpretation \pause
         \item \textbf{Outputs}: 
               \begin{itemize}
                   \item Eigenvalues, explained variance ratios, cumulative variance \pause
                   \item \texttt{invest\_scree.png}: Scree plot for component selection \pause
                   \item \texttt{invest\_biplot.png}: Biplot of markets and time periods \pause
               \end{itemize}
-        \item \textbf{Usage}: \texttt{cd code/invest\_example \&\& python invest\_example.py} \pause
+        \item \textbf{Usage}: \texttt{cd code/invest\_example \&\& python invest\_pca.py} \pause
     \end{itemize}
     \vspace{6pt}
     The script includes detailed py-percent comments for interactive exploration and financial interpretation of all results.
@@ -510,7 +510,7 @@
         \item \textbf{Method}: Standardized PCA on 5 orbital elements with different physical units \pause
     \end{itemize}
     \vspace{6pt}
-    Script: \texttt{lessons/4\_Factor\_Analysis/code/kuiper\_example/kuiper\_example.py}
+    Script: \texttt{lessons/4\_Factor\_Analysis/code/kuiper\_example/kuiper\_pca.py}
 \end{frame}
 
 \begin{frame}
@@ -668,14 +668,14 @@
     \frametitle{Code Example: Astronomical Data Analysis}
     \begin{itemize}
         \item \textbf{Data generation}: \texttt{fetch\_kuiper.py} creates synthetic orbital database \pause
-        \item \textbf{Main analysis}: \texttt{kuiper\_example.py} performs PCA with astronomical interpretation \pause
+        \item \textbf{Main analysis}: \texttt{kuiper\_pca.py} performs PCA with astronomical interpretation \pause
         \item \textbf{Outputs}:
               \begin{itemize}
                   \item Eigenvalues showing distributed variance structure \pause
                   \item \texttt{kuiper\_scree.png}: Scree plot for component selection \pause
                   \item \texttt{kuiper\_biplot.png}: Objects and orbital parameters in PC space \pause
               \end{itemize}
-        \item \textbf{Usage}: \texttt{cd code/kuiper\_example \&\& python kuiper\_example.py} \pause
+        \item \textbf{Usage}: \texttt{cd code/kuiper\_example \&\& python kuiper\_pca.py} \pause
     \end{itemize}
     \vspace{6pt}
     The script demonstrates PCA applied to scientific data with multiple meaningful components and physical interpretation of mathematical results.
@@ -692,7 +692,7 @@
         \item \textbf{Method}: Standardized PCA on health outcome metrics with different units \pause
     \end{itemize}
     \vspace{6pt}
-    Script: \texttt{lessons/4\_Factor\_Analysis/code/hospitals\_example/hospitals\_example.py}
+    Script: \texttt{lessons/4\_Factor\_Analysis/code/hospitals\_example/hospitals\_pca.py}
 \end{frame}
 
 \begin{frame}
@@ -846,14 +846,14 @@
     \frametitle{Code Example: Healthcare Quality Analysis}
     \begin{itemize}
         \item \textbf{Data preparation}: \texttt{fetch\_hospitals.py} generates synthetic hospital quality data \pause
-        \item \textbf{Main analysis}: \texttt{hospitals\_example.py} performs PCA with healthcare interpretation \pause
+        \item \textbf{Main analysis}: \texttt{hospitals\_pca.py} performs PCA with healthcare interpretation \pause
         \item \textbf{Outputs}:
               \begin{itemize}
                   \item Eigenvalues, explained variance, hospital quality rankings \pause
                   \item \texttt{hospitals\_scree.png}: Scree plot for component selection \pause
                   \item \texttt{hospitals\_biplot.png}: Hospitals and quality metrics in PC space \pause
               \end{itemize}
-        \item \textbf{Usage}: \texttt{cd code/hospitals\_example \&\& python hospitals\_example.py} \pause
+        \item \textbf{Usage}: \texttt{cd code/hospitals\_example \&\& python hospitals\_pca.py} \pause
     \end{itemize}
     \vspace{6pt}
     The script demonstrates PCA applied to healthcare quality assessment with practical interpretation for hospital management and policy applications.
@@ -926,7 +926,8 @@
         \item \textbf{Same Dataset}: 100 students, 6 variables (MathTest, VerbalTest, SocialSkills, Leadership, RandomVar1, RandomVar2) \pause
         \item \textbf{Known Structure}: Intelligence factor + Personality factor + noise \pause
         \item \textbf{FA Advantage}: Should better identify the true 2-factor structure \pause
-        \item \textbf{Comparison Goal}: See how FA handles measurement error vs PCA
+        \item \textbf{Comparison Goal}: See how FA handles measurement error vs PCA \pause
+        \item \textbf{Scripts}: \texttt{educational\_pca.py} vs \texttt{educational\_fa.py}
     \end{itemize}
 \end{frame}
 
