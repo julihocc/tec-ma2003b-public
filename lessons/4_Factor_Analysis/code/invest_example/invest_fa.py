@@ -318,6 +318,8 @@ sns.heatmap(
     yticklabels=[f"Factor {i + 1}" for i in range(n_factors)],
     cmap="RdBu_r",
     center=0,
+    vmin=-1,
+    vmax=1,
     cbar_kws={"shrink": 0.8},
 )
 ax1.set_title("Unrotated Factor Loadings")
@@ -331,6 +333,8 @@ sns.heatmap(
     yticklabels=[f"Factor {i + 1}" for i in range(n_factors)],
     cmap="RdBu_r",
     center=0,
+    vmin=-1,
+    vmax=1,
     cbar_kws={"shrink": 0.8},
 )
 ax2.set_title("Varimax Rotated Loadings")
@@ -340,6 +344,7 @@ ax3 = plt.subplot(2, 3, 3)
 bars = ax3.bar(df.columns, communalities, color="steelblue", alpha=0.7)
 ax3.set_title("Communalities by Market")
 ax3.set_ylabel("h² (Proportion of Variance Explained)")
+ax3.set_ylim(0, 1)
 ax3.tick_params(axis="x", rotation=45)
 ax3.axhline(
     y=float(np.mean(communalities)),
@@ -411,6 +416,7 @@ loadings_out = script_dir / "invest_fa_loadings.png"
 plt.savefig(loadings_out, dpi=150, bbox_inches="tight")
 print(f"\nSaved comprehensive factor analysis plots: {loadings_out}")
 logger.info(f"Saved factor analysis visualization: {loadings_out}")
+plt.show()
 
 # %% [markdown]
 # ## Financial Risk and Portfolio Implications
