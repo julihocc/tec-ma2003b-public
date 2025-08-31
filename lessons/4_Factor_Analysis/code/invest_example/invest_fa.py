@@ -206,8 +206,22 @@ fa_rotated = FactorAnalyzer(n_factors=n_factors, rotation="varimax", method="pri
 fa_rotated.fit(X_scaled)
 
 # Extract results
-loadings_unrotated = fa_unrotated.loadings_
-loadings_rotated = fa_rotated.loadings_
+loadings_unrotated = getattr(fa_unrotated, "loadings_", None)
+loadings_rotated = getattr(fa_rotated, "loadings_", None)
+
+# If unrotated loadings are not provided by the FactorAnalyzer implementation,
+# fall back to the rotated loadings for display purposes to avoid subscripting None.
+if loadings_unrotated is None:
+    logger.warning("Unrotated loadings are None; falling back to rotated loadings for display.")
+    loadings_unrotated = loadings_rotated
+
+# Ensure we have loadings to work with
+if loadings_unrotated is None or loadings_rotated is None:
+    raise RuntimeError(
+        "Factor loadings are unavailable (None). Ensure FactorAnalyzer.fit() succeeded "
+        "and the installed 'factor_analyzer' package exposes '.loadings_' after fit."
+    )
+
 communalities = fa_rotated.get_communalities()
 uniquenesses = 1 - communalities
 
@@ -328,7 +342,7 @@ ax3.set_title("Communalities by Market")
 ax3.set_ylabel("h² (Proportion of Variance Explained)")
 ax3.tick_params(axis="x", rotation=45)
 ax3.axhline(
-    y=np.mean(communalities),
+    y=float(np.mean(communalities)),
     color="red",
     linestyle="--",
     label=f"Average = {np.mean(communalities):.3f}",
