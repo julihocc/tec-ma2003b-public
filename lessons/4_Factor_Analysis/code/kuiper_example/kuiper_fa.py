@@ -196,43 +196,46 @@ else:
 
 # %%
 # Create factor loadings heatmap
-fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 6))
+if loadings_unrotated is None or loadings_rotated is None:
+    print("Error: Factor loadings could not be computed. Skipping visualization.")
+else:
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 6))
 
-# Unrotated loadings heatmap
-sns.heatmap(
-    loadings_unrotated.T,
-    annot=True,
-    fmt=".2f",
-    xticklabels=cols,
-    yticklabels=[f"Factor {i + 1}" for i in range(n_factors)],
-    cmap="RdBu_r",
-    center=0,
-    ax=ax1,
-    cbar_kws={"shrink": 0.8},
-)
-ax1.set_title("Unrotated Factor Loadings\n(Kuiper Belt Orbital Parameters)")
-ax1.tick_params(axis="x", rotation=45)
+    # Unrotated loadings heatmap
+    sns.heatmap(
+        loadings_unrotated.T,
+        annot=True,
+        fmt=".2f",
+        xticklabels=cols,
+        yticklabels=[f"Factor {i + 1}" for i in range(n_factors)],
+        cmap="RdBu_r",
+        center=0,
+        ax=ax1,
+        cbar_kws={"shrink": 0.8},
+    )
+    ax1.set_title("Unrotated Factor Loadings\n(Kuiper Belt Orbital Parameters)")
+    ax1.tick_params(axis="x", rotation=45)
 
-# Rotated loadings heatmap
-sns.heatmap(
-    loadings_rotated.T,
-    annot=True,
-    fmt=".2f",
-    xticklabels=cols,
-    yticklabels=[f"Factor {i + 1}" for i in range(n_factors)],
-    cmap="RdBu_r",
-    center=0,
-    ax=ax2,
-    cbar_kws={"shrink": 0.8},
-)
-ax2.set_title("Varimax Rotated Factor Loadings\n(Kuiper Belt Orbital Parameters)")
-ax2.tick_params(axis="x", rotation=45)
+    # Rotated loadings heatmap
+    sns.heatmap(
+        loadings_rotated.T,
+        annot=True,
+        fmt=".2f",
+        xticklabels=cols,
+        yticklabels=[f"Factor {i + 1}" for i in range(n_factors)],
+        cmap="RdBu_r",
+        center=0,
+        ax=ax2,
+        cbar_kws={"shrink": 0.8},
+    )
+    ax2.set_title("Varimax Rotated Factor Loadings\n(Kuiper Belt Orbital Parameters)")
+    ax2.tick_params(axis="x", rotation=45)
 
-plt.tight_layout()
-loadings_out = script_dir / "kuiper_fa_loadings.png"
-plt.savefig(loadings_out, dpi=150, bbox_inches="tight")
-print(f"Saved {loadings_out}")
-plt.show()
+    plt.tight_layout()
+    loadings_out = script_dir / "kuiper_fa_loadings.png"
+    plt.savefig(loadings_out, dpi=150, bbox_inches="tight")
+    print(f"Saved {loadings_out}")
+    plt.show()
 
 # %% [markdown]
 # ## Astronomical Factor Interpretation
@@ -245,34 +248,37 @@ print("--- Astronomical Factor Interpretation ---")
 # Identify high-loading parameters for each factor (threshold: |loading| > 0.4)
 loading_threshold = 0.4
 
-for factor_idx in range(n_factors):
-    factor_name = f"Factor {factor_idx + 1}"
-    print(f"\n{factor_name}:")
+if loadings_rotated is None:
+    print("Error: Factor loadings could not be computed. Skipping factor interpretation.")
+else:
+    for factor_idx in range(n_factors):
+        factor_name = f"Factor {factor_idx + 1}"
+        print(f"\n{factor_name}:")
 
-    high_loadings = []
-    moderate_loadings = []
+        high_loadings = []
+        moderate_loadings = []
 
-    for param_idx, param_name in enumerate(cols):
-        loading = loadings_rotated[param_idx, factor_idx]
-        abs_loading = abs(loading)
+        for param_idx, param_name in enumerate(cols):
+            loading = loadings_rotated[param_idx, factor_idx]
+            abs_loading = abs(loading)
 
-        if abs_loading > loading_threshold:
-            sign = "+" if loading > 0 else "-"
-            high_loadings.append(f"{sign}{param_name}({abs_loading:.2f})")
-        elif abs_loading > 0.25:  # Moderate loadings
-            sign = "+" if loading > 0 else "-"
-            moderate_loadings.append(f"{sign}{param_name}({abs_loading:.2f})")
+            if abs_loading > loading_threshold:
+                sign = "+" if loading > 0 else "-"
+                high_loadings.append(f"{sign}{param_name}({abs_loading:.2f})")
+            elif abs_loading > 0.25:  # Moderate loadings
+                sign = "+" if loading > 0 else "-"
+                moderate_loadings.append(f"{sign}{param_name}({abs_loading:.2f})")
 
-    if high_loadings:
-        print(f"  Primary loadings: {', '.join(high_loadings)}")
-    if moderate_loadings:
-        print(f"  Secondary loadings: {', '.join(moderate_loadings)}")
+        if high_loadings:
+            print(f"  Primary loadings: {', '.join(high_loadings)}")
+        if moderate_loadings:
+            print(f"  Secondary loadings: {', '.join(moderate_loadings)}")
 
-    # Astronomical interpretation based on loading patterns
-    if not high_loadings:
-        print("  Interpretation: Weak factor - mostly noise or specific variance")
-    else:
-        print("  Astronomical interpretation: [Examine parameter combinations above]")
+        # Astronomical interpretation based on loading patterns
+        if not high_loadings:
+            print("  Interpretation: Weak factor - mostly noise or specific variance")
+        else:
+            print("  Astronomical interpretation: [Examine parameter combinations above]")
 
 # %% [markdown]
 # ### Common Orbital Factor Patterns
@@ -348,39 +354,42 @@ for factor_idx in range(min(2, n_factors)):  # Show first 2 factors
 # %%
 print("--- Factor Analysis Model Validation ---")
 
-# Calculate model fit statistics
-n_objects = X.shape[0]
-n_params = X.shape[1]
+if loadings_rotated is None:
+    print("Error: Factor loadings could not be computed. Skipping model validation.")
+else:
+    # Calculate model fit statistics
+    n_objects = X.shape[0]
+    n_params = X.shape[1]
 
-# Residual correlation matrix
-predicted_corr = loadings_rotated @ loadings_rotated.T + np.diag(uniquenesses)
-observed_corr = np.corrcoef(Xs.T)
-residual_corr = observed_corr - predicted_corr
+    # Residual correlation matrix
+    predicted_corr = loadings_rotated @ loadings_rotated.T + np.diag(uniquenesses)
+    observed_corr = np.corrcoef(Xs.T)
+    residual_corr = observed_corr - predicted_corr
 
-# Root mean square of residuals (RMSR)
-rmsr = np.sqrt(np.mean(np.triu(residual_corr, k=1) ** 2))
-print(f"Root Mean Square of Residuals (RMSR): {rmsr:.4f}")
-print(
-    f"  Interpretation: {'✓ Good fit' if rmsr < 0.05 else '△ Acceptable fit' if rmsr < 0.08 else '✗ Poor fit'}"
-)
-
-# Proportion of residual correlations > |0.05|
-large_residuals = np.sum(np.abs(np.triu(residual_corr, k=1)) > 0.05)
-total_correlations = (n_params * (n_params - 1)) // 2
-prop_large_residuals = large_residuals / total_correlations
-
-print(f"Proportion of |residual correlations| > 0.05: {prop_large_residuals:.1%}")
-print(
-    f"  Interpretation: {'✓ Good' if prop_large_residuals < 0.1 else '△ Acceptable' if prop_large_residuals < 0.2 else '✗ Poor'} model fit"
-)
-
-# Factor determinacy (reliability of factor scores)
-factor_determinacy = np.diag(np.corrcoef(factor_scores.T, Xs.T)[:n_factors, n_factors:])
-print("\nFactor Score Determinacy:")
-for i, det in enumerate(factor_determinacy):
+    # Root mean square of residuals (RMSR)
+    rmsr = np.sqrt(np.mean(np.triu(residual_corr, k=1) ** 2))
+    print(f"Root Mean Square of Residuals (RMSR): {rmsr:.4f}")
     print(
-        f"  Factor {i + 1}: {det:.3f} ({'✓ Good' if det > 0.8 else '△ Acceptable' if det > 0.6 else '✗ Poor'} reliability)"
+        f"  Interpretation: {'✓ Good fit' if rmsr < 0.05 else '△ Acceptable fit' if rmsr < 0.08 else '✗ Poor fit'}"
     )
+
+    # Proportion of residual correlations > |0.05|
+    large_residuals = np.sum(np.abs(np.triu(residual_corr, k=1)) > 0.05)
+    total_correlations = (n_params * (n_params - 1)) // 2
+    prop_large_residuals = large_residuals / total_correlations
+
+    print(f"Proportion of |residual correlations| > 0.05: {prop_large_residuals:.1%}")
+    print(
+        f"  Interpretation: {'✓ Good' if prop_large_residuals < 0.1 else '△ Acceptable' if prop_large_residuals < 0.2 else '✗ Poor'} model fit"
+    )
+
+    # Factor determinacy (reliability of factor scores)
+    factor_determinacy = np.diag(np.corrcoef(factor_scores.T, Xs.T)[:n_factors, n_factors:])
+    print("\nFactor Score Determinacy:")
+    for i, det in enumerate(factor_determinacy):
+        print(
+            f"  Factor {i + 1}: {det:.3f} ({'✓ Good' if det > 0.8 else '△ Acceptable' if det > 0.6 else '✗ Poor'} reliability)"
+        )
 
 # %% [markdown]
 # ## Conclusion: Factor Analysis for Orbital Dynamics
