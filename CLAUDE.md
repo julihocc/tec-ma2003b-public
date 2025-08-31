@@ -159,3 +159,4 @@ X_Chapter_Name/
 - Use `pdflatex` twice for proper LaTeX cross-references
 - Always use virtual environment with `pip install -e .` for development
 - Scripts should write human-readable report files, not just console output
+- After changes made, update the documentation given in the README.md files
