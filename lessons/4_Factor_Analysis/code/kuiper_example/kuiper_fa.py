@@ -169,21 +169,24 @@ fa_rotated.fit(Xs)
 loadings_unrotated = fa.loadings_
 loadings_rotated = fa_rotated.loadings_
 
-print("--- Factor Loadings: Unrotated vs Varimax Rotated ---")
-print(f"{'Parameter':<15} ", end="")
-for i in range(n_factors):
-    print(f"{'Unrot-F' + str(i + 1):<10} {'Vmax-F' + str(i + 1):<10} ", end="")
-print()
-print("-" * (15 + 20 * n_factors))
-
-for i, param_name in enumerate(cols):
-    print(f"{param_name:<15} ", end="")
-    for j in range(n_factors):
-        print(
-            f"{loadings_unrotated[i, j]:<10.3f} {loadings_rotated[i, j]:<10.3f} ",
-            end="",
-        )
+if loadings_unrotated is None or loadings_rotated is None:
+    print("Error: Factor loadings could not be computed. Skipping loadings display.")
+else:
+    print("--- Factor Loadings: Unrotated vs Varimax Rotated ---")
+    print(f"{'Parameter':<15} ", end="")
+    for i in range(n_factors):
+        print(f"{'Unrot-F' + str(i + 1):<10} {'Vmax-F' + str(i + 1):<10} ", end="")
     print()
+    print("-" * (15 + 20 * n_factors))
+
+    for i, param_name in enumerate(cols):
+        print(f"{param_name:<15} ", end="")
+        for j in range(n_factors):
+            print(
+                f"{loadings_unrotated[i, j]:<10.3f} {loadings_rotated[i, j]:<10.3f} ",
+                end="",
+            )
+        print()
 
 # %% [markdown]
 # ## Factor Loading Visualization
