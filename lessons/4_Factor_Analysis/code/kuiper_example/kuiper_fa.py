@@ -210,6 +210,8 @@ else:
         yticklabels=[f"Factor {i + 1}" for i in range(n_factors)],
         cmap="RdBu_r",
         center=0,
+        vmin=-1,
+        vmax=1,
         ax=ax1,
         cbar_kws={"shrink": 0.8},
     )
@@ -225,6 +227,8 @@ else:
         yticklabels=[f"Factor {i + 1}" for i in range(n_factors)],
         cmap="RdBu_r",
         center=0,
+        vmin=-1,
+        vmax=1,
         ax=ax2,
         cbar_kws={"shrink": 0.8},
     )
