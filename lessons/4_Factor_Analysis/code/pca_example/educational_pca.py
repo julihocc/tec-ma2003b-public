@@ -17,18 +17,19 @@
 # successfully recovers the true underlying factors.
 
 # %%
-import numpy as np
+from pathlib import Path
+
 import matplotlib.pyplot as plt
+import numpy as np
 from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler
-from pathlib import Path
 
 # %%
 # Synthetic data generation parameters
-script_dir = Path(__file__).resolve().parent
-n_samples = 100
-random_seed = 42
-standardize = True
+script_dir: Path = Path(__file__).resolve().parent
+n_samples: int = 100
+random_seed: int = 42
+standardize: bool = True
 
 print(f"Generating synthetic dataset with {n_samples} observations")
 print(f"Using random seed: {random_seed}")
@@ -50,49 +51,49 @@ print(f"Standardization: {standardize}")
 # latent factor structure, with clear separation from pure noise components.
 
 # %%
-rng = np.random.RandomState(random_seed)
+rng: np.random.RandomState = np.random.RandomState(random_seed)
 
 # Generate two orthogonal latent factors
-intelligence_factor = rng.normal(size=(n_samples, 1))  # Cognitive ability factor
-personality_factor = rng.normal(size=(n_samples, 1))  # Social/emotional factor
+intelligence_factor: np.ndarray = rng.normal(size=(n_samples, 1))  # Cognitive ability factor
+personality_factor: np.ndarray = rng.normal(size=(n_samples, 1))  # Social/emotional factor
 
 # Define noise terms for measurement error
-measurement_noise_low = rng.normal(size=(n_samples, 1))  # Low noise (σ = 0.2)
-measurement_noise_med = rng.normal(size=(n_samples, 1))  # Medium noise (σ = 0.25)
-pure_noise_1 = rng.normal(size=(n_samples, 1))  # Pure noise variable 1
-pure_noise_2 = rng.normal(size=(n_samples, 1))  # Pure noise variable 2
+measurement_noise_low: np.ndarray = rng.normal(size=(n_samples, 1))  # Low noise (σ = 0.2)
+measurement_noise_med: np.ndarray = rng.normal(size=(n_samples, 1))  # Medium noise (σ = 0.25)
+pure_noise_1: np.ndarray = rng.normal(size=(n_samples, 1))  # Pure noise variable 1
+pure_noise_2: np.ndarray = rng.normal(size=(n_samples, 1))  # Pure noise variable 2
 
 # Define factor loadings
-strong_loading = 0.85  # Strong relationship to latent factor
-moderate_loading = 0.80  # Moderate relationship to latent factor
-low_noise_level = 0.2  # Low measurement error
-med_noise_level = 0.25  # Medium measurement error
-noise_variance_1 = 0.6  # Variance for first noise variable
-noise_variance_2 = 0.5  # Variance for second noise variable
+strong_loading: float = 0.85  # Strong relationship to latent factor
+moderate_loading: float = 0.80  # Moderate relationship to latent factor
+low_noise_level: float = 0.2  # Low measurement error
+med_noise_level: float = 0.25  # Medium measurement error
+noise_variance_1: float = 0.6  # Variance for first noise variable
+noise_variance_2: float = 0.5  # Variance for second noise variable
 
 # Create observed variables with meaningful structure
-math_test = (
+math_test: np.ndarray = (
     strong_loading * intelligence_factor + low_noise_level * measurement_noise_low
 )
-verbal_test = (
+verbal_test: np.ndarray = (
     moderate_loading * intelligence_factor + med_noise_level * measurement_noise_med
 )
-social_skills = (
+social_skills: np.ndarray = (
     strong_loading * personality_factor + low_noise_level * measurement_noise_low
 )
-leadership = (
+leadership: np.ndarray = (
     moderate_loading * personality_factor + med_noise_level * measurement_noise_med
 )
-random_var1 = noise_variance_1 * pure_noise_1  # Pure noise (no latent structure)
-random_var2 = noise_variance_2 * pure_noise_2  # Pure noise (no latent structure)
+random_var1: np.ndarray = noise_variance_1 * pure_noise_1  # Pure noise (no latent structure)
+random_var2: np.ndarray = noise_variance_2 * pure_noise_2  # Pure noise (no latent structure)
 
 # Combine into data matrix
-X = np.hstack(
+X: np.ndarray = np.hstack(
     [math_test, verbal_test, social_skills, leadership, random_var1, random_var2]
 )
 
 # Create meaningful variable names for interpretation
-variable_names = [
+variable_names: list[str] = [
     "MathTest",
     "VerbalTest",
     "SocialSkills",
@@ -112,14 +113,14 @@ print("Variables:", variable_names)
 
 # %%
 # Standardize (use correlation-like behaviour)
-Xs = StandardScaler().fit_transform(X)
+Xs: np.ndarray = StandardScaler().fit_transform(X)
 
 # Fit PCA and extract scores and summaries
-pca = PCA()
-Z = pca.fit_transform(Xs)
+pca: PCA = PCA()
+Z: np.ndarray = pca.fit_transform(Xs)
 
-eigenvalues = pca.explained_variance_
-explained_ratio = pca.explained_variance_ratio_
+eigenvalues: np.ndarray = pca.explained_variance_
+explained_ratio: np.ndarray = pca.explained_variance_ratio_
 
 print("Eigenvalues:", np.round(eigenvalues, 3))
 print("Explained ratio:", np.round(explained_ratio, 3))
