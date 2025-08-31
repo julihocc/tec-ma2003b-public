@@ -18,14 +18,16 @@
 # - **Idiosyncratic Components**: Market-specific movements
 
 # %%
+from pathlib import Path
+
+import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
-from sklearn.preprocessing import StandardScaler
-from pathlib import Path
+import seaborn as sns
 from factor_analyzer import FactorAnalyzer
 from factor_analyzer.factor_analyzer import calculate_bartlett_sphericity, calculate_kmo
-import seaborn as sns
+from sklearn.preprocessing import StandardScaler
+
 from utils import setup_logger
 
 # %%
@@ -66,7 +68,7 @@ returns_df = df.pct_change().dropna()  # Daily percentage returns
 print(f"Returns data: {returns_df.shape[0]} observations after conversion")
 
 # Show basic statistics
-print(f"\nMarket Statistics (Daily Returns):")
+print("\nMarket Statistics (Daily Returns):")
 print(f"{'Market':<8} {'Mean':<8} {'Std':<8} {'Min':<8} {'Max':<8}")
 print("-" * 44)
 for col in returns_df.columns:
@@ -106,14 +108,14 @@ kmo_all, kmo_model = calculate_kmo(X_scaled)
 print("\n" + "=" * 50)
 print("FACTOR ANALYSIS ASSUMPTIONS")
 print("=" * 50)
-print(f"Bartlett's Test of Sphericity:")
+print("Bartlett's Test of Sphericity:")
 print(f"  Chi-square: {chi_square_value:.2f}")
 print(f"  p-value: {p_value:.2e}")
 print(
     f"  Result: {'✓ Suitable for FA' if p_value < 0.05 else '✗ May not be suitable for FA'}"
 )
 
-print(f"\nKaiser-Meyer-Olkin (KMO) Test:")
+print("\nKaiser-Meyer-Olkin (KMO) Test:")
 print(f"  Overall MSA: {kmo_model:.3f}")
 interpretation = (
     "✓ Excellent"
@@ -132,7 +134,7 @@ interpretation = (
 )
 print(f"  Interpretation: {interpretation} sampling adequacy")
 
-print(f"\nIndividual Market MSA Values:")
+print("\nIndividual Market MSA Values:")
 print(f"{'Market':<8} {'MSA':<8}")
 print("-" * 18)
 for i, market in enumerate(df.columns):
@@ -172,12 +174,12 @@ for i, eigenval in enumerate(eigenvalues):
         f"Factor {i + 1:<2} {eigenval:<12.3f} {var_explained:<12.1f} {cumulative_var:<12.1f}"
     )
 
-print(f"\nFactor Retention Criteria:")
+print("\nFactor Retention Criteria:")
 print(f"  Kaiser criterion (eigenvalue > 1): {n_factors_kaiser} factors")
 print(
     f"  70% variance rule: {np.argmax(np.cumsum(eigenvalues) / np.sum(eigenvalues) >= 0.70) + 1} factors"
 )
-print(f"  Financial theory expectation: 1-2 common market factors")
+print("  Financial theory expectation: 1-2 common market factors")
 
 # %% [markdown]
 # ## Factor Analysis: Two-Factor Solution
@@ -191,7 +193,7 @@ print(f"  Financial theory expectation: 1-2 common market factors")
 # %%
 # Extract 2-factor solution
 n_factors = 2
-print(f"\n" + "=" * 50)
+print("\n" + "=" * 50)
 print(f"FACTOR ANALYSIS: {n_factors}-FACTOR SOLUTION")
 print("=" * 50)
 
@@ -209,7 +211,7 @@ loadings_rotated = fa_rotated.loadings_
 communalities = fa_rotated.get_communalities()
 uniquenesses = 1 - communalities
 
-print(f"Factor Analysis Results:")
+print("Factor Analysis Results:")
 print(
     f"{'Market':<8} {'h²':<8} {'u²':<8} {'Unrot-F1':<10} {'Unrot-F2':<10} {'Vmax-F1':<10} {'Vmax-F2':<10}"
 )
@@ -224,7 +226,7 @@ for i, market in enumerate(df.columns):
 # Calculate variance explained by factors
 total_communality = np.sum(communalities)
 proportion_common_variance = total_communality / len(df.columns)
-print(f"\nVariance Analysis:")
+print("\nVariance Analysis:")
 print(f"  Total communality (sum of h²): {total_communality:.3f}")
 print(
     f"  Proportion of variance explained by factors: {proportion_common_variance:.1%}"
@@ -237,7 +239,7 @@ print(f"  Average communality per market: {np.mean(communalities):.3f}")
 # Let's interpret what each factor represents in financial terms:
 
 # %%
-print(f"\n" + "=" * 50)
+print("\n" + "=" * 50)
 print("FACTOR INTERPRETATION")
 print("=" * 50)
 
@@ -263,14 +265,14 @@ for factor_idx in range(n_factors):
 
     # Financial interpretation
     if factor_idx == 0:
-        print(f"  → Likely represents: Common European market factor")
-        print(f"    (Systematic risk affecting all markets)")
+        print("  → Likely represents: Common European market factor")
+        print("    (Systematic risk affecting all markets)")
     elif factor_idx == 1:
-        print(f"  → Likely represents: Regional/sectoral differentiation")
-        print(f"    (Idiosyncratic movements between markets)")
+        print("  → Likely represents: Regional/sectoral differentiation")
+        print("    (Idiosyncratic movements between markets)")
 
 # Market integration analysis
-print(f"\nMarket Integration Analysis:")
+print("\nMarket Integration Analysis:")
 well_explained = [
     market
     for i, market in enumerate(df.columns)
@@ -402,7 +404,7 @@ logger.info(f"Saved factor analysis visualization: {loadings_out}")
 # Factor Analysis results have direct applications in finance:
 
 # %%
-print(f"\n" + "=" * 50)
+print("\n" + "=" * 50)
 print("FINANCIAL APPLICATIONS")
 print("=" * 50)
 
@@ -410,12 +412,12 @@ print("=" * 50)
 systematic_risk = np.mean(communalities)  # Average explained by common factors
 idiosyncratic_risk = np.mean(uniquenesses)  # Average unexplained (market-specific)
 
-print(f"Risk Decomposition (Average across markets):")
+print("Risk Decomposition (Average across markets):")
 print(f"  Systematic risk (common factors): {systematic_risk:.1%}")
 print(f"  Idiosyncratic risk (market-specific): {idiosyncratic_risk:.1%}")
 
 # 2. Market Factor Sensitivities
-print(f"\nMarket Factor Sensitivities:")
+print("\nMarket Factor Sensitivities:")
 print(f"{'Market':<8} {'Factor 1':<10} {'Factor 2':<10} {'Interpretation'}")
 print("-" * 60)
 
@@ -432,7 +434,7 @@ for i, market in enumerate(df.columns):
     print(f"{market:<8} {f1_loading:<10.3f} {f2_loading:<10.3f} {interpretation}")
 
 # 3. Portfolio Diversification Insights
-print(f"\nPortfolio Diversification Insights:")
+print("\nPortfolio Diversification Insights:")
 high_common = [
     market for i, market in enumerate(df.columns) if abs(loadings_rotated[i, 0]) > 0.8
 ]
@@ -444,11 +446,11 @@ differentiated = [
 
 if high_common:
     print(f"  Markets with high common factor exposure: {', '.join(high_common)}")
-    print(f"  → These markets move together; limited diversification benefit")
+    print("  → These markets move together; limited diversification benefit")
 
 if differentiated:
     print(f"  Markets with differentiated patterns: {', '.join(differentiated)}")
-    print(f"  → These markets may provide diversification opportunities")
+    print("  → These markets may provide diversification opportunities")
 
 # %% [markdown]
 # ## Model Validation and Goodness of Fit
@@ -456,7 +458,7 @@ if differentiated:
 # Assess how well our 2-factor model reproduces the observed correlations:
 
 # %%
-print(f"\n" + "=" * 50)
+print("\n" + "=" * 50)
 print("MODEL VALIDATION")
 print("=" * 50)
 
@@ -475,7 +477,7 @@ total_corr_sum_sq = np.sum(observed_corr**2)
 residual_sum_sq = np.sum(residual_corr**2)
 fit_index = 1 - (residual_sum_sq / total_corr_sum_sq)
 
-print(f"Model Fit Assessment:")
+print("Model Fit Assessment:")
 print(f"  Correlation fit index: {fit_index:.3f}")
 print(f"  Interpretation: {fit_index:.1%} of correlations explained by factor model")
 
@@ -491,16 +493,16 @@ residual_triu = residual_corr[np.triu_indices_from(residual_corr, k=1)]
 large_residuals = np.abs(residual_triu) > 0.1
 
 if np.any(large_residuals):
-    print(f"\n  Large residual correlations (>0.1) detected:")
-    triu_indices = list(zip(*np.triu_indices_from(residual_corr, k=1)))
+    print("\n  Large residual correlations (>0.1) detected:")
+    triu_indices = list(zip(*np.triu_indices_from(residual_corr, k=1), strict=False))
     for i, is_large in enumerate(large_residuals):
         if is_large:
             row, col = triu_indices[i]
             market1, market2 = df.columns[row], df.columns[col]
             print(f"    {market1}-{market2}: {residual_triu[i]:.3f}")
-    print(f"  → Consider additional factors or model modifications")
+    print("  → Consider additional factors or model modifications")
 else:
-    print(f"  ✓ All residual correlations < 0.1 - Good model fit")
+    print("  ✓ All residual correlations < 0.1 - Good model fit")
 
 # %% [markdown]
 # ## Summary and Conclusions
@@ -508,23 +510,23 @@ else:
 # This Factor Analysis of European stock markets reveals:
 
 # %%
-print(f"\n" + "=" * 50)
+print("\n" + "=" * 50)
 print("SUMMARY AND CONCLUSIONS")
 print("=" * 50)
 
-print(f"Factor Structure Identified:")
+print("Factor Structure Identified:")
 print(
     f"  • {n_factors} common factors explain {proportion_common_variance:.1%} of market covariance"
 )
-print(f"  • Factor 1: Common European market factor (systematic risk)")
-print(f"  • Factor 2: Regional differentiation factor (idiosyncratic patterns)")
+print("  • Factor 1: Common European market factor (systematic risk)")
+print("  • Factor 2: Regional differentiation factor (idiosyncratic patterns)")
 
-print(f"\nKey Financial Insights:")
+print("\nKey Financial Insights:")
 print(f"  • Average systematic risk: {systematic_risk:.1%}")
 print(f"  • Average idiosyncratic risk: {idiosyncratic_risk:.1%}")
 print(f"  • Model explains {fit_index:.1%} of observed correlations")
 
-print(f"\nMarket Integration:")
+print("\nMarket Integration:")
 most_integrated = df.columns[np.argmax(communalities)]
 least_integrated = df.columns[np.argmin(communalities)]
 print(
@@ -534,11 +536,11 @@ print(
     f"  • Least integrated market: {least_integrated} (h² = {np.min(communalities):.3f})"
 )
 
-print(f"\nPractical Applications:")
-print(f"  • Portfolio risk management: Identify common risk factors")
-print(f"  • Diversification strategy: Focus on markets with low communalities")
-print(f"  • Risk modeling: Use factor loadings for multi-factor risk models")
-print(f"  • Market timing: Monitor common factor vs idiosyncratic movements")
+print("\nPractical Applications:")
+print("  • Portfolio risk management: Identify common risk factors")
+print("  • Diversification strategy: Focus on markets with low communalities")
+print("  • Risk modeling: Use factor loadings for multi-factor risk models")
+print("  • Market timing: Monitor common factor vs idiosyncratic movements")
 
 logger.info("European Stock Markets Factor Analysis completed successfully")
 print(f"\nFactor analysis completed. Results saved to: {script_dir}")
