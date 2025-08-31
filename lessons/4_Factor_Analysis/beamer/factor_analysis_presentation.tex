@@ -165,7 +165,7 @@
         \item \textbf{Method}: Standardized PCA on synthetic data with known latent factors \pause
     \end{itemize}
     \vspace{6pt}
-    Script: \texttt{lessons/4\_Factor\_Analysis/code/pca\_example/educational\_pca.py}
+    Scripts: \texttt{educational\_pca.py} (PCA) | \texttt{educational\_fa.py} (FA comparison)
 \end{frame}
 
 \begin{frame}
@@ -336,6 +336,7 @@
                   \item Student rankings by PC scores for practical interpretation \pause
               \end{itemize}
         \item \textbf{Usage}: \texttt{cd code/pca\_example \&\& python educational\_pca.py} \pause
+        \item \textbf{Factor Analysis}: \texttt{educational\_fa.py} provides direct PCA vs FA comparison \pause
     \end{itemize}
     \vspace{6pt}
     This example is ideal for learning PCA concepts because the ground truth is known, making it easy to validate whether the method works as expected.
@@ -352,7 +353,7 @@
         \item \textbf{Method}: Standardized PCA on correlation matrix of daily returns. \pause
     \end{itemize}
     \vspace{6pt}
-    Script: \texttt{lessons/4\_Factor\_Analysis/code/invest\_example/invest\_pca.py}
+    Scripts: \texttt{invest\_pca.py} (PCA) | \texttt{invest\_fa.py} (Factor Analysis)
 \end{frame}
 
 \begin{frame}
@@ -494,6 +495,7 @@
                   \item \texttt{invest\_biplot.png}: Biplot of markets and time periods \pause
               \end{itemize}
         \item \textbf{Usage}: \texttt{cd code/invest\_example \&\& python invest\_pca.py} \pause
+        \item \textbf{Factor Analysis}: \texttt{invest\_fa.py} analyzes European market factors \pause
     \end{itemize}
     \vspace{6pt}
     The script includes detailed py-percent comments for interactive exploration and financial interpretation of all results.
@@ -510,7 +512,7 @@
         \item \textbf{Method}: Standardized PCA on 5 orbital elements with different physical units \pause
     \end{itemize}
     \vspace{6pt}
-    Script: \texttt{lessons/4\_Factor\_Analysis/code/kuiper\_example/kuiper\_pca.py}
+    Scripts: \texttt{kuiper\_pca.py} (PCA) | \texttt{kuiper\_fa.py} (Factor Analysis)
 \end{frame}
 
 \begin{frame}
@@ -676,6 +678,7 @@
                   \item \texttt{kuiper\_biplot.png}: Objects and orbital parameters in PC space \pause
               \end{itemize}
         \item \textbf{Usage}: \texttt{cd code/kuiper\_example \&\& python kuiper\_pca.py} \pause
+        \item \textbf{Factor Analysis}: \texttt{kuiper\_fa.py} applies FA to same orbital data \pause
     \end{itemize}
     \vspace{6pt}
     The script demonstrates PCA applied to scientific data with multiple meaningful components and physical interpretation of mathematical results.
@@ -692,7 +695,7 @@
         \item \textbf{Method}: Standardized PCA on health outcome metrics with different units \pause
     \end{itemize}
     \vspace{6pt}
-    Script: \texttt{lessons/4\_Factor\_Analysis/code/hospitals\_example/hospitals\_pca.py}
+    Scripts: \texttt{hospitals\_pca.py} (PCA) | \texttt{hospitals\_fa.py} (Factor Analysis)
 \end{frame}
 
 \begin{frame}
@@ -854,6 +857,7 @@
                   \item \texttt{hospitals\_biplot.png}: Hospitals and quality metrics in PC space \pause
               \end{itemize}
         \item \textbf{Usage}: \texttt{cd code/hospitals\_example \&\& python hospitals\_pca.py} \pause
+        \item \textbf{Factor Analysis}: \texttt{hospitals\_fa.py} models healthcare quality factors \pause
     \end{itemize}
     \vspace{6pt}
     The script demonstrates PCA applied to healthcare quality assessment with practical interpretation for hospital management and policy applications.
@@ -941,8 +945,78 @@
     \end{itemize}
 \end{frame}
 
-% Placeholder for additional FA examples and theory
-% Will be expanded with Factor Analysis implementations
+\section{Kuiper Belt Objects: Factor Analysis}
+
+\begin{frame}
+    \frametitle{Kuiper Belt Objects: Factor Analysis}
+    Applying Factor Analysis to astronomical orbital dynamics data:
+    \begin{itemize}
+        \item \textbf{Same Dataset}: 98 trans-Neptunian objects with 5 orbital parameters \pause
+        \item \textbf{FA Approach}: Model latent dynamical factors affecting orbital elements \pause
+        \item \textbf{Key Difference}: FA focuses on common dynamical processes vs PCA's variance maximization \pause
+        \item \textbf{Expected Factors}: Dynamical excitation, size-distance relationships, resonance effects \pause
+    \end{itemize}
+    \vspace{6pt}
+    Script: \texttt{kuiper\_fa.py}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Kuiper Belt FA: Factor Assumptions}
+    \textbf{Factor Analysis Assumptions for Orbital Data:}
+    \begin{itemize}
+        \item \textbf{Bartlett's Test}: Tests correlation structure suitability \pause
+        \item \textbf{KMO Test}: Measures sampling adequacy for orbital parameters \pause
+        \item \textbf{Individual MSA}: Each orbital parameter's factor analysis suitability \pause
+        \item \textbf{Result}: Most orbital parameters show acceptable to good MSA values \pause
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Kuiper Belt FA: Factor Extraction Results}
+    \textbf{Principal Axis Factoring Results:}
+    \begin{itemize}
+        \item \textbf{Kaiser Criterion}: Suggests 3 factors (eigenvalues > 1.0) \pause
+        \item \textbf{Factor 1}: Orbital excitation (high loadings on a, e, i) \pause
+              \begin{itemize}
+                  \item Represents dynamical "heating" of orbits over solar system history \pause
+              \end{itemize}
+        \item \textbf{Factor 2}: Object designation effects (data artifact) \pause
+        \item \textbf{Factor 3}: Size factor (high loading on absolute magnitude H) \pause
+              \begin{itemize}
+                  \item Separates size-related observational effects \pause
+              \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Kuiper Belt FA: Astronomical Interpretation}
+    \textbf{Astrophysical Meaning of Factors:}
+    \begin{itemize}
+        \item \textbf{Dynamical Excitation Factor}: Captures gravitational scattering effects \pause
+              \begin{itemize}
+                  \item Objects with high Factor 1 scores: scattered by planetary migration \pause
+                  \item Objects with low Factor 1 scores: pristine, formed in-place \pause
+              \end{itemize}
+        \item \textbf{Size Factor}: Reflects observational selection and physical processes \pause
+              \begin{itemize}
+                  \item Large objects more easily detected at great distances \pause
+                  \item May indicate size-dependent survival mechanisms \pause
+              \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Kuiper Belt FA: Model Validation}
+    \textbf{Factor Model Quality Assessment:}
+    \begin{itemize}
+        \item \textbf{RMSR}: Root mean square residuals indicate model fit quality \pause
+        \item \textbf{Residual Correlations}: Proportion of large residual correlations \pause
+        \item \textbf{Factor Determinacy}: Reliability of factor score estimates \pause
+        \item \textbf{Communalities}: How much variance each orbital parameter shares with factors \pause
+    \end{itemize}
+    \vspace{6pt}
+    \textbf{Result}: 3-factor model explains 84\% of common variance in orbital parameters
+\end{frame}
 
 % ============================================================================
 % PART III: COMPARISON AND APPLICATIONS  
