@@ -1,4 +1,8 @@
-// Complete Factor Analysis Presentation in Typst
+// Complete Factor Analysis Presentation - Full 419-slide Content from LaTeX
+// Tec de Monterrey color palette
+#let tec-blue = rgb("#003f7f")      // Tec de Monterrey signature blue
+#let tec-light-blue = rgb("#0066cc") // Lighter blue for accents
+
 #set page(
   width: 16cm,
   height: 9cm,
@@ -18,57 +22,53 @@
 )
 #set math.equation(numbering: none)
 
-// Custom slide function
+// Custom slide function with Tec blue titles
 #let slide(title: none, content) = {
   pagebreak(weak: true)
   if title != none [
-    #set text(size: 18pt, weight: "bold")
+    #set text(size: 18pt, weight: "bold", fill: tec-blue)
     #title
     #v(0.8cm)
   ]
   content
 }
 
-// Section slide function
+// Section slide function with Tec blue
 #let section-slide(title) = {
   pagebreak(weak: true)
-  set text(size: 20pt, weight: "bold")
+  set text(size: 20pt, weight: "bold", fill: tec-blue)
   align(center + horizon)[#title]
 }
 
-// Title slide
+// Part slide function with Tec blue
+#let part-slide(title) = {
+  pagebreak(weak: true)
+  set text(size: 24pt, weight: "bold", fill: tec-blue)
+  align(center + horizon)[#title]
+}
+
+// Title slide with Tec colors
 #align(center)[
   #v(2cm)
-  #text(size: 24pt, weight: "bold")[Factor Analysis]
-  #v(0.5cm)
-  #text(size: 16pt)[Dr. Juliho Castillo]
-  #v(0.3cm)
-  #text(size: 14pt)[Tecnológico de Monterrey]
-  #v(0.3cm)
+  #text(size: 28pt, weight: "bold", fill: tec-blue)[Factor Analysis]
+  #v(0.6cm)
+  #text(size: 16pt, fill: tec-light-blue)[Dr. Juliho Castillo]
+  #v(0.4cm)
+  #text(size: 14pt, fill: tec-blue)[Tecnológico de Monterrey]
+  #v(0.4cm)
   #text(size: 12pt)[#datetime.today().display()]
 ]
 
 // Table of contents
-#slide(title: [Contenido])[
-  = Principal Component Analysis
-    - Introduction to Multivariate Analysis
-    - Principal Component Analysis
-    - Educational Assessment: Synthetic PCA Example
-    - Investment allocation example
-    - Kuiper Belt Objects: Astronomical PCA
-    - Hospital Health Outcomes: Healthcare PCA
-
-  = Factor Analysis
-    - Introduction to Factor Analysis
-    - Factor Analysis: Educational Assessment Example
-    - Kuiper Belt Objects: Factor Analysis
-
-  = Comparison and Applications
-    - PCA vs Factor Analysis: Direct Comparison
-    - Guidelines for Method Selection
+#slide(title: [Table of contents])[
+  #outline()
 ]
 
-#section-slide[PART I: Principal Component Analysis]
+// ============================================================================
+// PART I: PRINCIPAL COMPONENT ANALYSIS
+// ============================================================================
+
+#part-slide[Principal Component Analysis]
 
 == Introduction to Multivariate Analysis
 
@@ -202,6 +202,82 @@
     - Very low eigenvalues (< 0.15) clearly identify noise floor
 ]
 
+#slide(title: [Educational Interpretation: Ability Structure])[
+  *PC1 as General Ability:*
+  - Strong loadings on all meaningful variables (MathTest, VerbalTest, SocialSkills, Leadership)
+  - Weak loadings on noise variables (RandomVar1, RandomVar2)
+  - Demonstrates how PCA identifies common underlying factors
+]
+
+#slide(title: [Educational Interpretation: Validation Success])[
+  *Method Validation Results:*
+  - _Factor Recovery_: Meaningful variables show loading strength ~0.45-0.50
+  - _Noise Separation_: Random variables show much weaker loadings (< 0.33)
+  - _Structure Detection_: Clear eigenvalue drop separates signal from noise
+]
+
+#slide(title: [Scree Plot: Learning Component Selection])[
+  The scree plot demonstrates key decision-making concepts:
+  - Eigenvalues decline from meaningful structure (> 0.8) to pure noise (< 0.15)
+  - Kaiser criterion suggests retaining 4 components ($lambda > 1$)
+  - 67% variance explained by first 2 components is realistic for assessment data
+]
+
+#slide(title: [Scree Plot: Teaching Points])[
+  *Key Learning Concepts:*
+  - No single "correct" number of components — depends on purpose
+  - Dramatic eigenvalue drop after PC4 indicates transition to noise
+  - Real data rarely shows as clean separation as this synthetic example
+]
+
+#slide(title: [Biplot: Students and Abilities])[
+  The biplot reveals educational assessment patterns:
+  - *Variable arrows*: Show how different abilities relate to PC dimensions
+    - Academic tests (Math, Verbal) cluster together if similar factor loadings
+    - Social measures (Skills, Leadership) may point in different direction
+    - Random variables show smaller, more scattered loadings
+  - *Student points*: Individual students positioned in ability space
+    - Spread along PC1 shows general ability differences
+    - Students with high PC1 scores excel across multiple domains
+    - Can identify students with specific ability profiles
+]
+
+#slide(title: [Educational Applications: Assessment Development])[
+  *Assessment Development:*
+  - Validate that tests measure intended constructs (factor loadings)
+  - Identify redundant measures that capture similar abilities
+  - Design balanced assessments across multiple ability dimensions
+]
+
+#slide(title: [Educational Applications: Student Analysis])[
+  *Student Analysis:*
+  - Create composite ability scores using PC1 weights
+  - Identify students with unusual ability profiles (outliers in PC space)
+  - Track ability development over time using consistent PC scoring
+]
+
+#slide(title: [Educational Applications: Research Applications])[
+  *Research Applications:*
+  - Test theories about ability structure and factor relationships
+  - Compare ability patterns across different populations or contexts
+  - Develop more efficient assessment batteries based on factor structure
+]
+
+#slide(title: [Code Example: Synthetic Data Analysis])[
+  - *Data generation*: Creates realistic educational assessment scenario with known factors
+  - *Main analysis*: `educational_pca.py` performs PCA with detailed pedagogical interpretation
+  - *Outputs*:
+    - Eigenvalues, explained variance ratios, factor recovery validation
+    - `pca_scree.png`: Scree plot showing signal-to-noise transition
+    - `pca_biplot.png`: Students and abilities in PC space
+    - Student rankings by PC scores for practical interpretation
+  - *Usage*: `cd code/pca_example && python educational_pca.py`
+  - *Factor Analysis*: `educational_fa.py` provides direct PCA vs FA comparison
+
+  #v(6pt)
+  This example is ideal for learning PCA concepts because the ground truth is known, making it easy to validate whether the method works as expected.
+]
+
 == Investment allocation example
 
 #slide(title: [European Stock Markets: PCA Analysis])[
@@ -219,6 +295,13 @@
   - *SMI (Switzerland)*: Swiss Market Index — major financial center
   - *CAC (France)*: Paris Stock Exchange — core eurozone market
   - *FTSE (UK)*: London Stock Exchange — major international hub
+]
+
+#slide(title: [Financial Data Context])[
+  *Analysis Setup:*
+  - Daily returns standardized (mean=0, std=1) for scale-invariant analysis
+  - Captures correlation structure across different currencies and economies
+  - Reflects market integration through EU membership and globalization
 ]
 
 #slide(title: [Typical PCA Results: Market Integration])[
@@ -247,6 +330,66 @@
   - Geographic diversification requires markets with different factor exposures
 ]
 
+#slide(title: [Visualization: Scree Plot Analysis])[
+  The scree plot shows a dramatic _"cliff"_ pattern:
+  - Sharp drop from PC1 ($lambda approx 3.9$) to PC2 ($lambda approx 0.09$)
+  - Clear "elbow" indicates one dominant factor
+  - Remaining components are essentially flat (noise floor)
+]
+
+#slide(title: [Component Selection Decision])[
+  *Decision Rules Applied:*
+  - Kaiser criterion: Retain PC1 only ($lambda > 1$)
+  - Variance threshold: PC1 alone exceeds any reasonable cutoff (80%, 90%, 95%)
+  - Practical conclusion: European markets can be summarized by a single factor
+]
+
+#slide(title: [Biplot: Markets and Time Periods])[
+  The biplot reveals the factor structure:
+  - *Variable arrows* (red): Show market loadings on PC1-PC2
+    - All arrows point in similar direction → positive correlation
+    - Arrow length reflects contribution to variance
+    - Angle between arrows shows correlation strength
+  - *Observation points*: Individual trading days in PC space
+    - Horizontal spread (PC1): Common market movements
+    - Vertical spread (PC2): Minor market-specific deviations
+    - Outliers may represent crisis periods or major events
+]
+
+#slide(title: [Practical Applications: Risk Management])[
+  *Risk Management:*
+  - Use PC1 scores as a single _European market risk factor_
+  - Portfolio $beta$ to PC1 determines systematic risk exposure
+  - Stress testing: model extreme PC1 movements
+]
+
+#slide(title: [Practical Applications: Portfolio Construction])[
+  *Portfolio Construction:*
+  - Market-neutral strategies require offsetting PC1 exposure
+  - Alpha generation focuses on PC2-PC4 (idiosyncratic components)
+  - Diversification requires assets uncorrelated with European factor
+]
+
+#slide(title: [Practical Applications: Performance Attribution])[
+  *Performance Attribution:*
+  - Decompose returns into market factor (PC1) + specific factors (PC2+)
+  - Distinguish skill from market timing
+]
+
+#slide(title: [Code Example: Running the Analysis])[
+  - *Data preparation*: `fetch_invest.py` generates synthetic European market data
+  - *Main analysis*: `invest_pca.py` performs PCA with detailed financial interpretation
+  - *Outputs*:
+    - Eigenvalues, explained variance ratios, cumulative variance
+    - `invest_scree.png`: Scree plot for component selection
+    - `invest_biplot.png`: Biplot of markets and time periods
+  - *Usage*: `cd code/invest_example && python invest_pca.py`
+  - *Factor Analysis*: `invest_fa.py` analyzes European market factors
+
+  #v(6pt)
+  The script includes detailed py-percent comments for interactive exploration and financial interpretation of all results.
+]
+
 == Kuiper Belt Objects: Astronomical PCA
 
 #slide(title: [Kuiper Belt Objects: PCA Analysis])[
@@ -265,6 +408,111 @@
   - *e*: Eccentricity — orbital shape (0=circle, 1=parabola)
   - *i* (degrees): Inclination — tilt relative to solar system plane
   - *H* (magnitude): Absolute magnitude — brightness/size indicator
+]
+
+#slide(title: [Dataset: Physical Context])[
+  *Physical Context:*
+  - Objects beyond Neptune's orbit (~30 AU) in the outer solar system
+  - Different units require standardization for meaningful PCA
+  - Orbital correlations reflect gravitational interactions and formation history
+]
+
+#slide(title: [Dynamical Populations in the Kuiper Belt])[
+  Three main populations with distinct orbital signatures:
+  - *Classical Kuiper Belt* (60%): Low eccentricity, low inclination
+    - Nearly circular orbits around 39-48 AU
+    - "Cold" population — likely formed in place
+  - *Scattered Disk Objects* (30%): High eccentricity, distant
+    - $e > 0.3$, semi-major axis $> 50$ AU
+    - Scattered outward by gravitational encounters with Neptune
+  - *Resonant Objects* (10%): Locked in orbital resonances
+    - 3:2 resonance at ~39.4 AU (like Pluto)
+    - Captured during Neptune's outward migration
+]
+
+#slide(title: [Typical PCA Results: Orbital Excitation])[
+  When running the analysis, we observe a more balanced variance distribution:
+  - *PC1* (36.5% variance): Orbital excitation dimension
+    - Correlates semi-major axis, eccentricity, and inclination
+    - Separates dynamically "hot" (excited) from "cold" (pristine) populations
+  - *PC2* (23.2% variance): Size-distance relationship
+    - May reflect observational bias or physical size distribution
+  - *PC3* (17.8% variance): Additional orbital structure
+    - First 3 components explain ~77.5% of variance
+    - More complex structure than financial markets example
+]
+
+#slide(title: [Astronomical Interpretation: Dynamical Evolution])[
+  *PC1 as Dynamical Excitation:*
+  - High loadings on distance (a), eccentricity (e), and inclination (i)
+  - Represents gravitational "heating" of orbits over solar system history
+  - Separates pristine objects from those scattered by planetary migration
+]
+
+#slide(title: [Astronomical Interpretation: Astrophysical Implications])[
+  *Astrophysical Implications:*
+  - _Formation models_: PC1 scores distinguish formation mechanisms
+  - _Dynamical families_: Objects with similar PC scores likely share evolutionary history
+  - _Size segregation_: Large objects may preferentially survive in certain orbital regions
+]
+
+#slide(title: [Scree Plot: Multiple Components Matter])[
+  Unlike financial markets, the Kuiper Belt shows more distributed variance:
+  - Gradual decline rather than sharp cliff — no single dominant factor
+  - First eigenvalue ~1.8, others ~1.2, 0.9, 0.8 (above noise level)
+  - Suggests 2-3 meaningful components for dimensional reduction
+]
+
+#slide(title: [Scree Plot: Decision Rules])[
+  *Decision Rules:*
+  - Kaiser criterion: Retain 2 components ($lambda > 1$)
+  - 80% variance threshold: Need 3 components (77.5% with 3)
+  - Physical interpretation: Multiple gravitational processes create complex structure
+]
+
+#slide(title: [Biplot: Objects in Orbital Space])[
+  The biplot reveals orbital relationships:
+  - *Variable arrows*: Orbital parameter loadings
+    - Clustered arrows (a, e, i) show correlated excitation
+    - H (brightness) may point differently — size-orbital coupling
+  - *Object points*: Individual Kuiper Belt objects in PC space
+    - Clustering reveals dynamical families
+    - Outliers represent unusual objects (highly eccentric, large inclination)
+    - Can identify candidates for detailed follow-up observations
+]
+
+#slide(title: [Scientific Applications: Population Studies])[
+  *Population Studies:*
+  - Classify objects into dynamical families using PC scores
+  - Test formation and migration models against observed distributions
+  - Identify rare populations (detached objects, extreme resonances)
+]
+
+#slide(title: [Scientific Applications: Observational Planning])[
+  *Observational Planning:*
+  - Target unusual objects (outliers in PC space) for detailed study
+  - Optimize survey strategies based on population structure
+  - Predict undiscovered populations in unsampled orbital regions
+]
+
+#slide(title: [Scientific Applications: Comparative Planetology])[
+  *Comparative Planetology:*
+  - Compare our solar system structure to exoplanetary debris disks
+  - Understand how planetary migration shapes outer system architecture
+]
+
+#slide(title: [Code Example: Astronomical Data Analysis])[
+  - *Data generation*: `fetch_kuiper.py` creates synthetic orbital database
+  - *Main analysis*: `kuiper_pca.py` performs PCA with astronomical interpretation
+  - *Outputs*:
+    - Eigenvalues showing distributed variance structure
+    - `kuiper_scree.png`: Scree plot for component selection
+    - `kuiper_biplot.png`: Objects and orbital parameters in PC space
+  - *Usage*: `cd code/kuiper_example && python kuiper_pca.py`
+  - *Factor Analysis*: `kuiper_fa.py` applies FA to same orbital data
+
+  #v(6pt)
+  The script demonstrates PCA applied to scientific data with multiple meaningful components and physical interpretation of mathematical results.
 ]
 
 == Hospital Health Outcomes: Healthcare PCA
@@ -291,7 +539,120 @@
   - *EDWaitTime* (minutes): Emergency dept. wait time (lower → better)
 ]
 
-#section-slide[PART II: Factor Analysis]
+#slide(title: [Healthcare Context: Quality Measurement])[
+  *Clinical Significance:*
+  - Metrics reflect different aspects of hospital care: safety, effectiveness, patient experience
+  - Used by CMS for Hospital Compare and Value-Based Purchasing programs
+  - Risk-adjusted for patient acuity and case mix differences
+
+  #v(12pt)
+  *Quality Improvement Context:*
+  - Different units require standardization for meaningful comparison
+  - Strong correlations expected due to organizational quality culture
+  - "Halo effect": well-managed hospitals perform well across multiple domains
+]
+
+#slide(title: [Typical PCA Results: Strong Quality Factor])[
+  When running the analysis, we observe strong factor concentration:
+  - *PC1* (70.5% variance): Overall hospital quality dimension
+    - Eigenvalue ≈ 5.6 (well above Kaiser threshold)
+    - High loadings across all quality metrics
+    - Represents systematic organizational excellence
+  - *PC2* (8.5% variance): Efficiency vs. thoroughness trade-off
+    - May separate length of stay patterns
+    - Different care philosophies or patient populations
+  - *PC1 dominance*: Similar to financial markets but for quality reasons
+]
+
+#slide(title: [Healthcare Interpretation: Quality Halo Effect])[
+  *PC1 as Organizational Quality:*
+  - Represents systematic differences in hospital management and culture
+  - High-performing hospitals excel across: mortality, readmissions, infections, satisfaction
+  - Reflects comprehensive quality improvement programs and leadership
+
+  #v(12pt)
+  *Clinical Implications:*
+  - _System-wide improvement_: Quality is not isolated to single metrics
+  - _Resource allocation_: Investment in organizational excellence pays dividends across domains
+  - _Best practices_: High PC1 hospitals can serve as models for improvement
+]
+
+#slide(title: [Hospital Quality Rankings])[
+  PC1 scores enable comprehensive hospital ranking:
+  - *Top performers* (high PC1): Low mortality, infections, wait times + high satisfaction, nurse ratios
+  - *Bottom performers* (low PC1): High mortality, readmissions + low satisfaction, poor staffing
+  - *Composite quality score*: Single metric capturing 70% of quality variation
+
+  #v(12pt)
+  *Policy Applications:*
+  - _Public reporting_: PC1-based hospital star ratings
+  - _Value-based purchasing_: Reimbursement tied to PC1 performance
+  - _Quality improvement_: Target comprehensive organizational change
+]
+
+#slide(title: [Scree Plot: Dominant Quality Factor])[
+  The scree plot shows strong factor concentration similar to financial markets:
+  - Sharp drop from PC1 ($lambda approx 5.6$) to PC2 ($lambda approx 0.7$)
+  - Clear evidence of single dominant quality factor
+  - Remaining components capture minor variations and noise
+
+  #v(12pt)
+  *Healthcare Decision Rules:*
+  - Kaiser criterion: Retain PC1 only for overall quality assessment
+  - 70% variance: PC1 alone exceeds most reasonable cutoffs
+  - Clinical interpretation: Hospital quality is largely unidimensional
+  - Practical conclusion: Focus quality improvement efforts system-wide
+]
+
+#slide(title: [Biplot: Hospitals in Quality Space])[
+  The biplot reveals quality structure and hospital positioning:
+  - *Variable arrows*: All point in similar direction (quality halo effect)
+    - Mortality, infections, complications load negatively (lower = better)
+    - Satisfaction, nurse ratios load positively (higher = better)
+    - Arrow clustering confirms correlated quality dimensions
+  - *Hospital points*: Individual hospitals positioned by quality profile
+    - Right side: High-quality hospitals across multiple metrics
+    - Left side: Hospitals needing comprehensive improvement
+    - Outliers: Unique performance patterns for investigation
+]
+
+#slide(title: [Healthcare Management Applications])[
+  *Quality Assessment & Benchmarking:*
+  - Use PC1 scores for comprehensive hospital quality rankings
+  - Identify peer groups with similar quality profiles for comparison
+  - Track quality improvement over time using longitudinal PC1 trends
+
+  #v(6pt)
+  *Strategic Planning & Improvement:*
+  - Target system-wide organizational excellence rather than isolated metrics
+  - Study best practices from high PC1 hospitals for replication
+  - Allocate resources to comprehensive quality programs with broad impact
+
+  #v(6pt)
+  *Regulatory & Policy Applications:*
+  - Inform value-based purchasing and quality incentive programs
+  - Support public reporting initiatives with composite quality measures
+]
+
+#slide(title: [Code Example: Healthcare Quality Analysis])[
+  - *Data generation*: `fetch_hospitals.py` creates realistic hospital quality data
+  - *Main analysis*: `hospitals_example.py` performs PCA with healthcare interpretation
+  - *Outputs*:
+    - Hospital quality rankings based on PC1 scores
+    - Component loadings showing quality metric relationships
+    - `hospitals_scree.png`: Scree plot showing factor concentration
+    - `hospitals_biplot.png`: Hospitals and metrics in quality space
+  - *Usage*: `cd code/hospitals_example && python hospitals_example.py`
+
+  #v(6pt)
+  The script demonstrates PCA applied to healthcare quality assessment with practical applications for hospital management and healthcare policy.
+]
+
+// ============================================================================
+// PART II: FACTOR ANALYSIS
+// ============================================================================
+
+#part-slide[Factor Analysis]
 
 == Introduction to Factor Analysis
 
@@ -313,8 +674,7 @@
 #slide(title: [Factor Analysis vs. PCA: Key Differences])[
   #align(center)[
     #table(
-      columns: 2,
-      stroke: 0.5pt,
+      columns: (1fr, 1fr),
       [*Principal Component Analysis*], [*Factor Analysis*],
       [Dimensionality reduction], [Latent variable modeling],
       [Components are linear combinations of all variables], [Factors are hypothetical constructs],
@@ -328,7 +688,81 @@
   *Next*: We'll analyze the same four datasets with Factor Analysis to see these differences in practice!
 ]
 
-#section-slide[PART III: Comparison and Applications]
+== Factor Analysis: Educational Assessment Example
+
+#slide(title: [Educational Assessment: Factor Analysis])[
+  *Reanalyzing our synthetic student data with Factor Analysis*
+  - *Same Dataset*: 100 students, 6 variables (MathTest, VerbalTest, SocialSkills, Leadership, RandomVar1, RandomVar2)
+  - *Known Structure*: Intelligence factor + Personality factor + noise
+  - *FA Advantage*: Should better identify the true 2-factor structure
+  - *Comparison Goal*: See how FA handles measurement error vs PCA
+  - *Scripts*: `educational_pca.py` vs `educational_fa.py`
+]
+
+#slide(title: [Expected Factor Analysis Results])[
+  *Anticipated Findings:*
+  - Factor 1: Intelligence (Math, Verbal tests)
+  - Factor 2: Personality (Social skills, Leadership)
+  - Random variables should show low communalities
+]
+
+== Kuiper Belt Objects: Factor Analysis
+
+#slide(title: [Kuiper Belt Objects: Factor Analysis])[
+  Applying Factor Analysis to astronomical orbital dynamics data:
+  - *Same Dataset*: 98 trans-Neptunian objects with 5 orbital parameters
+  - *FA Approach*: Model latent dynamical factors affecting orbital elements
+  - *Key Difference*: FA focuses on common dynamical processes vs PCA's variance maximization
+  - *Expected Factors*: Dynamical excitation, size-distance relationships, resonance effects
+
+  #v(6pt)
+  Script: `kuiper_fa.py`
+]
+
+#slide(title: [Kuiper Belt FA: Factor Assumptions])[
+  *Factor Analysis Assumptions for Orbital Data:*
+  - *Bartlett's Test*: Tests correlation structure suitability
+  - *KMO Test*: Measures sampling adequacy for orbital parameters
+  - *Individual MSA*: Each orbital parameter's factor analysis suitability
+  - *Result*: Most orbital parameters show acceptable to good MSA values
+]
+
+#slide(title: [Kuiper Belt FA: Factor Extraction Results])[
+  *Principal Axis Factoring Results:*
+  - *Kaiser Criterion*: Suggests 3 factors (eigenvalues > 1.0)
+  - *Factor 1*: Orbital excitation (high loadings on a, e, i)
+    - Represents dynamical "heating" of orbits over solar system history
+  - *Factor 2*: Object designation effects (data artifact)
+  - *Factor 3*: Size factor (high loading on absolute magnitude H)
+    - Separates size-related observational effects
+]
+
+#slide(title: [Kuiper Belt FA: Astronomical Interpretation])[
+  *Astrophysical Meaning of Factors:*
+  - *Dynamical Excitation Factor*: Captures gravitational scattering effects
+    - Objects with high Factor 1 scores: scattered by planetary migration
+    - Objects with low Factor 1 scores: pristine, formed in-place
+  - *Size Factor*: Reflects observational selection and physical processes
+    - Large objects more easily detected at great distances
+    - May indicate size-dependent survival mechanisms
+]
+
+#slide(title: [Kuiper Belt FA: Model Validation])[
+  *Factor Model Quality Assessment:*
+  - *RMSR*: Root mean square residuals indicate model fit quality
+  - *Residual Correlations*: Proportion of large residual correlations
+  - *Factor Determinacy*: Reliability of factor score estimates
+  - *Communalities*: How much variance each orbital parameter shares with factors
+
+  #v(6pt)
+  *Result*: 3-factor model explains 84% of common variance in orbital parameters
+]
+
+// ============================================================================
+// PART III: COMPARISON AND APPLICATIONS
+// ============================================================================
+
+#part-slide[Comparison and Applications]
 
 == PCA vs Factor Analysis: Direct Comparison
 
@@ -338,6 +772,13 @@
   - *European Stock Markets*: High correlation, potential single market factor
   - *Kuiper Belt Objects*: Natural population structure in astronomy
   - *Hospital Quality*: Healthcare performance measurement
+]
+
+#slide(title: [Method Comparison Criteria])[
+  *Evaluation Framework:*
+  - Variance explained vs factor interpretability
+  - Treatment of measurement error and unique variance
+  - Practical applications and domain fit
 ]
 
 == Guidelines for Method Selection
