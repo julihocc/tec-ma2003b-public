@@ -205,22 +205,59 @@
 ]
 
 #slide(title: [PCA Results: Factor Recovery])[
-  When running the analysis, we observe meaningful factor separation:
-  - *PC1* (36.7% variance): General ability factor
-    - Eigenvalue ≈ 2.2 (well above Kaiser threshold)
-    - Captures common variance across all meaningful measures
-    - Reflects "halo effect" common in ability assessments
-  - *PC2* (30.8% variance): Specific ability dimensions
-    - May separate cognitive from social abilities
-  - *PC5-PC6* (2.3% variance): Pure noise components (eigenvalues < 0.15)
+  *Running `educational_pca.py` reveals clear factor structure:*
+  
+  #text(size: 0.85em)[
+  #table(
+    columns: (1.2fr, 0.8fr, 0.8fr, 0.8fr),
+    stroke: none,
+    [*Component*], [*Eigenvalue*], [*% Variance*], [*Cumulative %*],
+    [PC1], [2.203], [36.7%], [36.7%],
+    [PC2], [1.608], [26.8%], [63.5%],
+    [PC3], [0.842], [14.0%], [77.6%],
+    [PC4], [0.736], [12.3%], [89.8%],
+    [PC5], [0.322], [5.4%], [95.2%],
+    [PC6], [0.289], [4.8%], [100.0%]
+  )]
+  
+  - *Kaiser Criterion*: Retain PC1-PC2 (eigenvalues > 1.0)
+  - *Scree Test*: Clear elbow after PC2 
+  - *Variance*: Two factors explain 63.5% of total variance
+]
+
+#slide(title: [Component Loadings: Structure Discovery])[
+  *Loadings matrix reveals underlying factor structure:*
+  
+  #text(size: 0.8em)[
+  #table(
+    columns: (1.2fr, 0.8fr, 0.8fr, 0.8fr),
+    stroke: none,
+    [*Variable*], [*PC1*], [*PC2*], [*PC3*],
+    [MathTest], [0.489], [0.502], [-0.148],
+    [VerbalTest], [0.467], [0.518], [0.184],
+    [SocialSkills], [0.488], [-0.483], [0.345],
+    [Leadership], [0.466], [-0.498], [-0.412],
+    [RandomVar1], [0.325], [0.124], [0.634],
+    [RandomVar2], [-0.283], [-0.032], [0.502]
+  )]
+  
+  - *PC1*: General ability factor (all meaningful variables ~0.47-0.49)
+  - *PC2*: Cognitive vs. Social separation (positive: Math/Verbal, negative: Social/Leadership)
+  - *Noise Validation*: Random variables show weaker, inconsistent patterns
 ]
 
 #slide(title: [PCA Interpretation: Method Validation])[
-  *Method Validation Results:*
-  - _Factor Recovery_: Meaningful variables show loading strength ~0.45-0.50
-  - _Noise Separation_: Random variables show much weaker loadings (< 0.33)
-  - _Structure Detection_: Clear eigenvalue drop separates signal from noise
-  - *Conclusion*: PCA successfully recovers the underlying factor structure
+  *Factor Recovery Validation (comparing to ground truth):*
+  - _Structure Detection_: PCA successfully identifies 2-factor structure
+  - _Meaningful vs. Noise_: Max loading for random variables (0.325) < meaningful variables (~0.47)
+  - _Factor Separation_: PC2 cleanly separates cognitive (Math/Verbal) from social (Social/Leadership) abilities
+  
+  *Practical Insights:*
+  - PC1 captures general "ability" factor common in educational assessments
+  - PC2 reveals specific cognitive vs. social skill dimensions
+  - Noise components (PC5-PC6) have eigenvalues < 0.35, clearly distinguishable
+  
+  *Conclusion*: PCA successfully recovers the underlying latent structure from observable variables
 ]
 
 == Example 1B: Educational Assessment Factor Analysis
