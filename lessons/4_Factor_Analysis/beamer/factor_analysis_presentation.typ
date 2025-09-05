@@ -1,5 +1,5 @@
-// Complete Factor Analysis Presentation - RESTRUCTURED
-// Pedagogical approach: PCA theory → Example → FA theory → Example → Comparison → repeat
+// Complete Factor Analysis Presentation - RESTRUCTURED  
+// Pedagogical approach: PCA theory → FA theory → Theory comparison → Examples with PCA → FA → Comparison pattern
 
 // Tec de Monterrey color palette
 #let tec-blue = rgb("#003f7f")      // Tec de Monterrey signature blue
@@ -112,6 +112,66 @@
   - When reporting, include: eigenvalues table, proportion of variance, cumulative variance, scree plot, and a table of loadings (component matrix).
 ]
 
+== Factor Analysis Theory
+
+#slide(title: [What is Factor Analysis?])[
+  - A statistical method for modeling relationships among *observed variables* using *latent factors*.
+  - It uses a smaller number of _unobserved variables_, known as *common factors*.
+  - *Key Distinction from PCA*: Explicitly models measurement error and unique variance
+  - Often used to discover and validate underlying theoretical constructs
+]
+
+#slide(title: [Factor Analysis Model])[
+  - *Common Factors*: Latent variables that influence multiple observed variables
+  - *Factor Loadings*: Relationships between observed variables and common factors
+  - *Unique Factors*: Variable-specific variance not explained by common factors
+  - *Core Equation*: $X_i = lambda_(i 1) F_1 + lambda_(i 2) F_2 + ... + lambda_(i k) F_k + U_i$
+    - $X_i$ = observed variable, $F_j$ = common factors, $U_i$ = unique factor
+]
+
+== Theoretical Comparison: PCA vs Factor Analysis
+
+#slide(title: [Conceptual Differences])[
+  #align(center)[
+    #table(
+      columns: (1fr, 1fr),
+      [*Principal Component Analysis*], [*Factor Analysis*],
+      [Dimensionality reduction], [Latent variable modeling],
+      [Components are linear combinations of all variables], [Factors are hypothetical constructs],
+      [Explains total variance], [Explains common variance only],
+      [No measurement error model], [Explicitly models unique variance],
+      [Descriptive technique], [Statistical model with assumptions]
+    )
+  ]
+]
+
+#slide(title: [Mathematical Perspective])[
+  *PCA Approach:*
+  - Components are exact linear combinations: $"PC"_j = sum_(i=1)^p w_(i j) X_i$
+  - Maximizes variance explained: $max "Var"("PC"_j)$ subject to orthogonality
+  - All variance (including noise) is retained in the full solution
+
+  #v(12pt)
+  *Factor Analysis Approach:*
+  - Models observed variables: $X_i = sum_(j=1)^k lambda_(i j) F_j + U_i$
+  - Separates common factors from unique variance
+  - Estimates factor loadings and unique variances simultaneously
+]
+
+#slide(title: [When Theory Guides Method Selection])[
+  *Choose PCA when:*
+  - Goal is data compression or visualization
+  - Want to capture maximum variance with minimal components
+  - No strong assumptions about underlying constructs
+
+  #v(12pt)
+  *Choose Factor Analysis when:*
+  - Testing specific theories about latent constructs
+  - Need to separate measurement error from true factors
+  - Interpretability of factors is primary concern
+  - Building models for prediction or explanation
+]
+
 // ============================================================================
 // PART II: EXAMPLE 1 - EDUCATIONAL ASSESSMENT
 // ============================================================================
@@ -161,37 +221,6 @@
   - _Noise Separation_: Random variables show much weaker loadings (< 0.33)
   - _Structure Detection_: Clear eigenvalue drop separates signal from noise
   - *Conclusion*: PCA successfully recovers the underlying factor structure
-]
-
-== Factor Analysis Theory
-
-#slide(title: [What is Factor Analysis?])[
-  - A statistical method for modeling relationships among *observed variables* using *latent factors*.
-  - It uses a smaller number of _unobserved variables_, known as *common factors*.
-  - *Key Distinction from PCA*: Explicitly models measurement error and unique variance
-  - Often used to discover and validate underlying theoretical constructs
-]
-
-#slide(title: [Factor Analysis Model])[
-  - *Common Factors*: Latent variables that influence multiple observed variables
-  - *Factor Loadings*: Relationships between observed variables and common factors
-  - *Unique Factors*: Variable-specific variance not explained by common factors
-  - *Core Equation*: $X_i = lambda_(i 1) F_1 + lambda_(i 2) F_2 + ... + lambda_(i k) F_k + U_i$
-    - $X_i$ = observed variable, $F_j$ = common factors, $U_i$ = unique factor
-]
-
-#slide(title: [Factor Analysis vs PCA: Key Differences])[
-  #align(center)[
-    #table(
-      columns: (1fr, 1fr),
-      [*Principal Component Analysis*], [*Factor Analysis*],
-      [Dimensionality reduction], [Latent variable modeling],
-      [Components are linear combinations of all variables], [Factors are hypothetical constructs],
-      [Explains total variance], [Explains common variance only],
-      [No measurement error model], [Explicitly models unique variance],
-      [Descriptive technique], [Statistical model with assumptions]
-    )
-  ]
 ]
 
 == Example 1B: Educational Assessment Factor Analysis
