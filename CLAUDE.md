@@ -25,11 +25,22 @@ pip install -e .
 .venv/bin/python -m pytest -q
 ```
 
+**Lint and format code:**
+```bash
+ruff check .
+ruff format .
+```
+
 **Compile presentations:**
 ```bash
 cd lessons/4_Factor_Analysis/beamer
+# Main presentation
+typst compile factor_analysis_presentation_COMPLETE.typ
+
+# Legacy LaTeX version (archived)
+cd legacy_latex
 pdflatex factor_analysis_presentation.tex
-# Run twice for proper cross-references
+# Run twice for proper cross-references  
 pdflatex factor_analysis_presentation.tex
 ```
 
@@ -38,11 +49,14 @@ pdflatex factor_analysis_presentation.tex
 # Fetch data first (for examples that need external data)
 .venv/bin/python lessons/4_Factor_Analysis/code/invest_example/fetch_invest.py
 
-# Current working examples
-.venv/bin/python lessons/4_Factor_Analysis/code/invest_example/invest_example.py
-.venv/bin/python lessons/4_Factor_Analysis/code/hospitals_example/hospitals_example.py
-.venv/bin/python lessons/4_Factor_Analysis/code/kuiper_example/kuiper_example.py
-.venv/bin/python lessons/4_Factor_Analysis/code/pca_example/pca_example.py
+# Current working examples (updated file names)
+.venv/bin/python lessons/4_Factor_Analysis/code/invest_example/invest_fa.py
+.venv/bin/python lessons/4_Factor_Analysis/code/invest_example/invest_pca.py
+.venv/bin/python lessons/4_Factor_Analysis/code/hospitals_example/hospitals_pca.py
+.venv/bin/python lessons/4_Factor_Analysis/code/kuiper_example/kuiper_fa.py
+.venv/bin/python lessons/4_Factor_Analysis/code/kuiper_example/kuiper_pca.py
+.venv/bin/python lessons/4_Factor_Analysis/code/pca_example/educational_fa.py
+.venv/bin/python lessons/4_Factor_Analysis/code/pca_example/educational_pca.py
 ```
 
 **Convert Python scripts to notebooks:**
