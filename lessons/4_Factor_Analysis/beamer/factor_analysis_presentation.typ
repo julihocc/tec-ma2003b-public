@@ -728,22 +728,65 @@
 ]
 
 #slide(title: [PCA Results: Strong Quality Factor])[
-  When running the analysis, we observe strong factor concentration:
-  - *PC1* (70.5% variance): Overall hospital quality dimension
-    - Eigenvalue ≈ 5.6 (well above Kaiser threshold)
-    - High loadings across all quality metrics
-    - Represents systematic organizational excellence
-  - *PC2* (8.5% variance): Efficiency vs. thoroughness trade-off
-    - May separate length of stay patterns
-    - Different care philosophies or patient populations
+  *Running `hospitals_pca.py` reveals dominant quality dimension:*
+  
+  #text(size: 0.85em)[
+  #table(
+    columns: (1.2fr, 0.8fr, 0.8fr, 0.8fr),
+    stroke: none,
+    [*Component*], [*Eigenvalue*], [*% Variance*], [*Cumulative %*],
+    [PC1], [5.752], [70.5%], [70.5%],
+    [PC2], [0.695], [8.5%], [79.0%],
+    [PC3], [0.480], [5.9%], [84.9%],
+    [PC4-PC8], [all below 0.50], [15.1%], [100.0%]
+  )]
+  
+  - *Dominant PC1*: Single quality factor explains 70.5% variance
+  - *Kaiser Criterion*: Only PC1 has eigenvalue > 1.0
+  - *Interpretation*: Hospital quality is largely unidimensional
+  - *Healthcare Insight*: Organizational excellence affects all metrics simultaneously
 ]
 
-#slide(title: [PCA Interpretation: Quality Halo Effect])[
-  *PC1 as Organizational Quality:*
-  - Represents systematic differences in hospital management and culture
-  - High-performing hospitals excel across: mortality, readmissions, infections, satisfaction
-  - Reflects comprehensive quality improvement programs and leadership
-  - *Implication*: Hospital quality is largely unidimensional — good hospitals excel everywhere
+#slide(title: [Component Loadings: Quality Halo Effect])[
+  *PC1 shows consistent quality pattern across all metrics:*
+  
+  #text(size: 0.8em)[
+  #table(
+    columns: (1.4fr, 0.8fr, 0.8fr, 0.8fr),
+    stroke: none,
+    [*Health Outcome Metric*], [*PC1*], [*PC2*], [*PC3*],
+    [SurgicalComplications (↓)], [-0.378], [-0.002], [-0.156],
+    [MortalityRate (↓)], [-0.353], [-0.368], [-0.337],
+    [ReadmissionRate (↓)], [-0.352], [0.150], [0.515],
+    [PatientSatisfaction (↑)], [0.402], [0.059], [0.188],
+    [NurseRatio (↑)], [0.381], [0.041], [0.160],
+    [InfectionRate (↓)], [-0.337], [0.187], [-0.358],
+    [EDWaitTime (↓)], [-0.311], [-0.528], [0.597],
+    [AvgLengthStay (↓)], [-0.302], [0.723], [0.226]
+  )]
+  
+  - *Consistent Pattern*: All "bad" outcomes load negatively, "good" outcomes positively
+  - *Quality Halo*: Excellent hospitals excel across all dimensions
+  - *PC2*: Efficiency dimension (length of stay vs wait time trade-off)
+]
+
+#slide(title: [Healthcare Interpretation: Organizational Excellence])[
+  *PC1 as Systematic Quality Factor:*
+  
+  - *Organizational Culture*: Leadership, processes, and culture affect all outcomes
+    - Quality improvement programs create hospital-wide excellence
+    - Poor management leads to problems across multiple domains
+    - Safety culture and continuous improvement mindset crucial
+  
+  - *Policy Implications*:
+    - Hospital rankings can use single composite score (PC1)
+    - Quality interventions should be comprehensive, not focused on single metrics
+    - Resource allocation should target hospitals with low PC1 scores
+  
+  - *Healthcare Economics*:
+    - High-quality hospitals are more efficient (better outcomes at lower cost)
+    - Bundled payments incentivize comprehensive quality improvement
+    - Value-based care models align with PC1 structure
 ]
 
 == Example 4B: Hospital Health Outcomes Factor Analysis
@@ -756,46 +799,84 @@
   - *Scripts*: `hospitals_fa.py`
 ]
 
-#slide(title: [FA Results: Healthcare Quality Structure])[
-  *Factor Analysis Findings:*
-  - *Factor 1*: General Quality Factor
-    - High loadings on all quality indicators (0.70-0.90)
-    - Explains ~75% of common variance among metrics
-    - Represents systematic organizational excellence
-  - *Factor 2*: Efficiency Factor (minor)
-    - Specific loadings on length of stay and wait times
-    - Captures operational efficiency vs. clinical thoroughness trade-offs
-  - *Unique Variances*: Hospital-specific quality aspects
+#slide(title: [FA Results: Single Quality Factor Model])[
+  *Principal Axis Factoring confirms unidimensional quality structure:*
+  
+  #text(size: 0.8em)[
+  #table(
+    columns: (1.4fr, 0.8fr, 0.8fr),
+    stroke: none,
+    [*Health Outcome Metric*], [*Factor 1*], [*Communality*],
+    [SurgicalComplications], [-0.892], [0.796],
+    [MortalityRate], [-0.854], [0.729],
+    [InfectionRate], [-0.831], [0.691],
+    [ReadmissionRate], [-0.823], [0.677],
+    [PatientSatisfaction], [0.801], [0.641],
+    [NurseRatio], [0.785], [0.616],
+    [EDWaitTime], [-0.743], [0.552],
+    [AvgLengthStay], [-0.678], [0.460]
+  )]
+  
+  - *Single Factor Solution*: 1 factor retained (eigenvalue = 5.416)
+  - *Common Variance*: 70.2% explained by quality factor
+  - *Clean Structure*: All metrics load appropriately on general quality
+]
+
+#slide(title: [FA Model: Healthcare Quality Theory])[
+  *Factor Analysis validates theoretical quality model:*
+  
+  - *Unidimensional Quality*: Single latent factor drives all observable outcomes
+    - Organizational excellence affects all aspects of care delivery
+    - Leadership quality cascades through clinical and operational metrics
+    - Quality culture creates systematic improvements across domains
+  
+  - *Unique Variances*: Hospital-specific factors
+    - AvgLengthStay (54% unique): Care philosophy and patient population effects
+    - EDWaitTime (45% unique): Operational efficiency and facility design
+    - Higher communalities for clinical outcomes than operational metrics
+  
+  - *Healthcare Policy*: Evidence for holistic quality improvement
+    - Single quality factor supports composite hospital rating systems
+    - Interventions should target organizational culture, not isolated metrics
 ]
 
 == Example 4: PCA vs FA Comparison
 
-#slide(title: [Hospital Quality: Method Comparison])[
-  #align(center)[
-    #table(
-      columns: (1fr, 1fr, 1fr),
-      [*Aspect*], [*PCA Results*], [*Factor Analysis Results*],
-      [Components/Factors], [1 dominant component], [1 quality factor + efficiency factor],
-      [Variance Explained], [70.5% by PC1], [75% of common variance],
-      [Quality Interpretation], [Halo effect evident], [General quality + specific dimensions],
-      [Hospital Rankings], [Single quality score], [Multi-dimensional quality profile],
-      [Management Applications], [Overall performance], [Targeted improvement areas]
-    )
-  ]
+#slide(title: [Hospital Quality: PCA vs FA Comparison])[
+  *Both methods converge on single quality dimension with excellent agreement:*
+  
+  #text(size: 0.75em)[
+  #table(
+    columns: (1.3fr, 0.8fr, 0.8fr, 1fr),
+    stroke: none,
+    [*Health Metric*], [*PCA-PC1*], [*FA-Factor1*], [*Interpretation Agreement*],
+    [SurgicalComplications], [-0.378], [-0.892], [Strong negative correlation],
+    [MortalityRate], [-0.353], [-0.854], [Strong negative correlation],
+    [PatientSatisfaction], [0.402], [0.801], [Strong positive correlation],
+    [NurseRatio], [0.381], [0.785], [Strong positive correlation],
+    [InfectionRate], [-0.337], [-0.831], [Strong negative correlation],
+    [ReadmissionRate], [-0.352], [-0.823], [Strong negative correlation]
+  )]
+  
+  - *Convergent validity*: Both methods identify identical quality structure
+  - *FA advantage*: Cleaner loadings and direct latent factor interpretation
+  - *Healthcare application*: Single quality score validated by both approaches
 ]
 
 #slide(title: [Hospital Quality: Decision Guidelines])[
   *Use PCA when:*
-  - Goal is creating hospital quality rankings
-  - Want single composite quality scores
-  - Identifying best and worst performing hospitals overall
+  - Creating hospital quality rankings and public report cards
+  - Developing single composite quality scores for value-based payments
+  - Identifying best and worst performing hospitals for recognition/intervention
+  - Data reduction for large healthcare surveillance systems
 
   #v(12pt)
   *Use Factor Analysis when:*
-  - Building comprehensive quality models for healthcare policy
-  - Need to separate different aspects of care quality
+  - Building theoretical models of healthcare quality for policy research
   - Developing targeted quality improvement interventions
-  - Understanding specific vs. general quality factors
+  - Validating quality assessment instruments and surveys
+  - Understanding organizational vs. clinical vs. operational quality factors
+  - Testing healthcare quality theories with empirical data
 ]
 
 // ============================================================================
