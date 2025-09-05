@@ -1,6 +1,10 @@
 // Course Presentation Template for MA2003B
 // Copy this file and modify for your own presentations
 
+// Tec de Monterrey color palette
+#let tec-blue = rgb("#003f7f")      // Tec de Monterrey signature blue
+#let tec-light-blue = rgb("#0066cc") // Lighter blue for accents
+
 // Page and document configuration
 #set page(
   width: 16cm,
@@ -21,21 +25,28 @@
 )
 #set math.equation(numbering: none)
 
-// Custom slide function
+// Custom slide function with Tec blue titles
 #let slide(title: none, content) = {
   pagebreak(weak: true)
   if title != none [
-    #set text(size: 18pt, weight: "bold")
+    #set text(size: 18pt, weight: "bold", fill: tec-blue)
     #title
     #v(0.8cm)
   ]
   content
 }
 
-// Section slide function
+// Section slide function with Tec blue
 #let section-slide(title) = {
   pagebreak(weak: true)
-  set text(size: 20pt, weight: "bold")
+  set text(size: 20pt, weight: "bold", fill: tec-blue)
+  align(center + horizon)[#title]
+}
+
+// Part slide function with Tec blue
+#let part-slide(title) = {
+  pagebreak(weak: true)
+  set text(size: 24pt, weight: "bold", fill: tec-blue)
   align(center + horizon)[#title]
 }
 
@@ -43,16 +54,15 @@
 // TITLE SLIDE
 // ===========================================================================
 
+// Title slide with Tec colors
 #align(center)[
   #v(2cm)
-  #text(size: 24pt, weight: "bold")[Your Presentation Title]
-  #v(0.5cm)
-  #text(size: 18pt)[Chapter X: Topic Name]
-  #v(0.5cm)
-  #text(size: 16pt)[Dr. Juliho Castillo]
-  #v(0.3cm)
-  #text(size: 14pt)[Tecnológico de Monterrey]
-  #v(0.3cm)
+  #text(size: 28pt, weight: "bold", fill: tec-blue)[Your Presentation Title]
+  #v(0.6cm)
+  #text(size: 16pt, fill: tec-light-blue)[Dr. Juliho Castillo]
+  #v(0.4cm)
+  #text(size: 14pt, fill: tec-blue)[Tecnológico de Monterrey]
+  #v(0.4cm)
   #text(size: 12pt)[MA2003B - Análisis Multivariado]
   #v(0.3cm)
   #text(size: 12pt)[#datetime.today().display()]
@@ -62,15 +72,18 @@
 // TABLE OF CONTENTS
 // ===========================================================================
 
-#slide(title: [Contenido])[
-  #outline(depth: 2)
+// Table of contents
+#slide(title: [Table of contents])[
+  #outline()
 ]
 
-// ===========================================================================
-// SECTION 1: INTRODUCTION
-// ===========================================================================
+// ============================================================================
+// PART I: MAIN CONTENT (EXAMPLE STRUCTURE)
+// ============================================================================
 
-#section-slide[Introducción]
+#part-slide[Part I: Introduction]
+
+== Introduction Section
 
 #slide(title: [Overview])[
   - Point one with *emphasis*
@@ -90,11 +103,7 @@
   $ sum_(i=1)^n x_i = (n(n+1))/2 $
 ]
 
-// ===========================================================================
-// SECTION 2: MAIN CONTENT
-// ===========================================================================
-
-#section-slide[Contenido Principal]
+== Main Content Section
 
 #slide(title: [Data Analysis Example])[
   Steps in the analysis:
@@ -115,11 +124,13 @@
   *Conclusion*: The method works well for this application.
 ]
 
-// ===========================================================================
-// SECTION 3: CONCLUSION
-// ===========================================================================
+// ============================================================================
+// PART II: CONCLUSIONS (EXAMPLE STRUCTURE)
+// ============================================================================
 
-#section-slide[Conclusiones]
+#part-slide[Part II: Conclusions]
+
+== Conclusions Section
 
 #slide(title: [Key Takeaways])[
   - Important finding #1
@@ -130,8 +141,8 @@
   
   #align(center)[
     #rect(
-      fill: blue.lighten(90%),
-      stroke: blue.lighten(60%),
+      fill: tec-light-blue.lighten(90%),
+      stroke: tec-light-blue.lighten(60%),
       inset: 0.5em,
       radius: 0.3em,
       [*Main conclusion*: Your key message goes here.]
@@ -149,6 +160,11 @@
   5. Compile with: `typst compile my_presentation.typ`
   
   *Available functions:*
-  - `#slide(title: [Title])[content]` - Regular slide
-  - `#section-slide[Title]` - Section divider
+  - `#slide(title: [Title])[content]` - Regular slide with Tec blue titles
+  - `#section-slide[Title]` - Section divider with Tec blue styling
+  - `#part-slide[Title]` - Major part divider with large Tec blue text
+  
+  *Color palette:*
+  - `tec-blue` - Main Tec de Monterrey signature blue (#003f7f)
+  - `tec-light-blue` - Lighter blue for accents (#0066cc)
 ]
