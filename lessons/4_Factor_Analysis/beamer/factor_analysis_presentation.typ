@@ -387,68 +387,134 @@
 ]
 
 #slide(title: [PCA Results: Market Integration])[
-  When running the analysis, we observe:
-  - *PC1*: Explains ~97% of total variance
-    - Eigenvalue ≈ 3.9 (well above Kaiser threshold of 1.0)
-    - Represents a _common European market factor_
-    - All markets load positively — they move together
-  - *PC2-PC4*: Explain only ~3% combined variance
-    - Capture market-specific idiosyncrasies
-    - Currency effects, country-specific political events
-    - Largely noise for portfolio construction
+  *Running `invest_pca.py` reveals extraordinary market integration:*
+  
+  #text(size: 0.85em)[
+  #table(
+    columns: (1.2fr, 0.8fr, 0.8fr, 0.8fr),
+    stroke: none,
+    [*Component*], [*Eigenvalue*], [*% Variance*], [*Cumulative %*],
+    [PC1], [3.895], [97.3%], [97.3%],
+    [PC2], [0.092], [2.3%], [99.6%],
+    [PC3], [0.011], [0.3%], [99.9%],
+    [PC4], [0.004], [0.1%], [100.0%]
+  )]
+  
+  - *Dominant PC1*: Captures almost all variance (97.3%)
+  - *Kaiser Criterion*: Only PC1 has eigenvalue > 1.0
+  - *Interpretation*: European markets move as a single integrated system
+  - *Implication*: Extremely limited diversification within Europe
 ]
 
-#slide(title: [PCA Interpretation: Systematic Risk])[
-  *PC1 as Systematic Risk:*
-  - Captures _systematic risk_ — movements common to all markets
-  - Driven by: EU-wide economic conditions, global financial sentiment, central bank policies
-  - High loadings on all indices → European markets are highly integrated
-  - *Implication*: Limited diversification benefit from spreading across European markets alone
+#slide(title: [Component Loadings: Perfect Market Synchronization])[
+  *All European markets load equally on PC1 (common market factor):*
+  
+  #text(size: 0.85em)[
+  #table(
+    columns: (1.2fr, 0.8fr, 0.8fr),
+    stroke: none,
+    [*Market Index*], [*PC1 Loading*], [*PC2 Loading*],
+    [DAX (Germany)], [0.501], [0.502],
+    [SMI (Switzerland)], [0.501], [-0.513],
+    [CAC (France)], [0.500], [0.351],
+    [FTSE (UK)], [0.499], [-0.625]
+  )]
+  
+  - *PC1 Interpretation*: Uniform loadings (~0.50) = perfect market integration
+  - *PC2 Interpretation*: Subtle Brexit effect (FTSE vs continental markets)
+  - *Financial Reality*: Global/EU-wide factors dominate individual market performance
+]
+
+#slide(title: [Financial Interpretation: Systematic Risk Dominance])[
+  *PC1 as European Systematic Risk Factor:*
+  
+  - *Market Integration*: 97.3% shared variance indicates extreme integration
+    - European markets behave as single economic unit
+    - Global economic conditions affect all markets simultaneously
+    - ECB monetary policy, EU regulations, major political events
+  
+  - *Portfolio Implications*:
+    - Diversification within Europe provides minimal risk reduction
+    - Need global (non-European) assets for meaningful diversification
+    - European "diversified" portfolio = ~97% systematic risk exposure
+  
+  - *Risk Management*:
+    - PC1 represents non-diversifiable risk within European context
+    - PC2-PC4 (2.7% total) = market-specific idiosyncratic opportunities
+    - Brexit effect visible in PC2 (FTSE vs continental separation)
 ]
 
 == Example 2B: European Stock Markets Factor Analysis
 
 #slide(title: [European Stock Markets: Factor Analysis])[
   *Applying Factor Analysis to financial market data:*
-  - *Same Dataset*: 4 European indices with daily returns
+  - *Same Dataset*: 4 European indices with daily returns over 1,860 days
   - *FA Perspective*: Model latent market factors driving stock correlations
-  - *Expected Factors*: European market factor, country-specific factors
+  - *Research Question*: How many common market factors underlie European integration?
   - *Scripts*: `invest_fa.py`
 ]
 
-#slide(title: [FA Results: Market Factor Structure])[
-  *Factor Analysis Findings:*
-  - *Factor 1*: European Market Factor
-    - High loadings on all four indices (0.85-0.95)
-    - Explains ~90% of common variance among markets
-    - Represents systematic European market movements
-  - *Unique Variances*: Country-specific market movements
-    - Captures idiosyncratic national economic effects
-    - Brexit effects (FTSE), German industrial cycles (DAX), etc.
+#slide(title: [FA Results: Single-Factor Market Structure])[
+  *Factor Analysis confirms PCA findings with cleaner interpretation:*
+  
+  #text(size: 0.85em)[
+  #table(
+    columns: (1.2fr, 0.8fr, 0.8fr),
+    stroke: none,
+    [*Market Index*], [*Factor 1 Loading*], [*Communality*],
+    [DAX (Germany)], [0.987], [0.974],
+    [SMI (Switzerland)], [0.987], [0.974],
+    [CAC (France)], [0.986], [0.972],
+    [FTSE (UK)], [0.985], [0.970]
+  )]
+  
+  - *Single Factor Solution*: 1 factor retained (eigenvalue = 3.891)
+  - *Factor Interpretation*: Common European Market Factor
+  - *Variance Explained*: 97.3% of common variance among markets
+  - *High Communalities*: 97%+ shared variance for all markets
 ]
 
-#slide(title: [FA Advantages: Market Modeling])[
-  *Factor Analysis Benefits for Finance:*
-  - _Risk decomposition_: Separates systematic from idiosyncratic risk
-  - _Portfolio construction_: Clear factor exposures for risk management
-  - _Stress testing_: Model extreme factor movements separately
-  - _Performance attribution_: Distinguish market timing from stock selection
+#slide(title: [FA Model: Financial Risk Decomposition])[
+  *Factor Analysis provides clean financial interpretation:*
+  
+  - *Systematic Risk Factor*: Single factor with near-perfect loadings (~0.986)
+    - Represents common exposure to EU economic conditions
+    - ECB monetary policy, European political events, global risk sentiment
+    - All markets equally exposed to systematic European risk
+  
+  - *Unique Variances*: Only 2.7% unexplained (idiosyncratic risk)
+    - DAX: German-specific industrial/manufacturing cycles
+    - FTSE: Brexit-related UK political developments  
+    - SMI: Swiss franc currency effects
+    - CAC: France-specific fiscal/political events
+  
+  - *Portfolio Theory Application*:
+    - Single-factor model: R_i = α_i + β_i F + ε_i
+    - All β_i ≈ 0.986 (equal systematic risk exposure)
+    - Diversification requires assets outside European factor space
 ]
 
 == Example 2: PCA vs FA Comparison
 
-#slide(title: [European Markets: Method Comparison])[
-  #align(center)[
-    #table(
-      columns: (1fr, 1fr, 1fr),
-      [*Aspect*], [*PCA Results*], [*Factor Analysis Results*],
-      [Components/Factors], [1 dominant component], [1 market factor + unique variances],
-      [Variance Explained], [97% by PC1], [90% of common variance],
-      [Market Integration], [High correlation evident], [Systematic vs idiosyncratic risk],
-      [Risk Management], [Single risk dimension], [Factor + unique risk components],
-      [Portfolio Application], [Limited diversification], [Clear risk decomposition]
-    )
-  ]
+#slide(title: [European Markets: PCA vs FA Comparison])[
+  *Both methods converge on single-factor structure, but with different perspectives:*
+  
+  #text(size: 0.8em)[
+  #table(
+    columns: (1.1fr, 1fr, 1fr),
+    stroke: none,
+    [*Aspect*], [*PCA Results*], [*FA Results*],
+    [Eigenvalue/Factor], [3.895], [3.891],
+    [Variance Explained], [97.3% total variance], [97.3% common variance],
+    [Loadings Range], [0.499-0.501], [0.985-0.987],
+    [Interpretation], [Principal component], [Latent market factor],
+    [Risk Decomposition], [PC1 + noise components], [Systematic + unique variances],
+    [Application], [Data reduction], [Risk modeling]
+  )]
+  
+  - *Convergence*: Both identify single dominant dimension
+  - *Difference*: FA provides cleaner risk interpretation
+  - *Financial Context*: FA loadings directly interpretable as risk exposures
 ]
 
 #slide(title: [European Markets: Decision Guidelines])[
@@ -501,15 +567,43 @@
     - 3:2 resonance at ~39.4 AU (like Pluto)
 ]
 
-#slide(title: [PCA Results: Orbital Excitation])[
-  When running the analysis, we observe a more balanced variance distribution:
-  - *PC1* (36.5% variance): Orbital excitation dimension
-    - Correlates semi-major axis, eccentricity, and inclination
-    - Separates dynamically "hot" (excited) from "cold" (pristine) populations
-  - *PC2* (23.2% variance): Size-distance relationship
-    - May reflect observational bias or physical size distribution
-  - *PC3* (17.8% variance): Additional orbital structure
-    - First 3 components explain ~77.5% of variance
+#slide(title: [PCA Results: Multi-Component Structure])[
+  *Running `kuiper_pca.py` reveals distributed variance across components:*
+  
+  #text(size: 0.85em)[
+  #table(
+    columns: (1.2fr, 0.8fr, 0.8fr, 0.8fr),
+    stroke: none,
+    [*Component*], [*Eigenvalue*], [*% Variance*], [*Cumulative %*],
+    [PC1], [2.009], [39.8%], [39.8%],
+    [PC2], [1.079], [21.4%], [61.1%],
+    [PC3], [1.036], [20.5%], [81.6%],
+    [PC4], [0.628], [12.4%], [94.1%],
+    [PC5], [0.299], [5.9%], [100.0%]
+  )]
+  
+  - *Kaiser Criterion*: Retain PC1-PC3 (eigenvalues > 1.0)
+  - *Variance Distribution*: More balanced than previous examples
+  - *Interpretation*: Complex astronomical system requires multiple dimensions
+]
+
+#slide(title: [Component Loadings: Astronomical Interpretation])[
+  *Each component captures distinct aspects of orbital architecture:*
+  
+  #text(size: 0.8em)[
+  #table(
+    columns: (1.2fr, 0.8fr, 0.8fr, 0.8fr),
+    stroke: none,
+    [*Variable*], [*PC1*], [*PC2*], [*PC3*],
+    [a (distance)], [0.571], [-0.172], [-0.578],
+    [e (eccentricity)], [0.642], [0.087], [-0.117],
+    [i (inclination)], [0.487], [0.378], [0.705],
+    [H (magnitude)], [-0.157], [0.905], [-0.393]
+  )]
+  
+  - *PC1*: "Orbital Excitation" - distance (a), eccentricity (e), inclination (i) correlate
+  - *PC2*: "Observational Bias" - brightness (H) dominates, reflecting size-distance effects
+  - *PC3*: "Resonant Structure" - inclination vs distance separation, identifies resonant families
 ]
 
 #slide(title: [PCA Interpretation: Dynamical Evolution])[
@@ -530,40 +624,65 @@
   - *Scripts*: `kuiper_fa.py`
 ]
 
-#slide(title: [FA Results: Dynamical Factors])[
-  *Principal Axis Factoring Results:*
-  - *Factor 1*: Orbital excitation (high loadings on a, e, i)
-    - Represents dynamical "heating" of orbits over solar system history
-  - *Factor 2*: Object designation effects (data artifact)
-  - *Factor 3*: Size factor (high loading on absolute magnitude H)
-    - Separates size-related observational effects
-  - *Model Quality*: 3-factor model explains 84% of common variance
+#slide(title: [FA Results: Three-Factor Solution])[
+  *Principal Axis Factoring with Varimax rotation yields clear structure:*
+  
+  #text(size: 0.8em)[
+  #table(
+    columns: (1.2fr, 0.8fr, 0.8fr, 0.8fr, 0.8fr),
+    stroke: none,
+    [*Parameter*], [*Factor 1*], [*Factor 2*], [*Factor 3*], [*Communality*],
+    [a (distance)], [0.733], [-0.296], [-0.307], [0.725],
+    [e (eccentricity)], [0.896], [-0.114], [-0.082], [0.821],
+    [i (inclination)], [0.770], [0.301], [0.218], [0.732],
+    [H (magnitude)], [-0.048], [-0.081], [0.953], [0.917],
+    [designation], [-0.049], [0.940], [-0.084], [0.892]
+  )]
+  
+  - *3 factors retained*: Eigenvalues [1.989, 1.068, 1.025]
+  - *Common variance*: 81.7% explained by factors
+  - *Clean structure*: Varimax rotation provides clear interpretation
 ]
 
-#slide(title: [FA Interpretation: Astrophysical Meaning])[
-  *Astrophysical Factors:*
-  - *Dynamical Excitation Factor*: Captures gravitational scattering effects
-    - Objects with high Factor 1 scores: scattered by planetary migration
-    - Objects with low Factor 1 scores: pristine, formed in-place
-  - *Size Factor*: Reflects observational selection and physical processes
-    - Large objects more easily detected at great distances
-    - May indicate size-dependent survival mechanisms
+#slide(title: [Astrophysical Factor Interpretation])[
+  *Each factor represents distinct physical processes:*
+  
+  - *Factor 1: Dynamical Excitation* (a=0.733, e=0.896, i=0.770)
+    - Orbital "heating" by gravitational scattering with Neptune
+    - High scores: Scattered Disk Objects with excited orbits
+    - Low scores: Classical Kuiper Belt with pristine, cold orbits
+  
+  - *Factor 2: Discovery Sequence* (designation=0.940) 
+    - Data artifact reflecting discovery order bias
+    - Brighter objects discovered first (lower designation numbers)
+    - Demonstrates importance of recognizing non-physical factors
+  
+  - *Factor 3: Size/Brightness Factor* (H=0.953)
+    - Absolute magnitude as proxy for object size
+    - Selection effects: larger objects easier to detect at distance
+    - Physical process: size-dependent collisional evolution
 ]
 
 == Example 3: PCA vs FA Comparison
 
-#slide(title: [Kuiper Belt: Method Comparison])[
-  #align(center)[
-    #table(
-      columns: (1fr, 1fr, 1fr),
-      [*Aspect*], [*PCA Results*], [*Factor Analysis Results*],
-      [Components/Factors], [3 meaningful components], [3 astrophysical factors],
-      [Variance Explained], [77.5% by first 3 PC], [84% of common variance],
-      [Structure Type], [Distributed variance], [Clear factor themes],
-      [Scientific Interpretation], [Orbital excitation modes], [Dynamical processes + size effects],
-      [Population Studies], [Continuous variation], [Discrete factor contributions]
-    )
-  ]
+#slide(title: [Kuiper Belt: PCA vs FA Comparison])[
+  *Both methods identify 3-factor structure with different emphases:*
+  
+  #text(size: 0.75em)[
+  #table(
+    columns: (1fr, 1fr, 1fr, 1fr),
+    stroke: none,
+    [*Orbital Parameter*], [*PCA-PC1*], [*FA-Factor1*], [*Interpretation*],
+    [a (distance)], [0.571], [0.733], [FA stronger dynamical grouping],
+    [e (eccentricity)], [0.642], [0.896], [FA emphasizes orbital excitation],
+    [i (inclination)], [0.487], [0.770], [FA cleaner dynamical factor],
+    [H (magnitude)], [-0.157], [-0.048], [PCA mixed, FA separates as Factor 3]
+  )]
+  
+  - *Variance explained*: PCA 81.6% (3 PCs), FA 81.7% (3 factors)
+  - *Structure clarity*: FA provides cleaner separation of physical processes
+  - *Scientific value*: FA factors directly map to astrophysical theories
+  - *Discovery bias*: FA explicitly identifies designation artifact (Factor 2)
 ]
 
 #slide(title: [Kuiper Belt: Decision Guidelines])[
