@@ -807,18 +807,18 @@
     columns: (1.4fr, 0.8fr, 0.8fr),
     stroke: none,
     [*Health Outcome Metric*], [*Factor 1*], [*Communality*],
-    [SurgicalComplications], [-0.892], [0.796],
-    [MortalityRate], [-0.854], [0.729],
-    [InfectionRate], [-0.831], [0.691],
-    [ReadmissionRate], [-0.823], [0.677],
-    [PatientSatisfaction], [0.801], [0.641],
-    [NurseRatio], [0.785], [0.616],
-    [EDWaitTime], [-0.743], [0.552],
-    [AvgLengthStay], [-0.678], [0.460]
+    [PatientSatisfaction], [0.954], [0.911],
+    [NurseRatio], [0.905], [0.820],
+    [SurgicalComplications], [-0.896], [0.804],
+    [MortalityRate], [-0.838], [0.702],
+    [ReadmissionRate], [-0.836], [0.699],
+    [InfectionRate], [-0.800], [0.640],
+    [EDWaitTime], [-0.739], [0.546],
+    [AvgLengthStay], [-0.717], [0.515]
   )]
   
-  - *Single Factor Solution*: 1 factor retained (eigenvalue = 5.416)
-  - *Common Variance*: 70.2% explained by quality factor
+  - *Single Factor Solution*: 1 factor retained (eigenvalue = 5.637)
+  - *Common Variance*: 70.5% explained by quality factor
   - *Clean Structure*: All metrics load appropriately on general quality
 ]
 
@@ -831,8 +831,8 @@
     - Quality culture creates systematic improvements across domains
   
   - *Unique Variances*: Hospital-specific factors
-    - AvgLengthStay (54% unique): Care philosophy and patient population effects
-    - EDWaitTime (45% unique): Operational efficiency and facility design
+    - AvgLengthStay (48.5% unique): Care philosophy and patient population effects
+    - EDWaitTime (45.4% unique): Operational efficiency and facility design
     - Higher communalities for clinical outcomes than operational metrics
   
   - *Healthcare Policy*: Evidence for holistic quality improvement
