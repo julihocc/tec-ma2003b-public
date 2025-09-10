@@ -721,3 +721,305 @@ Interpretation: "Academic Achievement" factor
 4. When would you choose Maximum Likelihood over Principal Axis Factoring?
 5. What makes a factor solution "interpretable"?
 6. How do you validate a factor analysis solution?
+
+== Applied Examples and Case Studies
+
+This section presents detailed examples of Factor Analysis applications across different domains, illustrating the complete analytical process from data preparation to interpretation.
+
+=== Case Study 1: Psychological Assessment - Big Five Personality
+
+*Background:*
+A researcher wants to validate the Big Five personality model using a 25-item personality questionnaire administered to 500 adults. Each item is rated on a 5-point Likert scale.
+
+*Research Questions:*
+1. Do the items cluster into five distinct personality factors?
+2. How well do the factors correspond to theoretical expectations?
+3. What is the reliability of each factor?
+
+*Step-by-Step Analysis:*
+
+*Data Preparation:*
+- Sample: N = 500 adults
+- Variables: 25 personality items (5 items per expected factor)
+- Scale: 1 = Strongly Disagree to 5 = Strongly Agree
+- Missing data: 2.3% handled via listwise deletion
+
+*Factorability Assessment:*
+- KMO = 0.87 (Good factorability)
+- Bartlett's test: χ² = 4,832.5, df = 300, p \< 0.001
+- All individual MSA values \> 0.75
+
+*Factor Extraction:*
+- Method: Principal Axis Factoring
+- Initial eigenvalues: 6.84, 3.21, 2.67, 1.89, 1.43, 0.89, 0.76...
+- Parallel analysis suggests 5 factors
+- Five factors explain 64.2% of total variance
+
+*Factor Rotation:*
+- Method: Promax (oblique) - personality factors expected to correlate
+- Factor correlations range from 0.12 to 0.38
+
+*Factor Structure and Interpretation:*
+
+*Factor 1: Extraversion (15.2% variance)*
+```
+Item                                    Loading
+"I am the life of the party"              0.78
+"I talk to a lot of different people"     0.74
+"I feel comfortable around people"        0.71
+"I start conversations"                   0.68
+"I make friends easily"                   0.66
+```
+
+*Factor 2: Conscientiousness (12.8% variance)*
+```
+Item                                    Loading
+"I am always prepared"                    0.81
+"I pay attention to details"              0.76
+"I get chores done right away"            0.73
+"I like order"                           0.69
+"I follow a schedule"                    0.65
+```
+
+*Factor 3: Neuroticism (11.7% variance)*
+```
+Item                                    Loading
+"I get stressed out easily"               0.79
+"I worry about things"                    0.75
+"I get irritated easily"                  0.71
+"I often feel blue"                      0.68
+"I panic easily"                         0.63
+```
+
+*Factor 4: Agreeableness (12.3% variance)*
+```
+Item                                    Loading
+"I sympathize with others' feelings"      0.77
+"I have a soft heart"                     0.74
+"I take time out for others"              0.70
+"I feel others' emotions"                 0.67
+"I make people feel at ease"              0.64
+```
+
+*Factor 5: Openness (12.2% variance)*
+```
+Item                                    Loading
+"I have a vivid imagination"              0.76
+"I have excellent ideas"                  0.73
+"I am quick to understand things"         0.69
+"I use difficult words"                   0.66
+"I spend time reflecting on things"       0.62
+```
+
+*Results Summary:*
+- All communalities \> 0.45
+- No problematic cross-loadings (\> 0.40)
+- Factor structure matches theoretical expectations
+- Coefficient alpha reliability: 0.82-0.89 for all factors
+
+*Interpretation:*
+The analysis successfully replicated the Big Five personality structure with strong factor loadings and good reliability. The moderate factor intercorrelations (0.12-0.38) support the use of oblique rotation and align with personality theory.
+
+=== Case Study 2: Market Research - Consumer Technology Preferences
+
+*Background:*
+A technology company surveyed 800 consumers about their preferences for smartphone features using 20 attributes rated on importance (1-7 scale).
+
+*Research Objective:*
+Identify underlying preference dimensions to guide product development and marketing strategy.
+
+*Analysis Overview:*
+
+*Preliminary Analysis:*
+- KMO = 0.91 (Excellent)
+- Bartlett's test significant (p \< 0.001)
+- No multicollinearity issues detected
+
+*Factor Solution:*
+- Method: Maximum Likelihood with Varimax rotation
+- Four factors extracted (eigenvalues \> 1.0)
+- Total variance explained: 67.8%
+
+*Factor Interpretation:*
+
+*Factor 1: Performance & Technology (24.3% variance)*
+- Processor speed (0.84)
+- RAM capacity (0.79)
+- Graphics performance (0.76)
+- Operating system (0.71)
+- Storage capacity (0.68)
+
+*Factor 2: Design & Aesthetics (18.7% variance)*
+- Physical appearance (0.82)
+- Color options (0.78)
+- Build quality (0.75)
+- Weight and thickness (0.72)
+- Screen size (0.65)
+
+*Factor 3: Value & Practicality (13.9% variance)*
+- Price affordability (0.81)
+- Battery life (0.77)
+- Durability (0.74)
+- Warranty coverage (0.69)
+- Repair availability (0.63)
+
+*Factor 4: Connectivity & Features (10.9% variance)*
+- Camera quality (0.79)
+- Wireless capabilities (0.75)
+- Apps availability (0.71)
+- Internet speed (0.68)
+- Social media integration (0.64)
+
+*Business Implications:*
+- Four distinct consumer segments identified
+- Product positioning strategies developed for each factor
+- Marketing messages tailored to preference dimensions
+- Feature prioritization based on factor importance
+
+=== Case Study 3: Educational Research - Academic Motivation
+
+*Background:*
+Educational researchers administered a 36-item Academic Motivation Scale to 650 university students to understand different types of academic motivation.
+
+*Theoretical Framework:*
+Self-Determination Theory predicts seven types of motivation:
+1. Intrinsic Motivation (3 types)
+2. Extrinsic Motivation (3 types)  
+3. Amotivation (1 type)
+
+*Analytical Challenge:*
+Test whether the data supports the theoretical seven-factor structure versus alternative models.
+
+*Model Comparison Approach:*
+
+*Model 1: Seven-Factor Solution*
+- Factors: IM-Knowledge, IM-Accomplishment, IM-Stimulation, EM-Identified, EM-Introjected, EM-External, Amotivation
+- Fit: χ² = 892.3, df = 573, CFI = 0.94, RMSEA = 0.058
+- All factor loadings \> 0.50
+- Good interpretability
+
+*Model 2: Three-Factor Solution*
+- Factors: Intrinsic, Extrinsic, Amotivation
+- Fit: χ² = 1,247.8, df = 591, CFI = 0.89, RMSEA = 0.078
+- Some loss of discriminant validity
+
+*Model 3: One-Factor Solution*
+- Single "Academic Motivation" factor
+- Fit: χ² = 2,156.4, df = 594, CFI = 0.71, RMSEA = 0.122
+- Poor fit, not theoretically meaningful
+
+*Results:*
+The seven-factor model provided the best fit to the data, supporting the theoretical distinction between different types of academic motivation.
+
+*Factor Correlations (Oblique Rotation):*
+```
+                   IM-K  IM-A  IM-S  EM-I  EM-J  EM-E  AMOT
+IM-Knowledge        1.00
+IM-Accomplishment   0.73  1.00
+IM-Stimulation      0.68  0.71  1.00
+EM-Identified       0.45  0.52  0.41  1.00
+EM-Introjected      0.21  0.28  0.18  0.65  1.00
+EM-External         0.08  0.12  0.05  0.43  0.58  1.00
+Amotivation        -0.35 -0.41 -0.38 -0.52 -0.28 -0.15  1.00
+```
+
+The pattern shows expected relationships: intrinsic motivation types correlate positively with each other and negatively with amotivation.
+
+=== Case Study 4: Health Research - Quality of Life Assessment
+
+*Background:*
+Medical researchers developed a quality of life questionnaire for cancer patients with 28 items across multiple life domains.
+
+*Methodological Considerations:*
+- Small sample size (N = 185) relative to variables
+- Missing data due to patient fatigue
+- Ordinal rating scales (0-4)
+- Potential floor/ceiling effects
+
+*Special Analytical Approaches:*
+
+*Missing Data Handling:*
+- Multiple imputation (m = 20 imputations)
+- Analysis conducted on each imputed dataset
+- Results pooled using Rubin's rules
+
+*Ordinal Data Treatment:*
+- Polychoric correlation matrix used
+- Weighted least squares estimation
+- Robust standard errors computed
+
+*Factor Structure:*
+Four factors emerged representing different quality of life domains:
+
+*Factor 1: Physical Functioning*
+- Physical symptoms and limitations
+- Energy and fatigue levels
+- Daily activity capacity
+
+*Factor 2: Emotional Well-being*
+- Anxiety and depression
+- Mood and emotional state
+- Coping with illness
+
+*Factor 3: Social Functioning*
+- Relationships with family/friends
+- Social activities participation
+- Support system quality
+
+*Factor 4: Treatment Impact*
+- Side effects management
+- Treatment satisfaction
+- Healthcare communication
+
+*Validation Results:*
+- Cross-validation with independent sample (N = 142)
+- Coefficient of congruence \> 0.85 for all factors
+- Convergent validity with established QOL measures
+- Known-groups validity confirmed
+
+=== Common Challenges and Solutions
+
+*Challenge 1: Small Sample Sizes*
+*Solutions:*
+- Use more conservative factor retention criteria
+- Focus on replication rather than exploration
+- Consider item parceling for complex models
+- Report confidence intervals for loadings
+
+*Challenge 2: Mixed Data Types*
+*Solutions:*
+- Use appropriate correlation matrices (polychoric, tetrachoric)
+- Consider categorical factor analysis methods
+- Transform variables when appropriate
+- Report sensitivity analyses
+
+*Challenge 3: Cross-Loadings and Complex Structure*
+*Solutions:*
+- Try different rotation methods
+- Consider hierarchical factor models
+- Use confirmatory factor analysis
+- Examine item content for ambiguity
+
+*Challenge 4: Non-Normal Data*
+*Solutions:*
+- Use robust estimation methods
+- Consider non-parametric alternatives
+- Transform variables when appropriate
+- Report distributional assumptions
+
+*Challenge 5: Interpretation Difficulties*
+*Solutions:*
+- Examine multiple solutions (different numbers of factors)
+- Consider theoretical expectations
+- Use external validation criteria
+- Consult domain experts
+
+---
+
+*Study Questions for Section 2.4:*
+1. In the personality case study, why was oblique rotation chosen over orthogonal rotation?
+2. How would you handle a situation where parallel analysis suggests 3 factors but theory predicts 5?
+3. What are the advantages and disadvantages of using polychoric correlations for ordinal data?
+4. How do you interpret factor correlations in an oblique solution?
+5. What validation strategies are most appropriate for small sample factor analyses?
+6. When might you choose a hierarchical factor model over a simple structure model?
