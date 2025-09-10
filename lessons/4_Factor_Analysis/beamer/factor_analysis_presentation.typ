@@ -39,7 +39,7 @@
 #let section-slide(title) = {
   pagebreak(weak: true)
   // Create invisible heading for table of contents after page break
-  heading(level: 2, outlined: true, bookmarked: true)[#title]
+  hide[#heading(level: 2, outlined: true, bookmarked: true)[#title]]
   set text(size: 20pt, weight: "bold", fill: tec-blue)
   align(center + horizon)[#title]
 }
