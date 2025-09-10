@@ -38,6 +38,8 @@
 // Section slide function with Tec blue
 #let section-slide(title) = {
   pagebreak(weak: true)
+  // Create invisible heading for table of contents after page break
+  heading(level: 2, outlined: true, bookmarked: true)[#title]
   set text(size: 20pt, weight: "bold", fill: tec-blue)
   align(center + horizon)[#title]
 }
@@ -72,7 +74,6 @@
 
 #part-slide[Part I: Theoretical Foundations]
 
-#heading(level: 2, outlined: true, bookmarked: true)[Principal Component Analysis Theory] <pca-theory>
 #section-slide[Principal Component Analysis Theory]
 
 #slide(title: [Refresher: What is PCA?])[
@@ -113,7 +114,6 @@
   - When reporting, include: eigenvalues table, proportion of variance, cumulative variance, scree plot, and a table of loadings (component matrix).
 ]
 
-#heading(level: 2, outlined: true, bookmarked: true)[Factor Analysis Theory] <fa-theory>
 #section-slide[Factor Analysis Theory]
 
 #slide(title: [What is Factor Analysis?])[
@@ -160,12 +160,6 @@
   - Estimates factor loadings and unique variances simultaneously
 ]
 
-#heading(level: 2, outlined: true, bookmarked: true)[Theoretical Comparison: PCA vs Factor Analysis] <theory-comparison>
-#section-slide[Theoretical Comparison: PCA vs Factor Analysis]
-
-#slide(title: [Conceptual Differences])[
-]
-
 #slide(title: [When Theory Guides Method Selection])[
   *Choose PCA when:*
   - Goal is data compression or visualization
@@ -180,18 +174,12 @@
   - Building models for prediction or explanation
 ]
 
-#section-slide[Example 1A: Educational Assessment PCA]
-
-#slide(title: [Educational Assessment: PCA Analysis])[
-]
-
 // ============================================================================
 // PART II: EXAMPLE 1 - EDUCATIONAL ASSESSMENT
 // ============================================================================
 
 #part-slide[Part II: Example 1 - Educational Assessment]
 
-#heading(level: 2, outlined: true, bookmarked: true)[Example 1: Educational Assessment] <example1>
 #section-slide[Example 1A: Educational Assessment PCA]
 
 #slide(title: [Educational Assessment: PCA Analysis])[
@@ -383,7 +371,6 @@
 
 #part-slide[Part III: Example 2 - European Stock Markets]
 
-#heading(level: 2, outlined: true, bookmarked: true)[Example 2: European Stock Markets] <example2>
 #section-slide[Example 2A: European Stock Markets PCA]
 
 #slide(title: [European Stock Markets: PCA Analysis])[
@@ -552,7 +539,6 @@
 
 #part-slide[Part IV: Example 3 - Kuiper Belt Objects]
 
-#heading(level: 2, outlined: true, bookmarked: true)[Example 3: Kuiper Belt Objects] <example3>
 #section-slide[Example 3A: Kuiper Belt Objects PCA]
 
 #slide(title: [Kuiper Belt Objects: PCA Analysis])[
@@ -720,9 +706,6 @@
 // ============================================================================
 
 #part-slide[Part V: Example 4 - Hospital Health Outcomes]
-
-#heading(level: 2, outlined: true, bookmarked: true)[Example 4: Hospital Health Outcomes] <example4>
-#section-slide[Example 4A: Hospital Health Outcomes PCA]
 
 #section-slide[Example 4A: Hospital Health Outcomes PCA]
 
@@ -904,7 +887,6 @@
 
 #part-slide[Part VI: Overall Comparison and Guidelines]
 
-#heading(level: 2, outlined: true, bookmarked: true)[Summary and Guidelines] <summary>
 #section-slide[Summary: Method Comparison Across Examples]
 
 #slide(title: [Cross-Example Summary])[
