@@ -72,7 +72,7 @@
 
 #part-slide[Part I: Theoretical Foundations]
 
-== Principal Component Analysis Theory
+#section-slide[Principal Component Analysis Theory]
 
 #slide(title: [Refresher: What is PCA?])[
   - Principal Component Analysis (PCA) is a linear method for *dimension reduction*.
@@ -109,10 +109,21 @@
   - PCA is sensitive to outliers — inspect data and consider robust alternatives if needed.
   - Interpret components via loadings (eigenvectors) and by examining which variables contribute strongly to each component.
   - Rotation is not standard in PCA (rotation reassigns variance) — if interpretability is a priority, consider Factor Analysis with rotation.
+        - When reporting, include: eigenvalues table, proportion of variance, cumulative variance, scree plot, and a table of loadings (component matrix).
+]
+
+#section-slide[Factor Analysis Theory]
+
+#slide(title: [What is Factor Analysis?])[
+]
+
+#section-slide[Factor Analysis Theory]
+
+#slide(title: [What is Factor Analysis?])[
   - When reporting, include: eigenvalues table, proportion of variance, cumulative variance, scree plot, and a table of loadings (component matrix).
 ]
 
-== Factor Analysis Theory
+#section-slide[Factor Analysis Theory]
 
 #slide(title: [What is Factor Analysis?])[
   - A statistical method for modeling relationships among *observed variables* using *latent factors*.
@@ -129,7 +140,7 @@
     - $X_i$ = observed variable, $F_j$ = common factors, $U_i$ = unique factor
 ]
 
-== Theoretical Comparison: PCA vs Factor Analysis
+#section-slide[Theoretical Comparison: PCA vs Factor Analysis]
 
 #slide(title: [Conceptual Differences])[
   #align(center)[
@@ -158,6 +169,11 @@
   - Estimates factor loadings and unique variances simultaneously
 ]
 
+#section-slide[Theoretical Comparison: PCA vs Factor Analysis]
+
+#slide(title: [Conceptual Differences])[
+]
+
 #slide(title: [When Theory Guides Method Selection])[
   *Choose PCA when:*
   - Goal is data compression or visualization
@@ -172,13 +188,18 @@
   - Building models for prediction or explanation
 ]
 
+#section-slide[Example 1A: Educational Assessment PCA]
+
+#slide(title: [Educational Assessment: PCA Analysis])[
+]
+
 // ============================================================================
 // PART II: EXAMPLE 1 - EDUCATIONAL ASSESSMENT
 // ============================================================================
 
 #part-slide[Part II: Example 1 - Educational Assessment]
 
-== Example 1A: Educational Assessment PCA
+#section-slide[Example 1A: Educational Assessment PCA]
 
 #slide(title: [Educational Assessment: PCA Analysis])[
   This section demonstrates PCA using controlled synthetic data with known factor structure to validate the method and teach key concepts.
@@ -260,7 +281,7 @@
   *Conclusion*: PCA successfully recovers the underlying latent structure from observable variables
 ]
 
-== Example 1B: Educational Assessment Factor Analysis
+#section-slide[Example 1B: Educational Assessment Factor Analysis]
 
 #slide(title: [Educational Assessment: Factor Analysis])[
   *Reanalyzing our synthetic student data with Factor Analysis*
@@ -326,7 +347,7 @@
     - Directly tests theoretical factor structure
 ]
 
-== Example 1: PCA vs FA Comparison
+#section-slide[Example 1: PCA vs FA Comparison]
 
 #slide(title: [Educational Assessment: Method Comparison])[
   *Direct numerical comparison of PCA vs FA on same data:*
@@ -369,7 +390,7 @@
 
 #part-slide[Part III: Example 2 - European Stock Markets]
 
-== Example 2A: European Stock Markets PCA
+#section-slide[Example 2A: European Stock Markets PCA]
 
 #slide(title: [European Stock Markets: PCA Analysis])[
   This section demonstrates PCA applied to financial markets using synthetic European stock market data.
@@ -444,7 +465,7 @@
     - Brexit effect visible in PC2 (FTSE vs continental separation)
 ]
 
-== Example 2B: European Stock Markets Factor Analysis
+#section-slide[Example 2B: European Stock Markets Factor Analysis]
 
 #slide(title: [European Stock Markets: Factor Analysis])[
   *Applying Factor Analysis to financial market data:*
@@ -494,7 +515,7 @@
     - Diversification requires assets outside European factor space
 ]
 
-== Example 2: PCA vs FA Comparison
+#section-slide[Example 2: PCA vs FA Comparison]
 
 #slide(title: [European Markets: PCA vs FA Comparison])[
   *Both methods converge on single-factor structure, but with different perspectives:*
@@ -537,7 +558,7 @@
 
 #part-slide[Part IV: Example 3 - Kuiper Belt Objects]
 
-== Example 3A: Kuiper Belt Objects PCA
+#section-slide[Example 3A: Kuiper Belt Objects PCA]
 
 #slide(title: [Kuiper Belt Objects: PCA Analysis])[
   This section demonstrates PCA applied to astronomical data from the outer solar system.
@@ -614,7 +635,7 @@
   - *Implication*: Multiple gravitational processes create complex structure
 ]
 
-== Example 3B: Kuiper Belt Objects Factor Analysis
+#section-slide[Example 3B: Kuiper Belt Objects Factor Analysis]
 
 #slide(title: [Kuiper Belt Objects: Factor Analysis])[
   *Applying Factor Analysis to astronomical orbital dynamics data:*
@@ -663,7 +684,7 @@
     - Physical process: size-dependent collisional evolution
 ]
 
-== Example 3: PCA vs FA Comparison
+#section-slide[Example 3: PCA vs FA Comparison]
 
 #slide(title: [Kuiper Belt: PCA vs FA Comparison])[
   *Both methods identify 3-factor structure with different emphases:*
@@ -705,7 +726,9 @@
 
 #part-slide[Part V: Example 4 - Hospital Health Outcomes]
 
-== Example 4A: Hospital Health Outcomes PCA
+#section-slide[Example 4A: Hospital Health Outcomes PCA]
+
+#section-slide[Example 4A: Hospital Health Outcomes PCA]
 
 #slide(title: [Hospital Health Outcomes: PCA Analysis])[
   This section demonstrates PCA applied to healthcare quality data from US hospitals.
@@ -789,7 +812,7 @@
     - Value-based care models align with PC1 structure
 ]
 
-== Example 4B: Hospital Health Outcomes Factor Analysis
+#section-slide[Example 4B: Hospital Health Outcomes Factor Analysis]
 
 #slide(title: [Hospital Health Outcomes: Factor Analysis])[
   *Applying Factor Analysis to healthcare quality data:*
@@ -840,7 +863,7 @@
     - Interventions should target organizational culture, not isolated metrics
 ]
 
-== Example 4: PCA vs FA Comparison
+#section-slide[Example 4: PCA vs FA Comparison]
 
 #slide(title: [Hospital Quality: PCA vs FA Comparison])[
   *Both methods converge on single quality dimension with excellent agreement:*
@@ -885,7 +908,18 @@
 
 #part-slide[Part VI: Overall Comparison and Guidelines]
 
-== Summary: Method Comparison Across Examples
+#section-slide[Summary: Method Comparison Across Examples]
+
+#slide(title: [Cross-Example Summary])[
+]
+
+// ============================================================================
+// PART VI: OVERALL COMPARISON AND GUIDELINES
+// ============================================================================
+
+#part-slide[Part VI: Overall Comparison and Guidelines]
+
+#section-slide[Summary: Method Comparison Across Examples]
 
 #slide(title: [Cross-Example Summary])[
   #align(center)[
@@ -900,7 +934,7 @@
   ]
 ]
 
-== Guidelines for Method Selection
+#section-slide[Guidelines for Method Selection]
 
 #slide(title: [When to Use PCA vs Factor Analysis])[
   *Use PCA when:*
