@@ -2,6 +2,29 @@
 
 All notable changes to this repository are documented in this file.
 
+## v1.3.0 - 2025-09-10
+
+Included commits (selected):
+
+- 559a364 — Adds TODO list for FA project
+- 7c89165 — Integrates authentic hospital FA results into presentation
+- b1e9edb — Refines factor analysis presentation
+- d5aed43 — Revises FA results and comparison with PCA
+- 13437f9 — Updates PCA results in presentation
+- 5191376 — cleanup: remove original backup file after successful restructuring
+- 78b3cad — cleanup: remove legacy and temporary files from beamer directory
+- 5ae7155 — Restructures presentation for pedagogical flow
+- 96566ec — feat: major pedagogical restructure of factor analysis presentation
+- b80dc92 — Adds factor analysis presentation
+- f5e2244 — Updates course presentation template with Tec colors
+
+Notes
+
+- Minor release: major pedagogical improvements to Factor Analysis chapter, including restructured presentations, refined content, and updated visual templates with institutional branding.
+- Enhanced presentation structure for better pedagogical flow
+- Integrated authentic hospital factor analysis results
+- Updated course presentation template with Tec colors
+
 
 ## v0.1.2 - 2025-08-22
 
