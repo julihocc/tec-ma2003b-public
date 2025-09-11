@@ -136,11 +136,22 @@ Students will demonstrate mastery of Factor Analysis by:
 - Peer review and feedback incorporation
 - Executive presentation practice
 
+## Business Case Files
+
+### Dataset and Documentation
+- **`customer_satisfaction_data.csv`**: Complete synthetic dataset (3,400 observations)
+- **`CUSTOMER_SATISFACTION_DATA_DICTIONARY.md`**: Comprehensive variable descriptions and analysis notes
+- **`fetch_customer_data.py`**: Data generation script (for instructors/reproducibility)
+
+### Analysis Templates
+- **`customer_satisfaction_analysis_template.py`**: Starter template with EDA and factor analysis structure
+- **`analysis_output/`**: Directory for student-generated plots, reports, and results
+
 ## Resources and Support
 
 ### Required Software
-- Statistical software (R/RStudio, Python/Jupyter, or SPSS)
-- Data visualization tools (ggplot2, matplotlib, Tableau)
+- Statistical software (Python recommended with pandas, scikit-learn, factor_analyzer packages)
+- Data visualization tools (matplotlib, seaborn for Python; ggplot2 for R)
 - Presentation software (PowerPoint, Google Slides)
 
 ### Industry Context Materials
