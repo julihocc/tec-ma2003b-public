@@ -9,11 +9,12 @@ This folder contains evaluation materials for the Factor Analysis chapter.
 - Generated using `txttoqti` package
 - Covers theoretical concepts and practical application
 
-### Business Case Study (`business_case_study/`)
+### Business Case Study (`business_case/`)
 
-- Real-world business scenario for Factor Analysis application
-- Includes dataset and analysis requirements
-- Assessment rubric and solution guide
+- **Customer Satisfaction Intelligence**: TechnoServe Solutions consulting scenario
+- Comprehensive Factor Analysis project with real-world business context
+- Multi-phase deliverables including technical analysis and executive presentation
+- Complete with dataset description, assessment criteria, and timeline
 
 ## Usage Notes
 
