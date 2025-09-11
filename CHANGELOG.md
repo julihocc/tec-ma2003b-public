@@ -2,6 +2,40 @@
 
 All notable changes to this repository are documented in this file.
 
+## v1.4.0 - 2025-01-27
+
+Included commits (selected):
+
+Major Features:
+
+- Added comprehensive Factor Analysis study guide (factor_analysis_study_guide.typ)
+- Integrated QTI quiz generation system with txttoqti package
+- Established private evaluation materials system using git subtree
+- Created systematic version tagging workflow
+
+Educational Content:
+
+- Complete Factor Analysis and PCA theoretical foundations
+- Mathematical derivations and proofs
+- Business case studies and practical implementations
+- Software integration examples (Python, R, SPSS)
+- Advanced topics including robust methods and sparse techniques
+
+Infrastructure:
+
+- Git subtree integration for private evaluation materials
+- QTI-compatible quiz generation for LMS integration
+- Systematic version management procedures
+- Enhanced documentation and README updates
+
+Notes
+
+- Minor release: major educational content expansion with comprehensive Factor Analysis study guide, evaluation system infrastructure, and systematic version management workflows.
+- Comprehensive 150+ page study guide covering theory to applications
+- Private evaluation materials separated using git subtree
+- QTI quiz generation for learning management system integration
+- Enhanced infrastructure for course content development
+
 ## v1.3.0 - 2025-09-10
 
 Included commits (selected):
