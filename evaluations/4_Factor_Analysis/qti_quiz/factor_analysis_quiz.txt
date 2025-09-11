@@ -1,0 +1,174 @@
+Q1: What is the primary goal of Principal Component Analysis (PCA)?
+A) To test specific theoretical models
+B) To reduce dimensionality while preserving maximum variance
+C) To identify latent factors underlying observed variables
+D) To separate common variance from unique variance
+ANSWER: B
+
+Q2: In the Factor Analysis model, what does the communality (h²) represent?
+A) The total variance of a variable
+B) The proportion of variance explained by common factors
+C) The measurement error in a variable
+D) The correlation between factors
+ANSWER: B
+
+Q3: Which rotation method should you choose when factors are expected to be correlated?
+A) Varimax
+B) Quartimax
+C) Promax
+D) Equamax
+ANSWER: C
+
+Q4: What is the minimum recommended sample size for stable Factor Analysis results?
+A) 50 observations
+B) 100 observations
+C) 200 observations
+D) 500 observations
+ANSWER: C
+
+Q5: A KMO (Kaiser-Meyer-Olkin) value of 0.85 indicates:
+A) Poor factorability
+B) Marginal factorability
+C) Good factorability
+D) Excellent factorability
+ANSWER: C
+
+Q6: What does Bartlett's Test of Sphericity examine?
+A) Whether variables are normally distributed
+B) Whether the correlation matrix is an identity matrix
+C) Whether factors are orthogonal
+D) Whether sample size is adequate
+ANSWER: B
+
+Q7: In PCA, what property do principal components have with respect to each other?
+A) They are perfectly correlated
+B) They are orthogonal (uncorrelated)
+C) They have equal variance
+D) They have the same loadings
+ANSWER: B
+
+Q8: A factor loading of 0.75 for a variable on a factor indicates:
+A) Poor indicator of the factor
+B) Fair indicator of the factor
+C) Good indicator of the factor
+D) Excellent indicator of the factor
+ANSWER: D
+
+Q9: What is the key difference between Principal Axis Factoring (PAF) and Maximum Likelihood (ML) extraction?
+A) PAF assumes multivariate normality, ML does not
+B) ML provides statistical tests, PAF does not
+C) PAF is computationally more intensive than ML
+D) ML uses correlation matrix, PAF uses covariance matrix
+ANSWER: B
+
+Q10: According to the Kaiser criterion, which factors should be retained?
+A) Factors with eigenvalues greater than 0.5
+B) Factors with eigenvalues greater than 1.0
+C) Factors explaining at least 10% of variance
+D) The first three factors regardless of eigenvalues
+ANSWER: B
+
+Q11: What does a low communality (h² < 0.40) for a variable suggest?
+A) The variable is well explained by the factors
+B) The variable should be the primary factor interpreter
+C) The variable is poorly explained by the common factors
+D) The variable has high reliability
+ANSWER: C
+
+Q12: In Factor Analysis, what is unique variance composed of?
+A) Only measurement error
+B) Only specific variance unique to the variable
+C) Both specific variance and measurement error
+D) Only common variance
+ANSWER: C
+
+Q13: What is the main advantage of oblique rotation over orthogonal rotation?
+A) It is computationally simpler
+B) It allows factors to be correlated when theoretically appropriate
+C) It always provides better factor loadings
+D) It is required for Principal Component Analysis
+ANSWER: B
+
+Q14: Parallel analysis helps determine the number of factors by:
+A) Plotting eigenvalues against factor numbers
+B) Comparing actual eigenvalues to those from random data
+C) Using the Kaiser criterion automatically
+D) Testing for statistical significance
+ANSWER: B
+
+Q15: A cross-loading greater than 0.40 typically indicates:
+A) An excellent factor solution
+B) A potential problem with the factor structure
+C) High communality for the variable
+D) Perfect simple structure
+ANSWER: B
+
+Q16: What is the fundamental equation for the correlation structure in Factor Analysis?
+A) R = ΛΛ' + Ψ
+B) R = ΛΛ' - Ψ
+C) R = Λ + Ψ
+D) R = ΛΨΛ'
+ANSWER: A
+
+Q17: When would you choose to use the correlation matrix instead of the covariance matrix in PCA?
+A) When all variables are on the same scale
+B) When variables are measured on different scales
+C) When sample size is small
+D) When factors are expected to be correlated
+ANSWER: B
+
+Q18: In the context of Factor Analysis, what does "simple structure" refer to?
+A) Using only one factor
+B) Each variable loading highly on few factors
+C) All variables having equal loadings
+D) Factors being perfectly uncorrelated
+ANSWER: B
+
+Q19: What is the primary purpose of factor rotation?
+A) To increase the total variance explained
+B) To improve the interpretability of factors
+C) To reduce the number of factors needed
+D) To eliminate negative loadings
+ANSWER: B
+
+Q20: A scree plot is used to:
+A) Test the normality of data
+B) Visualize factor loadings
+C) Determine the optimal number of factors
+D) Check for outliers in the data
+ANSWER: C
+
+Q21: What assumption is violated if variables in your dataset have extremely high correlations (r > 0.90)?
+A) Linearity
+B) Normality
+C) Independence
+D) Multicollinearity
+ANSWER: D
+
+Q22: In Confirmatory Factor Analysis (CFA), what does an RMSEA value less than 0.06 indicate?
+A) Poor model fit
+B) Acceptable model fit
+C) Good model fit
+D) Excellent model fit
+ANSWER: D
+
+Q23: What is the main difference between exploratory and confirmatory factor analysis?
+A) Sample size requirements
+B) Exploratory discovers structure, confirmatory tests predetermined structure
+C) Statistical software used
+D) Number of factors extracted
+ANSWER: B
+
+Q24: When conducting Factor Analysis with ordinal data, which correlation matrix should be used?
+A) Pearson correlation matrix
+B) Spearman correlation matrix
+C) Polychoric correlation matrix
+D) Tetrachoric correlation matrix
+ANSWER: C
+
+Q25: What does it mean when a factor analysis solution explains 65% of the total variance?
+A) 35% of the data is measurement error
+B) The solution is poor and should be rejected
+C) 65% of the variability in the original variables is captured by the common factors
+D) Each factor explains exactly 65% of variance
+ANSWER: C
