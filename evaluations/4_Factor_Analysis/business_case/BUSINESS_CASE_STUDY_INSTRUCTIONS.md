@@ -3,8 +3,8 @@
 ## Customer Satisfaction Intelligence: TechnoServe Solutions
 
 **Modality:** Collaborative (teams of 2-3 students)  
-**Weight:** 25% of total course grade  
-**Duration:** 2 weeks  
+**Weight:** 5% of total course grade  
+**Duration:** 1 week  
 **Deliverables:** Jupyter Notebook + Executive Report + Presentation Video (YouTube)
 
 ---
@@ -235,24 +235,23 @@ Upon completing this business case, students will be able to:
 ### Deliverable 2: Executive Report (`executive_summary_team[X].pdf`)
 
 **Specifications:**
-- **Length:** Maximum 8 pages (including visualizations)
-- **Audience:** C-Suite of TechnoServe Solutions (non-technical)
-- **Format:** Professional with executive summary, key findings, recommendations
-- **Focus:** Business impact and ROI, not statistical methodology
+- **Length:** Maximum 4 pages (including visualizations)
+- **Audience:** TechnoServe Solutions management team
+- **Format:** Professional with executive summary, key findings, top 3 recommendations
+- **Focus:** Business impact and actionable insights, not statistical methodology
 
 ### Deliverable 3: Executive Presentation Video (YouTube)
 
 **Technical Specifications:**
-- **Duration:** 18-22 minutes (presentation + simulated Q&A)
-- **Format:** Executive presentation simulated before board of directors
-- **Participation:** Each member presents 6-8 minutes with specific expertise
-- **Quality:** Professional audio/video, high-quality executive slides
+- **Duration:** 10-12 minutes (focused presentation)
+- **Format:** Executive presentation with key findings and recommendations
+- **Participation:** Each member presents 3-4 minutes with specific expertise
+- **Quality:** Clear audio/video, professional slides
 
 **Suggested Structure:**
-- **Opening & Context** (3 min): Business problem and methodological approach
-- **Key Findings** (8-10 min): Identified factors and their business impact  
-- **Strategic Recommendations** (6-8 min): Implementation roadmap and ROI
-- **Q&A Simulation** (3-5 min): Responses to typical executive questions
+- **Opening & Context** (2 min): Business problem and approach
+- **Key Findings** (5-6 min): Identified factors and their business impact  
+- **Strategic Recommendations** (3-4 min): Top 3 actionable recommendations
 
 ### IMPORTANT: Links and Metadata
 
@@ -325,9 +324,10 @@ Upon completing this business case, students will be able to:
 - Development of interactive tools for stakeholders
 
 #### Academic Penalties
+
 - **-10 points:** Academic integrity violations (plagiarism, copied code)
-- **-5 points:** Video exceeds 25 minutes or less than 15 minutes
-- **-3 points:** Unequal participation in video (>3 minute difference between members)
+- **-5 points:** Video exceeds 15 minutes or less than 8 minutes
+- **-3 points:** Unequal participation in video (>1 minute difference between members)
 - **-5 points:** Notebook doesn't execute completely due to code errors
 - **-2 points:** Variables or comments in Spanish without justification
 
@@ -335,24 +335,22 @@ Upon completing this business case, students will be able to:
 
 ## Schedule and Work Methodology
 
-### Week 1: Fundamentals and Exploration
+### Intensive 1-Week Schedule
 
 | Day | Team Activities | Partial Deliverable |
 |-----|----------------|-------------------|
-| **Monday** | Team formation, role division, technical setup | Work plan |
-| **Wednesday** | Complete EDA, factorability tests | Notebook Part 1 |
-| **Friday** | Dimensionality determination, methodological decisions | Technical checkpoint |
-
-### Week 2: Analysis and Communication
-
-| Day | Team Activities | Partial Deliverable |
-|-----|----------------|-------------------|
-| **Monday** | Factor extraction, method comparison | Notebook Part 2 |
-| **Wednesday** | Interpretation, scoring, predictive models | Notebook Part 3 |
-| **Friday** | Visualization, executive report, video recording | Final deliverables |
+| **Day 1-2** | Team formation, role division, technical setup, complete EDA and factorability tests | Work plan + Notebook Part 1 |
+| **Day 3-4** | Dimensionality determination, factor extraction, method comparison, interpretation and scoring | Notebook Parts 2-3 |
+| **Day 5-7** | Predictive models, visualization, executive report, video recording | Final deliverables |
 
 **Submission deadline:** [To be defined by instructor]  
 **Submission method:** Notebook + PDF + YouTube link on course platform
+
+### Recommended Daily Time Investment
+
+- **Individual work:** 2-3 hours per day
+- **Team coordination:** 1 hour per day (online meetings)
+- **Total team investment:** ~20-25 hours over 7 days
 
 ---
 

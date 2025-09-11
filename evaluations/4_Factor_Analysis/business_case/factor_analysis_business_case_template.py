@@ -76,13 +76,13 @@ def exploratory_data_analysis(satisfaction_data):
     # - Outlier identification using IQR or Z-score
     # - Distribution analysis (histograms, Q-Q plots)
 
-    # TODO: Análisis de correlaciones
+    # TODO: Correlation analysis
     # - Matriz de correlación con visualización heatmap
     # - Identificación de clusters de variables correlacionadas
     # - Distribución de correlaciones (histograma de valores r)
 
     # TODO: Manejo de datos faltantes
-    # - Análisis de patrón de missingness (MCAR, MAR, MNAR)
+    # - Missing data pattern analysis (MCAR, MAR, MNAR)
     # - Visualización de patrones de datos faltantes
     # - Estrategia de imputación o eliminación
 
@@ -239,7 +239,7 @@ def apply_factor_rotations(factor_loadings, method="ml"):
     Returns:
         dict: Resultados de rotaciones con métricas de calidad
     """
-    print("=== ANÁLISIS DE ROTACIONES FACTORIALES ===")
+    print("=== FACTOR ROTATION ANALYSIS ===")
 
     rotaciones = {}
 
@@ -268,12 +268,11 @@ def apply_factor_rotations(factor_loadings, method="ml"):
 
 
 # %% [markdown]
-# ### Pregunta de Reflexión 5
-# **¿Por qué las correlaciones entre factores pueden ser teóricamente
-# justificables en el contexto de satisfacción del cliente? ¿Qué implicaciones
-# tiene esto para la selección de rotación?**
+# ### Reflection Question 5
+# **Why might correlations between factors be theoretically justifiable in the context
+# of customer satisfaction? What implications does this have for rotation selection?**
 #
-# [Respuesta del equipo - 4-6 líneas]
+# [Team response - 4-6 lines]
 
 
 # %%
@@ -309,11 +308,11 @@ def interpret_and_label_factors(rotated_loadings, variable_names):
 
 
 # %% [markdown]
-# ### Pregunta de Reflexión 6
-# **¿Cómo balanceas la parsimonia estadística con la riqueza interpretativa
-# al etiquetar factores? ¿Qué hacer con variables que no cargan claramente en ningún factor?**
+# ### Reflection Question 6
+# **How do you balance statistical parsimony with interpretive richness when
+# labeling factors? What should be done with variables that don't clearly load on any factor?**
 #
-# [Respuesta del equipo - 4-6 líneas]
+# [Team response - 4-6 lines]
 
 
 # %%
@@ -356,11 +355,11 @@ def calculate_factor_scores_and_predict(factor_model, datos, outcomes):
 
 
 # %% [markdown]
-# ### Pregunta de Reflexión 7
-# **¿Cómo interpretas la capacidad predictiva diferencial de los factores?
-# ¿Qué factores son más críticos para outcomes específicos y por qué?**
+# ### Reflection Question 7
+# **How do you interpret the differential predictive capacity of factors?
+# Which factors are most critical for specific outcomes and why?**
 #
-# [Respuesta del equipo - 4-6 líneas]
+# [Team response - 4-6 lines]
 
 
 # %%
@@ -401,11 +400,11 @@ def create_executive_visualizations(factor_results, outcomes_analysis):
 
 
 # %% [markdown]
-# ### Pregunta de Reflexión 8
-# **¿Qué historia cuenta cada visualización sobre la estructura subyacente
-# de satisfacción del cliente? ¿Cómo usarías estos gráficos para convencer a un CEO escéptico?**
+# ### Reflection Question 8
+# **What story does each visualization tell about the underlying structure
+# of customer satisfaction? How would you use these charts to convince a skeptical CEO?**
 #
-# [Respuesta del equipo - 4-6 líneas]
+# [Team response - 4-6 lines]
 
 
 # %%
@@ -451,7 +450,7 @@ def main_analysis_workflow():
     Flujo principal de análisis factorial para el caso empresarial.
     Orquesta todas las etapas del análisis de manera sistemática.
     """
-    print("INICIANDO ANÁLISIS FACTORIAL: CUSTOMER SATISFACTION INTELLIGENCE")
+    print("STARTING FACTOR ANALYSIS: CUSTOMER SATISFACTION INTELLIGENCE")
     print("=" * 70)
 
     # Stage 1: Data loading and preparation
@@ -507,7 +506,7 @@ def main_analysis_workflow():
     )
 
     print("\n" + "=" * 70)
-    print("ANÁLISIS FACTORIAL COMPLETADO")
+    print("FACTOR ANALYSIS COMPLETED")
     print("Revisar todos los resultados y preparar deliverables finales:")
     print("1. Notebook técnico completo")
     print("2. Reporte ejecutivo (PDF)")
@@ -527,56 +526,56 @@ def main_analysis_workflow():
 
 
 # %% [markdown]
-# ## Reflexión Final del Equipo
+# ## Team Final Reflection
 #
-# **Responder a 3 de las siguientes 5 preguntas (4-6 líneas cada una):**
+# **Answer 3 of the following 5 questions (4-6 lines each):**
 #
-# ### 1. Validez Metodológica
-# **¿Cómo evaluarías la robustez de tu solución factorial? ¿Qué análisis
-# adicionales realizarías para fortalecer las conclusiones?**
+# ### 1. Methodological Validity
+# **How would you evaluate the robustness of your factor solution? What additional
+# analyses would you perform to strengthen the conclusions?**
 #
-# [Respuesta del equipo]
+# [Team response]
 #
-# ### 2. Interpretación Empresarial
-# **¿Qué factor representa la mayor oportunidad estratégica para TechnoServe
-# Solutions y por qué? ¿Cómo justificas esta priorización?**
+# ### 2. Business Interpretation
+# **Which factor represents the greatest strategic opportunity for TechnoServe
+# Solutions and why? How do you justify this prioritization?**
 #
-# [Respuesta del equipo]
+# [Team response]
 #
-# ### 3. Limitaciones Analíticas
-# **¿Qué limitaciones fundamentales tiene el enfoque de Factor Analysis para
-# este problema empresarial? ¿Qué métodos complementarios considerarías?**
+# ### 3. Analytical Limitations
+# **What fundamental limitations does the Factor Analysis approach have for
+# this business problem? What complementary methods would you consider?**
 #
-# [Respuesta del equipo]
+# [Team response]
 #
-# ### 4. Escalabilidad e Implementación
-# **¿Cómo adaptarías tu análisis si TechnoServe tuviera 10,000 clientes y 50
-# variables de satisfacción? ¿Qué desafíos metodológicos emergerían?**
+# ### 4. Scalability and Implementation
+# **How would you adapt your analysis if TechnoServe had 10,000 clients and 50
+# satisfaction variables? What methodological challenges would emerge?**
 #
-# [Respuesta del equipo]
+# [Team response]
 #
-# ### 5. Desarrollo Profesional
-# **¿Qué aspecto del análisis factorial encontraste más desafiante y cómo
-# desarrollaste competencia en esa área? ¿Qué harías diferente en un proyecto similar?**
+# ### 5. Professional Development
+# **What aspect of factor analysis did you find most challenging and how did
+# you develop competence in that area? What would you do differently in a similar project?**
 #
-# [Respuesta del equipo]
+# [Team response]
 
 # %% [markdown]
-# ## Información del Equipo y Entregables
+# ## Team Information and Deliverables
 #
-# **Equipo:** [Nombre del equipo]
+# **Team:** [Team name]
 #
-# **Integrantes:**
-# - [Nombre Completo 1] ([Matrícula]) - Expertise: [Factorizabilidad y Extracción]
-# - [Nombre Completo 2] ([Matrícula]) - Expertise: [Interpretación y Scoring]
-# - [Nombre Completo 3] ([Matrícula]) - Expertise: [Aplicación y Comunicación]
+# **Members:**
+# - [Full Name 1] ([ID]) - Expertise: [Factorability and Extraction]
+# - [Full Name 2] ([ID]) - Expertise: [Interpretation and Scoring]
+# - [Full Name 3] ([ID]) - Expertise: [Application and Communication]
 #
-# **Enlaces de Entregables:**
-# - **Video Presentación:** [TÍTULO](URL_YOUTUBE)
-# - **Reporte Ejecutivo:** [Disponible en Canvas]
+# **Deliverable Links:**
+# - **Presentation Video:** [TITLE](YOUTUBE_URL)
+# - **Executive Report:** [Available on Canvas]
 # - **Dataset:** `customer_satisfaction_data.csv`
 #
-# **Fechas:**
+# **Dates:**
 # - Analysis completed: [DD/MM/YYYY]
 # - Recording made: [DD/MM/YYYY]
 # - Final submission: [DD/MM/YYYY]
