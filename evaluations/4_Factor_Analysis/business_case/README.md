@@ -1,14 +1,15 @@
-# Factor Analysis Business Case: Customer Satisfaction Intelligence
+# Factor Analysis Business Case - Instructor Guide
 
-## Executive Summary
+## Overview
 
-This business case presents a comprehensive Factor Analysis project designed to transform customer feedback data into actionable business intelligence. Students will analyze multi-dimensional customer satisfaction data to identify underlying factors that drive customer experience, retention, and business growth.
+This folder contains a complete **college-level Factor Analysis business case** designed for advanced statistics, data science, or quantitative methods courses. The case provides synthetic but realistic customer satisfaction data with a known 5-factor structure, challenging students to discover this structure through rigorous statistical analysis.
 
-## Business Context
+## Educational Framework
 
-**Company**: TechnoServe Solutions (fictional consulting firm)
-**Industry**: Technology Consulting Services
-**Challenge**: Understanding the complex relationships between customer touchpoints, service quality dimensions, and business outcomes
+- **Target Level:** Upper-division undergraduate or graduate
+- **Duration:** 2 weeks (25% of course weight)
+- **Team Size:** 3 students per team with assigned expertise roles
+- **Assessment:** Multi-modal (technical analysis + executive report + video presentation)
 
 ## Problem Statement
 
