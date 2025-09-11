@@ -9,6 +9,11 @@ description = "MA2003B course materials and utilities"
 readme = "README.md"
 authors = [ { name = "julihocc" } ]
 dependencies = [
+    "matplotlib>=3.10.6",
+    "numpy>=2.3.3",
+    "pandas>=2.3.2",
+    "scikit-learn>=1.7.2",
+    "seaborn>=0.13.2",
     "txttoqti>=0.5.0",
 ]
 
