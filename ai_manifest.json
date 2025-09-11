@@ -23,7 +23,9 @@
       "structure": "lesson/ (presentations), code/ (working examples)"
     },
     "evaluations": {
-      "description": "Comprehensive business case studies with assessment frameworks",
+      "description": "Git submodule (private repository: tec-ma2003b-evaluations) with comprehensive business case studies and assessment frameworks",
+      "type": "submodule",
+      "repository": "https://github.com/julihocc/tec-ma2003b-evaluations",
       "business_cases": {
         "factor_analysis": {
           "weight": "5% of course grade",

@@ -200,12 +200,41 @@ Quick steps to set up a development environment and run the repository's scripts
    .venv/bin/python lessons/4_Factor_Analysis/code/pca_example/pca_example.py
    ```
 
-5. Run the convenience data-pull script (optional - for course material sync):
+5. Initialize and update the evaluations submodule (if you have access):
+
+   ```bash
+   # Initialize submodule on first clone
+   git submodule init
+   git submodule update
+   
+   # Or in one command
+   git submodule update --init --recursive
+   ```
+
+6. Run the convenience data-pull script (optional - for course material sync):
 
    ```bash
    # use env override if your data lives elsewhere
    MA2003B_ORIGIN_PATH="/path/to/origin" .venv/bin/python scripts/pull_data.py
    ```
+
+### Working with Evaluations Submodule
+
+The `evaluations/` directory is managed as a git submodule pointing to a private repository. Key commands:
+
+```bash
+# Update submodule to latest commit
+cd evaluations && git pull origin main && cd ..
+git add evaluations && git commit -m "update evaluations submodule"
+
+# Check submodule status
+git submodule status
+
+# For instructors: push changes to evaluations repo
+cd evaluations
+git add . && git commit -m "update evaluation materials"
+git push origin main
+```
 
 ### Interactive Development
 
@@ -231,9 +260,10 @@ jupytext --to ipynb lessons/4_Factor_Analysis/code/*/*.py
 - `lessons/4_Factor_Analysis/code/invest_example/` - PCA analysis with real stock market data
 - `lessons/4_Factor_Analysis/code/pca_example/` - Synthetic PCA demonstration
 
-**Business Case Evaluation:**
+**Business Case Evaluation (Submodule):**
 
-- `evaluations/4_Factor_Analysis/business_case/` - TechnoServe Solutions customer satisfaction analysis
+- **Repository:** [tec-ma2003b-evaluations](https://github.com/julihocc/tec-ma2003b-evaluations) (private submodule)
+- **Location:** `evaluations/4_Factor_Analysis/business_case/` - TechnoServe Solutions customer satisfaction analysis
 - **Weight:** 5% of course grade
 - **Duration:** 1-week intensive schedule
 - **Deliverables:** Jupyter notebook + executive report (4 pages) + presentation video (10-12 min)

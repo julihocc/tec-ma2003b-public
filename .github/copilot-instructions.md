@@ -109,7 +109,7 @@ Quick start (common developer flow)
 
 Repo layout (big picture)
 - `lessons/` — course content per chapter. Each chapter contains `lesson/`, `practice/` (exercises), and example `code/` folders.
-- `evaluations/` — comprehensive business case studies with rubrics, templates, and assessment frameworks.
+- `evaluations/` — git submodule (private repo: tec-ma2003b-evaluations) with business case studies, rubrics, templates, and assessment frameworks.
 - `utils/` — shared helpers; key file: `utils/logger.py` (`setup_logger(...)`) used across practice scripts.
 - `scripts/` — automation helpers (e.g., `scripts/pull_data.py`); some use absolute paths and expect env overrides.
 
