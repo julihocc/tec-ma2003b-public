@@ -2,6 +2,32 @@
 
 All notable changes to this repository are documented in this file.
 
+## v1.5.0 - 2025-09-11
+
+Major Updates:
+
+- **Business Case Optimization**: Updated Factor Analysis business case requirements
+  - Reduced weight from 25% to 5% of total course grade
+  - Compressed timeline from 2 weeks to 1-week intensive schedule
+  - Shortened deliverables: 10-12 min video (vs 18-22 min), 4-page report (vs 8 pages)
+  - Maintained educational rigor while adapting scope to lighter assignment weight
+
+- **Complete English Localization**: Translated all Spanish educational content
+  - Comprehensive business case instructions (617 lines) fully translated
+  - Code template with English function names, docstrings, and comments
+  - Reflection questions and assessment rubrics adapted for English academic context
+
+- **Enhanced Assessment Framework**: Refined evaluation structure
+  - Updated penalties to match shorter presentation requirements
+  - Added daily time investment guidance for 1-week schedule
+  - Preserved multi-dimensional rubric system with 5-level performance anchors
+
+Infrastructure:
+
+- Systematic version management with consistent tagging across files
+- Updated documentation to reflect v1.5.0 across repository
+- Enhanced git commit organization following clean history practices
+
 ## v1.4.0 - 2025-01-27
 
 Included commits (selected):

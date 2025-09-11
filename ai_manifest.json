@@ -1,0 +1,109 @@
+{
+  "name": "MA2003B-Application-of-Multivariate-Methods",
+  "version": "1.5.0",
+  "description": "Comprehensive multivariate statistical analysis course with Factor Analysis business case evaluation system",
+  "type": "educational_repository",
+  "created": "2025-09-11",
+  "last_updated": "2025-09-11",
+  
+  "course_info": {
+    "code": "MA2003B",
+    "title": "Application of Multivariate Methods in Data Science",
+    "discipline": "Mathematics",
+    "school": "Engineering and Sciences",
+    "prerequisites": ["MA1036", "TC2004B"],
+    "credit_hours": 5,
+    "level": "intermediate"
+  },
+
+  "repository_structure": {
+    "lessons": {
+      "description": "Course content organized by chapters with presentations and code examples",
+      "active_chapters": ["4_Factor_Analysis"],
+      "structure": "lesson/ (presentations), code/ (working examples)"
+    },
+    "evaluations": {
+      "description": "Comprehensive business case studies with assessment frameworks",
+      "business_cases": {
+        "factor_analysis": {
+          "weight": "5% of course grade",
+          "duration": "1 week intensive",
+          "deliverables": ["jupyter_notebook", "executive_report", "presentation_video"],
+          "team_size": "2-3 students"
+        }
+      }
+    },
+    "utils": {
+      "description": "Shared utilities and logging framework",
+      "key_files": ["logger.py", "__init__.py"]
+    },
+    "scripts": {
+      "description": "Automation and data management scripts",
+      "key_files": ["pull_data.py"]
+    }
+  },
+
+  "key_features": {
+    "educational_frameworks": [
+      "Comprehensive Factor Analysis business case",
+      "Multi-dimensional assessment rubrics with 5-level performance anchors",
+      "Synthetic dataset generation for customer satisfaction analysis",
+      "Professional consulting simulation with executive deliverables"
+    ],
+    "technical_stack": [
+      "Python scientific computing (pandas, numpy, scikit-learn)",
+      "Factor analysis with factor_analyzer package",
+      "Interactive development with py-percent cells",
+      "Jupyter notebook integration with jupytext"
+    ],
+    "assessment_system": [
+      "60% technical rigor + 25% business application + 15% communication",
+      "Collaborative team evaluation",
+      "Professional presentation skills development",
+      "Real-world business problem solving"
+    ]
+  },
+
+  "development_setup": {
+    "python_version": ">=3.10",
+    "environment": ".venv (virtual environment)",
+    "installation": "pip install -e . (editable mode)",
+    "testing": "pytest -q",
+    "interactive_mode": "py-percent cells for VS Code/Jupyter integration"
+  },
+
+  "recent_updates": {
+    "v1.5.0": {
+      "date": "2025-09-11",
+      "changes": [
+        "Updated Factor Analysis business case for 5% weight and 1-week timeline",
+        "Complete English localization of all educational materials",
+        "Enhanced assessment framework with refined evaluation structure",
+        "Systematic version management across repository"
+      ]
+    }
+  },
+
+  "agent_guidance": {
+    "primary_instruction_file": ".github/copilot-instructions.md",
+    "coding_patterns": [
+      "Use utils.logger for consistent logging across scripts",
+      "Write human-readable report files next to practice scripts",
+      "Preserve py-percent cell boundaries for interactive development",
+      "Use pathlib.Path for robust file paths in examples"
+    ],
+    "project_conventions": [
+      "Maintain lesson/ folder structure for teaching materials",
+      "Update requirements.txt when adding dependencies",
+      "Follow clean git commit organization",
+      "Preserve educational scaffolding and assessment rigor"
+    ]
+  },
+
+  "contact": {
+    "repository_owner": "julihocc",
+    "repository_name": "tec-ma2003b-public",
+    "primary_branch": "main",
+    "feature_branches": ["ch4-biz-case"]
+  }
+}

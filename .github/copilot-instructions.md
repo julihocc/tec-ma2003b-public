@@ -2,6 +2,8 @@
 ---
 # AI coding agent instructions for tec-ma2003b-public
 
+**Version:** 1.5.0
+
 Purpose: short, actionable guidance so an AI coding agent can be productive quickly in this repository.
 
 Quick start (most common developer flow)
@@ -107,6 +109,7 @@ Quick start (common developer flow)
 
 Repo layout (big picture)
 - `lessons/` — course content per chapter. Each chapter contains `lesson/`, `practice/` (exercises), and example `code/` folders.
+- `evaluations/` — comprehensive business case studies with rubrics, templates, and assessment frameworks.
 - `utils/` — shared helpers; key file: `utils/logger.py` (`setup_logger(...)`) used across practice scripts.
 - `scripts/` — automation helpers (e.g., `scripts/pull_data.py`); some use absolute paths and expect env overrides.
 

@@ -1,5 +1,6 @@
 # MA2003B - Application of Multivariate Methods in Data Science
 
+**Version:** 1.5.0  
 **CIP:** 270501 Statistics, General  
 **Discipline:** Mathematics  
 **School:** Engineering and Sciences  
@@ -217,15 +218,26 @@ jupytext --to ipynb lessons/4_Factor_Analysis/code/*/*.py
 
 ## Current Repository Structure
 
-**Active Content (analisis-por-factores branch):**
-- ✅ **Chapter 4**: Factor Analysis 
+**Active Content:**
+
+- ✅ **Chapter 4**: Factor Analysis
   - Location: `lessons/4_Factor_Analysis/`
   - Structure: Beamer presentation in `beamer/`, working examples in `code/`
   - Status: Presentation and code examples complete
+  - Business Case: Customer Satisfaction Intelligence (5% course weight, 1-week intensive)
 
 **Working Examples:**
+
 - `lessons/4_Factor_Analysis/code/invest_example/` - PCA analysis with real stock market data
 - `lessons/4_Factor_Analysis/code/pca_example/` - Synthetic PCA demonstration
+
+**Business Case Evaluation:**
+
+- `evaluations/4_Factor_Analysis/business_case/` - TechnoServe Solutions customer satisfaction analysis
+- **Weight:** 5% of course grade
+- **Duration:** 1-week intensive schedule
+- **Deliverables:** Jupyter notebook + executive report (4 pages) + presentation video (10-12 min)
+- **Features:** Collaborative teams, synthetic dataset with 3,400 observations, comprehensive assessment rubrics
 
 Notes:
 
