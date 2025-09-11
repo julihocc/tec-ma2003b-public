@@ -2,14 +2,14 @@
 """
 factor_analysis_business_case_template.py
 
-Template para el Caso Práctico: Customer Satisfaction Intelligence
-TechnoServe Solutions - Análisis Factorial Avanzado
+Template for Business Case: Customer Satisfaction Intelligence
+TechnoServe Solutions - Advanced Factor Analysis
 
-Equipos deben completar TODOs y implementar análisis factorial riguroso
-siguiendo metodología estadística y interpretación empresarial.
+Teams must complete TODOs and implement rigorous factor analysis
+following statistical methodology and business interpretation.
 
-Autores: [Nombres del equipo]
-Fecha: [Fecha de inicio]
+Authors: [Team names]
+Date: [Start date]
 """
 
 import pandas as pd
@@ -25,56 +25,56 @@ import warnings
 
 warnings.filterwarnings("ignore")
 
-# Configuración para gráficos profesionales
+# Professional graphics configuration
 plt.style.use("seaborn-v0_8")
 sns.set_palette("husl")
 
 
 def load_customer_data():
     """
-    Carga y prepara el dataset de satisfacción del cliente.
+    Loads and prepares the customer satisfaction dataset.
 
     Returns:
-        tuple: (datos_satisfaccion, variables_resultado, metadata)
+        tuple: (satisfaction_data, outcome_variables, metadata)
     """
-    # TODO: Cargar customer_satisfaction_data.csv
-    # TODO: Separar variables de satisfacción (23 items) de variables de resultado (5 items)
-    # TODO: Crear diccionario con metadatos del dataset
+    # TODO: Load customer_satisfaction_data.csv
+    # TODO: Separate satisfaction variables (23 items) from outcome variables (5 items)
+    # TODO: Create metadata dictionary for dataset
 
     pass
 
 
 # %% [markdown]
-# # Caso Práctico: Customer Satisfaction Intelligence
-# ## TechnoServe Solutions - Análisis Factorial
+# # Business Case: Customer Satisfaction Intelligence
+# ## TechnoServe Solutions - Factor Analysis
 #
-# **Equipo:** [Nombre del equipo]
-# **Integrantes:**
-# - [Nombre 1] - [Matrícula] - Expertise: Factorizabilidad y Extracción
-# - [Nombre 2] - [Matrícula] - Expertise: Interpretación y Scoring
-# - [Nombre 3] - [Matrícula] - Expertise: Aplicación y Comunicación
+# **Team:** [Team name]
+# **Members:**
+# - [Name 1] - [ID] - Expertise: Factorability and Extraction
+# - [Name 2] - [ID] - Expertise: Interpretation and Scoring
+# - [Name 3] - [ID] - Expertise: Application and Communication
 #
-# **Objetivo:** Transformar datos de satisfacción del cliente en inteligencia estratégica
-# mediante Análisis Factorial riguroso y recomendaciones empresariales accionables.
+# **Objective:** Transform customer satisfaction data into strategic intelligence
+# through rigorous Factor Analysis and actionable business recommendations.
 
 
 # %%
-def exploratory_data_analysis(datos_satisfaccion):
+def exploratory_data_analysis(satisfaction_data):
     """
-    Análisis Exploratorio de Datos para variables de satisfacción.
+    Exploratory Data Analysis for satisfaction variables.
 
     Args:
-        datos_satisfaccion: DataFrame con variables de satisfacción (escala 1-7)
+        satisfaction_data: DataFrame with satisfaction variables (1-7 scale)
 
     Returns:
-        dict: Resultados del análisis exploratorio
+        dict: Results of exploratory analysis
     """
-    print("=== ANÁLISIS EXPLORATORIO DE DATOS ===")
+    print("=== EXPLORATORY DATA ANALYSIS ===")
 
-    # TODO: Estadísticas descriptivas completas
-    # - Medidas de tendencia central y dispersión por variable
-    # - Identificación de outliers usando IQR o Z-score
-    # - Análisis de distribuciones (histogramas, Q-Q plots)
+    # TODO: Complete descriptive statistics
+    # - Central tendency and dispersion measures per variable
+    # - Outlier identification using IQR or Z-score
+    # - Distribution analysis (histograms, Q-Q plots)
 
     # TODO: Análisis de correlaciones
     # - Matriz de correlación con visualización heatmap
@@ -90,151 +90,143 @@ def exploratory_data_analysis(datos_satisfaccion):
 
 
 # %% [markdown]
-# ### Pregunta de Reflexión 1
-# **¿Qué patrones observas en la matriz de correlaciones? ¿Cómo estos patrones
-# sugieren la presencia de factores latentes subyacentes?**
+# ### Reflection Question 1
+# **What patterns do you observe in the correlation matrix? How do these patterns
+# suggest the presence of underlying latent factors?**
 #
-# [Respuesta del equipo - 4-6 líneas]
-
-
+# [Team response - 4-6 lines]
 # %%
-def evaluate_factorability(datos_limpios):
+def evaluate_factorability(clean_data):
     """
-    Evalúa factorizabilidad usando tests estadísticos rigurosos.
+    Evaluates factorability using rigorous statistical tests.
 
     Args:
-        datos_limpios: DataFrame sin datos faltantes
+        clean_data: DataFrame without missing data
 
     Returns:
-        dict: Resultados de tests de factorizabilidad con interpretación
+        dict: Factorability test results with interpretation
     """
-    print("=== EVALUACIÓN DE FACTORIZABILIDAD ===")
+    print("=== FACTORABILITY ASSESSMENT ===")
 
-    resultados = {}
+    results = {}
 
-    # TODO: Test Kaiser-Meyer-Olkin (KMO)
-    # - KMO global (debe ser > 0.6, preferiblemente > 0.8)
-    # - KMO por variable individual
-    # - Interpretación de MSA (Measure of Sampling Adequacy) values
+    # TODO: Kaiser-Meyer-Olkin (KMO) Test
+    # - Global KMO (should be > 0.6, preferably > 0.8)
+    # - Individual variable KMO
+    # - Interpretation of MSA (Measure of Sampling Adequacy) values
 
-    # TODO: Test de Esfericidad de Bartlett
-    # - H₀: Matriz de correlación es matriz identidad
-    # - Chi-cuadrado estadístico y p-value
-    # - Interpretación estadística (rechazar H₀ si p < 0.05)
+    # TODO: Bartlett's Sphericity Test
+    # - H₀: Correlation matrix is identity matrix
+    # - Chi-square statistic and p-value
+    # - Statistical interpretation (reject H₀ if p < 0.05)
 
-    # TODO: Matriz Anti-imagen
-    # - Correlaciones parciales (deben ser pequeñas)
-    # - Valores MSA en diagonal (> 0.5 aceptable)
-    # - Identificar variables problemáticas
+    # TODO: Anti-image Matrix
+    # - Partial correlations (should be small)
+    # - Diagonal MSA values (> 0.5 acceptable)
+    # - Identify problematic variables
 
-    # TODO: Determinante de matriz de correlación
-    # - Verificar no singularidad (det ≠ 0)
-    # - Evaluar multicolinealidad extrema
+    # TODO: Correlation Matrix Determinant
+    # - Verify non-singularity (det ≠ 0)
+    # - Evaluate extreme multicollinearity
 
-    return resultados
+    return results
 
 
 # %% [markdown]
-# ### Pregunta de Reflexión 2
-# **¿Por qué es crucial evaluar factorizabilidad antes de proceder con extracción
-# factorial? ¿Qué implicaciones tendría ignorar estos tests?**
+# ### Reflection Question 2
+# **Why is it crucial to evaluate factorability before proceeding with factor
+# extraction? What implications would ignoring these tests have?**
 #
-# [Respuesta del equipo - 4-6 líneas]
-
-
+# [Team response - 4-6 lines]
 # %%
-def determine_optimal_factors(correlation_matrix, datos):
+def determine_optimal_factors(correlation_matrix, data):
     """
-    Determina número óptimo de factores usando múltiples criterios.
+    Determines optimal number of factors using multiple criteria.
 
     Args:
-        correlation_matrix: Matriz de correlaciones
-        datos: DataFrame de datos limpios
+        correlation_matrix: Correlation matrix
+        data: DataFrame of clean data
 
     Returns:
-        dict: Resultados de análisis de dimensionalidad
+        dict: Dimensionality analysis results
     """
-    print("=== DETERMINACIÓN DE NÚMERO ÓPTIMO DE FACTORES ===")
+    print("=== OPTIMAL NUMBER OF FACTORS DETERMINATION ===")
 
-    # TODO: Criterio de Kaiser (Eigenvalues > 1)
-    # - Calcular eigenvalues de matriz de correlación
-    # - Contar eigenvalues > 1.0
-    # - Graficar eigenvalues en orden descendente
+    # TODO: Kaiser Criterion (Eigenvalues > 1)
+    # - Calculate correlation matrix eigenvalues
+    # - Count eigenvalues > 1.0
+    # - Plot eigenvalues in descending order
 
     # TODO: Scree Plot
-    # - Visualizar eigenvalues vs. número de factor
-    # - Identificar "codo" o punto de inflexión
-    # - Interpretación visual del punto de corte
+    # - Visualize eigenvalues vs. factor number
+    # - Identify "elbow" or inflection point
+    # - Visual interpretation of cutoff point
 
-    # TODO: Análisis Paralelo (Horn, 1965)
-    # - Generar datos aleatorios con mismas dimensiones
-    # - Comparar eigenvalues reales vs. aleatorios
-    # - Retener factores donde real > aleatorio
+    # TODO: Parallel Analysis (Horn, 1965)
+    # - Generate random data with same dimensions
+    # - Compare real vs. random eigenvalues
+    # - Retain factors where real > random
 
-    # TODO: Varianza Explicada
-    # - % varianza acumulada por número de factores
-    # - Criterio de 60-80% varianza explicada
-    # - Trade-off parsimonia vs. explicación
+    # TODO: Explained Variance
+    # - % cumulative variance by number of factors
+    # - Criterion of 60-80% explained variance
+    # - Trade-off parsimony vs. explanation
 
     pass
 
 
 # %% [markdown]
-# ### Pregunta de Reflexión 3
-# **¿Qué ventajas y limitaciones tiene cada método para determinar el número
-# óptimo de factores? ¿Cómo reconcilias resultados contradictorios entre métodos?**
+# ### Reflection Question 3
+# **What advantages and limitations does each method have for determining the optimal
+# number of factors? How do you reconcile contradictory results between methods?**
 #
-# [Respuesta del equipo - 4-6 líneas]
-
-
+# [Team response - 4-6 lines]
 # %%
-def compare_extraction_methods(datos, n_factors):
+def compare_extraction_methods(data, n_factors):
     """
-    Compara métodos de extracción factorial: PCA, PAF, ML.
+    Compares factor extraction methods: PCA, PAF, ML.
 
     Args:
-        datos: DataFrame estandarizado
-        n_factors: Número de factores a extraer
+        data: Standardized DataFrame
+        n_factors: Number of factors to extract
 
     Returns:
-        dict: Resultados comparativos por método
+        dict: Comparative results by method
     """
-    print("=== COMPARACIÓN DE MÉTODOS DE EXTRACCIÓN ===")
+    print("=== EXTRACTION METHODS COMPARISON ===")
 
-    resultados = {}
+    results = {}
 
     # TODO: Principal Component Analysis (PCA)
-    # - Usar sklearn.decomposition.PCA
-    # - Calcular % varianza explicada por componente
-    # - Obtener component loadings matrix
+    # - Use sklearn.decomposition.PCA
+    # - Calculate % explained variance per component
+    # - Obtain component loadings matrix
 
     # TODO: Principal Axis Factoring (PAF)
-    # - Usar FactorAnalyzer con method='principal'
-    # - Estimar comunalidades iterativamente
-    # - Comparar comunalidades vs. PCA
+    # - Use FactorAnalyzer with method='principal'
+    # - Estimate communalities iteratively
+    # - Compare communalities vs. PCA
 
     # TODO: Maximum Likelihood (ML)
-    # - Usar FactorAnalyzer con method='ml'
-    # - Evaluar convergencia y fit statistics
-    # - Chi-cuadrado goodness of fit test
+    # - Use FactorAnalyzer with method='ml'
+    # - Evaluate convergence and fit statistics
+    # - Chi-square goodness of fit test
 
-    # TODO: Análisis Comparativo
-    # - Eigenvalues y % varianza por método
-    # - Comunalidades estimadas (h²)
-    # - Residuales y bondad de ajuste
-    # - Justificación de método seleccionado
+    # TODO: Comparative Analysis
+    # - Eigenvalues and % variance by method
+    # - Estimated communalities (h²)
+    # - Residuals and goodness of fit
+    # - Selected method justification
 
-    return resultados
+    return results
 
 
 # %% [markdown]
-# ### Pregunta de Reflexión 4
-# **¿Cuándo es apropiado usar PCA vs. Factor Analysis? ¿Qué asunciones
-# fundamentales diferencian estos enfoques y cómo afectan la interpretación empresarial?**
+# ### Reflection Question 4
+# **When is it appropriate to use PCA vs. Factor Analysis? What fundamental
+# assumptions differentiate these approaches and how do they affect business interpretation?**
 #
-# [Respuesta del equipo - 4-6 líneas]
-
-
+# [Team response - 4-6 lines]
 # %%
 def apply_factor_rotations(factor_loadings, method="ml"):
     """
@@ -462,44 +454,44 @@ def main_analysis_workflow():
     print("INICIANDO ANÁLISIS FACTORIAL: CUSTOMER SATISFACTION INTELLIGENCE")
     print("=" * 70)
 
-    # Etapa 1: Carga y preparación de datos
-    print("\n1. CARGA Y PREPARACIÓN DE DATOS")
-    datos_satisfaccion, outcomes, metadata = load_customer_data()
+    # Stage 1: Data loading and preparation
+    print("\n1. DATA LOADING AND PREPARATION")
+    satisfaction_data, outcomes, metadata = load_customer_data()
 
-    # Etapa 2: Análisis exploratorio
-    print("\n2. ANÁLISIS EXPLORATORIO DE DATOS")
-    eda_results = exploratory_data_analysis(datos_satisfaccion)
+    # Stage 2: Exploratory analysis
+    print("\n2. EXPLORATORY DATA ANALYSIS")
+    eda_results = exploratory_data_analysis(satisfaction_data)
 
-    # Etapa 3: Evaluación de factorizabilidad
-    print("\n3. EVALUACIÓN DE FACTORIZABILIDAD")
-    factorability = evaluate_factorability(datos_satisfaccion.dropna())
+    # Stage 3: Factorability assessment
+    print("\n3. FACTORABILITY ASSESSMENT")
+    factorability = evaluate_factorability(satisfaction_data.dropna())
 
-    # Etapa 4: Determinación de dimensionalidad
-    print("\n4. DETERMINACIÓN DE NÚMERO ÓPTIMO DE FACTORES")
+    # Stage 4: Dimensionality determination
+    print("\n4. OPTIMAL NUMBER OF FACTORS DETERMINATION")
     optimal_factors = determine_optimal_factors(
-        datos_satisfaccion.corr(), datos_satisfaccion
+        satisfaction_data.corr(), satisfaction_data
     )
 
-    # Etapa 5: Extracción y comparación de métodos
-    print("\n5. EXTRACCIÓN FACTORIAL COMPARATIVA")
+    # Stage 5: Extraction and method comparison
+    print("\n5. COMPARATIVE FACTOR EXTRACTION")
     extraction_results = compare_extraction_methods(
-        datos_satisfaccion, n_factors=5  # Ajustar según análisis anterior
+        satisfaction_data, n_factors=5  # Adjust according to previous analysis
     )
 
-    # Etapa 6: Rotación factorial
-    print("\n6. ANÁLISIS DE ROTACIONES FACTORIALES")
+    # Stage 6: Factor rotation
+    print("\n6. FACTOR ROTATION ANALYSIS")
     rotation_results = apply_factor_rotations(extraction_results["best_loadings"])
 
-    # Etapa 7: Interpretación empresarial
-    print("\n7. INTERPRETACIÓN Y ETIQUETADO FACTORIAL")
+    # Stage 7: Business interpretation
+    print("\n7. FACTOR INTERPRETATION AND LABELING")
     factor_interpretation = interpret_and_label_factors(
-        rotation_results["final_loadings"], datos_satisfaccion.columns
+        rotation_results["final_loadings"], satisfaction_data.columns
     )
 
-    # Etapa 8: Scoring y predicción
-    print("\n8. FACTOR SCORING Y MODELADO PREDICTIVO")
+    # Stage 8: Scoring and prediction
+    print("\n8. FACTOR SCORING AND PREDICTIVE MODELING")
     predictive_analysis = calculate_factor_scores_and_predict(
-        rotation_results["final_model"], datos_satisfaccion, outcomes
+        rotation_results["final_model"], satisfaction_data, outcomes
     )
 
     # Etapa 9: Visualización ejecutiva
@@ -585,17 +577,17 @@ def main_analysis_workflow():
 # - **Dataset:** `customer_satisfaction_data.csv`
 #
 # **Fechas:**
-# - Análisis completado: [DD/MM/AAAA]
-# - Grabación realizada: [DD/MM/AAAA]
-# - Entrega final: [DD/MM/AAAA]
+# - Analysis completed: [DD/MM/YYYY]
+# - Recording made: [DD/MM/YYYY]
+# - Final submission: [DD/MM/YYYY]
 
 # %%
 if __name__ == "__main__":
-    # Ejecutar análisis completo
+    # Execute complete analysis
     results = main_analysis_workflow()
 
-    print("\n🎉 Template completado!")
-    print("📋 Siguiente paso: Completar todos los TODOs")
-    print("📊 Generar visualizaciones ejecutivas")
-    print("📝 Escribir reporte y grabar video")
-    print("🚀 ¡Buena suerte equipo!")
+    print("\n🎉 Template completed!")
+    print("📋 Next step: Complete all TODOs")
+    print("📊 Generate executive visualizations")
+    print("📝 Write report and record video")
+    print("🚀 Good luck team!")
