@@ -1,0 +1,3 @@
+[submodule "evaluations"]
+	path = evaluations
+	url = https://github.com/julihocc/tec-ma2003b-evaluations
