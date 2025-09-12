@@ -88,104 +88,98 @@ X_Chapter_Name/
 │                                      # • Learning objectives & outcomes
 │                                      # • Subtopic structure & overview
 │                                      # • Prerequisites & key concepts  
-# AI coding agent instructions — tec-ma2003b-public
+# AI coding agent instructions for tec-ma2003b-public
 
-Purpose: concise, actionable guidance so an AI coding agent can be productive quickly.
+**Version:** 2.0.0
 
-Quick start (common developer flow)
-- Create & activate venv:
-  ```bash
-  python3 -m venv .venv
-  source .venv/bin/activate
-  ```
-- Install package editable so practice scripts import local modules:
-  ```bash
-  pip install -e .
-  ```
-- Run tests from repo root:
-  ```bash
-  .venv/bin/python -m pytest -q
-  ```
+Purpose: concise, actionable guidance so an AI coding agent can be productive immediately in this multivariate statistics course repository.
 
-Repo layout (big picture)
-- `lessons/` — course content per chapter. Each chapter contains `lesson/`, `practice/` (exercises), and example `code/` folders.
-- `evaluations/` — git submodule (private repo: tec-ma2003b-evaluations) with business case studies, rubrics, templates, and assessment frameworks.
-- `utils/` — shared helpers; key file: `utils/logger.py` (`setup_logger(...)`) used across practice scripts.
-- `scripts/` — automation helpers (e.g., `scripts/pull_data.py`); some use absolute paths and expect env overrides.
+## Quick Start (Most Common Dev Flow)
 
-Key workflows & concrete commands
-- Run one practice script:
-  ```bash
-  .venv/bin/python lessons/4_Factor_Analysis/code/invest_example/invest_example.py
-  ```
-- Convert `.py` to notebook with jupytext (project uses py-percent cells):
-  ```bash
-  jupytext --to ipynb lessons/**/*.py
-  ```
-- Compile Beamer slides (run twice):
-  ```bash
-  cd lessons/4_Factor_Analysis/lesson && pdflatex factor_analysis.tex
-  ```
+```bash
+python3 -m venv .venv && source .venv/bin/activate
+pip install -e .
+.venv/bin/python -m pytest -q
+```
 
-Project conventions (follow these exactly)
-- Practice scripts should write a human-readable report file next to the script (not only print). See `utils/test_logger.py` and practice examples.
-- Use the shared logger:
-  ```py
-  from utils.logger import setup_logger
-  logger = setup_logger(__name__)
-  ```
-  The helper sets `propagate=False`; prefer it over ad-hoc loggers.
-- Keep `lesson/` `.tex` and `_report` artifacts and folder layout unchanged — other materials reference these paths.
+## Repository Architecture (Big Picture)
 
-Style & interactive patterns (code authorship details)
-- Scripts use py-percent cell markers (`# %%` / `# %% [markdown]`) so they run as interactive cells in VS Code. Preserve cell boundaries when editing.
-- Prefer commented markdown blocks for rendered text in interactive mode, e.g.:
-  ```py
-  # %% [markdown]
-  # # Title
-  # explanatory text...
-  ```
-- Use `pathlib.Path(__file__).resolve().parent` for file outputs and create parent dirs with `mkdir(parents=True, exist_ok=True)` (pattern used in `pca_example.py` and `invest_example.py`).
+- **`lessons/`** — course content per chapter with `beamer/` presentations, `code/` examples, and comprehensive README
+- **`evaluations/`** — git submodule (private repo: tec-ma2003b-evaluations) containing business case studies, templates, and rubrics
+- **`utils/`** — shared package with centralized logging (`setup_logger`) and utilities  
+- **`scripts/`** — automation helpers like `pull_data.py` (uses absolute paths, override with `MA2003B_ORIGIN_PATH`)
 
-Integration notes & gotchas
-- `scripts/pull_data.py` uses an absolute OneDrive path; use `MA2003B_ORIGIN_PATH` env var to override in CI.
-- LaTeX edits are fragile: avoid breaking `\begin{frame}`/`\end{frame}` or verbatim blocks when programmatically modifying slides.
-- When adding runtime deps (e.g., `scikit-learn`, `factor_analyzer`), update `requirements.txt` and mention the change in the chapter README.
+## Essential Workflows & Commands
 
-Files to inspect first (fast path)
-- `utils/logger.py` — logger pattern and helper signature
-- `lessons/4_Factor_Analysis/code/*` — examples of practice scripts (PCA, invest) showing py-percent cells and Path usage
-- `scripts/pull_data.py` — example with absolute-path gotcha
+**Run example scripts:**
+```bash
+.venv/bin/python lessons/4_Factor_Analysis/code/invest_example/invest_fa.py
+```
 
-If you change behavior
-- Add or update a lightweight test next to the module (project keeps tests adjacent to code).
-- If you introduce external data paths, add CI-friendly env overrides and document them in the chapter README.
+**Handle evaluations submodule (branch-dependent):**
+```bash
+# Initialize submodule (branches with submodule)
+git submodule update --init --recursive
 
-When editing this file
-- Merge, don't overwrite. Keep guidance short (20–50 lines). If you'd like, I can expand with CI snippets or a script to standardize py-percent styling across lessons.
+# Switch between submodule/regular file branches
+git submodule deinit evaluations  # before switching to non-submodule branch
+```
 
-If anything is unclear or you want a follow-up (eg. auto-format all lesson scripts to this style), tell me which folder to target and I'll implement it.
-- Absolute-path helper: `scripts/pull_data.py` — convert hard-coded paths to use `os.getenv('MA2003B_ORIGIN_PATH', '<fallback>')` when parameterizing.
+**Convert to notebooks (project uses py-percent cells):**
+```bash
+jupytext --to ipynb lessons/**/*.py
+```
 
-## Style ingestion — learn the maintainer's voice and patterns
+**Compile presentations (Typst preferred, LaTeX legacy):**
+```bash
+cd lessons/4_Factor_Analysis/beamer
+typst compile factor_analysis_presentation.typ
+```
 
-When making edits, follow these explicit style and workflow rules so the
-agent's output matches the author's expectations.
+## Project Conventions (Follow Exactly)
 
-- Preserve docstrings and teaching text verbatim unless asked; do not rewrite
-  protected narrative files (e.g., `objectives_factor_analysis_practice.py`).
-- Use py-percent cells (`# %%` / `# %% [markdown]`) and commented markdown for
-  educational text. Place short explanatory markdown cells immediately next to
-  the code or plot they describe (preamble → code → short interpretation).
-- Prefer concise, concrete explanations with example numbers. Example:
-  - After PCA prints, add a small markdown cell that shows typical eigenvalues
-    and an interpretation (do not append a long appendix at the file end).
-- File outputs and figures go next to the script using Path(). Example pattern:
-  - `scree_out = script_dir / "kuiper_scree.png"; scree_out.parent.mkdir(...); plt.savefig(scree_out)`
-- Always use the repo logger for progress / report lines (`from utils.logger import setup_logger`) and write human-readable report files next to practice scripts (see `utils/test_logger.py`).
-- Respect LaTeX fragility: never programmatically break `\begin{frame}`/`\end{frame}` or verbatim blocks; if an edit touches `lesson/*.tex`, run a quick `pdflatex` compile locally to check.
-- When adding runtime dependencies (scikit-learn, factor_analyzer, etc.), update `requirements.txt` and add a one-line note in the chapter README beside the changed script.
-- Validation rule: after any substantive code edit, run the relevant script or tests in the project's `.venv` and confirm it prints expected outputs and writes expected artifacts. If the edit touches data fetching, ensure `fetch_*` scripts produce CSVs in the expected location.
-- Prefer small, local edits over broad refactors. If a larger refactor is needed, summarize the plan and ask one clarifying question before proceeding.
+**Logger Pattern:**
+```python
+from utils import setup_logger
+logger = setup_logger(__name__)  # sets propagate=False
+```
 
-If you want the agent to internalize additional stylistic signals (commit message phrasing, doc tone, preferred variable names), provide 2–3 representative example commits or a short sample note and I will incorporate them into this file.
+**Interactive Development:**
+- Use py-percent cells (`# %%` / `# %% [markdown]`) for VS Code/Jupyter integration
+- Place explanatory markdown cells immediately next to related code
+- Use `pathlib.Path(__file__).resolve().parent` for robust file operations
+
+**File Organization:**
+- Practice scripts write human-readable report files next to the script (not just console output)
+- Generate figures/data in same directory as script: `script_dir / "output.png"`
+- Create parent directories: `output_path.parent.mkdir(parents=True, exist_ok=True)`
+
+**Business Case Template Pattern:**
+- TODO-driven structure for student completion
+- Reflection questions interspersed with code sections  
+- Executive visualization and recommendation functions
+- Team information section for deliverables
+
+## Integration Notes & Gotchas
+
+**Submodule Management:** `evaluations/` exists as submodule in some branches, regular files in others. Use `git submodule deinit evaluations` before switching to avoid conflicts.
+
+**Path Dependencies:** `scripts/pull_data.py` uses absolute OneDrive paths; override with `MA2003B_ORIGIN_PATH="/path"`.
+
+**LaTeX Fragility:** Never programmatically break `\begin{frame}`/`\end{frame}` or verbatim blocks when editing presentations.
+
+**Dependencies:** When adding packages (scikit-learn, factor_analyzer), update `requirements.txt` and note in chapter README.
+
+## Key Files to Inspect
+
+- `utils/logger.py` — centralized logging pattern
+- `lessons/4_Factor_Analysis/code/invest_example/invest_fa.py` — example with py-percent cells
+- `evaluations/4_Factor_Analysis/business_case/factor_analysis_business_case_template.py` — business case pattern
+- `scripts/pull_data.py` — data synchronization with path override pattern
+
+## Validation Rules
+
+- After code changes: run script and verify expected outputs/artifacts
+- Test imports work: `from utils import setup_logger` should succeed
+- For evaluation materials: respect TODO structure and reflection question format
+- Always validate LaTeX compilation after slide edits
