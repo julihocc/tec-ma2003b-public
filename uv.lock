@@ -219,7 +219,7 @@ wheels = [
 
 [[package]]
 name = "ma2003b-course"
-version = "1.4.0"
+version = "1.5.0"
 source = { editable = "." }
 dependencies = [
     { name = "matplotlib" },
@@ -237,13 +237,13 @@ dev = [
 
 [package.metadata]
 requires-dist = [
-    { name = "matplotlib", specifier = ">=3.10.6" },
-    { name = "numpy", specifier = ">=2.3.3" },
-    { name = "pandas", specifier = ">=2.3.2" },
+    { name = "matplotlib", specifier = ">=3.8.0" },
+    { name = "numpy", specifier = ">=1.24.0" },
+    { name = "pandas", specifier = ">=2.0.0" },
     { name = "pytest", marker = "extra == 'dev'" },
-    { name = "scikit-learn", specifier = ">=1.7.2" },
-    { name = "seaborn", specifier = ">=0.13.2" },
-    { name = "txttoqti", specifier = ">=0.5.0" },
+    { name = "scikit-learn", specifier = ">=1.3.0" },
+    { name = "seaborn", specifier = ">=0.12.0" },
+    { name = "txttoqti", git = "https://github.com/julihocc/txttoqti.git?rev=v0.8.0" },
 ]
 provides-extras = ["dev"]
 
@@ -666,12 +666,8 @@ wheels = [
 
 [[package]]
 name = "txttoqti"
-version = "0.5.0"
-source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/51/34/e0210d5530e034a0c5d4900a1cf5bcebc063719f3a9a41d291199baf1d95/txttoqti-0.5.0.tar.gz", hash = "sha256:ba1038361320f5018e06420b4651f1c39eafd88340f97e7abaca5334f0c3fd13", size = 104284, upload-time = "2025-09-05T18:52:21.658Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/94/e9/aaab702b41f2d43522f683bc2cceed8ce343c6323ea050ad73daccd54b63/txttoqti-0.5.0-py3-none-any.whl", hash = "sha256:8bab7a167727576073f6c695f9a9b0b605d1e720a6010affbbdb016fc52b6f96", size = 32196, upload-time = "2025-09-05T18:52:20.569Z" },
-]
+version = "0.8.0"
+source = { git = "https://github.com/julihocc/txttoqti.git?rev=v0.8.0#4f5a792e4b23b72566109de3489a2927ea85ed6e" }
 
 [[package]]
 name = "tzdata"
