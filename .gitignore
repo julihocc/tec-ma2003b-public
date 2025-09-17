@@ -6,7 +6,6 @@ backup/
 build/
 __pycache__/
 settings.local.json
-.context/
 
 *.pyc
 
