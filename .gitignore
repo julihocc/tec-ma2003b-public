@@ -7,6 +7,11 @@ build/
 __pycache__/
 settings.local.json
 
+# Knowledge base - exclude downloaded content but keep scripts
+knowledge/downloaded/
+knowledge/*.json
+knowledge/*.log
+
 *.pyc
 
 *.aux
