@@ -27,15 +27,15 @@ This document provides a comparative guide to Linear Discriminant Analysis (LDA)
 **Dataset**: 1,200 customers × 8 features (purchase frequency, order value, engagement metrics)
 
 **LDA Performance**:
-- Accuracy: ~92%
-- Strengths: Stable classification, interpretable discriminant functions
+- Accuracy: 100%
+- Strengths: Perfect classification with synthetic data, interpretable discriminant functions
 - LD1: Separates High-Value from Occasional (spending + engagement)
 - LD2: Distinguishes Loyal customers (frequency vs. browsing behavior)
 
 **QDA Performance**:
-- Accuracy: ~94%
-- Strengths: Slightly better fit, handles different segment variances
-- Better at capturing non-linear relationships in customer behavior
+- Accuracy: 100%
+- Strengths: Perfect classification, handles different segment variances
+- Both methods achieve perfect accuracy with well-separated synthetic data
 
 **Recommendation**: Use LDA for stability, QDA when segments show different behavioral variability
 
@@ -46,14 +46,16 @@ This document provides a comparative guide to Linear Discriminant Analysis (LDA)
 **Dataset**: 800 products × 6 features (dimensions, tolerances, material properties)
 
 **LDA Performance**:
-- Accuracy: ~88%
-- Strengths: Robust with limited training data, clear quality thresholds
+- Accuracy: 93.3%
+- Strengths: Robust classification with feature selection, clear quality thresholds
 - Effective for standard manufacturing quality control processes
+- Cross-validation: 93.3% (±0.0%)
 
 **QDA Performance**:
-- Accuracy: ~91%
-- Strengths: Better at detecting complex defect patterns
+- Accuracy: 94.6%
+- Strengths: Better at detecting complex defect patterns, higher precision for acceptable products
 - More sensitive to subtle quality variations
+- Cross-validation: 94.6% (±0.0%)
 
 **Recommendation**: QDA preferred when defect patterns are complex and non-linear
 
@@ -61,37 +63,20 @@ This document provides a comparative guide to Linear Discriminant Analysis (LDA)
 
 **Context**: Classifying athletes into Elite, Competitive, and Developing categories based on performance metrics.
 
-**Dataset**: 300 athletes × 7 features (speed, endurance, strength, technique scores)
+**Dataset**: 300 athletes × 7 features (speed, endurance, strength, technique, agility, power, consistency)
 
 **LDA Performance**:
-- Accuracy: ~85%
-- Strengths: Clear performance level separations, easy interpretation
+- Accuracy: 100%
+- Strengths: Perfect classification, clear performance level separations, easy interpretation
 - Useful for talent identification and training program assignment
+- Cross-validation: 100% (±0.0%)
 
 **QDA Performance**:
-- Accuracy: ~87%
-- Strengths: Captures sport-specific performance curves
-- Better for sports with non-linear performance relationships
+- Accuracy: 100%
+- Strengths: Perfect classification, captures sport-specific performance curves
+- Both methods achieve perfect accuracy with well-separated synthetic data
 
-**Recommendation**: LDA for general classification, QDA for sport-specific performance modeling
-
-### 4. Environmental Monitoring
-
-**Context**: Classifying water quality into Excellent, Good, Fair, and Poor based on chemical and biological indicators.
-
-**Dataset**: 500 water samples × 8 features (pH, turbidity, contaminant levels, biological indicators)
-
-**LDA Performance**:
-- Accuracy: ~82%
-- Strengths: Simple regulatory compliance classification
-- Effective for standard environmental monitoring protocols
-
-**QDA Performance**:
-- Accuracy: ~86%
-- Strengths: Better at capturing complex environmental interactions
-- More accurate for sites with varying pollution patterns
-
-**Recommendation**: QDA when environmental conditions show complex interactions
+**Recommendation**: Both methods work perfectly for this well-structured synthetic dataset
 
 ## Method Selection Guidelines
 
@@ -115,11 +100,10 @@ This document provides a comparative guide to Linear Discriminant Analysis (LDA)
 
 | Domain | LDA Accuracy | QDA Accuracy | Winner | Reason |
 |--------|-------------|-------------|--------|---------|
-| Marketing | 92% | 94% | QDA | Different customer behavior patterns |
-| Quality Control | 88% | 91% | QDA | Complex defect relationships |
-| Sports | 85% | 87% | QDA | Non-linear performance curves |
-| Environment | 82% | 86% | QDA | Complex pollutant interactions |
-| **Average** | **87%** | **90%** | **QDA** | **Better flexibility** |
+| Marketing | 100% | 100% | Tie | Perfect classification with synthetic data |
+| Quality Control | 93.3% | 94.6% | QDA | Better precision for acceptable products |
+| Sports | 100% | 100% | Tie | Perfect classification with synthetic data |
+| **Average** | **97.8%** | **98.2%** | **QDA** | **Slight edge in complex scenarios** |
 
 ## Implementation Considerations
 
@@ -209,11 +193,6 @@ python quality_lda.py
 cd ../sports_analytics/
 python fetch_sports.py
 python sports_lda.py
-
-# Environmental monitoring (future implementation)
-cd ../environmental/
-python fetch_environmental.py
-python environmental_lda.py
 ```
 
 This overview demonstrates how discriminant analysis provides powerful classification tools for multivariate data across diverse application domains, with the choice between LDA and QDA depending on data characteristics and analytical requirements.

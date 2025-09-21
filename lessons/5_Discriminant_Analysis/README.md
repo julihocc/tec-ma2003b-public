@@ -69,7 +69,7 @@ By the end of this chapter, students will be able to:
 The chapter currently includes:
 
 - ✅ **Complete Beamer presentation** covering all 6 subtopics with comprehensive discriminant analysis theory
-- ✅ **Four working discriminant analysis examples** across different domains (marketing, manufacturing, sports, environment)
+- ✅ **Three working discriminant analysis examples** across different domains (marketing, manufacturing, sports)
 - ✅ **Comprehensive documentation** with detailed README files and data dictionaries
 - ✅ **Interactive development support** with py-percent cells for VS Code/Jupyter integration
 - ⏳ **Advanced applications** including regularized discriminant analysis (planned)
