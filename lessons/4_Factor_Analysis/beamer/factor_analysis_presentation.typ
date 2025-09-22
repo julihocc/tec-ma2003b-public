@@ -87,7 +87,7 @@
   Eigen decomposition is a fundamental matrix factorization technique used in multivariate analysis.
   
   *Definition*: For a square matrix $bold(A)$, if it can be diagonalized, we can write:
-  $bold(A) = bold(P) bold(D) bold(P)^{-1}$
+  $bold(A) = bold(P) bold(D) bold(P)^(-1)$
   
   Where:
   - $bold(D)$ is a diagonal matrix containing the eigenvalues $lambda_1, lambda_2, ..., lambda_n$
