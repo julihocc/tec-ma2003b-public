@@ -1,4 +1,4 @@
-// Complete Factor Analysis Presentation - RESTRUCTURED  
+// Complete Factor Analysis Presentation - RESTRUCTURED
 // Pedagogical approach: PCA theory → FA theory → Theory comparison → Examples with PCA → FA → Comparison pattern
 
 // Tec de Monterrey color palette
@@ -9,18 +9,18 @@
   width: 16cm,
   height: 9cm,
   margin: (x: 1.5cm, y: 1cm),
-  numbering: "1"
+  numbering: "1",
 )
 
 #set document(
   title: "Factor Analysis",
-  author: "Dr. Juliho Castillo"
+  author: "Dr. Juliho Castillo",
 )
 
 #set text(
   font: "Liberation Sans",
   size: 12pt,
-  lang: "es"
+  lang: "es",
 )
 #set math.equation(numbering: none)
 
@@ -85,21 +85,21 @@
 
 #slide(title: [Refresher: Eigen Decomposition])[
   Eigen decomposition is a fundamental matrix factorization technique used in multivariate analysis.
-  
+
   *Definition*: For a square matrix $bold(A)$, if it can be diagonalized, we can write:
   $bold(A) = bold(P) bold(D) bold(P)^(-1)$
-  
+
   Where:
   - $bold(D)$ is a diagonal matrix containing the eigenvalues $lambda_1, lambda_2, ..., lambda_n$
   - $bold(P)$ is the matrix whose columns are the eigenvectors $bold(v)_1, bold(v)_2, ..., bold(v)_n$
   - Each eigenvector satisfies: $bold(A) bold(v)_j = lambda_j bold(v)_j$
-  
+
   *For symmetric matrices* (like covariance matrices in PCA/FA):
   - The eigenvectors are orthonormal ($bold(P)^top bold(P) = bold(I)$)
   - The decomposition simplifies to: $bold(A) = bold(P) bold(D) bold(P)^top$
-  
+
   *Geometric interpretation*: Eigenvectors represent directions of maximum variance, eigenvalues represent the magnitude of variance in those directions.
-  
+
   *In multivariate statistics*: This decomposition underlies both PCA (principal components) and Factor Analysis (latent factors).
 ]
 
@@ -165,7 +165,7 @@
       [Components are linear combinations of all variables], [Factors are hypothetical constructs],
       [Explains total variance], [Explains common variance only],
       [No measurement error model], [Explicitly models unique variance],
-      [Descriptive technique], [Statistical model with assumptions]
+      [Descriptive technique], [Statistical model with assumptions],
     )
   ]
 ]
@@ -231,41 +231,41 @@
 
 #slide(title: [PCA Results: Factor Recovery])[
   *Running `educational_pca.py` reveals clear factor structure:*
-  
+
   #text(size: 0.85em)[
-  #table(
-    columns: (1.2fr, 0.8fr, 0.8fr, 0.8fr),
-    stroke: none,
-    [*Component*], [*Eigenvalue*], [*% Variance*], [*Cumulative %*],
-    [PC1], [2.203], [36.7%], [36.7%],
-    [PC2], [1.608], [26.8%], [63.5%],
-    [PC3], [0.842], [14.0%], [77.6%],
-    [PC4], [0.736], [12.3%], [89.8%],
-    [PC5], [0.322], [5.4%], [95.2%],
-    [PC6], [0.289], [4.8%], [100.0%]
-  )]
-  
+    #table(
+      columns: (1.2fr, 0.8fr, 0.8fr, 0.8fr),
+      stroke: none,
+      [*Component*], [*Eigenvalue*], [*% Variance*], [*Cumulative %*],
+      [PC1], [2.203], [36.7%], [36.7%],
+      [PC2], [1.608], [26.8%], [63.5%],
+      [PC3], [0.842], [14.0%], [77.6%],
+      [PC4], [0.736], [12.3%], [89.8%],
+      [PC5], [0.322], [5.4%], [95.2%],
+      [PC6], [0.289], [4.8%], [100.0%],
+    )]
+
   - *Kaiser Criterion*: Retain PC1-PC2 (eigenvalues > 1.0)
-  - *Scree Test*: Clear elbow after PC2 
+  - *Scree Test*: Clear elbow after PC2
   - *Variance*: Two factors explain 63.5% of total variance
 ]
 
 #slide(title: [Component Loadings: Structure Discovery])[
   *Loadings matrix reveals underlying factor structure:*
-  
+
   #text(size: 0.8em)[
-  #table(
-    columns: (1.2fr, 0.8fr, 0.8fr, 0.8fr),
-    stroke: none,
-    [*Variable*], [*PC1*], [*PC2*], [*PC3*],
-    [MathTest], [0.489], [0.502], [-0.148],
-    [VerbalTest], [0.467], [0.518], [0.184],
-    [SocialSkills], [0.488], [-0.483], [0.345],
-    [Leadership], [0.466], [-0.498], [-0.412],
-    [RandomVar1], [0.325], [0.124], [0.634],
-    [RandomVar2], [-0.283], [-0.032], [0.502]
-  )]
-  
+    #table(
+      columns: (1.2fr, 0.8fr, 0.8fr, 0.8fr),
+      stroke: none,
+      [*Variable*], [*PC1*], [*PC2*], [*PC3*],
+      [MathTest], [0.489], [0.502], [-0.148],
+      [VerbalTest], [0.467], [0.518], [0.184],
+      [SocialSkills], [0.488], [-0.483], [0.345],
+      [Leadership], [0.466], [-0.498], [-0.412],
+      [RandomVar1], [0.325], [0.124], [0.634],
+      [RandomVar2], [-0.283], [-0.032], [0.502],
+    )]
+
   - *PC1*: General ability factor (all meaningful variables ~0.47-0.49)
   - *PC2*: Cognitive vs. Social separation (positive: Math/Verbal, negative: Social/Leadership)
   - *Noise Validation*: Random variables show weaker, inconsistent patterns
@@ -276,12 +276,12 @@
   - _Structure Detection_: PCA successfully identifies 2-factor structure
   - _Meaningful vs. Noise_: Max loading for random variables (0.325) < meaningful variables (~0.47)
   - _Factor Separation_: PC2 cleanly separates cognitive (Math/Verbal) from social (Social/Leadership) abilities
-  
+
   *Practical Insights:*
   - PC1 captures general "ability" factor common in educational assessments
   - PC2 reveals specific cognitive vs. social skill dimensions
   - Noise components (PC5-PC6) have eigenvalues < 0.35, clearly distinguishable
-  
+
   *Conclusion*: PCA successfully recovers the underlying latent structure from observable variables
 ]
 
@@ -297,38 +297,38 @@
 
 #slide(title: [FA Results: Two-Factor Solution])[
   *Running Factor Analysis with Principal Axis Factoring:*
-  
+
   - *Factor Extraction*: 2 factors retained (eigenvalues > 1.0)
   - *Common Variance*: 63.5% of total variance explained by factors
   - *Communalities*: Range from 0.15 (noise) to 0.74 (meaningful variables)
-  
+
   #text(size: 0.85em)[
-  #table(
-    columns: (1.2fr, 0.8fr, 0.8fr),
-    stroke: none,
-    [*Factor*], [*Eigenvalue*], [*% Common Variance*],
-    [Factor 1], [2.115], [52.9%],
-    [Factor 2], [1.421], [35.5%],
-    [Total], [], [88.4%]
-  )]
+    #table(
+      columns: (1.2fr, 0.8fr, 0.8fr),
+      stroke: none,
+      [*Factor*], [*Eigenvalue*], [*% Common Variance*],
+      [Factor 1], [2.115], [52.9%],
+      [Factor 2], [1.421], [35.5%],
+      [Total], [], [88.4%],
+    )]
 ]
 
 #slide(title: [Varimax Rotated Factor Loadings])[
   *After Varimax rotation for cleaner interpretation:*
-  
+
   #text(size: 0.8em)[
-  #table(
-    columns: (1.2fr, 0.8fr, 0.8fr, 0.8fr),
-    stroke: none,
-    [*Variable*], [*Factor 1*], [*Factor 2*], [*Communality*],
-    [MathTest], [0.853], [0.054], [0.731],
-    [VerbalTest], [0.824], [0.102], [0.690],
-    [SocialSkills], [0.089], [0.851], [0.732],
-    [Leadership], [0.134], [0.823], [0.695],
-    [RandomVar1], [0.182], [0.325], [0.139],
-    [RandomVar2], [-0.089], [0.198], [0.047]
-  )]
-  
+    #table(
+      columns: (1.2fr, 0.8fr, 0.8fr, 0.8fr),
+      stroke: none,
+      [*Variable*], [*Factor 1*], [*Factor 2*], [*Communality*],
+      [MathTest], [0.853], [0.054], [0.731],
+      [VerbalTest], [0.824], [0.102], [0.690],
+      [SocialSkills], [0.089], [0.851], [0.732],
+      [Leadership], [0.134], [0.823], [0.695],
+      [RandomVar1], [0.182], [0.325], [0.139],
+      [RandomVar2], [-0.089], [0.198], [0.047],
+    )]
+
   - *Factor 1*: Intelligence factor (Math/Verbal loadings > 0.82)
   - *Factor 2*: Personality factor (Social/Leadership loadings > 0.82)
   - *Clean structure*: Cross-loadings < 0.15 for meaningful variables
@@ -336,15 +336,15 @@
 
 #slide(title: [FA Model Validation: Structure Recovery])[
   *Factor Analysis successfully recovers the true latent structure:*
-  
+
   - *Perfect Factor Separation*: Each factor loads on exactly the expected variables
     - Factor 1: Math (0.853) + Verbal (0.824) = Intelligence construct
     - Factor 2: Social (0.851) + Leadership (0.823) = Personality construct
-  
+
   - *Communality Analysis*:
     - Meaningful variables: h² = 0.69-0.73 (good shared variance)
     - Noise variables: h² = 0.05-0.14 (mostly unique variance)
-  
+
   - *Model Advantages*:
     - Cleaner interpretation than PCA (no cross-loadings)
     - Separates common variance from measurement error
@@ -355,20 +355,20 @@
 
 #slide(title: [Educational Assessment: Method Comparison])[
   *Direct numerical comparison of PCA vs FA on same data:*
-  
+
   #text(size: 0.75em)[
-  #table(
-    columns: (1.2fr, 0.9fr, 0.9fr, 0.9fr, 0.9fr),
-    stroke: none,
-    [*Variable*], [*PCA-PC1*], [*PCA-PC2*], [*FA-F1*], [*FA-F2*],
-    [MathTest], [0.489], [0.502], [0.853], [0.054],
-    [VerbalTest], [0.467], [0.518], [0.824], [0.102],
-    [SocialSkills], [0.488], [-0.483], [0.089], [0.851],
-    [Leadership], [0.466], [-0.498], [0.134], [0.823],
-    [RandomVar1], [0.325], [0.124], [0.182], [0.325],
-    [RandomVar2], [-0.283], [-0.032], [-0.089], [0.198]
-  )]
-  
+    #table(
+      columns: (1.2fr, 0.9fr, 0.9fr, 0.9fr, 0.9fr),
+      stroke: none,
+      [*Variable*], [*PCA-PC1*], [*PCA-PC2*], [*FA-F1*], [*FA-F2*],
+      [MathTest], [0.489], [0.502], [0.853], [0.054],
+      [VerbalTest], [0.467], [0.518], [0.824], [0.102],
+      [SocialSkills], [0.488], [-0.483], [0.089], [0.851],
+      [Leadership], [0.466], [-0.498], [0.134], [0.823],
+      [RandomVar1], [0.325], [0.124], [0.182], [0.325],
+      [RandomVar2], [-0.283], [-0.032], [-0.089], [0.198],
+    )]
+
   - *PCA*: Mixed loadings, harder to interpret (PC1 = general factor)
   - *FA*: Clean factor separation, perfect theoretical alignment
   - *Variance*: PCA explains 63.5% total variance, FA explains 88.4% common variance
@@ -413,18 +413,18 @@
 
 #slide(title: [PCA Results: Market Integration])[
   *Running `invest_pca.py` reveals extraordinary market integration:*
-  
+
   #text(size: 0.85em)[
-  #table(
-    columns: (1.2fr, 0.8fr, 0.8fr, 0.8fr),
-    stroke: none,
-    [*Component*], [*Eigenvalue*], [*% Variance*], [*Cumulative %*],
-    [PC1], [3.895], [97.3%], [97.3%],
-    [PC2], [0.092], [2.3%], [99.6%],
-    [PC3], [0.011], [0.3%], [99.9%],
-    [PC4], [0.004], [0.1%], [100.0%]
-  )]
-  
+    #table(
+      columns: (1.2fr, 0.8fr, 0.8fr, 0.8fr),
+      stroke: none,
+      [*Component*], [*Eigenvalue*], [*% Variance*], [*Cumulative %*],
+      [PC1], [3.895], [97.3%], [97.3%],
+      [PC2], [0.092], [2.3%], [99.6%],
+      [PC3], [0.011], [0.3%], [99.9%],
+      [PC4], [0.004], [0.1%], [100.0%],
+    )]
+
   - *Dominant PC1*: Captures almost all variance (97.3%)
   - *Kaiser Criterion*: Only PC1 has eigenvalue > 1.0
   - *Interpretation*: European markets move as a single integrated system
@@ -433,18 +433,18 @@
 
 #slide(title: [Component Loadings: Perfect Market Synchronization])[
   *All European markets load equally on PC1 (common market factor):*
-  
+
   #text(size: 0.85em)[
-  #table(
-    columns: (1.2fr, 0.8fr, 0.8fr),
-    stroke: none,
-    [*Market Index*], [*PC1 Loading*], [*PC2 Loading*],
-    [DAX (Germany)], [0.501], [0.502],
-    [SMI (Switzerland)], [0.501], [-0.513],
-    [CAC (France)], [0.500], [0.351],
-    [FTSE (UK)], [0.499], [-0.625]
-  )]
-  
+    #table(
+      columns: (1.2fr, 0.8fr, 0.8fr),
+      stroke: none,
+      [*Market Index*], [*PC1 Loading*], [*PC2 Loading*],
+      [DAX (Germany)], [0.501], [0.502],
+      [SMI (Switzerland)], [0.501], [-0.513],
+      [CAC (France)], [0.500], [0.351],
+      [FTSE (UK)], [0.499], [-0.625],
+    )]
+
   - *PC1 Interpretation*: Uniform loadings (~0.50) = perfect market integration
   - *PC2 Interpretation*: Subtle Brexit effect (FTSE vs continental markets)
   - *Financial Reality*: Global/EU-wide factors dominate individual market performance
@@ -452,17 +452,17 @@
 
 #slide(title: [Financial Interpretation: Systematic Risk Dominance])[
   *PC1 as European Systematic Risk Factor:*
-  
+
   - *Market Integration*: 97.3% shared variance indicates extreme integration
     - European markets behave as single economic unit
     - Global economic conditions affect all markets simultaneously
     - ECB monetary policy, EU regulations, major political events
-  
+
   - *Portfolio Implications*:
     - Diversification within Europe provides minimal risk reduction
     - Need global (non-European) assets for meaningful diversification
     - European "diversified" portfolio = ~97% systematic risk exposure
-  
+
   - *Risk Management*:
     - PC1 represents non-diversifiable risk within European context
     - PC2-PC4 (2.7% total) = market-specific idiosyncratic opportunities
@@ -481,18 +481,18 @@
 
 #slide(title: [FA Results: Single-Factor Market Structure])[
   *Factor Analysis confirms PCA findings with cleaner interpretation:*
-  
+
   #text(size: 0.85em)[
-  #table(
-    columns: (1.2fr, 0.8fr, 0.8fr),
-    stroke: none,
-    [*Market Index*], [*Factor 1 Loading*], [*Communality*],
-    [DAX (Germany)], [0.987], [0.974],
-    [SMI (Switzerland)], [0.987], [0.974],
-    [CAC (France)], [0.986], [0.972],
-    [FTSE (UK)], [0.985], [0.970]
-  )]
-  
+    #table(
+      columns: (1.2fr, 0.8fr, 0.8fr),
+      stroke: none,
+      [*Market Index*], [*Factor 1 Loading*], [*Communality*],
+      [DAX (Germany)], [0.987], [0.974],
+      [SMI (Switzerland)], [0.987], [0.974],
+      [CAC (France)], [0.986], [0.972],
+      [FTSE (UK)], [0.985], [0.970],
+    )]
+
   - *Single Factor Solution*: 1 factor retained (eigenvalue = 3.891)
   - *Factor Interpretation*: Common European Market Factor
   - *Variance Explained*: 97.3% of common variance among markets
@@ -501,18 +501,18 @@
 
 #slide(title: [FA Model: Financial Risk Decomposition])[
   *Factor Analysis provides clean financial interpretation:*
-  
+
   - *Systematic Risk Factor*: Single factor with near-perfect loadings (~0.986)
     - Represents common exposure to EU economic conditions
     - ECB monetary policy, European political events, global risk sentiment
     - All markets equally exposed to systematic European risk
-  
+
   - *Unique Variances*: Only 2.7% unexplained (idiosyncratic risk)
     - DAX: German-specific industrial/manufacturing cycles
-    - FTSE: Brexit-related UK political developments  
+    - FTSE: Brexit-related UK political developments
     - SMI: Swiss franc currency effects
     - CAC: France-specific fiscal/political events
-  
+
   - *Portfolio Theory Application*:
     - Single-factor model: R_i = α_i + β_i F + ε_i
     - All β_i ≈ 0.986 (equal systematic risk exposure)
@@ -523,20 +523,20 @@
 
 #slide(title: [European Markets: PCA vs FA Comparison])[
   *Both methods converge on single-factor structure, but with different perspectives:*
-  
+
   #text(size: 0.8em)[
-  #table(
-    columns: (1.1fr, 1fr, 1fr),
-    stroke: none,
-    [*Aspect*], [*PCA Results*], [*FA Results*],
-    [Eigenvalue/Factor], [3.895], [3.891],
-    [Variance Explained], [97.3% total variance], [97.3% common variance],
-    [Loadings Range], [0.499-0.501], [0.985-0.987],
-    [Interpretation], [Principal component], [Latent market factor],
-    [Risk Decomposition], [PC1 + noise components], [Systematic + unique variances],
-    [Application], [Data reduction], [Risk modeling]
-  )]
-  
+    #table(
+      columns: (1.1fr, 1fr, 1fr),
+      stroke: none,
+      [*Aspect*], [*PCA Results*], [*FA Results*],
+      [Eigenvalue/Factor], [3.895], [3.891],
+      [Variance Explained], [97.3% total variance], [97.3% common variance],
+      [Loadings Range], [0.499-0.501], [0.985-0.987],
+      [Interpretation], [Principal component], [Latent market factor],
+      [Risk Decomposition], [PC1 + noise components], [Systematic + unique variances],
+      [Application], [Data reduction], [Risk modeling],
+    )]
+
   - *Convergence*: Both identify single dominant dimension
   - *Difference*: FA provides cleaner risk interpretation
   - *Financial Context*: FA loadings directly interpretable as risk exposures
@@ -594,19 +594,19 @@
 
 #slide(title: [PCA Results: Multi-Component Structure])[
   *Running `kuiper_pca.py` reveals distributed variance across components:*
-  
+
   #text(size: 0.85em)[
-  #table(
-    columns: (1.2fr, 0.8fr, 0.8fr, 0.8fr),
-    stroke: none,
-    [*Component*], [*Eigenvalue*], [*% Variance*], [*Cumulative %*],
-    [PC1], [2.009], [39.8%], [39.8%],
-    [PC2], [1.079], [21.4%], [61.1%],
-    [PC3], [1.036], [20.5%], [81.6%],
-    [PC4], [0.628], [12.4%], [94.1%],
-    [PC5], [0.299], [5.9%], [100.0%]
-  )]
-  
+    #table(
+      columns: (1.2fr, 0.8fr, 0.8fr, 0.8fr),
+      stroke: none,
+      [*Component*], [*Eigenvalue*], [*% Variance*], [*Cumulative %*],
+      [PC1], [2.009], [39.8%], [39.8%],
+      [PC2], [1.079], [21.4%], [61.1%],
+      [PC3], [1.036], [20.5%], [81.6%],
+      [PC4], [0.628], [12.4%], [94.1%],
+      [PC5], [0.299], [5.9%], [100.0%],
+    )]
+
   - *Kaiser Criterion*: Retain PC1-PC3 (eigenvalues > 1.0)
   - *Variance Distribution*: More balanced than previous examples
   - *Interpretation*: Complex astronomical system requires multiple dimensions
@@ -614,18 +614,18 @@
 
 #slide(title: [Component Loadings: Astronomical Interpretation])[
   *Each component captures distinct aspects of orbital architecture:*
-  
+
   #text(size: 0.8em)[
-  #table(
-    columns: (1.2fr, 0.8fr, 0.8fr, 0.8fr),
-    stroke: none,
-    [*Variable*], [*PC1*], [*PC2*], [*PC3*],
-    [a (distance)], [0.571], [-0.172], [-0.578],
-    [e (eccentricity)], [0.642], [0.087], [-0.117],
-    [i (inclination)], [0.487], [0.378], [0.705],
-    [H (magnitude)], [-0.157], [0.905], [-0.393]
-  )]
-  
+    #table(
+      columns: (1.2fr, 0.8fr, 0.8fr, 0.8fr),
+      stroke: none,
+      [*Variable*], [*PC1*], [*PC2*], [*PC3*],
+      [a (distance)], [0.571], [-0.172], [-0.578],
+      [e (eccentricity)], [0.642], [0.087], [-0.117],
+      [i (inclination)], [0.487], [0.378], [0.705],
+      [H (magnitude)], [-0.157], [0.905], [-0.393],
+    )]
+
   - *PC1*: "Orbital Excitation" - distance (a), eccentricity (e), inclination (i) correlate
   - *PC2*: "Observational Bias" - brightness (H) dominates, reflecting size-distance effects
   - *PC3*: "Resonant Structure" - inclination vs distance separation, identifies resonant families
@@ -651,19 +651,19 @@
 
 #slide(title: [FA Results: Three-Factor Solution])[
   *Principal Axis Factoring with Varimax rotation yields clear structure:*
-  
+
   #text(size: 0.8em)[
-  #table(
-    columns: (1.2fr, 0.8fr, 0.8fr, 0.8fr, 0.8fr),
-    stroke: none,
-    [*Parameter*], [*Factor 1*], [*Factor 2*], [*Factor 3*], [*Communality*],
-    [a (distance)], [0.733], [-0.296], [-0.307], [0.725],
-    [e (eccentricity)], [0.896], [-0.114], [-0.082], [0.821],
-    [i (inclination)], [0.770], [0.301], [0.218], [0.732],
-    [H (magnitude)], [-0.048], [-0.081], [0.953], [0.917],
-    [designation], [-0.049], [0.940], [-0.084], [0.892]
-  )]
-  
+    #table(
+      columns: (1.2fr, 0.8fr, 0.8fr, 0.8fr, 0.8fr),
+      stroke: none,
+      [*Parameter*], [*Factor 1*], [*Factor 2*], [*Factor 3*], [*Communality*],
+      [a (distance)], [0.733], [-0.296], [-0.307], [0.725],
+      [e (eccentricity)], [0.896], [-0.114], [-0.082], [0.821],
+      [i (inclination)], [0.770], [0.301], [0.218], [0.732],
+      [H (magnitude)], [-0.048], [-0.081], [0.953], [0.917],
+      [designation], [-0.049], [0.940], [-0.084], [0.892],
+    )]
+
   - *3 factors retained*: Eigenvalues [1.989, 1.068, 1.025]
   - *Common variance*: 81.7% explained by factors
   - *Clean structure*: Varimax rotation provides clear interpretation
@@ -671,17 +671,17 @@
 
 #slide(title: [Astrophysical Factor Interpretation])[
   *Each factor represents distinct physical processes:*
-  
+
   - *Factor 1: Dynamical Excitation* (a=0.733, e=0.896, i=0.770)
     - Orbital "heating" by gravitational scattering with Neptune
     - High scores: Scattered Disk Objects with excited orbits
     - Low scores: Classical Kuiper Belt with pristine, cold orbits
-  
-  - *Factor 2: Discovery Sequence* (designation=0.940) 
+
+  - *Factor 2: Discovery Sequence* (designation=0.940)
     - Data artifact reflecting discovery order bias
     - Brighter objects discovered first (lower designation numbers)
     - Demonstrates importance of recognizing non-physical factors
-  
+
   - *Factor 3: Size/Brightness Factor* (H=0.953)
     - Absolute magnitude as proxy for object size
     - Selection effects: larger objects easier to detect at distance
@@ -692,18 +692,18 @@
 
 #slide(title: [Kuiper Belt: PCA vs FA Comparison])[
   *Both methods identify 3-factor structure with different emphases:*
-  
+
   #text(size: 0.75em)[
-  #table(
-    columns: (1fr, 1fr, 1fr, 1fr),
-    stroke: none,
-    [*Orbital Parameter*], [*PCA-PC1*], [*FA-Factor1*], [*Interpretation*],
-    [a (distance)], [0.571], [0.733], [FA stronger dynamical grouping],
-    [e (eccentricity)], [0.642], [0.896], [FA emphasizes orbital excitation],
-    [i (inclination)], [0.487], [0.770], [FA cleaner dynamical factor],
-    [H (magnitude)], [-0.157], [-0.048], [PCA mixed, FA separates as Factor 3]
-  )]
-  
+    #table(
+      columns: (1fr, 1fr, 1fr, 1fr),
+      stroke: none,
+      [*Orbital Parameter*], [*PCA-PC1*], [*FA-Factor1*], [*Interpretation*],
+      [a (distance)], [0.571], [0.733], [FA stronger dynamical grouping],
+      [e (eccentricity)], [0.642], [0.896], [FA emphasizes orbital excitation],
+      [i (inclination)], [0.487], [0.770], [FA cleaner dynamical factor],
+      [H (magnitude)], [-0.157], [-0.048], [PCA mixed, FA separates as Factor 3],
+    )]
+
   - *Variance explained*: PCA 81.6% (3 PCs), FA 81.7% (3 factors)
   - *Structure clarity*: FA provides cleaner separation of physical processes
   - *Scientific value*: FA factors directly map to astrophysical theories
@@ -754,18 +754,18 @@
 
 #slide(title: [PCA Results: Strong Quality Factor])[
   *Running `hospitals_pca.py` reveals dominant quality dimension:*
-  
+
   #text(size: 0.85em)[
-  #table(
-    columns: (1.2fr, 0.8fr, 0.8fr, 0.8fr),
-    stroke: none,
-    [*Component*], [*Eigenvalue*], [*% Variance*], [*Cumulative %*],
-    [PC1], [5.752], [70.5%], [70.5%],
-    [PC2], [0.695], [8.5%], [79.0%],
-    [PC3], [0.480], [5.9%], [84.9%],
-    [PC4-PC8], [all below 0.50], [15.1%], [100.0%]
-  )]
-  
+    #table(
+      columns: (1.2fr, 0.8fr, 0.8fr, 0.8fr),
+      stroke: none,
+      [*Component*], [*Eigenvalue*], [*% Variance*], [*Cumulative %*],
+      [PC1], [5.752], [70.5%], [70.5%],
+      [PC2], [0.695], [8.5%], [79.0%],
+      [PC3], [0.480], [5.9%], [84.9%],
+      [PC4-PC8], [all below 0.50], [15.1%], [100.0%],
+    )]
+
   - *Dominant PC1*: Single quality factor explains 70.5% variance
   - *Kaiser Criterion*: Only PC1 has eigenvalue > 1.0
   - *Interpretation*: Hospital quality is largely unidimensional
@@ -774,22 +774,22 @@
 
 #slide(title: [Component Loadings: Quality Halo Effect])[
   *PC1 shows consistent quality pattern across all metrics:*
-  
+
   #text(size: 0.8em)[
-  #table(
-    columns: (1.4fr, 0.8fr, 0.8fr, 0.8fr),
-    stroke: none,
-    [*Health Outcome Metric*], [*PC1*], [*PC2*], [*PC3*],
-    [SurgicalComplications (↓)], [-0.378], [-0.002], [-0.156],
-    [MortalityRate (↓)], [-0.353], [-0.368], [-0.337],
-    [ReadmissionRate (↓)], [-0.352], [0.150], [0.515],
-    [PatientSatisfaction (↑)], [0.402], [0.059], [0.188],
-    [NurseRatio (↑)], [0.381], [0.041], [0.160],
-    [InfectionRate (↓)], [-0.337], [0.187], [-0.358],
-    [EDWaitTime (↓)], [-0.311], [-0.528], [0.597],
-    [AvgLengthStay (↓)], [-0.302], [0.723], [0.226]
-  )]
-  
+    #table(
+      columns: (1.4fr, 0.8fr, 0.8fr, 0.8fr),
+      stroke: none,
+      [*Health Outcome Metric*], [*PC1*], [*PC2*], [*PC3*],
+      [SurgicalComplications (↓)], [-0.378], [-0.002], [-0.156],
+      [MortalityRate (↓)], [-0.353], [-0.368], [-0.337],
+      [ReadmissionRate (↓)], [-0.352], [0.150], [0.515],
+      [PatientSatisfaction (↑)], [0.402], [0.059], [0.188],
+      [NurseRatio (↑)], [0.381], [0.041], [0.160],
+      [InfectionRate (↓)], [-0.337], [0.187], [-0.358],
+      [EDWaitTime (↓)], [-0.311], [-0.528], [0.597],
+      [AvgLengthStay (↓)], [-0.302], [0.723], [0.226],
+    )]
+
   - *Consistent Pattern*: All "bad" outcomes load negatively, "good" outcomes positively
   - *Quality Halo*: Excellent hospitals excel across all dimensions
   - *PC2*: Efficiency dimension (length of stay vs wait time trade-off)
@@ -797,17 +797,17 @@
 
 #slide(title: [Healthcare Interpretation: Organizational Excellence])[
   *PC1 as Systematic Quality Factor:*
-  
+
   - *Organizational Culture*: Leadership, processes, and culture affect all outcomes
     - Quality improvement programs create hospital-wide excellence
     - Poor management leads to problems across multiple domains
     - Safety culture and continuous improvement mindset crucial
-  
+
   - *Policy Implications*:
     - Hospital rankings can use single composite score (PC1)
     - Quality interventions should be comprehensive, not focused on single metrics
     - Resource allocation should target hospitals with low PC1 scores
-  
+
   - *Healthcare Economics*:
     - High-quality hospitals are more efficient (better outcomes at lower cost)
     - Bundled payments incentivize comprehensive quality improvement
@@ -826,22 +826,22 @@
 
 #slide(title: [FA Results: Single Quality Factor Model])[
   *Principal Axis Factoring confirms unidimensional quality structure:*
-  
+
   #text(size: 0.8em)[
-  #table(
-    columns: (1.4fr, 0.8fr, 0.8fr),
-    stroke: none,
-    [*Health Outcome Metric*], [*Factor 1*], [*Communality*],
-    [PatientSatisfaction], [0.954], [0.911],
-    [NurseRatio], [0.905], [0.820],
-    [SurgicalComplications], [-0.896], [0.804],
-    [MortalityRate], [-0.838], [0.702],
-    [ReadmissionRate], [-0.836], [0.699],
-    [InfectionRate], [-0.800], [0.640],
-    [EDWaitTime], [-0.739], [0.546],
-    [AvgLengthStay], [-0.717], [0.515]
-  )]
-  
+    #table(
+      columns: (1.4fr, 0.8fr, 0.8fr),
+      stroke: none,
+      [*Health Outcome Metric*], [*Factor 1*], [*Communality*],
+      [PatientSatisfaction], [0.954], [0.911],
+      [NurseRatio], [0.905], [0.820],
+      [SurgicalComplications], [-0.896], [0.804],
+      [MortalityRate], [-0.838], [0.702],
+      [ReadmissionRate], [-0.836], [0.699],
+      [InfectionRate], [-0.800], [0.640],
+      [EDWaitTime], [-0.739], [0.546],
+      [AvgLengthStay], [-0.717], [0.515],
+    )]
+
   - *Single Factor Solution*: 1 factor retained (eigenvalue = 5.637)
   - *Common Variance*: 70.5% explained by quality factor
   - *Clean Structure*: All metrics load appropriately on general quality
@@ -849,17 +849,17 @@
 
 #slide(title: [FA Model: Healthcare Quality Theory])[
   *Factor Analysis validates theoretical quality model:*
-  
+
   - *Unidimensional Quality*: Single latent factor drives all observable outcomes
     - Organizational excellence affects all aspects of care delivery
     - Leadership quality cascades through clinical and operational metrics
     - Quality culture creates systematic improvements across domains
-  
+
   - *Unique Variances*: Hospital-specific factors
     - AvgLengthStay (48.5% unique): Care philosophy and patient population effects
     - EDWaitTime (45.4% unique): Operational efficiency and facility design
     - Higher communalities for clinical outcomes than operational metrics
-  
+
   - *Healthcare Policy*: Evidence for holistic quality improvement
     - Single quality factor supports composite hospital rating systems
     - Interventions should target organizational culture, not isolated metrics
@@ -869,20 +869,20 @@
 
 #slide(title: [Hospital Quality: PCA vs FA Comparison])[
   *Both methods converge on single quality dimension with excellent agreement:*
-  
+
   #text(size: 0.75em)[
-  #table(
-    columns: (1.3fr, 0.8fr, 0.8fr, 1fr),
-    stroke: none,
-    [*Health Metric*], [*PCA-PC1*], [*FA-Factor1*], [*Interpretation Agreement*],
-    [SurgicalComplications], [-0.378], [-0.892], [Strong negative correlation],
-    [MortalityRate], [-0.353], [-0.854], [Strong negative correlation],
-    [PatientSatisfaction], [0.402], [0.801], [Strong positive correlation],
-    [NurseRatio], [0.381], [0.785], [Strong positive correlation],
-    [InfectionRate], [-0.337], [-0.831], [Strong negative correlation],
-    [ReadmissionRate], [-0.352], [-0.823], [Strong negative correlation]
-  )]
-  
+    #table(
+      columns: (1.3fr, 0.8fr, 0.8fr, 1fr),
+      stroke: none,
+      [*Health Metric*], [*PCA-PC1*], [*FA-Factor1*], [*Interpretation Agreement*],
+      [SurgicalComplications], [-0.378], [-0.892], [Strong negative correlation],
+      [MortalityRate], [-0.353], [-0.854], [Strong negative correlation],
+      [PatientSatisfaction], [0.402], [0.801], [Strong positive correlation],
+      [NurseRatio], [0.381], [0.785], [Strong positive correlation],
+      [InfectionRate], [-0.337], [-0.831], [Strong negative correlation],
+      [ReadmissionRate], [-0.352], [-0.823], [Strong negative correlation],
+    )]
+
   - *Convergent validity*: Both methods identify identical quality structure
   - *FA advantage*: Cleaner loadings and direct latent factor interpretation
   - *Healthcare application*: Single quality score validated by both approaches
@@ -919,8 +919,13 @@
       [*Example*], [*Domain*], [*PCA Strength*], [*FA Strength*], [*Recommendation*],
       [Educational Assessment], [Psychology], [Factor discovery], [Theory testing], [FA for construct validation],
       [European Markets], [Finance], [Risk factor identification], [Risk decomposition], [Both methods valuable],
-      [Kuiper Belt Objects], [Astronomy], [Population classification], [Physical process modeling], [FA for theory testing],
-      [Hospital Quality], [Healthcare], [Quality rankings], [Quality dimensions], [PCA for rankings, FA for policy]
+      [Kuiper Belt Objects],
+      [Astronomy],
+      [Population classification],
+      [Physical process modeling],
+      [FA for theory testing],
+
+      [Hospital Quality], [Healthcare], [Quality rankings], [Quality dimensions], [PCA for rankings, FA for policy],
     )
   ]
 ]
