@@ -6,7 +6,7 @@ This is an **academic course repository** for MA2003B - Application of Multivari
 
 ### Key Structure
 - `lessons/X_Topic/` - Chapter materials with `beamer/` presentations and `code/` examples
-- `evaluations/` - Assessment materials (private submodule with QTI quizzes)  
+- `evaluations/` - Assessment materials (private submodule with QTI quizzes)
 - `utils/` - Shared utilities package with centralized logging
 - `scripts/` - Data synchronization and maintenance tools
 
@@ -25,14 +25,14 @@ pip install -e .  # Enables `from utils import setup_logger`
 # %%
 # Cell for data loading and preprocessing
 
-# %% [markdown] 
+# %% [markdown]
 # ## Analysis Section Title
 
 # %%
 # Cell for statistical analysis
 ```
 
-### Centralized Logging  
+### Centralized Logging
 **Always import and use the shared logger:**
 ```python
 from utils import setup_logger
@@ -52,7 +52,7 @@ output_file = script_dir / "results.png"
 ### Factor Analysis Workflow Pattern
 **Follow the established 6-step structure** seen in `kuiper_fa.py`, `invest_fa.py`:
 1. **Assumptions Testing** (KMO, Bartlett's sphericity)
-2. **Factor Retention** (Kaiser criterion, scree plot)  
+2. **Factor Retention** (Kaiser criterion, scree plot)
 3. **Extraction** (Principal/ML methods)
 4. **Rotation** (Varimax/Promax comparison)
 5. **Interpretation** (loadings matrix, communalities)
@@ -68,7 +68,7 @@ from txttoqti import TxtToQtiConverter
 converter = TxtToQtiConverter()
 converter.convert_file(
     txt_file="quiz.txt",
-    qti_file="output.zip", 
+    qti_file="output.zip",
     total_points=100,
     qti_version="qti12"
 )
@@ -81,7 +81,7 @@ converter.convert_file(
 
 ## Data and Domain Patterns
 
-### Dataset Organization  
+### Dataset Organization
 **Each example follows fetch → analyze pattern:**
 - `fetch_*.py` - Data acquisition/generation script
 - `*_fa.py` - Factor analysis implementation
@@ -91,14 +91,15 @@ converter.convert_file(
 ### Cross-Domain Examples
 **Current active domains** (Chapter 4):
 - **Finance** (`invest_example/`) - European stock market factor models
-- **Astronomy** (`kuiper_example/`) - Kuiper Belt orbital dynamics  
+- **Astronomy** (`kuiper_example/`) - Kuiper Belt orbital dynamics
 - **Healthcare** (`hospitals_example/`) - Hospital quality assessment
+- **Education** (`educational_example/`) - Student assessment data
 
 ## Critical Dependencies
 
 **Core scientific stack** (in pyproject.toml):
 ```python
-dependencies = ["numpy>=1.24", "pandas>=2.0", "matplotlib>=3.8", 
+dependencies = ["numpy>=1.24", "pandas>=2.0", "matplotlib>=3.8",
                "scikit-learn>=1.3", "seaborn>=0.12", "txttoqti"]
 ```
 
@@ -133,7 +134,7 @@ ruff check . && ruff format .  # Code quality
 
 - **Self-documenting**: Each script generates human-readable output files, not just console logs
 - **Standalone**: Examples work independently with embedded data dictionaries
-- **Authentic**: Use realistic datasets with domain-specific interpretation challenges  
+- **Authentic**: Use realistic datasets with domain-specific interpretation challenges
 - **Comparative**: Always compare PCA vs Factor Analysis on same data
 - **Reproducible**: Fixed random seeds, deterministic outputs for educational consistency
 
@@ -145,3 +146,28 @@ git submodule update --init --recursive  # First setup
 cd evaluations && git pull origin main && cd ..  # Update evaluations
 git add evaluations && git commit -m "update evaluations"  # Commit pointer
 ```
+
+## Data Synchronization Workflow
+
+**Use `scripts/pull_data.py` for course material sync:**
+```bash
+# Dry run (no changes)
+.venv/bin/python scripts/pull_data.py --dry-run
+
+# Run copying with env override
+MA2003B_ORIGIN_PATH="/path/to/origin" .venv/bin/python scripts/pull_data.py
+```
+
+## Interactive Development
+
+**Convert Python scripts to Jupyter notebooks:**
+```bash
+jupytext --to ipynb lessons/4_Factor_Analysis/code/*/*.py
+```
+
+## Key Integration Points
+
+- **txttoqti**: Custom fork for QTI quiz generation (v0.8.0 with total_points feature)
+- **factor-analyzer**: Specialist package for multivariate analysis
+- **Submodules**: Private evaluations repository for assessment materials
+- **Data flow**: `fetch_*.py` generates CSV → analysis scripts consume CSV → output files saved locally
