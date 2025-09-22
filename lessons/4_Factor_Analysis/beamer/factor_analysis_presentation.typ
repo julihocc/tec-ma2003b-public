@@ -125,7 +125,7 @@
   - Scree plot: look for the "elbow" where additional components contribute little incremental variance.
   - Parallel analysis: compare empirical eigenvalues to those obtained from random data — keep components with larger eigenvalues than random.
     - *How it works*: Generate random datasets with same dimensions (n observations × p variables) as your data
-    - *Compare*: For each component k, if λ_k(actual) > λ_k(random), retain component k
+    - *Compare*: For each component k, if $lambda_k "(actual)" > lambda_k "(random)"$, retain component k
     - *Advantage*: Accounts for sampling error and prevents over-extraction
     - *Conservative approach*: Often retains fewer components than Kaiser criterion
 ]
