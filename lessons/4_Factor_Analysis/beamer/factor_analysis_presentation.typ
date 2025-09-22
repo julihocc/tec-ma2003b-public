@@ -146,6 +146,22 @@
   - Often used to discover and validate underlying theoretical constructs
 ]
 
+#slide(title: [Factor Analysis Model])[
+  - *Common Factors*: Latent variables that influence multiple observed variables
+  - *Factor Loadings*: Relationships between observed variables and common factors
+  - *Unique/Specific Variance*: Variable-specific variance not explained by common factors (includes measurement error)
+  - *Core Equation*:
+    - Model: $X_i = sum_{j=1}^k lambda_(i j) F_j + U_i$
+    - Here $X_i$ is the observed (standardized) variable, $lambda_(i j)$ are factor loadings, $F_j$ are common factors, and $U_i$ is the unique term (specific + measurement error).
+  - *Communality & Uniqueness*:
+    - Communality: $h_i^2 = sum_{j=1}^k lambda_(i j)^2$ (shared variance explained by the factors)
+    - Uniqueness: $u_i^2 = 1 - h_i^2$ (proportion of variance unique to the variable)
+  - *Estimation notes*:
+    - Common extraction methods: principal axis factoring, maximum likelihood factoring
+    - After extraction, rotations (Varimax, Promax) are typically used to improve interpretability
+    - Factor scores can be estimated for downstream analysis (regression, clustering)
+]
+
 #slide(title: [FA vs PCA: Key distinctions (in depth)])[
   - Factor Analysis models observed variables as a combination of common latent factors plus unique (error) terms:
     - Model: $X_i = sum_{j=1}^k lambda_(i j) F_j + U_i$  
