@@ -86,9 +86,9 @@ The chapter currently includes:
 #### Working Code Examples
 ```
 code/
-├── pca_example/               # Synthetic educational PCA demonstration (for comparison)
-│   ├── pca_example.py        # Educational assessment scenario with PCA
-│   ├── fa_example.py         # Same data analyzed with Factor Analysis
+├── educational_example/               # Synthetic educational PCA demonstration (for comparison)
+│   ├── educational_pca.py        # Educational assessment scenario with PCA
+│   ├── educational_fa.py         # Same data analyzed with Factor Analysis
 │   ├── README.md             # Detailed pedagogical documentation
 │   ├── pca_scree.png         # PCA component selection visualization
 │   ├── fa_scree.png          # FA factor selection visualization
@@ -147,8 +147,8 @@ pdflatex factor_analysis_presentation.tex
 #### Run Working Examples
 ```bash
 # Educational example: PCA vs Factor Analysis comparison
-.venv/bin/python code/pca_example/pca_example.py     # PCA analysis (existing)
-.venv/bin/python code/pca_example/fa_example.py      # Factor Analysis on same data
+.venv/bin/python code/educational_example/educational_pca.py     # PCA analysis (existing)
+.venv/bin/python code/educational_example/educational_fa.py      # Factor Analysis on same data
 
 # Financial markets Factor Analysis  
 .venv/bin/python code/invest_example/fetch_invest.py
@@ -219,7 +219,7 @@ done
 
 The four working examples demonstrate Factor Analysis applications across diverse fields, with PCA comparisons for pedagogical contrast:
 
-### 1. Educational Assessment (`pca_example/`)
+### 1. Educational Assessment (`educational_example/`)
 - **Pedagogical Focus**: Direct comparison of PCA vs Factor Analysis on synthetic data
 - **Variables**: MathTest, VerbalTest, SocialSkills, Leadership + noise controls
 - **Learning Value**: Factor recovery validation, communalities interpretation, rotation effects

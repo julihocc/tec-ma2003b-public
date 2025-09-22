@@ -197,7 +197,7 @@ Quick steps to set up a development environment and run the repository's scripts
    
    # Run PCA examples
    .venv/bin/python lessons/4_Factor_Analysis/code/invest_example/invest_example.py
-   .venv/bin/python lessons/4_Factor_Analysis/code/pca_example/pca_example.py
+   .venv/bin/python lessons/4_Factor_Analysis/code/educational_example/educational_pca.py
    ```
 
 5. Initialize and update the evaluations submodule (if you have access):
@@ -258,7 +258,7 @@ jupytext --to ipynb lessons/4_Factor_Analysis/code/*/*.py
 **Working Examples:**
 
 - `lessons/4_Factor_Analysis/code/invest_example/` - PCA analysis with real stock market data
-- `lessons/4_Factor_Analysis/code/pca_example/` - Synthetic PCA demonstration
+- `lessons/4_Factor_Analysis/code/educational_example/` - Synthetic PCA demonstration
 
 **Business Case Evaluation (Submodule):**
 
