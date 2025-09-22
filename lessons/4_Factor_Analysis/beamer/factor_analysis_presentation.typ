@@ -134,7 +134,6 @@
   - Always check variable scales; standardize when necessary.
   - PCA is sensitive to outliers — inspect data and consider robust alternatives if needed.
   - Interpret components via loadings (eigenvectors) and by examining which variables contribute strongly to each component.
-  - Rotation is not standard in PCA (rotation reassigns variance) — if interpretability is a priority, consider Factor Analysis with rotation.
   - When reporting, include: eigenvalues table, proportion of variance, cumulative variance, scree plot, and a table of loadings (component matrix).
 ]
 
