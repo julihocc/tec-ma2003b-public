@@ -146,50 +146,36 @@
   - Often used to discover and validate underlying theoretical constructs
 ]
 
-#slide(title: [Factor Analysis Model])[
-  - *Common Factors*: Latent variables that influence multiple observed variables
-  - *Factor Loadings*: Relationships between observed variables and common factors
-  - *Unique/Specific Variance*: Variable-specific variance not explained by common factors (includes measurement error)
-  - *Core Equation*:
-    - Model: $X_i = sum_{j=1}^k lambda_(i j) F_j + U_i$
-    - Here $X_i$ is the observed (standardized) variable, $lambda_(i j)$ are factor loadings, $F_j$ are common factors, and $U_i$ is the unique term (specific + measurement error).
-  - *Communality & Uniqueness*:
-    - Communality: $h_i^2 = sum_{j=1}^k lambda_(i j)^2$ (shared variance explained by the factors)
-    - Uniqueness: $u_i^2 = 1 - h_i^2$ (proportion of variance unique to the variable)
-  - *Estimation notes*:
-    - Common extraction methods: principal axis factoring, maximum likelihood factoring
-    - After extraction, rotations (Varimax, Promax) are typically used to improve interpretability
-    - Factor scores can be estimated for downstream analysis (regression, clustering)
+// Split the long FA content into smaller, focused slides
+
+#slide(title: [Factor Analysis Model — Overview])[
+  - Models each observed variable as common factors + a unique term
+  - Core equation: $X_i = sum_{j=1}^k lambda_(i j) F_j + U_i$
+  - Short: $lambda_(i j)$ = loadings, $F_j$ = factors, $U_i$ = unique (specific + measurement error)
 ]
 
-#slide(title: [FA vs PCA: Key distinctions (in depth)])[
-  - Factor Analysis models observed variables as a combination of common latent factors plus unique (error) terms:
-    - Model: $X_i = sum_{j=1}^k lambda_(i j) F_j + U_i$  
-  - Here $lambda_(i j)$ are factor loadings, $F_j$ are common factors, and $U_i$ captures unique variance (specific + measurement error).
+#slide(title: [Communality and Uniqueness])[
+  - Communality: $h_i^2 = sum_{j=1}^k lambda_(i j)^2$ — variance explained by common factors
+  - Uniqueness: $u_i^2 = 1 - h_i^2$ — variable-specific variance (including error)
+  - Use communalities to judge how well factors explain each variable
+]
 
-  - PCA is a descriptive linear decomposition of total variance; FA is a statistical model for common variance:
-  - PCA: decomposes the total covariance/correlation matrix via eigen decomposition $S = V Lambda V^T$ and produces orthogonal components that are linear combinations of observed variables.
-  - FA: partitions each variable's variance into common (shared) and unique parts. Communality $h_i^2 = sum_{j=1}^k lambda_(i j)^2$; uniqueness $u_i^2 = 1 - h_i^2$ (for standardized variables).
+#slide(title: [Extraction Methods (brief)])[
+  - Principal axis factoring: iterative method focusing on common variance
+  - Maximum likelihood factoring: model-based; allows statistical tests and fit measures
+  - Choice affects initial loadings; rotation usually follows extraction
+]
 
-  - Measurement error and interpretation:
-    - FA explicitly models measurement error (in $U_i$) so loadings reflect relationships to latent constructs, not noise.
-    - PCA loadings mix common + unique variance; high loading may reflect noise if variables are noisy.
+#slide(title: [Rotation & Interpretation])[
+  - Purpose: obtain "simple structure" for easier interpretation
+  - Orthogonal rotation (Varimax): keeps factors uncorrelated
+  - Oblique rotation (Promax): allows factor correlations (more realistic for psychology/behavioral data)
+]
 
-  - Extraction and rotation:
-    - FA typically uses common-factor extraction (principal axis, maximum likelihood) and then applies rotations (orthogonal like Varimax or oblique like Promax) to achieve a "simple structure" and clearer interpretation.
-    - PCA's components are variance-maximizing and orthogonal by construction; rotating PCA components changes explained variance per component and is therefore less common.
-
-  - Assumptions, testing, and fit:
-    - FA assumes a model-driven structure and allows model testing (e.g., goodness-of-fit for ML factor models, tests for number of factors, residuals, and modification indices).
-    - FA requires larger sample sizes and checks (KMO, Bartlett's test) to justify factorability; PCA is more forgiving as an exploratory compression tool.
-
-  - Practical outputs and use-cases:
-    - FA yields factor loadings, communalities, uniquenesses, factor correlation matrices (if oblique), and factor scores estimated under the model.
-    - PCA yields principal component loadings, explained variance, and orthogonal scores used for dimension reduction, visualization, or preprocessing.
-
-  - Rule-of-thumb summary:
-    - Use PCA for data reduction and when the goal is to summarize variance.  
-    - Use Factor Analysis when you have a theoretical construct, want to model latent variables, and need to separate measurement error from common variance.
+#slide(title: [FA vs PCA — Quick comparison])[
+  - PCA: descriptive, decomposes total variance via $S = V Lambda V^T$, components are orthogonal
+  - FA: model-based, explains common variance; explicitly models uniqueness ($U_i$)
+  - When to use: PCA for compression/visualization; FA when modeling latent constructs & measurement error
 ]
 
 #section-slide[Theoretical Comparison: PCA vs Factor Analysis]
