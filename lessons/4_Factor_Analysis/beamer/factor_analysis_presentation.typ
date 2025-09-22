@@ -146,12 +146,34 @@
   - Often used to discover and validate underlying theoretical constructs
 ]
 
-#slide(title: [Factor Analysis Model])[
-  - *Common Factors*: Latent variables that influence multiple observed variables
-  - *Factor Loadings*: Relationships between observed variables and common factors
-  - *Unique Factors*: Variable-specific variance not explained by common factors
-  - *Core Equation*: $X_i = lambda_(i 1) F_1 + lambda_(i 2) F_2 + ... + lambda_(i k) F_k + U_i$
-    - $X_i$ = observed variable, $F_j$ = common factors, $U_i$ = unique factor
+#slide(title: [FA vs PCA: Key distinctions (in depth)])[
+  - Factor Analysis models observed variables as a combination of common latent factors plus unique (error) terms:
+    - Model: $X_i = sum_{j=1}^k lambda_(i j) F_j + U_i$  
+  - Here $lambda_(i j)$ are factor loadings, $F_j$ are common factors, and $U_i$ captures unique variance (specific + measurement error).
+
+  - PCA is a descriptive linear decomposition of total variance; FA is a statistical model for common variance:
+  - PCA: decomposes the total covariance/correlation matrix via eigen decomposition $S = V Lambda V^T$ and produces orthogonal components that are linear combinations of observed variables.
+  - FA: partitions each variable's variance into common (shared) and unique parts. Communality $h_i^2 = sum_{j=1}^k lambda_(i j)^2$; uniqueness $u_i^2 = 1 - h_i^2$ (for standardized variables).
+
+  - Measurement error and interpretation:
+    - FA explicitly models measurement error (in $U_i$) so loadings reflect relationships to latent constructs, not noise.
+    - PCA loadings mix common + unique variance; high loading may reflect noise if variables are noisy.
+
+  - Extraction and rotation:
+    - FA typically uses common-factor extraction (principal axis, maximum likelihood) and then applies rotations (orthogonal like Varimax or oblique like Promax) to achieve a "simple structure" and clearer interpretation.
+    - PCA's components are variance-maximizing and orthogonal by construction; rotating PCA components changes explained variance per component and is therefore less common.
+
+  - Assumptions, testing, and fit:
+    - FA assumes a model-driven structure and allows model testing (e.g., goodness-of-fit for ML factor models, tests for number of factors, residuals, and modification indices).
+    - FA requires larger sample sizes and checks (KMO, Bartlett's test) to justify factorability; PCA is more forgiving as an exploratory compression tool.
+
+  - Practical outputs and use-cases:
+    - FA yields factor loadings, communalities, uniquenesses, factor correlation matrices (if oblique), and factor scores estimated under the model.
+    - PCA yields principal component loadings, explained variance, and orthogonal scores used for dimension reduction, visualization, or preprocessing.
+
+  - Rule-of-thumb summary:
+    - Use PCA for data reduction and when the goal is to summarize variance.  
+    - Use Factor Analysis when you have a theoretical construct, want to model latent variables, and need to separate measurement error from common variance.
 ]
 
 #section-slide[Theoretical Comparison: PCA vs Factor Analysis]
