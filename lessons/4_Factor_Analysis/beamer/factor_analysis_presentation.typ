@@ -83,6 +83,26 @@
   - Use cases: visualization, noise reduction, pre-processing before supervised learning, and exploratory data analysis.
 ]
 
+#slide(title: [Refresher: Eigen Decomposition])[
+  Eigen decomposition is a fundamental matrix factorization technique used in multivariate analysis.
+  
+  *Definition*: For a square matrix $bold(A)$, if it can be diagonalized, we can write:
+  $bold(A) = bold(P) bold(D) bold(P)^{-1}$
+  
+  Where:
+  - $bold(D)$ is a diagonal matrix containing the eigenvalues $lambda_1, lambda_2, ..., lambda_n$
+  - $bold(P)$ is the matrix whose columns are the eigenvectors $bold(v)_1, bold(v)_2, ..., bold(v)_n$
+  - Each eigenvector satisfies: $bold(A) bold(v)_j = lambda_j bold(v)_j$
+  
+  *For symmetric matrices* (like covariance matrices in PCA/FA):
+  - The eigenvectors are orthonormal ($bold(P)^top bold(P) = bold(I)$)
+  - The decomposition simplifies to: $bold(A) = bold(P) bold(D) bold(P)^top$
+  
+  *Geometric interpretation*: Eigenvectors represent directions of maximum variance, eigenvalues represent the magnitude of variance in those directions.
+  
+  *In multivariate statistics*: This decomposition underlies both PCA (principal components) and Factor Analysis (latent factors).
+]
+
 #slide(title: [Mathematical formulation])[
   Let $bold(x) in RR^p$ be a random vector with mean $mu$ and covariance matrix $Sigma$. After centering the data $(bold(x)-mu)$:
   - Find eigenvalues $lambda_1 >= lambda_2 >= ... >= lambda_p$ and orthonormal eigenvectors $bold(v)_1, ..., bold(v)_p$ of $Sigma$: $Sigma bold(v)_j = lambda_j bold(v)_j$.
