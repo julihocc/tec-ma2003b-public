@@ -9,6 +9,7 @@ description = "MA2003B course materials and utilities"
 readme = "README.md"
 authors = [ { name = "julihocc" } ]
 dependencies = [
+    "factor-analyzer>=0.5.1",
     "gdown>=5.2.0",
     "matplotlib>=3.8.0",
     "numpy>=1.24.0",

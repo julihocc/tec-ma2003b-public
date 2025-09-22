@@ -21,88 +21,29 @@ from pathlib import Path
 
 import matplotlib.pyplot as plt
 import numpy as np
+import pandas as pd
 from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler
+import sys
 
 # %%
-# Synthetic data generation parameters
+# Simple behaviour: expect educational.csv in the same folder as this script
 script_dir: Path = Path(__file__).resolve().parent
-n_samples: int = 100
-random_seed: int = 42
-standardize: bool = True
+data_path = script_dir / "educational.csv"
+if not data_path.exists():
+    print(
+        f"Missing {data_path}. Run `fetch_educational.py` in the same folder to generate educational.csv"
+    )
+    sys.exit(2)
 
-print(f"Generating synthetic dataset with {n_samples} observations")
-print(f"Using random seed: {random_seed}")
-print(f"Standardization: {standardize}")
+# Load data and prepare for analysis
+df = pd.read_csv(data_path)
+print(f"Loaded {len(df)} students with {len(df.columns) - 1} assessment metrics")
 
-# %% [markdown]
-# ## Synthetic Data Generation
-#
-# We create a controlled dataset with **two underlying latent factors** representing:
-# - **Intelligence Factor**: Underlying cognitive ability affecting academic tests
-# - **Personality Factor**: Underlying social/emotional traits affecting interpersonal skills
-#
-# Each observed variable is a linear combination of:
-# - One latent factor (with different loading strengths: 0.85 strong, 0.80 moderate)
-# - Measurement error (with different noise levels: 0.2 low, 0.25 medium)
-# - Two additional variables contain only noise (no latent structure)
-#
-# **Expected outcome**: PCA should identify meaningful components that capture the
-# latent factor structure, with clear separation from pure noise components.
-
-# %%
-rng: np.random.RandomState = np.random.RandomState(random_seed)
-
-# Generate two orthogonal latent factors
-intelligence_factor: np.ndarray = rng.normal(size=(n_samples, 1))  # Cognitive ability factor
-personality_factor: np.ndarray = rng.normal(size=(n_samples, 1))  # Social/emotional factor
-
-# Define noise terms for measurement error
-measurement_noise_low: np.ndarray = rng.normal(size=(n_samples, 1))  # Low noise (σ = 0.2)
-measurement_noise_med: np.ndarray = rng.normal(size=(n_samples, 1))  # Medium noise (σ = 0.25)
-pure_noise_1: np.ndarray = rng.normal(size=(n_samples, 1))  # Pure noise variable 1
-pure_noise_2: np.ndarray = rng.normal(size=(n_samples, 1))  # Pure noise variable 2
-
-# Define factor loadings
-strong_loading: float = 0.85  # Strong relationship to latent factor
-moderate_loading: float = 0.80  # Moderate relationship to latent factor
-low_noise_level: float = 0.2  # Low measurement error
-med_noise_level: float = 0.25  # Medium measurement error
-noise_variance_1: float = 0.6  # Variance for first noise variable
-noise_variance_2: float = 0.5  # Variance for second noise variable
-
-# Create observed variables with meaningful structure
-math_test: np.ndarray = (
-    strong_loading * intelligence_factor + low_noise_level * measurement_noise_low
-)
-verbal_test: np.ndarray = (
-    moderate_loading * intelligence_factor + med_noise_level * measurement_noise_med
-)
-social_skills: np.ndarray = (
-    strong_loading * personality_factor + low_noise_level * measurement_noise_low
-)
-leadership: np.ndarray = (
-    moderate_loading * personality_factor + med_noise_level * measurement_noise_med
-)
-random_var1: np.ndarray = noise_variance_1 * pure_noise_1  # Pure noise (no latent structure)
-random_var2: np.ndarray = noise_variance_2 * pure_noise_2  # Pure noise (no latent structure)
-
-# Combine into data matrix
-X: np.ndarray = np.hstack(
-    [math_test, verbal_test, social_skills, leadership, random_var1, random_var2]
-)
-
-# Create meaningful variable names for interpretation
-variable_names: list[str] = [
-    "MathTest",
-    "VerbalTest",
-    "SocialSkills",
-    "Leadership",
-    "RandomVar1",
-    "RandomVar2",
-]
-print(f"Data shape: {X.shape} ({n_samples} observations, {X.shape[1]} variables)")
-print("Variables:", variable_names)
+# Extract numeric columns (excluding Student ID)
+X = df.iloc[:, 1:]  # Skip first column (Student names)
+variable_names = list(X.columns)
+print("Assessment variables:", variable_names)
 
 # %% [markdown]
 # ## Preprocessing and PCA
@@ -291,7 +232,7 @@ else:
 # Create rankings based on PC1 and PC2 scores
 observation_scores = np.column_stack(
     [
-        np.arange(1, n_samples + 1),  # Observation IDs
+        np.arange(1, len(df) + 1),  # Observation IDs
         Z[:, 0],  # PC1 scores
         Z[:, 1],  # PC2 scores
     ]

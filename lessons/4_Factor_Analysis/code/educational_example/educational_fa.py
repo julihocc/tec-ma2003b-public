@@ -22,6 +22,7 @@ from pathlib import Path
 
 import matplotlib.pyplot as plt
 import numpy as np
+import pandas as pd
 import seaborn as sns
 from factor_analyzer import FactorAnalyzer
 from factor_analyzer.factor_analyzer import calculate_bartlett_sphericity, calculate_kmo
@@ -29,82 +30,23 @@ from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler
 
 # %%
-# Use same data generation as PCA example for direct comparison
+# Simple behaviour: expect educational.csv in the same folder as this script
 script_dir = Path(__file__).resolve().parent
-n_samples = 100
-random_seed = 42
-standardize = True
+data_path = script_dir / "educational.csv"
+if not data_path.exists():
+    print(
+        f"Missing {data_path}. Run `fetch_educational.py` in the same folder to generate educational.csv"
+    )
+    exit(1)
 
-print(f"Factor Analysis on synthetic dataset with {n_samples} observations")
-print(f"Using random seed: {random_seed}")
-print(f"Standardization: {standardize}")
+# Load data and prepare for analysis
+df = pd.read_csv(data_path)
+print(f"Loaded {len(df)} students with {len(df.columns) - 1} assessment metrics")
 
-# %% [markdown]
-# ## Generate Same Synthetic Data as PCA Example
-#
-# We use identical data generation to `pca_example.py` to enable direct comparison.
-# This controlled dataset has **two underlying latent factors**:
-# - **Intelligence Factor**: Affects MathTest, VerbalTest
-# - **Personality Factor**: Affects SocialSkills, Leadership
-# - **Noise Variables**: RandomVar1, RandomVar2 (no latent structure)
-#
-# **Key for FA vs PCA comparison**: FA should better identify the true latent
-# factor structure since it models common variance specifically.
-
-# %%
-# Generate identical synthetic data (same as pca_example.py)
-rng = np.random.RandomState(random_seed)
-
-# Generate two orthogonal latent factors
-intelligence_factor = rng.normal(size=(n_samples, 1))  # Cognitive ability factor
-personality_factor = rng.normal(size=(n_samples, 1))  # Social/emotional factor
-
-# Define noise terms for measurement error
-measurement_noise_low = rng.normal(size=(n_samples, 1))  # Low noise (σ = 0.2)
-measurement_noise_med = rng.normal(size=(n_samples, 1))  # Medium noise (σ = 0.25)
-pure_noise_1 = rng.normal(size=(n_samples, 1))  # Pure noise variable 1
-pure_noise_2 = rng.normal(size=(n_samples, 1))  # Pure noise variable 2
-
-# Define factor loadings (same as PCA example)
-strong_loading = 0.85  # Strong relationship to latent factor
-moderate_loading = 0.80  # Moderate relationship to latent factor
-low_noise_level = 0.2  # Low measurement error
-med_noise_level = 0.25  # Medium measurement error
-noise_variance_1 = 0.6  # Variance for first noise variable
-noise_variance_2 = 0.5  # Variance for second noise variable
-
-# Create observed variables with meaningful structure
-math_test = (
-    strong_loading * intelligence_factor + low_noise_level * measurement_noise_low
-)
-verbal_test = (
-    moderate_loading * intelligence_factor + med_noise_level * measurement_noise_med
-)
-social_skills = (
-    strong_loading * personality_factor + low_noise_level * measurement_noise_low
-)
-leadership = (
-    moderate_loading * personality_factor + med_noise_level * measurement_noise_med
-)
-random_var1 = noise_variance_1 * pure_noise_1  # Pure noise (no latent structure)
-random_var2 = noise_variance_2 * pure_noise_2  # Pure noise (no latent structure)
-
-# Combine into data matrix
-X = np.hstack(
-    [math_test, verbal_test, social_skills, leadership, random_var1, random_var2]
-)
-
-# Create meaningful variable names for interpretation
-variable_names = [
-    "MathTest",
-    "VerbalTest",
-    "SocialSkills",
-    "Leadership",
-    "RandomVar1",
-    "RandomVar2",
-]
-print(f"Data shape: {X.shape} ({n_samples} observations, {X.shape[1]} variables)")
-print("Variables:", variable_names)
+# Extract numeric columns (excluding Student ID)
+X = df.iloc[:, 1:]  # Skip first column (Student names)
+variable_names = list(X.columns)
+print("Assessment variables:", variable_names)
 
 # %% [markdown]
 # ## Preprocessing and Factor Analysis Assumptions
@@ -217,7 +159,9 @@ loadings_rotated = fa_rotated.loadings_
 
 # Add safety check: If rotated loadings failed, fall back to unrotated
 if loadings_rotated is None:
-    print("Warning: Varimax rotation failed or produced no loadings. Using unrotated loadings for comparison.")
+    print(
+        "Warning: Varimax rotation failed or produced no loadings. Using unrotated loadings for comparison."
+    )
     loadings_rotated = loadings_unrotated
 
 assert loadings_rotated is not None

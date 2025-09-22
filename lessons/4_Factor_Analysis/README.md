@@ -1,6 +1,18 @@
 # Chapter 4 — Factor Analysis
 
-This chapter covers Factor Analysis techniques for dimensionality reduction and latent variable modeling in multivariate data.
+This chapter covers Factor Analysis techniques for dim#### Working Code Examples
+```
+code/
+├── educational_example/               # Synthetic educational PCA demonstration (for comparison)
+│   ├── fetch_educational.py          # Generates synthetic educational data
+│   ├── educational_pca.py            # PCA analysis on educational assessments
+│   ├── educational_fa.py             # Factor Analysis on same data
+│   ├── educational.csv               # Generated synthetic dataset
+│   ├── EDUCATIONAL_ASSESSMENT_DATA_DICTIONARY.md # Detailed data dictionary
+│   ├── README.md                     # Educational context and usage
+│   ├── pca_scree.png                 # PCA component selection visualization
+│   ├── fa_scree.png                  # FA factor selection visualization
+│   └── fa_loadings.png               # Factor loadings heatmapy reduction and latent variable modeling in multivariate data.
 
 ## Chapter Overview
 
@@ -147,7 +159,8 @@ pdflatex factor_analysis_presentation.tex
 #### Run Working Examples
 ```bash
 # Educational example: PCA vs Factor Analysis comparison
-.venv/bin/python code/educational_example/educational_pca.py     # PCA analysis (existing)
+.venv/bin/python code/educational_example/fetch_educational.py  # Generate synthetic data
+.venv/bin/python code/educational_example/educational_pca.py     # PCA analysis
 .venv/bin/python code/educational_example/educational_fa.py      # Factor Analysis on same data
 
 # Financial markets Factor Analysis  
