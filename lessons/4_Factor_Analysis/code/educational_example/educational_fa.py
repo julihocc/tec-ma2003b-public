@@ -1,24 +1,23 @@
 # %% [markdown]
-# # Factor Analysis vs PCA Comparison - Educational Assessment
+# # Factor Analysis: Educational Assessment Data
 #
-# This script demonstrates the key differences between Factor Analysis (FA) and
-# Principal Component Analysis (PCA) using the same synthetic educational dataset.
-# This direct comparison highlights when and why to choose FA over PCA.
+# This analysis demonstrates Factor Analysis (FA) to identify latent constructs
+# underlying student assessment performance. We'll explore how FA differs from PCA
+# by focusing on shared variance and latent factor interpretation.
 #
-# ## Key differences explored:
-# - **PCA**: Explains maximum variance, includes all variance (common + unique)
-# - **Factor Analysis**: Models only common variance, estimates communalities
-# - **Interpretation**: FA focuses on latent constructs, PCA on data reduction
-# - **Factor Loadings**: FA loadings represent relationships to latent factors
-#
-# ## What to expect when you run this file:
-# - Comparative factor extraction using Principal Axis Factoring
-# - Communality estimates and uniquenesses interpretation
-# - Factor rotation (Varimax) for improved interpretability
-# - Direct comparison with PCA results from `pca_example.py`
+# **Learning objectives:**
+# - Apply Factor Analysis to discover latent psychological constructs
+# - Understand communalities and uniquenesses in measurement models
+# - Use factor rotation to achieve simple structure
+# - Compare Factor Analysis with Principal Component Analysis
+# - Interpret factor loadings for construct validation
+
+# %% [markdown]
+# ## Import Libraries and Setup
 
 # %%
 from pathlib import Path
+import sys
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -29,378 +28,411 @@ from factor_analyzer.factor_analyzer import calculate_bartlett_sphericity, calcu
 from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler
 
+from utils import setup_logger
+
+logger = setup_logger(__name__)
+
+# %% [markdown]
+# ## Data Loading and Exploration
+
 # %%
-# Simple behaviour: expect educational.csv in the same folder as this script
 script_dir = Path(__file__).resolve().parent
 data_path = script_dir / "educational.csv"
+
 if not data_path.exists():
-    print(
-        f"Missing {data_path}. Run `fetch_educational.py` in the same folder to generate educational.csv"
-    )
-    exit(1)
+    logger.error(f"Data file not found: {data_path}")
+    logger.info("Run 'fetch_educational.py' to generate the required data file")
+    sys.exit(1)
 
-# Load data and prepare for analysis
 df = pd.read_csv(data_path)
-print(f"Loaded {len(df)} students with {len(df.columns) - 1} assessment metrics")
+logger.info(f"Loaded dataset: {len(df)} students, {len(df.columns) - 1} assessment variables")
 
-# Extract numeric columns (excluding Student ID)
-X = df.iloc[:, 1:]  # Skip first column (Student names)
+# Extract assessment variables (exclude Student ID)
+X = df.iloc[:, 1:]
 variable_names = list(X.columns)
-print("Assessment variables:", variable_names)
+
+logger.info(f"Assessment variables: {variable_names}")
+logger.info(f"Data shape: {X.shape}")
 
 # %% [markdown]
-# ## Preprocessing and Factor Analysis Assumptions
-#
-# Before running Factor Analysis, we check key assumptions:
-# - **Bartlett's Test of Sphericity**: Tests if correlation matrix ≠ identity
-# - **KMO (Kaiser-Meyer-Olkin)**: Measures sampling adequacy (>.6 acceptable)
-# - **Correlation adequacy**: Variables should be meaningfully correlated
+# ## Data Standardization
+# 
+# Factor Analysis requires standardized data to ensure variables contribute equally
+# to the factor solution, regardless of their original measurement scales.
 
 # %%
-# Standardize data (same preprocessing as PCA)
-Xs = StandardScaler().fit_transform(X)
+scaler = StandardScaler()
+X_standardized = scaler.fit_transform(X)
 
-# Check Factor Analysis assumptions
-chi_square_value, p_value = calculate_bartlett_sphericity(Xs)
-kmo_all, kmo_model = calculate_kmo(Xs)
+logger.info("Data standardized: mean ≈ 0, std ≈ 1 for all variables")
 
-print("--- Factor Analysis Assumptions ---")
-print("Bartlett's Test of Sphericity:")
-print(f"  Chi-square: {chi_square_value:.3f}")
-print(f"  p-value: {p_value:.6f}")
-print(
-    f"  Interpretation: {'✓ Reject null - suitable for FA' if p_value < 0.05 else '✗ Fail to reject - may not be suitable'}"
-)
-print("\nKMO Test:")
-print(f"  Overall MSA: {kmo_model:.3f}")
-print(
-    f"  Interpretation: {'✓ Excellent' if kmo_model > 0.9 else '✓ Good' if kmo_model > 0.8 else '✓ Acceptable' if kmo_model > 0.6 else '✗ Unacceptable'} sampling adequacy"
-)
+# %% [markdown]
+# ## Factor Analysis Assumptions Testing
+# 
+# Before proceeding with Factor Analysis, we must verify that our data meets
+# key statistical assumptions for meaningful factor extraction.
 
 # %%
-# Show individual variable KMO values
-print("Individual Variable MSA values:")
-print(f"{'Variable':<12} {'MSA':<8}")
-print("-" * 20)
+# Test statistical assumptions
+chi_square_value, p_value = calculate_bartlett_sphericity(X_standardized)
+kmo_all, kmo_model = calculate_kmo(X_standardized)
+
+logger.info("Factor Analysis Assumptions Testing:")
+logger.info(f"\nBartlett's Test of Sphericity:")
+logger.info(f"  Chi-square statistic: {chi_square_value:.3f}")
+logger.info(f"  p-value: {p_value:.6f}")
+if p_value < 0.05:
+    logger.info("  ✓ Significant - variables are sufficiently correlated for FA")
+else:
+    logger.info("  ✗ Not significant - FA may not be appropriate")
+
+logger.info(f"\nKaiser-Meyer-Olkin (KMO) Test:")
+logger.info(f"  Overall Measure of Sampling Adequacy: {kmo_model:.3f}")
+if kmo_model > 0.9:
+    adequacy = "Excellent"
+elif kmo_model > 0.8:
+    adequacy = "Good"
+elif kmo_model > 0.6:
+    adequacy = "Acceptable"
+else:
+    adequacy = "Unacceptable"
+logger.info(f"  Interpretation: {adequacy} sampling adequacy")
+
+# %% [markdown]
+# ### Individual Variable Adequacy
+# 
+# Each variable's individual KMO value indicates how well it can be predicted
+# from the other variables in the analysis.
+
+# %%
+logger.info("\nIndividual Variable Sampling Adequacy:")
 for i, var_name in enumerate(variable_names):
-    print(f"{var_name:<12} {kmo_all[i]:<8.3f}")
+    msa_value = kmo_all[i]
+    logger.info(f"  {var_name}: {msa_value:.3f}")
+    
+# Flag any problematic variables
+low_msa_vars = [var_name for i, var_name in enumerate(variable_names) if kmo_all[i] < 0.6]
+if low_msa_vars:
+    logger.warning(f"Variables with low MSA (<0.6): {low_msa_vars}")
+else:
+    logger.info("All variables show adequate sampling adequacy (MSA ≥ 0.6)")
 
 # %% [markdown]
-# ## Factor Extraction: Principal Axis Factoring
-#
-# We use Principal Axis Factoring (PAF), a common factor analysis method that:
+# ## Factor Extraction with Principal Axis Factoring
+# 
+# We'll extract factors using Principal Axis Factoring (PAF), which:
+# - Focuses on shared variance among variables (common factors)
 # - Estimates communalities iteratively
-# - Extracts factors from the correlation matrix with communalities on diagonal
-# - Focuses on shared variance among variables
-#
-# We'll compare 2-factor (theory-driven) and data-driven solutions.
+# - Distinguishes between common and unique variance
 
 # %%
-# Fit Factor Analysis with 2 factors (theory-driven: Intelligence + Personality)
-n_factors_theory = 2
-fa_theory = FactorAnalyzer(
-    n_factors=n_factors_theory, rotation=None, method="principal"
+# Determine number of factors to extract
+n_factors = 2  # Based on theoretical expectation of cognitive + social factors
+
+fa_unrotated = FactorAnalyzer(
+    n_factors=n_factors, rotation="none", method="principal"
 )
-fa_theory.fit(Xs)
+fa_unrotated.fit(X_standardized)
 
-# Check if fit was successful
-if fa_theory.loadings_ is None:
-    raise ValueError("Factor analysis fit failed - no loadings produced")
+# Verify successful extraction
+if fa_unrotated.loadings_ is None:
+    logger.error("Factor extraction failed - no loadings produced")
+    sys.exit(1)
 
-print(f"--- Factor Analysis: {n_factors_theory} Factors (Theory-Driven) ---")
-print(f"Eigenvalues: {np.round(fa_theory.get_eigenvalues()[0][:n_factors_theory], 3)}")
+logger.info(f"Factor Analysis Results ({n_factors} factors extracted):")
+eigenvalues_fa = fa_unrotated.get_eigenvalues()[0]
+logger.info(f"Eigenvalues: {np.round(eigenvalues_fa[:n_factors], 3)}")
 
-# Extract communalities and uniquenesses
-communalities = fa_theory.get_communalities()
+# %% [markdown]
+# ### Communalities and Variance Decomposition
+# 
+# Each variable's variance is decomposed into:
+# - **Communality (h²)**: Variance explained by common factors
+# - **Uniqueness (u²)**: Variance unique to the variable (including error)
+
+# %%
+communalities = fa_unrotated.get_communalities()
 uniquenesses = 1 - communalities
 
-print("\nCommunalities and Uniquenesses:")
-print(f"{'Variable':<12} {'h²':<8} {'u²':<8}")
-print("-" * 28)
+logger.info("\nVariance Decomposition (Communalities and Uniquenesses):")
 for i, var_name in enumerate(variable_names):
-    print(f"{var_name:<12} {communalities[i]:<8.3f} {uniquenesses[i]:<8.3f}")
+    h2 = communalities[i]
+    u2 = uniquenesses[i]
+    logger.info(f"  {var_name}: h² = {h2:.3f}, u² = {u2:.3f}")
 
-# Calculate variance explained by factors
+# Analyze overall variance structure
 factor_variance = np.sum(communalities)
 total_variance = len(variable_names)  # For standardized data
 variance_explained = factor_variance / total_variance
 
-print("\nVariance Analysis:")
-print(f"Total variance (standardized): {total_variance:.1f}")
-print(f"Common variance (sum of h²): {factor_variance:.3f}")
-print(f"Proportion explained by factors: {variance_explained:.1%}")
+logger.info(f"\nOverall Variance Analysis:")
+logger.info(f"Total standardized variance: {total_variance:.1f}")
+logger.info(f"Common variance (Σh²): {factor_variance:.3f}")
+logger.info(f"Proportion of variance explained by factors: {variance_explained:.1%}")
+logger.info(f"Average communality: {np.mean(communalities):.3f}")
 
 # %% [markdown]
-# ### Interpretation: Communalities
-#
-# **Communalities (h²)** represent the proportion of each variable's variance
-# explained by the common factors. Compare these values:
-# - **MathTest & VerbalTest**: Should have high h² (driven by Intelligence factor)
-# - **SocialSkills & Leadership**: Should have high h² (driven by Personality factor)
-# - **RandomVar1 & RandomVar2**: Should have low h² (mostly unique variance)
+# **Interpreting Communalities:**
+# 
+# - **High communality (h² > 0.6)**: Variable strongly related to common factors
+# - **Moderate communality (0.3 < h² < 0.6)**: Moderate factor relationship
+# - **Low communality (h² < 0.3)**: Mostly unique variance, weak factor loading
+# 
+# Variables with very low communalities may be candidates for removal
+# or may represent additional factors not captured in the current solution.
 
 # %% [markdown]
-# ## Factor Rotation: Varimax for Simple Structure
-#
-# Unrotated factors may be difficult to interpret. Varimax rotation:
-# - Maximizes variance of squared loadings within each factor
-# - Seeks "simple structure" where variables load highly on one factor
-# - Maintains orthogonality (factors remain uncorrelated)
+# ## Factor Rotation for Simple Structure
+# 
+# Factor rotation improves interpretability without changing the fundamental solution.
+# Varimax rotation seeks "simple structure" where each variable loads primarily on one factor.
 
 # %%
-# Apply Varimax rotation for better interpretability
 fa_rotated = FactorAnalyzer(
-    n_factors=n_factors_theory, rotation="varimax", method="principal"
+    n_factors=n_factors, rotation="varimax", method="principal"
 )
-fa_rotated.fit(Xs)
+fa_rotated.fit(X_standardized)
 
-loadings_unrotated = fa_theory.loadings_
+loadings_unrotated = fa_unrotated.loadings_
 loadings_rotated = fa_rotated.loadings_
 
-# Add safety check: If rotated loadings failed, fall back to unrotated
+# Safety check for rotation success
 if loadings_rotated is None:
-    print(
-        "Warning: Varimax rotation failed or produced no loadings. Using unrotated loadings for comparison."
-    )
+    logger.warning("Varimax rotation failed, using unrotated solution")
     loadings_rotated = loadings_unrotated
+    fa_rotated = fa_unrotated
 
-assert loadings_rotated is not None
+logger.info("\nFactor Loadings Comparison (Unrotated vs. Varimax Rotated):")
 
-print("--- Factor Loadings Comparison: Unrotated vs Varimax ---")
-print(
-    f"{'Variable':<12} {'Unrot-F1':<10} {'Unrot-F2':<10} {'Vmax-F1':<10} {'Vmax-F2':<10}"
-)
-print("-" * 62)
-for i, var_name in enumerate(variable_names):
-    print(
-        f"{var_name:<12} {loadings_unrotated[i, 0]:<10.3f} {loadings_unrotated[i, 1]:<10.3f} {loadings_rotated[i, 0]:<10.3f} {loadings_rotated[i, 1]:<10.3f}"
-    )
+# Create comparison table
+comparison_df = pd.DataFrame({
+    'Variable': variable_names,
+    'Unrot_F1': loadings_unrotated[:, 0],
+    'Unrot_F2': loadings_unrotated[:, 1],
+    'Rotated_F1': loadings_rotated[:, 0],
+    'Rotated_F2': loadings_rotated[:, 1]
+})
+
+print(comparison_df.round(3))
 
 # %% [markdown]
 # ### Factor Loading Interpretation
-#
-# **Expected pattern after Varimax rotation**:
-# - **Factor 1**: High loadings for MathTest, VerbalTest (Intelligence factor)
-# - **Factor 2**: High loadings for SocialSkills, Leadership (Personality factor)
-# - **Random variables**: Low loadings on both factors
-# - **Simple structure**: Each variable loads primarily on one factor
+# 
+# **Rotation benefits:**
+# - **Simple structure**: Variables load primarily on one factor
+# - **Clearer interpretation**: Easier to identify what each factor represents
+# - **Practical meaning**: Factors align better with theoretical constructs
+# 
+# **Loading interpretation guidelines:**
+# - **|loading| > 0.6**: Strong factor relationship
+# - **0.3 < |loading| < 0.6**: Moderate relationship  
+# - **|loading| < 0.3**: Weak/negligible relationship
+
+# %% [markdown]
+# ## Factor Loading Visualization
+# 
+# Heatmaps provide visual comparison of loading patterns before and after rotation.
 
 # %%
-# Visualize factor loadings with heatmap
-fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 5))
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 6))
 
 # Unrotated loadings heatmap
 sns.heatmap(
     loadings_unrotated.T,
     annot=True,
-    fmt=".2f",
+    fmt=".3f",
     xticklabels=variable_names,
-    yticklabels=[f"Factor {i + 1}" for i in range(n_factors_theory)],
-    cmap="RdYlGn_r",
+    yticklabels=[f"Factor {i + 1}" for i in range(n_factors)],
+    cmap="RdBu_r",
     center=0,
     vmin=-1,
     vmax=1,
     ax=ax1,
-    cbar_kws={"shrink": 0.8},
+    cbar_kws={"shrink": 0.8}
 )
 ax1.set_title("Unrotated Factor Loadings")
+ax1.set_xlabel("Variables")
 
 # Rotated loadings heatmap
 sns.heatmap(
     loadings_rotated.T,
     annot=True,
-    fmt=".2f",
+    fmt=".3f",
     xticklabels=variable_names,
-    yticklabels=[f"Factor {i + 1}" for i in range(n_factors_theory)],
-    cmap="RdYlGn_r",
+    yticklabels=[f"Factor {i + 1}" for i in range(n_factors)],
+    cmap="RdBu_r",
     center=0,
     vmin=-1,
     vmax=1,
     ax=ax2,
-    cbar_kws={"shrink": 0.8},
+    cbar_kws={"shrink": 0.8}
 )
 ax2.set_title("Varimax Rotated Factor Loadings")
+ax2.set_xlabel("Variables")
 
 plt.tight_layout()
-loadings_out = script_dir / "fa_loadings.png"
-plt.savefig(loadings_out, dpi=150, bbox_inches="tight")
-print(f"Saved {loadings_out}")
+loadings_path = script_dir / "fa_loadings.png"
+plt.savefig(loadings_path, dpi=150, bbox_inches="tight")
+logger.info(f"Factor loadings heatmap saved: {loadings_path}")
 plt.show()
 
 # %% [markdown]
-# ## Factor Analysis vs PCA: Direct Comparison
-#
-# Now let's directly compare Factor Analysis results with PCA on the same data.
-# This comparison highlights the fundamental philosophical differences.
+# ## Factor Analysis vs PCA Comparison
+# 
+# Direct comparison reveals fundamental differences between these two approaches
+# to multivariate data analysis.
 
 # %%
-# Run PCA on same data for direct comparison
+# Run PCA for comparison
 pca = PCA()
-pca_scores = pca.fit_transform(Xs)
-pca_loadings = pca.components_.T * np.sqrt(pca.explained_variance_)  # Scale loadings
+pca_scores = pca.fit_transform(X_standardized)
+pca_loadings = pca.components_.T * np.sqrt(pca.explained_variance_)
 
-# Run FA and get factor scores
-fa_scores = fa_rotated.transform(Xs)
+# Get factor scores
+fa_scores = fa_rotated.transform(X_standardized)
 
-print("--- Factor Analysis vs PCA: Method Comparison ---")
-print("\n1. VARIANCE PERSPECTIVE:")
-print(
-    f"PCA - Total variance explained by first 2 components: {pca.explained_variance_ratio_[:2].sum():.1%}"
-)
-print(f"FA  - Common variance explained by 2 factors: {variance_explained:.1%}")
-print("     Difference: PCA includes unique variance, FA models only shared variance")
+logger.info("\nFactor Analysis vs PCA Comparison:")
 
-print("\n2. LOADING COMPARISON (first 2 dimensions):")
-print(f"{'Variable':<12} {'PCA-PC1':<10} {'PCA-PC2':<10} {'FA-F1':<10} {'FA-F2':<10}")
-print("-" * 52)
-for i, var_name in enumerate(variable_names):
-    print(
-        f"{var_name:<12} {pca_loadings[i, 0]:<10.3f} {pca_loadings[i, 1]:<10.3f} {loadings_rotated[i, 0]:<10.3f} {loadings_rotated[i, 1]:<10.3f}"
-    )
+# Variance explanation comparison
+pca_variance_2comp = pca.explained_variance_ratio_[:2].sum()
+logger.info(f"\nVariance Explanation:")
+logger.info(f"  PCA (first 2 components): {pca_variance_2comp:.1%} of total variance")
+logger.info(f"  FA (2 factors): {variance_explained:.1%} of common variance")
+logger.info(f"  Key difference: PCA maximizes total variance, FA focuses on shared variance")
+
+# Loading comparison
+logger.info(f"\nLoading Pattern Comparison:")
+comparison_detailed = pd.DataFrame({
+    'Variable': variable_names,
+    'PCA_PC1': pca_loadings[:, 0],
+    'PCA_PC2': pca_loadings[:, 1], 
+    'FA_F1': loadings_rotated[:, 0],
+    'FA_F2': loadings_rotated[:, 1]
+})
+
+print(comparison_detailed.round(3))
 
 # %% [markdown]
-# ## Scree Plot: FA vs PCA Comparison
-#
-# Scree plots for FA and PCA show different eigenvalue patterns:
-# - **PCA**: All eigenvalues from variance decomposition
-# - **FA**: Only eigenvalues from common factor space
+# ## Eigenvalue Comparison: FA vs PCA
+# 
+# Scree plots reveal how eigenvalues differ between methods due to their
+# different approaches to variance decomposition.
 
 # %%
-# Calculate eigenvalues for comparison
 pca_eigenvalues = pca.explained_variance_
-fa_eigenvalues = fa_theory.get_eigenvalues()[0]
+fa_eigenvalues = fa_unrotated.get_eigenvalues()[0]
 
-plt.figure(figsize=(10, 6))
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 5))
+components = np.arange(1, len(pca_eigenvalues) + 1)
 
 # PCA scree plot
-plt.subplot(1, 2, 1)
-components = np.arange(1, len(pca_eigenvalues) + 1)
-plt.plot(
-    components,
-    pca_eigenvalues,
-    "o-",
-    lw=2,
-    color="steelblue",
-    markersize=8,
-    label="PCA",
-)
-plt.axhline(y=1.0, color="red", linestyle="--", alpha=0.7, label="Kaiser criterion")
-plt.xlabel("Component")
-plt.ylabel("Eigenvalue")
-plt.title("PCA Scree Plot")
-plt.xticks(components)
-plt.grid(True, ls=":", alpha=0.7)
-plt.legend()
+ax1.plot(components, pca_eigenvalues, "o-", linewidth=2, color="steelblue", 
+         markersize=8, label="PCA Eigenvalues")
+ax1.axhline(y=1.0, color="red", linestyle="--", alpha=0.7, label="Kaiser criterion")
+ax1.set_xlabel("Component Number")
+ax1.set_ylabel("Eigenvalue")
+ax1.set_title("PCA Eigenvalues")
+ax1.set_xticks(components)
+ax1.grid(True, linestyle=":", alpha=0.7)
+ax1.legend()
 
 # FA scree plot
-plt.subplot(1, 2, 2)
-plt.plot(
-    components,
-    fa_eigenvalues,
-    "o-",
-    lw=2,
-    color="darkgreen",
-    markersize=8,
-    label="Factor Analysis",
-)
-plt.axhline(y=1.0, color="red", linestyle="--", alpha=0.7, label="Kaiser criterion")
-plt.xlabel("Factor")
-plt.ylabel("Eigenvalue")
-plt.title("Factor Analysis Scree Plot")
-plt.xticks(components)
-plt.grid(True, ls=":", alpha=0.7)
-plt.legend()
+ax2.plot(components, fa_eigenvalues, "o-", linewidth=2, color="darkgreen", 
+         markersize=8, label="FA Eigenvalues")
+ax2.axhline(y=1.0, color="red", linestyle="--", alpha=0.7, label="Kaiser criterion")
+ax2.set_xlabel("Factor Number")
+ax2.set_ylabel("Eigenvalue")
+ax2.set_title("Factor Analysis Eigenvalues")
+ax2.set_xticks(components)
+ax2.grid(True, linestyle=":", alpha=0.7)
+ax2.legend()
 
 plt.tight_layout()
-scree_out = script_dir / "fa_scree.png"
-plt.savefig(scree_out, dpi=150, bbox_inches="tight")
-print(f"Saved {scree_out}")
+scree_path = script_dir / "fa_scree.png"
+plt.savefig(scree_path, dpi=150, bbox_inches="tight")
+logger.info(f"Eigenvalue comparison saved: {scree_path}")
 plt.show()
 
 # %% [markdown]
-# ### Scree Plot Interpretation
-#
-# **Key differences between FA and PCA eigenvalues**:
-# - FA eigenvalues are typically lower (common variance only)
-# - Kaiser criterion may suggest different number of factors vs components
-# - FA focuses on factor retention for latent constructs, not variance maximization
+# **Eigenvalue pattern differences:**
+# 
+# - **FA eigenvalues**: Generally lower because they reflect only common variance
+# - **PCA eigenvalues**: Higher because they include both common and unique variance
+# - **Kaiser criterion**: May suggest different optimal numbers for FA vs PCA
+# - **Theoretical focus**: FA prioritizes meaningful factors over variance maximization
 
 # %% [markdown]
-# ## Factor Analysis Validation and Interpretation
-#
-# Let's validate how well FA recovered our known factor structure:
+# ## Factor Structure Interpretation and Validation
+# 
+# Analyze the extracted factors to understand what psychological constructs
+# they represent and how well they align with theoretical expectations.
 
 # %%
-print("--- Factor Structure Recovery Validation ---")
-
-# Identify which variables load on which factors (>.4 threshold common)
+# Identify salient loadings (commonly |loading| > 0.4)
 loading_threshold = 0.4
 
-print(f"Factor loadings above {loading_threshold} threshold:")
-for factor_idx in range(n_factors_theory):
+logger.info(f"\nFactor Structure Analysis (threshold = {loading_threshold}):")
+for factor_idx in range(n_factors):
     factor_name = f"Factor {factor_idx + 1}"
-    high_loading_vars = []
-
+    salient_vars = []
+    
     for var_idx, var_name in enumerate(variable_names):
-        loading = abs(loadings_rotated[var_idx, factor_idx])
-        if loading > loading_threshold:
-            high_loading_vars.append(f"{var_name}({loading:.2f})")
+        loading = loadings_rotated[var_idx, factor_idx]
+        if abs(loading) > loading_threshold:
+            salient_vars.append(f"{var_name} ({loading:+.3f})")
+    
+    logger.info(f"  {factor_name}: {', '.join(salient_vars) if salient_vars else 'No salient loadings'}")
 
-    print(
-        f"{factor_name}: {', '.join(high_loading_vars) if high_loading_vars else 'None'}"
-    )
-
-# Compare communalities: meaningful vs noise variables
+# Analyze communality patterns
 meaningful_vars = ["MathTest", "VerbalTest", "SocialSkills", "Leadership"]
-noise_vars = ["RandomVar1", "RandomVar2"]
+random_vars = ["RandomVar1", "RandomVar2"]
 
-meaningful_communalities = [
-    communalities[i] for i, var in enumerate(variable_names) if var in meaningful_vars
-]
-noise_communalities = [
-    communalities[i] for i, var in enumerate(variable_names) if var in noise_vars
-]
-
-print("\nCommunality Analysis:")
-print(f"Meaningful variables average h²: {np.mean(meaningful_communalities):.3f}")
-print(f"Noise variables average h²: {np.mean(noise_communalities):.3f}")
-
-# Success metric: meaningful variables should have higher communalities
-if np.mean(meaningful_communalities) > np.mean(noise_communalities) * 1.5:
-    print(
-        "✓ SUCCESS: Factor Analysis successfully separated meaningful variables from noise!"
-    )
-    print("  Meaningful variables show higher communalities than noise variables")
+if all(var in variable_names for var in meaningful_vars + random_vars):
+    meaningful_h2 = [communalities[variable_names.index(var)] for var in meaningful_vars]
+    random_h2 = [communalities[variable_names.index(var)] for var in random_vars]
+    
+    logger.info(f"\nCommunality Pattern Analysis:")
+    logger.info(f"  Meaningful variables (cognitive/social): mean h² = {np.mean(meaningful_h2):.3f}")
+    logger.info(f"  Random variables (noise): mean h² = {np.mean(random_h2):.3f}")
+    
+    if np.mean(meaningful_h2) > np.mean(random_h2) * 1.5:
+        logger.info("  ✓ Factor structure successfully distinguishes signal from noise")
+    else:
+        logger.info("  ⚠ Mixed signal-noise separation - consider alternative solutions")
 else:
-    print(
-        "⚠ NOTICE: Factor structure could be cleaner - consider more factors or different rotation"
-    )
+    logger.info("\nExpected variable names not found - skipping pattern analysis")
 
 # %% [markdown]
-# ## Conclusion: When to Use Factor Analysis vs PCA
-#
-# This direct comparison reveals key decision criteria:
-#
-# ### **Choose Factor Analysis when**:
-# - You have theoretical hypotheses about latent constructs
-# - You want to model relationships between observed variables and latent factors
-# - Common variance is more important than total variance
-# - You need to estimate measurement error (uniquenesses)
-# - Interpreting latent psychological, social, or economic constructs
-#
-# ### **Choose PCA when**:
-# - Primary goal is data reduction/dimensionality reduction
-# - You want to maximize explained variance
-# - No specific theoretical model for latent structure
-# - Computational efficiency is important
-# - Exploratory data analysis for unknown structure
-#
-# ### **Key Insights from this example**:
-# - FA better identified the true 2-factor structure in our synthetic data
-# - Communalities revealed which variables share common variance
-# - Varimax rotation improved interpretability significantly
-# - FA loadings are more theoretically meaningful for latent constructs
-#
-# **Next steps**: Apply these concepts to real-world datasets where the latent
-# structure is unknown, using factor retention criteria and rotation methods
-# to discover meaningful factor structures.
+# ## Summary and Method Selection Guidelines
+# 
+# This Factor Analysis demonstrates key concepts for latent variable modeling:
+# 
+# **Factor Analysis advantages demonstrated:**
+# - **Theoretical grounding**: Models specific latent constructs (cognitive, social abilities)
+# - **Measurement model**: Separates common variance from measurement error
+# - **Simple structure**: Rotation achieves cleaner variable-factor relationships
+# - **Communality estimates**: Reveals how much variance is shared vs. unique
+# 
+# **When to choose Factor Analysis:**
+# - Testing specific theories about latent psychological constructs
+# - Developing or validating measurement instruments
+# - Modeling common variance while acknowledging measurement error
+# - Interpreting results in terms of theoretical constructs
+# 
+# **When to choose PCA instead:**
+# - Primary goal is data reduction or compression
+# - Maximizing explained variance is the priority
+# - No theoretical model for underlying structure
+# - Computational efficiency is critical
+# 
+# **Key methodological insights:**
+# - **Assumption testing**: KMO and Bartlett's tests confirm FA appropriateness
+# - **Rotation benefits**: Varimax rotation dramatically improves interpretability
+# - **Communality interpretation**: Distinguishes reliable measurement from noise
+# - **Construct validation**: Loading patterns should align with theoretical expectations
+# 
+# **Next applications:**
+# - Explore oblique rotation when factors may be correlated
+# - Use confirmatory factor analysis to test specific theoretical models
+# - Apply to real datasets where factor structure is unknown
+# - Combine with other multivariate methods for comprehensive analysis
