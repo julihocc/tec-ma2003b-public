@@ -11,7 +11,10 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import seaborn as sns
-from sklearn.discriminant_analysis import QuadraticDiscriminantAnalysis
+from sklearn.discriminant_analysis import (
+    LinearDiscriminantAnalysis,
+    QuadraticDiscriminantAnalysis,
+)
 from sklearn.metrics import (
     accuracy_score,
     auc,
@@ -21,12 +24,9 @@ from sklearn.metrics import (
 )
 from sklearn.model_selection import cross_val_score, train_test_split
 from sklearn.preprocessing import StandardScaler
+from utils import setup_logger
 
 warnings.filterwarnings("ignore")
-
-# %%
-# Setup logging and paths
-from utils import setup_logger
 
 logger = setup_logger(__name__)
 
@@ -259,7 +259,6 @@ print("6. Particularly useful when segments have different variability patterns"
 
 # %%
 # Compare with LDA (import and run LDA analysis)
-from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 
 lda = LinearDiscriminantAnalysis()
 lda.fit(X_train, y_train)

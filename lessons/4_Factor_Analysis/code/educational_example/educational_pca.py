@@ -15,15 +15,14 @@
 # ## Import Libraries and Setup
 
 # %%
-from pathlib import Path
 import sys
+from pathlib import Path
 
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler
-
 from utils import setup_logger
 
 logger = setup_logger(__name__)
@@ -254,7 +253,7 @@ if all(var in variable_names for var in cognitive_vars + social_vars + random_va
     social_strength = loadings_df.loc[social_vars, "PC2"].abs().mean()
     random_strength = loadings_df.loc[random_vars, ["PC1", "PC2"]].abs().max().max()
 
-    logger.info(f"\nPattern Analysis:")
+    logger.info("\nPattern Analysis:")
     logger.info(f"Cognitive variables PC1 strength: {cognitive_strength:.3f}")
     logger.info(f"Social variables PC2 strength: {social_strength:.3f}")
     logger.info(f"Random variables max strength: {random_strength:.3f}")
@@ -293,7 +292,7 @@ for _, row in top_pc2.iterrows():
     )
 
 # Summary statistics
-logger.info(f"\nScore distribution summary:")
+logger.info("\nScore distribution summary:")
 logger.info(f"PC1 range: [{Z[:, 0].min():.2f}, {Z[:, 0].max():.2f}]")
 logger.info(f"PC2 range: [{Z[:, 1].min():.2f}, {Z[:, 1].max():.2f}]")
 logger.info(f"PC1-PC2 correlation: {np.corrcoef(Z[:, 0], Z[:, 1])[0,1]:.3f}")

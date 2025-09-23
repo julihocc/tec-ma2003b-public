@@ -17,9 +17,10 @@
 
 # %%
 from pathlib import Path
-import pandas as pd
-import numpy as np
+
 import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
 import seaborn as sns
 from factor_analyzer import FactorAnalyzer
 from factor_analyzer.factor_analyzer import calculate_bartlett_sphericity, calculate_kmo
@@ -72,7 +73,7 @@ print("\n--- Factor Analysis Assumptions for Healthcare Data ---")
 
 # Bartlett's test of sphericity
 chi_square, p_value = calculate_bartlett_sphericity(Xs)
-print(f"Bartlett's Test of Sphericity:")
+print("Bartlett's Test of Sphericity:")
 print(f"  Chi-square: {chi_square:.3f}")
 print(f"  p-value: {p_value:.6f}")
 print(
@@ -81,7 +82,7 @@ print(
 
 # Kaiser-Meyer-Olkin (KMO) test
 kmo_all, kmo_model = calculate_kmo(Xs)
-print(f"\nKMO Test:")
+print("\nKMO Test:")
 print(f"  Overall MSA: {kmo_model:.3f}")
 if kmo_model >= 0.8:
     interpretation = "✓ Excellent"
@@ -94,7 +95,7 @@ else:
 print(f"  Interpretation: {interpretation}")
 
 # Individual variable MSA
-print(f"\nIndividual Variable MSA:")
+print("\nIndividual Variable MSA:")
 print(f"{'Variable':<20} {'MSA':<8} {'Interpretation'}")
 print("-" * 40)
 for i, var_name in enumerate(health_vars):
@@ -122,7 +123,7 @@ fa_explore.fit(Xs)
 eigenvalues = fa_explore.get_eigenvalues()[0]
 n_factors_kaiser = sum(eigenvalues > 1.0)
 
-print(f"\n--- Factor Retention Analysis ---")
+print("\n--- Factor Retention Analysis ---")
 print(f"{'Factor':<8} {'Eigenvalue':<12} {'% Variance':<12} {'Cumulative %':<12}")
 print("-" * 44)
 
@@ -134,10 +135,10 @@ for i, eigenval in enumerate(eigenvalues):
         f"Factor {i + 1:<2} {eigenval:<12.3f} {var_explained:<12.1f} {cumulative_var:<12.1f}"
     )
 
-print(f"\nFactor Retention Criteria:")
+print("\nFactor Retention Criteria:")
 print(f"  Kaiser criterion (eigenvalue > 1): {n_factors_kaiser} factors")
-print(f"  Healthcare theory expectation: 1-2 quality factors")
-print(f"  Practical interpretation: Focus on first 1-2 factors")
+print("  Healthcare theory expectation: 1-2 quality factors")
+print("  Practical interpretation: Focus on first 1-2 factors")
 
 # %% [markdown]
 # ## Factor Analysis: Healthcare Quality Model
@@ -173,7 +174,7 @@ uniquenesses = 1 - communalities
 
 print(f"Eigenvalues: {np.round(eigenvalues_fa, 3)}")
 
-print(f"\nCommunalities (h²) and Uniquenesses (u²):")
+print("\nCommunalities (h²) and Uniquenesses (u²):")
 print(f"{'Variable':<20} {'h²':<8} {'u²':<8} {'Interpretation'}")
 print("-" * 48)
 for i, var_name in enumerate(health_vars):
@@ -218,7 +219,7 @@ else:
 # ## Healthcare Factor Interpretation
 
 # %%
-print(f"\n--- Healthcare Factor Interpretation ---")
+print("\n--- Healthcare Factor Interpretation ---")
 
 if n_factors == 1:
     print("Single Factor Model: General Hospital Quality")
@@ -236,9 +237,9 @@ if n_factors == 1:
         direction = "negatively" if loading < 0 else "positively"
         print(f"    {var_name}: {loading:.3f} (loads {direction})")
 
-    print(f"  Clinical interpretation:")
-    print(f"    - Hospitals with high Factor 1 scores: excellent across all metrics")
-    print(f"    - Hospitals with low Factor 1 scores: poor performance across domains")
+    print("  Clinical interpretation:")
+    print("    - Hospitals with high Factor 1 scores: excellent across all metrics")
+    print("    - Hospitals with low Factor 1 scores: poor performance across domains")
     print(
         f"    - Single quality dimension explains {variance_explained:.1%} of variation"
     )
@@ -286,7 +287,9 @@ if n_factors == 1:
     ax.grid(True, alpha=0.3)
 
     # Add loading values on bars
-    for i, (bar, loading) in enumerate(zip(bars, loadings_df["Loading"])):
+    for _i, (bar, loading) in enumerate(
+        zip(bars, loadings_df["Loading"], strict=False)
+    ):
         ax.text(
             loading + (0.02 if loading > 0 else -0.02),
             bar.get_y() + bar.get_height() / 2,
@@ -328,7 +331,7 @@ print(f"Saved {loadings_out}")
 # Calculate factor scores for hospitals
 factor_scores = fa_rotated.transform(Xs)
 
-print(f"\n--- Hospital Factor Scores ---")
+print("\n--- Hospital Factor Scores ---")
 if n_factors == 1:
     print("Quality Factor Score Distribution:")
     print(f"  Mean: {np.mean(factor_scores[:, 0]):.3f}")
@@ -339,13 +342,13 @@ if n_factors == 1:
 
     # Identify best and worst hospitals
     sorted_indices = np.argsort(factor_scores[:, 0])[::-1]
-    print(f"\nTop 5 Quality Hospitals (Factor 1 scores):")
+    print("\nTop 5 Quality Hospitals (Factor 1 scores):")
     for i in range(min(5, len(sorted_indices))):
         idx = sorted_indices[i]
         score = factor_scores[idx, 0]
         print(f"  Hospital {idx+1}: {score:.3f}")
 
-    print(f"\nBottom 5 Quality Hospitals (Factor 1 scores):")
+    print("\nBottom 5 Quality Hospitals (Factor 1 scores):")
     for i in range(min(5, len(sorted_indices))):
         idx = sorted_indices[-(i + 1)]
         score = factor_scores[idx, 0]
@@ -355,7 +358,7 @@ if n_factors == 1:
 # ## Model Validation and Quality Assessment
 
 # %%
-print(f"\n--- Model Validation ---")
+print("\n--- Model Validation ---")
 
 # Factor determinacy (reliability)
 if hasattr(fa_rotated, "get_factor_variance"):
@@ -374,20 +377,20 @@ print(
 )
 
 # Model fit assessment
-print(f"\nModel Assessment:")
+print("\nModel Assessment:")
 print(f"  - Number of factors retained: {n_factors}")
 print(f"  - Total variance explained: {variance_explained:.1%}")
 print(f"  - Average communality: {np.mean(communalities):.3f}")
 print(f"  - KMO adequacy: {kmo_model:.3f} ({interpretation})")
 
 # Healthcare-specific insights
-print(f"\nHealthcare Quality Insights:")
+print("\nHealthcare Quality Insights:")
 if variance_explained > 0.6:
-    print(f"  ✓ Strong evidence for unidimensional quality structure")
-    print(f"  ✓ Hospital rankings based on Factor 1 scores are reliable")
-    print(f"  ✓ Quality improvement should target organizational excellence")
+    print("  ✓ Strong evidence for unidimensional quality structure")
+    print("  ✓ Hospital rankings based on Factor 1 scores are reliable")
+    print("  ✓ Quality improvement should target organizational excellence")
 else:
-    print(f"  △ Moderate quality structure, multiple dimensions may exist")
-    print(f"  △ Consider domain-specific quality measures")
+    print("  △ Moderate quality structure, multiple dimensions may exist")
+    print("  △ Consider domain-specific quality measures")
 
 logger.info("Hospital Health Outcomes Factor Analysis completed successfully")

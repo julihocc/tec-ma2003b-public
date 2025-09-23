@@ -9,12 +9,9 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
+from utils import setup_logger
 
 warnings.filterwarnings("ignore")
-
-# %%
-# Setup logging and paths
-from utils import setup_logger
 
 logger = setup_logger(__name__)
 

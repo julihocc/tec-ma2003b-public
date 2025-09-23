@@ -16,8 +16,8 @@
 # ## Import Libraries and Setup
 
 # %%
-from pathlib import Path
 import sys
+from pathlib import Path
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -27,7 +27,6 @@ from factor_analyzer import FactorAnalyzer
 from factor_analyzer.factor_analyzer import calculate_bartlett_sphericity, calculate_kmo
 from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler
-
 from utils import setup_logger
 
 logger = setup_logger(__name__)
@@ -80,7 +79,7 @@ chi_square_value, p_value = calculate_bartlett_sphericity(X_standardized)
 kmo_all, kmo_model = calculate_kmo(X_standardized)
 
 logger.info("Factor Analysis Assumptions Testing:")
-logger.info(f"\nBartlett's Test of Sphericity:")
+logger.info("\nBartlett's Test of Sphericity:")
 logger.info(f"  Chi-square statistic: {chi_square_value:.3f}")
 logger.info(f"  p-value: {p_value:.6f}")
 if p_value < 0.05:
@@ -88,7 +87,7 @@ if p_value < 0.05:
 else:
     logger.info("  ✗ Not significant - FA may not be appropriate")
 
-logger.info(f"\nKaiser-Meyer-Olkin (KMO) Test:")
+logger.info("\nKaiser-Meyer-Olkin (KMO) Test:")
 logger.info(f"  Overall Measure of Sampling Adequacy: {kmo_model:.3f}")
 if kmo_model > 0.9:
     adequacy = "Excellent"
@@ -167,7 +166,7 @@ factor_variance = np.sum(communalities)
 total_variance = len(variable_names)  # For standardized data
 variance_explained = factor_variance / total_variance
 
-logger.info(f"\nOverall Variance Analysis:")
+logger.info("\nOverall Variance Analysis:")
 logger.info(f"Total standardized variance: {total_variance:.1f}")
 logger.info(f"Common variance (Σh²): {factor_variance:.3f}")
 logger.info(f"Proportion of variance explained by factors: {variance_explained:.1%}")
@@ -297,15 +296,15 @@ logger.info("\nFactor Analysis vs PCA Comparison:")
 
 # Variance explanation comparison
 pca_variance_2comp = pca.explained_variance_ratio_[:2].sum()
-logger.info(f"\nVariance Explanation:")
+logger.info("\nVariance Explanation:")
 logger.info(f"  PCA (first 2 components): {pca_variance_2comp:.1%} of total variance")
 logger.info(f"  FA (2 factors): {variance_explained:.1%} of common variance")
 logger.info(
-    f"  Key difference: PCA maximizes total variance, FA focuses on shared variance"
+    "  Key difference: PCA maximizes total variance, FA focuses on shared variance"
 )
 
 # Loading comparison
-logger.info(f"\nLoading Pattern Comparison:")
+logger.info("\nLoading Pattern Comparison:")
 comparison_detailed = pd.DataFrame(
     {
         "Variable": variable_names,
@@ -415,7 +414,7 @@ if all(var in variable_names for var in meaningful_vars + random_vars):
     ]
     random_h2 = [communalities[variable_names.index(var)] for var in random_vars]
 
-    logger.info(f"\nCommunality Pattern Analysis:")
+    logger.info("\nCommunality Pattern Analysis:")
     logger.info(
         f"  Meaningful variables (cognitive/social): mean h² = {np.mean(meaningful_h2):.3f}"
     )

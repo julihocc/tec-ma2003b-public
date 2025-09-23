@@ -27,7 +27,6 @@ import seaborn as sns
 from factor_analyzer import FactorAnalyzer
 from factor_analyzer.factor_analyzer import calculate_bartlett_sphericity, calculate_kmo
 from sklearn.preprocessing import StandardScaler
-
 from utils import setup_logger
 
 # %%

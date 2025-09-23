@@ -15,13 +15,14 @@
 # The file also saves two figures: a scree plot and a biplot for the first two PCs.
 
 # %%
+import sys
 from pathlib import Path
-import pandas as pd
-import numpy as np
+
 import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
 from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler
-import sys
 
 # %%
 # Simple behaviour: expect hospitals.csv in the same folder as this script

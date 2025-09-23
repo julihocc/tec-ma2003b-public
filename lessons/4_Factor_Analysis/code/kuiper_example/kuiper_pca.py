@@ -10,13 +10,14 @@
 # explanations of each orbital parameter and their physical significance.
 
 # %%
+import sys
 from pathlib import Path
-import pandas as pd
-import numpy as np
+
 import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
 from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler
-import sys
 
 # %%
 # Simple behaviour: expect kuiper.csv in the same folder as this script
