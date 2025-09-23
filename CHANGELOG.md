@@ -2,6 +2,85 @@
 
 All notable changes to this repository are documented in this file.
 
+## v1.8.0 - 2025-09-23
+
+Highlights:
+
+
+- Expanded Chapter 5 Discriminant Analysis with new domain examples (sports analytics, quality control)
+- Significant pedagogical enhancements to Factor Analysis chapter (clearer slides, modularization of dense content, improved PCA vs FA comparisons)
+- Added `factor-analyzer` dependency enabling authentic factor extraction and validation workflows
+- Multiple improvements to educational examples: refined PCA and FA scripts, added educational assessment data example, clarified variable naming
+- Enhanced AI assistant guidance (`CLAUDE.md`) and extension recommendations for a consistent developer environment
+- Evaluations submodule: iterative refinements to competent/outstanding business case solutions and customer satisfaction case materials
+
+Commit Categories (selected):
+
+Features:
+
+- Add discriminant analysis lesson and supporting examples (sports analytics, quality control)
+- Add `factor-analyzer` dependency for factor analysis examples
+- Implement Factor Analysis on educational data; improve PCA educational example
+- Add educational assessment example and refined presentation slides (factor model, eigen decomposition refresher, parallel analysis explanation)
+- Add slide set clarifying FA vs PCA distinctions; restructure FA presentation content
+
+Refactor / Style:
+
+- Repository structure cleanup and guideline relocation
+- Code quality fixes across lesson examples (imports, formatting, minor typos)
+
+Documentation:
+
+- Update course repository documentation and PCA guidelines
+- Add `CLAUDE.md` and recommend Claude Code extension
+- Clarify LaTeX / math formatting consistency; fix notation typos
+
+Evaluations Submodule Enhancements:
+
+- Iterative improvements to competent and outstanding customer satisfaction solutions
+- Refinements to employee engagement materials and factor analysis restructuring
+- Bug fixes and final outstanding solution refinements
+
+## v1.7.0 - 2025-09-20
+
+Release: Chapter 5 Discriminant Analysis
+
+Key Additions:
+
+- Introduced Discriminant Analysis chapter with lesson materials
+- Added domain-specific examples and supporting submodule updates
+
+Notable Commits (selected):
+
+- Release v1.7.0: Add Chapter 5 Discriminant Analysis
+- Add Google Drive knowledge base download system; add `gdown` dependency
+- Add VSCode extensions recommendations and AI chat modes
+- Enhance commit and release workflows; update versioning prompts
+- Multiple evaluations submodule updates (clarified roles, folder renames, syntax fixes)
+
+## v1.6.0 - 2025-09-17
+
+Release: Submodule Conversion & Assessment Automation
+
+Highlights:
+
+- Converted evaluations from subtree to submodule with ongoing iterative updates
+- Integrated `txttoqti` upgrades (v0.6.0 → v0.7.0 → v0.8.0) adding Total Points Distribution System
+- Added authenticity report for Factor Analysis presentation
+- Refined AI agent instructions and workflow automation prompts
+- Cleaned repository by removing obsolete scripts, temporary files, and drafts
+
+Notable Commits (selected):
+
+- refactor: convert evaluations from subtree to submodule
+- chore: update evaluations submodule to include business case materials
+- feat: upgrade `txttoqti` to v0.8.0 with Total Points Distribution System
+- feat: sequential updates of `txttoqti` dependency (v0.6.0 → v0.7.0 → v0.8.0)
+- docs: comprehensive AI agent instructions for educational codebase
+- feat: update evaluations submodule with factor analysis template consolidation
+- feat: update evaluations submodule with quiz improvements and test files
+- cleanup: remove obsolete scripts and temporary files
+
 ## v1.5.0 - 2025-09-11
 
 Major Updates:
