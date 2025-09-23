@@ -1,7 +1,5 @@
 ---
-
 mode: agent
-
 ---
 
 - Execute .github/prompts/update-documentation.prompt.md to ensure all documentation and version references are up to date.
