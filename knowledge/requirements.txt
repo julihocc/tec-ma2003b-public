@@ -1,3 +1,0 @@
-# Requirements for Knowledge Base Download System
-gdown>=4.7.1
-requests>=2.28.0
