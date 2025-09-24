@@ -41,9 +41,18 @@ Evaluations Submodule Enhancements:
 - Refinements to employee engagement materials and factor analysis restructuring
 - Bug fixes and final outstanding solution refinements
 
-Logging / Infrastructure:
+## v1.8.1 - 2025-09-23
 
-- Introduced centralized logging package `utils` with `setup_logger` helper (untracked at original tag time; will be included in follow-up patch release). Ensures consistent, colorized, non-duplicated log output across educational scripts and resolves prior missing-module imports.
+Patch Release: Centralized Logging Utilities
+
+Changes:
+
+- Introduced centralized logging package `utils` with `setup_logger` helper
+  - Consistent format and optional ANSI coloring
+  - Prevents duplicate handlers in interactive sessions
+  - Resolves previously missing `from utils import setup_logger` imports
+
+No other code changes; pure infrastructure addition.
 
 ## v1.7.0 - 2025-09-20
 
