@@ -14,6 +14,7 @@ Purpose:
 This file was (re)introduced after being absent in the current worktree so that
 existing imports `from utils import setup_logger` resolve correctly (Pylance / runtime).
 """
+
 from __future__ import annotations
 
 import logging
@@ -23,32 +24,45 @@ from typing import Optional
 
 # Simple colored level names (ANSI) if terminal supports it
 _COLOR_MAP = {
-    "DEBUG": "\x1b[36m",   # Cyan
-    "INFO": "\x1b[32m",    # Green
-    "WARNING": "\x1b[33m", # Yellow
-    "ERROR": "\x1b[31m",   # Red
+    "DEBUG": "\x1b[36m",  # Cyan
+    "INFO": "\x1b[32m",  # Green
+    "WARNING": "\x1b[33m",  # Yellow
+    "ERROR": "\x1b[31m",  # Red
     "CRITICAL": "\x1b[41m",  # Red background
 }
 _RESET = "\x1b[0m"
 
+
 def _supports_color(stream) -> bool:
-    return hasattr(stream, "isatty") and stream.isatty() and os.environ.get("NO_COLOR") is None
+    return (
+        hasattr(stream, "isatty")
+        and stream.isatty()
+        and os.environ.get("NO_COLOR") is None
+    )
+
 
 class _CourseFormatter(logging.Formatter):
     def __init__(self, use_color: bool) -> None:
-        super().__init__("%(asctime)s | %(levelname)s | %(name)s | %(message)s", "%H:%M:%S")
+        super().__init__(
+            "%(asctime)s | %(levelname)s | %(name)s | %(message)s", "%H:%M:%S"
+        )
         self.use_color = use_color
 
     def format(self, record: logging.LogRecord) -> str:  # type: ignore[override]
         original_levelname = record.levelname
         if self.use_color and original_levelname in _COLOR_MAP:
-            record.levelname = f"{_COLOR_MAP[original_levelname]}{original_levelname}{_RESET}"
+            record.levelname = (
+                f"{_COLOR_MAP[original_levelname]}{original_levelname}{_RESET}"
+            )
         try:
             return super().format(record)
         finally:
             record.levelname = original_levelname  # restore to avoid side-effects
 
-def setup_logger(name: Optional[str] = None, level: int = logging.INFO) -> logging.Logger:
+
+def setup_logger(
+    name: Optional[str] = None, level: int = logging.INFO
+) -> logging.Logger:
     """Return a configured logger.
 
     Parameters
@@ -76,5 +90,6 @@ def setup_logger(name: Optional[str] = None, level: int = logging.INFO) -> loggi
     # Propagate disabled to prevent double logging under root
     logger.propagate = False
     return logger
+
 
 __all__ = ["setup_logger"]
