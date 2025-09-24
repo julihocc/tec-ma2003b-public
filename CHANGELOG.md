@@ -41,6 +41,10 @@ Evaluations Submodule Enhancements:
 - Refinements to employee engagement materials and factor analysis restructuring
 - Bug fixes and final outstanding solution refinements
 
+Logging / Infrastructure:
+
+- Introduced centralized logging package `utils` with `setup_logger` helper (untracked at original tag time; will be included in follow-up patch release). Ensures consistent, colorized, non-duplicated log output across educational scripts and resolves prior missing-module imports.
+
 ## v1.7.0 - 2025-09-20
 
 Release: Chapter 5 Discriminant Analysis
