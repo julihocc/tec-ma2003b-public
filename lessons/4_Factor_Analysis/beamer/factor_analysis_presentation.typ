@@ -35,6 +35,7 @@
   content
 }
 
+
 // Section slide function with Tec blue
 #let section-slide(title) = {
   pagebreak(weak: true)
@@ -197,12 +198,33 @@
   $"MSE" = frac(1, n) ||bold(X)_c - bold(Z)_(1:k) bold(V)_(1:k)^top||_F^2 = sum_(j=k+1)^p lambda_j$
 ]
 
-#slide(title: [Computation steps (practical)])[
-  + Standardize variables if they are on different scales (use correlation matrix) or center only if scales are comparable (use covariance matrix).
-  + Compute covariance (or correlation) matrix $S$ from the data.
-  + Compute eigen decomposition $S = V Lambda V^top$.
-  + Form principal component scores: $Z = X_c V$ (where $X_c$ is centered data and columns of $V$ are eigenvectors).
-  + Inspect eigenvalues, cumulative variance, and scree plot to decide how many components to keep.
+#slide(title: [Algorithm: Principal Component Analysis])[
+  *Input:* Data matrix $bold(X) in RR^(n times p)$, standardization choice
+
+  *Output:* Principal components, eigenvalues, component scores
+
+  1. *Data Preprocessing*
+     - *if* variables have different scales
+       - Standardize: $bold(X)_"std" = (bold(X) - bold(1)_n overline(bold(x))^top) bold(D)^(-1/2)$
+       - Use correlation matrix $bold(R)$ for analysis
+     - *else*
+       - Center only: $bold(X)_c = bold(X) - bold(1)_n overline(bold(x))^top$
+       - Use covariance matrix $bold(S)$ for analysis
+
+  2. *Compute Sample Covariance/Correlation Matrix*
+     - $bold(S) = frac(1, n-1) bold(X)_c^top bold(X)_c$ (or $bold(R)$ if standardized)
+
+  3. *Eigenvalue Decomposition*
+     - Solve: $bold(S) bold(v)_j = lambda_j bold(v)_j$ for $j = 1, 2, ..., p$
+     - Order eigenvalues: $lambda_1 >= lambda_2 >= ... >= lambda_p >= 0$
+     - Form matrices: $bold(V) = [bold(v)_1 | bold(v)_2 | ... | bold(v)_p]$, $bold(Lambda) = "diag"(lambda_1, ..., lambda_p)$
+
+  4. *Compute Principal Component Scores*
+     - $bold(Z) = bold(X)_c bold(V) = [bold(z)_1 | bold(z)_2 | ... | bold(z)_p]$
+
+  5. *Determine Number of Components*
+     - Apply Kaiser criterion, scree test, or cumulative variance threshold
+     - Retain first $k$ components where $k < p$
 ]
 
 #slide(title: [Deciding how many components to retain])[
@@ -215,6 +237,36 @@
     - *Compare*: For each component k, if $lambda_k "(actual)" > lambda_k "(random)"$, retain component k
     - *Advantage*: Accounts for sampling error and prevents over-extraction
     - *Conservative approach*: Often retains fewer components than Kaiser criterion
+]
+
+#slide(title: [Algorithm: Component/Factor Retention Decision])[
+  *Input:* Eigenvalues $lambda_1 >= lambda_2 >= ... >= lambda_p$, variance threshold $alpha$
+
+  *Output:* Optimal number of components/factors $k^*$
+
+  1. *Kaiser Criterion*
+     - $k_"Kaiser" = |{j : lambda_j > 1}|$ (count eigenvalues > 1)
+     - *Note:* Valid only when using correlation matrix
+
+  2. *Cumulative Variance Criterion*
+     - Compute cumulative proportions: $rho_j = frac(sum_(i=1)^j lambda_i, sum_(i=1)^p lambda_i)$
+     - $k_"variance" = min{j : rho_j >= alpha}$ where $alpha in [0.70, 0.90]$
+
+  3. *Scree Test* (Visual inspection)
+     - Plot eigenvalues vs component number
+     - Identify "elbow" where slope changes dramatically
+     - $k_"scree" = $ number of components before elbow
+
+  4. *Parallel Analysis*
+     - *for* $m = 1$ to $M$ *do* (Monte Carlo simulations)
+       - Generate random data: $bold(X)_m tilde N(0, 1)^(n times p)$
+       - Compute eigenvalues: $lambda_(j,m)^"random"$ for $j = 1, ..., p$
+     - Average random eigenvalues: $overline(lambda)_j^"random" = frac(1, M) sum_(m=1)^M lambda_(j,m)^"random"$
+     - $k_"parallel" = max{j : lambda_j^"actual" > overline(lambda)_j^"random"}$
+
+  5. *Final Decision*
+     - Compare results: $k^* = "consensus"(k_"Kaiser", k_"variance", k_"scree", k_"parallel")$
+     - *Recommendation:* Use parallel analysis as primary criterion
 ]
 
 #slide(title: [Practical tips and pitfalls])[
@@ -282,6 +334,37 @@
   - Covariance structure: $bold(Sigma) = bold(Lambda) bold(Lambda)^top + bold(Psi)$
   - Minimize: $F_"ML" = "tr"(bold(S) bold(Sigma)^(-1)) - ln|bold(Sigma)^(-1)| - p$
   - Provides $chi^2$ goodness-of-fit test and confidence intervals
+]
+
+#slide(title: [Algorithm: Factor Analysis with Principal Axis Factoring])[
+  *Input:* Data matrix $bold(X) in RR^(n times p)$, number of factors $k$
+
+  *Output:* Factor loadings $bold(Lambda)$, uniquenesses $bold(Psi)$, factor scores
+
+  1. *Data Preprocessing and Suitability Tests*
+     - Standardize variables: $bold(Z) = (bold(X) - bold(1)_n overline(bold(x))^top) bold(D)^(-1/2)$
+     - Compute correlation matrix: $bold(R) = frac(1, n-1) bold(Z)^top bold(Z)$
+     - Test factorability: Bartlett's test, KMO measure
+
+  2. *Initialize Communality Estimates*
+     - *for* $i = 1$ to $p$ *do*
+       - $h_i^2 = 1 - frac(1, R_(i i))$ (squared multiple correlation)
+
+  3. *Principal Axis Factoring Iteration*
+     - *repeat*
+       - Form reduced correlation matrix: $bold(R)^* = bold(R) - "diag"(1-h_1^2, ..., 1-h_p^2)$
+       - Compute eigendecomposition: $bold(R)^* = bold(V) bold(Lambda) bold(V)^top$
+       - Extract $k$ factors: $bold(L) = bold(V)_k bold(Lambda)_k^(1/2)$
+       - Update communalities: $h_i^2 = sum_(j=1)^k l_(i j)^2$ for $i = 1, ..., p$
+     - *until* $max_i |h_i^2_"new" - h_i^2_"old"| < epsilon$ (convergence criterion)
+
+  4. *Factor Rotation* (Optional)
+     - Apply Varimax (orthogonal) or Promax (oblique) rotation
+     - $bold(Lambda)^* = bold(L) bold(T)$ where $bold(T)$ is rotation matrix
+
+  5. *Factor Score Estimation*
+     - Regression method: $hat(bold(F)) = bold(Z) bold(Lambda) (bold(Lambda)^top bold(Lambda))^(-1)$
+     - Bartlett method: $hat(bold(F)) = bold(Z) bold(Lambda) (bold(Lambda)^top bold(Psi)^(-1) bold(Lambda))^(-1) bold(Lambda)^top bold(Psi)^(-1)$
 ]
 
 #slide(title: [Factor Rotation: Mathematical Transformation])[
