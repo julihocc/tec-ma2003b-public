@@ -106,44 +106,59 @@
   _For detailed matrix algebra foundations, see Appendix._
 ]
 
-#slide(title: [Key Mathematical Derivations: PCA Optimization])[
-  *PCA as Constrained Optimization Problem:*
+#slide(title: [Algorithm: PCA Optimization Derivation])[
+  *Input:* Covariance matrix $bold(Sigma) in RR^(p times p)$
 
-  Find first principal component $bold(w)_1$ that maximizes variance:
-  $max_(bold(w)_1) "Var"(bold(w)_1^top bold(X)) = max_(bold(w)_1) bold(w)_1^top bold(Sigma) bold(w)_1$
+  *Output:* First principal component $bold(w)_1$, maximum variance $lambda_1$
 
-  subject to constraint $||bold(w)_1||^2 = 1$
+  1. *Formulate Constrained Optimization Problem*
+     - *Objective:* Maximize $f(bold(w)) = bold(w)^top bold(Sigma) bold(w)$ (variance of projection)
+     - *Constraint:* $g(bold(w)) = bold(w)^top bold(w) - 1 = 0$ (unit length constraint)
 
-  *Lagrangian:*
-  $L(bold(w)_1, lambda_1) = bold(w)_1^top bold(Sigma) bold(w)_1 - lambda_1 (bold(w)_1^top bold(w)_1 - 1)$
+  2. *Apply Lagrange Multiplier Method*
+     - Form Lagrangian: $L(bold(w), lambda) = bold(w)^top bold(Sigma) bold(w) - lambda(bold(w)^top bold(w) - 1)$
+     - *Goal:* Find critical points where gradient vanishes
 
-  *First-order condition:*
-  $frac(partial L, partial bold(w)_1) = 2 bold(Sigma) bold(w)_1 - 2 lambda_1 bold(w)_1 = 0$
+  3. *Compute Partial Derivatives*
+     - $frac(partial L, partial bold(w)) = 2 bold(Sigma) bold(w) - 2 lambda bold(w)$
+     - $frac(partial L, partial lambda) = -(bold(w)^top bold(w) - 1)$
 
-  *Result:* $bold(Sigma) bold(w)_1 = lambda_1 bold(w)_1$ (eigenvalue equation)
+  4. *Solve First-Order Conditions*
+     - Set $frac(partial L, partial bold(w)) = bold(0)$: $bold(Sigma) bold(w) = lambda bold(w)$ (eigenvalue equation)
+     - Set $frac(partial L, partial lambda) = 0$: $bold(w)^top bold(w) = 1$ (normalization)
 
-  *Maximum variance:* $"Var"(bold(w)_1^top bold(X)) = bold(w)_1^top bold(Sigma) bold(w)_1 = lambda_1 bold(w)_1^top bold(w)_1 = lambda_1$
+  5. *Identify Maximum Variance Solution*
+     - *Substitute back:* $f(bold(w)) = bold(w)^top bold(Sigma) bold(w) = bold(w)^top lambda bold(w) = lambda$
+     - *Conclusion:* Choose largest eigenvalue $lambda_1$ with eigenvector $bold(w)_1$
+     - *Maximum variance:* $"Var"_"max" = lambda_1$
 ]
 
-#slide(title: [Key Mathematical Derivations: Factor Model Covariance])[
-  *Derivation of Factor Model Covariance Structure:*
+#slide(title: [Algorithm: Factor Model Covariance Derivation])[
+  *Input:* Factor model $bold(X) = bold(Lambda) bold(F) + bold(U)$
 
-  Starting from: $bold(X) = bold(Lambda) bold(F) + bold(U)$
+  *Output:* Covariance structure $bold(Sigma) = bold(Lambda) bold(Lambda)^top + bold(Psi)$
 
-  *Covariance of X:*
-  $bold(Sigma) = "Cov"(bold(X)) = "Cov"(bold(Lambda) bold(F) + bold(U))$
+  1. *Apply Covariance Operator to Factor Model*
+     - Start with: $bold(X) = bold(Lambda) bold(F) + bold(U)$
+     - Take covariance: $bold(Sigma) = "Cov"(bold(X)) = "Cov"(bold(Lambda) bold(F) + bold(U))$
 
-  $= "Cov"(bold(Lambda) bold(F)) + "Cov"(bold(U)) + 2 "Cov"(bold(Lambda) bold(F), bold(U))$
+  2. *Expand Using Covariance Properties*
+     - Apply bilinearity: $"Cov"(bold(A) + bold(B)) = "Cov"(bold(A)) + "Cov"(bold(B)) + 2"Cov"(bold(A), bold(B))$
+     - Get: $bold(Sigma) = "Cov"(bold(Lambda) bold(F)) + "Cov"(bold(U)) + 2"Cov"(bold(Lambda) bold(F), bold(U))$
 
-  *Key assumptions:*
-  - $"Cov"(bold(F)) = bold(I)$ (factors have unit variance, uncorrelated)
-  - $"Cov"(bold(U)) = bold(Psi)$ (diagonal matrix of unique variances)
-  - $"Cov"(bold(F), bold(U)) = bold(0)$ (factors independent of unique components)
+  3. *Apply Factor Model Assumptions*
+     - *Assumption 1:* $"Cov"(bold(F)) = bold(I)$ (orthogonal factors with unit variance)
+     - *Assumption 2:* $"Cov"(bold(U)) = bold(Psi) = "diag"(psi_1^2, ..., psi_p^2)$ (diagonal uniqueness)
+     - *Assumption 3:* $"Cov"(bold(F), bold(U)) = bold(0)$ (factors independent of unique terms)
 
-  *Result:*
-  $bold(Sigma) = bold(Lambda) "Cov"(bold(F)) bold(Lambda)^top + bold(Psi) = bold(Lambda) bold(Lambda)^top + bold(Psi)$
+  4. *Simplify Each Covariance Term*
+     - Term 1: $"Cov"(bold(Lambda) bold(F)) = bold(Lambda) "Cov"(bold(F)) bold(Lambda)^top = bold(Lambda) bold(I) bold(Lambda)^top = bold(Lambda) bold(Lambda)^top$
+     - Term 2: $"Cov"(bold(U)) = bold(Psi)$
+     - Term 3: $2"Cov"(bold(Lambda) bold(F), bold(U)) = 2 bold(Lambda) "Cov"(bold(F), bold(U)) = bold(0)$
 
-  This is the fundamental factor model equation relating observed covariances to model parameters.
+  5. *Combine Terms for Final Result*
+     - $bold(Sigma) = bold(Lambda) bold(Lambda)^top + bold(Psi) + bold(0)$
+     - *Final covariance structure:* $bold(Sigma) = bold(Lambda) bold(Lambda)^top + bold(Psi)$
 ]
 
 #slide(title: [Mathematical Formulation: Foundation])[
@@ -420,17 +435,17 @@
   *Output:* ML factor loadings $bold(Lambda)$, uniquenesses $bold(Psi)$, model fit statistics
 
   1. *Initialize Parameters*
-     - Start with PAF solution: $bold(Lambda)^{(0)}$, $bold(Psi)^{(0)}$
+     - Start with PAF solution: $bold(Lambda)^((0))$, $bold(Psi)^((0))$
      - Compute sample covariance: $bold(S) = frac(1, n-1) bold(X)_c^top bold(X)_c$
 
   2. *EM Algorithm Iteration*
      - *repeat*
        - *E-step:* Compute factor scores
-         $hat(bold(F)) = bold(Lambda)^{(t)top} (bold(Lambda)^{(t)} bold(Lambda)^{(t)top} + bold(Psi)^{(t)})^(-1) bold(X)_c^top$
+         $hat(bold(F)) = bold(Lambda)^((t)top) (bold(Lambda)^((t)) bold(Lambda)^((t)top) + bold(Psi)^((t)))^(-1) bold(X)_c^top$
        - *M-step:* Update parameters
-         $bold(Lambda)^{(t+1)} = bold(S) hat(bold(F))^top (hat(bold(F)) hat(bold(F))^top)^(-1)$
-         $bold(Psi)^{(t+1)} = "diag"(bold(S) - bold(Lambda)^{(t+1)} hat(bold(F)) bold(X)_c / n)$
-     - *until* $||bold(Lambda)^{(t+1)} - bold(Lambda)^{(t)}|| < epsilon$
+         $bold(Lambda)^((t+1)) = bold(S) hat(bold(F))^top (hat(bold(F)) hat(bold(F))^top)^(-1)$
+         $bold(Psi)^((t+1)) = "diag"(bold(S) - bold(Lambda)^((t+1)) hat(bold(F)) bold(X)_c / n)$
+     - *until* $||bold(Lambda)^((t+1)) - bold(Lambda)^((t))|| < epsilon$
 
   3. *Model Fit Assessment*
      - Log-likelihood: $ell = -frac(n, 2)[p ln(2pi) + ln|bold(Sigma)| + "tr"(bold(S) bold(Sigma)^(-1))]$
@@ -717,6 +732,36 @@
   - *Factor 1*: Intelligence factor (Math/Verbal loadings > 0.82)
   - *Factor 2*: Personality factor (Social/Leadership loadings > 0.82)
   - *Clean structure*: Cross-loadings < 0.15 for meaningful variables
+]
+
+#slide(title: [Algorithm: Factor Structure Validation])[
+  *Input:* Factor loadings matrix $bold(L)$, communalities $h^2$, theoretical expectations
+  *Output:* Validation assessment and interpretability score
+
+  1. *Structure Assessment*
+     - *for* each factor $j = 1, dots, k$
+       - Identify variables with loadings $|l_(i j)| >$ threshold (typically 0.4)
+       - *if* theoretical construct expected
+         - Check alignment with expected variables
+         - Compute construct recovery score
+
+  2. *Loading Quality Check*
+     - *for* each variable $i = 1, dots, p$
+       - Count factors with $|l_(i j)| > 0.4$
+       - *if* count = 1: simple structure achieved
+       - *if* count > 1: complex loading detected
+
+  3. *Communality Analysis*
+     - *for* each variable $i$
+       - *if* $h^2_i > 0.5$: adequate shared variance
+       - *if* $h^2_i < 0.2$: mostly unique variance (potential noise)
+
+  4. *Cross-loading Assessment*
+     - Compute $max_(j != j')$ ratio of secondary to primary loadings
+     - *if* ratio < 0.3: clean simple structure
+     - *if* ratio > 0.7: poor discriminant validity
+
+  5. *return* validation report with construct recovery and structure quality metrics
 ]
 
 #slide(title: [FA Model Validation: Structure Recovery])[
@@ -1317,6 +1362,37 @@
 
 #section-slide[Guidelines for Method Selection]
 
+#slide(title: [Algorithm: Method Selection Decision Procedure])[
+  *Input:* Dataset characteristics, research goals, theoretical knowledge
+  *Output:* Recommended method (PCA, FA, or both)
+
+  1. *Goal Assessment*
+     - *if* primary goal = dimensionality reduction → score_PCA += 2
+     - *if* primary goal = latent construct modeling → score_FA += 2
+     - *if* primary goal = data compression → score_PCA += 1
+     - *if* primary goal = theory testing → score_FA += 2
+
+  2. *Theoretical Knowledge Check*
+     - *if* strong theoretical expectations about factors exist → score_FA += 2
+     - *if* no theoretical framework available → score_PCA += 1
+     - *if* exploratory analysis needed → score_PCA += 1
+
+  3. *Practical Requirements*
+     - *if* need interpretable factors with rotation → score_FA += 1
+     - *if* need maximum variance explained → score_PCA += 1
+     - *if* measurement error modeling important → score_FA += 2
+     - *if* simple index/ranking needed → score_PCA += 2
+
+  4. *Sample Size Consideration*
+     - *if* n < 5p → recommend PCA (more stable)
+     - *if* n >= 10p → both methods suitable
+
+  5. *Decision Rule*
+     - *if* score_FA > score_PCA + 1 → recommend Factor Analysis
+     - *if* score_PCA > score_FA + 1 → recommend PCA
+     - *else* → recommend both methods for comparison
+]
+
 #slide(title: [When to Use PCA vs Factor Analysis])[
   *Use PCA when:*
   - Primary goal is dimensionality reduction
@@ -1334,12 +1410,74 @@
   - Building predictive models with interpretable factors
 ]
 
+#slide(title: [Algorithm: Cross-Validation for Factor/Component Models])[
+  *Input:* Dataset $bold(X)$, proposed model (PCA/FA), number of factors $k$
+  *Output:* Cross-validation error, model stability assessment
+
+  1. *Split Data*
+     - Randomly partition $bold(X)$ into training (80%) and testing (20%) sets
+     - Ensure balanced representation across variables
+
+  2. *Training Phase*
+     - Fit model on training data: extract $k$ factors/components
+     - Obtain loadings matrix $bold(L)_"train"$ and transformation $bold(W)_"train"$
+     - Record eigenvalues $lambda_"train" = (lambda_1, dots, lambda_k)$
+
+  3. *Testing Phase*
+     - Apply $bold(W)_"train"$ to testing data: $bold(F)_"test" = bold(X)_"test" bold(W)_"train"$
+     - Reconstruct testing data: $hat(bold(X))_"test" = bold(F)_"test" bold(L)_"train"^top$
+     - Compute reconstruction error: $"RMSE" = ||bold(X)_"test" - hat(bold(X))_"test"||_F / sqrt(n_"test" times p)$
+
+  4. *Stability Assessment*
+     - *repeat* steps 1-3 for $B$ bootstrap samples
+     - Compute variance of eigenvalues: $sigma^2(lambda_j)$ for each factor
+     - Check loading consistency: correlation between $bold(L)_b$ across bootstrap samples
+
+  5. *Model Selection*
+     - *if* RMSE increases substantially with testing data → overfitting detected
+     - *if* eigenvalue variance high → unstable factor structure
+     - Select $k$ that minimizes average RMSE with acceptable stability
+]
+
 #slide(title: [Practical Recommendations])[
   - *Start with EDA*: Use PCA first to understand your data structure
   - *Theory-driven analysis*: Apply Factor Analysis when you have theoretical expectations
   - *Compare both methods*: Results convergence strengthens conclusions
   - *Consider sample size*: Factor Analysis requires larger samples
   - *Validate results*: Use cross-validation, external criteria, or confirmatory approaches
+]
+
+#slide(title: [Algorithm: Comprehensive PCA vs FA Comparison Workflow])[
+  *Input:* Dataset $bold(X)$, research question, theoretical background
+  *Output:* Method recommendation with supporting evidence
+
+  1. *Exploratory Phase*
+     - Run PCA with standardized data
+     - Apply Kaiser criterion and scree test for factor retention
+     - Examine explained variance and component interpretability
+
+  2. *Confirmatory Phase*
+     - Run Factor Analysis with same factor number as PCA
+     - Apply both orthogonal (Varimax) and oblique (Promax) rotation
+     - Compute model fit statistics (RMSEA, TLI, CFI if available)
+
+  3. *Comparison Metrics*
+     - Loading similarity: $r(bold(L)_"PCA", bold(L)_"FA")$ for each factor
+     - Interpretability score: count of "clean" loadings (> 0.4, < 0.3 cross-loadings)
+     - Variance explained: total and per-factor comparison
+     - Factor score correlation: $r(bold(F)_"PCA", bold(F)_"FA")$
+
+  4. *Decision Matrix*
+     - Rate each method on: interpretability, variance explained, theoretical fit
+     - Weight criteria based on research goals
+     - *if* high agreement (r > 0.85) → either method acceptable
+     - *if* FA provides cleaner structure → recommend FA
+     - *if* PCA explains substantially more variance → recommend PCA
+
+  5. *Final Validation*
+     - Cross-validate selected method using Algorithm: Cross-Validation
+     - Test robustness with different sample splits
+     - Assess generalizability to similar datasets if available
 ]
 
 #slide(title: [A Word of Caution])[
@@ -1436,13 +1574,86 @@
   *Sherman-Morrison-Woodbury Formula:*
   For factor model covariance $bold(Sigma) = bold(Lambda) bold(Lambda)^top + bold(Psi)$:
   $bold(Sigma)^(-1) = bold(Psi)^(-1) - bold(Psi)^(-1) bold(Lambda) (bold(I) + bold(Lambda)^top bold(Psi)^(-1) bold(Lambda))^(-1) bold(Lambda)^top bold(Psi)^(-1)$
+]
 
-  *Matrix Differentiation:*
-  - $frac(partial, partial bold(X)) "tr"(bold(A) bold(X)) = bold(A)^top$
-  - $frac(partial, partial bold(X)) "tr"(bold(X)^top bold(A) bold(X)) = (bold(A) + bold(A)^top) bold(X)$
-  - $frac(partial, partial bold(X)) ln|bold(X)| = (bold(X)^(-1))^top$
+#slide(title: [Algorithm: Efficient Covariance Matrix Inversion])[
+  *Input:* Factor loadings $bold(Lambda) in RR^(p times k)$, uniquenesses $bold(Psi) in RR^(p times p)$
 
-  These results are essential for maximum likelihood estimation in factor analysis.
+  *Output:* Inverse covariance matrix $bold(Sigma)^(-1)$
+
+  1. *Direct Inversion* (computational cost: $O(p^3)$)
+     - Compute $bold(Sigma) = bold(Lambda) bold(Lambda)^top + bold(Psi)$
+     - Invert: $bold(Sigma)^(-1) = (bold(Lambda) bold(Lambda)^top + bold(Psi))^(-1)$
+
+  2. *Sherman-Morrison-Woodbury Method* (computational cost: $O(k^3 + k^2 p)$ where $k << p$)
+     - *Step 1:* Compute $bold(Psi)^(-1)$ (diagonal, so $O(p)$)
+     - *Step 2:* Compute $bold(M) = bold(I) + bold(Lambda)^top bold(Psi)^(-1) bold(Lambda)$ ($k times k$ matrix)
+     - *Step 3:* Invert small matrix: $bold(M)^(-1)$ (cost: $O(k^3)$)
+     - *Step 4:* Apply formula:
+       $bold(Sigma)^(-1) = bold(Psi)^(-1) - bold(Psi)^(-1) bold(Lambda) bold(M)^(-1) bold(Lambda)^top bold(Psi)^(-1)$
+
+  3. *Computational Efficiency Analysis*
+     - *if* $k << p$ *then* use Sherman-Morrison-Woodbury
+     - *else* use direct inversion
+     - *Typical case:* $k approx p/5$ gives $approx 100times$ speedup
+
+  4. *Numerical Stability Check*
+     - Verify $bold(Psi)$ is positive definite (all diagonal elements $> 0$)
+     - Check condition number of $bold(M)$ before inversion
+]
+
+#slide(title: [Algorithm: Matrix Calculus for ML Estimation])[
+  *Input:* Scalar function $f(bold(X))$ where $bold(X) in RR^(m times n)$
+
+  *Output:* Gradient matrix $frac(partial f, partial bold(X)) in RR^(m times n)$
+
+  1. *Linear Trace Function: $f(bold(X)) = "tr"(bold(A) bold(X))$*
+     - *Rule:* $frac(partial, partial bold(X)) "tr"(bold(A) bold(X)) = bold(A)^top$
+     - *Derivation:* Use index notation and sum rule
+     - *Application:* Linear terms in likelihood functions
+
+  2. *Quadratic Trace Function: $f(bold(X)) = "tr"(bold(X)^top bold(A) bold(X))$*
+     - *Rule:* $frac(partial, partial bold(X)) "tr"(bold(X)^top bold(A) bold(X)) = (bold(A) + bold(A)^top) bold(X)$
+     - *Special case:* If $bold(A)$ is symmetric, then $frac(partial, partial bold(X)) "tr"(bold(X)^top bold(A) bold(X)) = 2 bold(A) bold(X)$
+     - *Application:* Quadratic forms in likelihood functions
+
+  3. *Log-Determinant Function: $f(bold(X)) = ln|bold(X)|$*
+     - *Rule:* $frac(partial, partial bold(X)) ln|bold(X)| = (bold(X)^(-1))^top$
+     - *Constraint:* $bold(X)$ must be invertible
+     - *Application:* Normalizing constants in multivariate normal densities
+
+  4. *Chain Rule Application*
+     - For composite functions: $frac(partial, partial bold(X)) f(g(bold(X))) = frac(partial f, partial g) frac(partial g, partial bold(X))$
+     - *Example:* $frac(partial, partial bold(Lambda)) ln|bold(Lambda) bold(Lambda)^top + bold(Psi)| = $ (requires chain rule)
+
+  *ML Estimation Context:* These derivatives compute gradients of log-likelihood functions for optimization.
+]
+
+#slide(title: [Algorithm: Eigenvalue Decomposition Methods])[
+  *Input:* Symmetric matrix $bold(A) in RR^(p times p)$, tolerance $epsilon$
+
+  *Output:* Eigenvalues $lambda_1 >= ... >= lambda_p$, eigenvectors $bold(V)$
+
+  1. *Power Method* (for largest eigenvalue)
+     - Initialize: $bold(v)^((0)) =$ random unit vector
+     - *repeat*
+       - $bold(w) = bold(A) bold(v)^((k))$ (matrix-vector multiply)
+       - $lambda^((k+1)) = bold(v)^((k)top) bold(w)$ (Rayleigh quotient)
+       - $bold(v)^((k+1)) = bold(w) / ||bold(w)||$ (normalize)
+     - *until* $|lambda^((k+1)) - lambda^((k))| < epsilon$
+
+  2. *QR Algorithm* (for all eigenvalues)
+     - $bold(A)^((0)) = bold(A)$
+     - *for* $k = 0, 1, 2, ...$ *do*
+       - QR decomposition: $bold(A)^((k)) = bold(Q)^((k)) bold(R)^((k))$
+       - Update: $bold(A)^((k+1)) = bold(R)^((k)) bold(Q)^((k))$
+     - *until* off-diagonal elements $< epsilon$
+     - Eigenvalues = diagonal of $bold(A)^((k))$
+
+  3. *Practical Implementation* (for Factor Analysis)
+     - Use LAPACK/BLAS routines (DSYEV, SSYEV)
+     - *if* only need largest $k$ eigenvalues *then* use Arnoldi iteration
+     - *Computational complexity:* $O(p^3)$ for full decomposition
 ]
 
 #section-slide[Statistical Foundations]
