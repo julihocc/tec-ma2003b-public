@@ -22,7 +22,7 @@
   size: 12pt,
   lang: "es",
 )
-#set math.equation(numbering: none)
+#set math.equation(numbering: "(1)")
 
 // Custom slide function with Tec blue titles
 #let slide(title: none, content) = {
@@ -119,18 +119,23 @@
      - *Why constrain?* Without this, we could make variance arbitrarily large by scaling $bold(w)$
 
   2. *Apply Lagrange Multiplier Method*
-     - Form Lagrangian: $L(bold(w), lambda) = bold(w)^top bold(Sigma) bold(w) - lambda(bold(w)^top bold(w) - 1)$
+     - *Form Lagrangian:*
+     $ L(bold(w), lambda) = bold(w)^top bold(Sigma) bold(w) - lambda(bold(w)^top bold(w) - 1) $
      - *Intuition:* Balance maximizing variance against the constraint
      - *Goal:* Find critical points where gradient vanishes (no improvement possible)
 
   3. *Compute Partial Derivatives*
-     - $frac(partial L, partial bold(w)) = 2 bold(Sigma) bold(w) - 2 lambda bold(w)$
-     - $frac(partial L, partial lambda) = -(bold(w)^top bold(w) - 1)$
+     - *Gradient with respect to w:*
+     $ frac(partial L, partial bold(w)) = 2 bold(Sigma) bold(w) - 2 lambda bold(w) $
+     - *Gradient with respect to λ:*
+     $ frac(partial L, partial lambda) = -(bold(w)^top bold(w) - 1) $
      - *Mathematical note:* Using matrix calculus rule $frac(partial, partial bold(x)) bold(x)^top bold(A) bold(x) = 2 bold(A) bold(x)$
 
   4. *Solve First-Order Conditions*
-     - Set $frac(partial L, partial bold(w)) = bold(0)$: $bold(Sigma) bold(w) = lambda bold(w)$ (eigenvalue equation!)
-     - Set $frac(partial L, partial lambda) = 0$: $bold(w)^top bold(w) = 1$ (normalization)
+     - *Set gradient to zero:*
+     $ bold(Sigma) bold(w) = lambda bold(w) $
+     - *Normalization constraint:*
+     $ bold(w)^top bold(w) = 1 $
      - *Key insight:* The optimization naturally leads to the eigenvalue problem
 
   5. *Identify Maximum Variance Solution*
@@ -173,10 +178,10 @@
      - *Interaction:* $2"Cov"(bold(Lambda) bold(F), bold(U)) = bold(0)$ (vanishes by assumption)
 
   5. *Combine Terms for Final Result*
-     - $bold(Sigma) = bold(Lambda) bold(Lambda)^top + bold(Psi)$
+     - *Fundamental covariance structure:*
+     $ bold(Sigma) = bold(Lambda) bold(Lambda)^top + bold(Psi) $
      - *Fundamental insight:* Observable covariance = shared structure + individual uniqueness
      - *Practical meaning:* We can decompose any correlation into common and unique parts
-     - *Final covariance structure:* $bold(Sigma) = bold(Lambda) bold(Lambda)^top + bold(Psi)$
 ]
 
 #slide(title: [Mathematical Formulation: Foundation])[
@@ -188,16 +193,16 @@
   - Centered data: $bold(X)_c = bold(X) - bold(1)_n bold(mu)^top$ where $bold(1)_n$ is vector of ones
 
   *Sample Covariance Matrix:*
-  $bold(S) = frac(1, n-1) bold(X)_c^top bold(X)_c$
+  $ bold(S) = frac(1, n-1) bold(X)_c^top bold(X)_c $
 
   *Eigenvalue Problem:*
   Find eigenvalues $lambda_1 >= lambda_2 >= ... >= lambda_p >= 0$ and orthonormal eigenvectors $bold(v)_1, bold(v)_2, ..., bold(v)_p$ such that:
-  $bold(S) bold(v)_j = lambda_j bold(v)_j$ for $j = 1, 2, ..., p$
+  $ bold(S) bold(v)_j = lambda_j bold(v)_j quad "for" j = 1, 2, ..., p $
 ]
 
 #slide(title: [Mathematical Formulation: Spectral Decomposition])[
   *Spectral Decomposition of Covariance Matrix:*
-  $bold(S) = bold(V) bold(Lambda) bold(V)^top = sum_(j=1)^p lambda_j bold(v)_j bold(v)_j^top$
+  $ bold(S) = bold(V) bold(Lambda) bold(V)^top = sum_(j=1)^p lambda_j bold(v)_j bold(v)_j^top $
 
   where:
   - $bold(V) = [bold(v)_1 | bold(v)_2 | ... | bold(v)_p] in RR^(p times p)$ (eigenvector matrix)
@@ -206,18 +211,18 @@
 
   *Principal Components:*
   The $j$-th principal component for observation $i$ is:
-  $z_(i j) = bold(v)_j^top (bold(x)_i - bold(mu)) = bold(v)_j^top bold(x)_(c i)$
+  $ z_(i j) = bold(v)_j^top (bold(x)_i - bold(mu)) = bold(v)_j^top bold(x)_(c i) $
 
   *Component Score Matrix:*
-  $bold(Z) = bold(X)_c bold(V) in RR^(n times p)$
+  $ bold(Z) = bold(X)_c bold(V) in RR^(n times p) $
 ]
 
 #slide(title: [Mathematical Formulation: Variance Properties])[
   *Variance of Principal Components:*
-  $"Var"(Z_j) = "Var"(bold(v)_j^top bold(X)_c) = bold(v)_j^top bold(S) bold(v)_j = bold(v)_j^top lambda_j bold(v)_j = lambda_j$
+  $ "Var"(Z_j) = "Var"(bold(v)_j^top bold(X)_c) = bold(v)_j^top bold(S) bold(v)_j = lambda_j $
 
   *Total Variance Decomposition:*
-  $"tr"(bold(S)) = sum_(j=1)^p s_(j j) = sum_(j=1)^p lambda_j$
+  $ "tr"(bold(S)) = sum_(j=1)^p s_(j j) = sum_(j=1)^p lambda_j $
 
   *Proportion of Variance Explained:*
   By component $j$: $rho_j = frac(lambda_j, sum_(k=1)^p lambda_k)$
@@ -352,7 +357,7 @@
 
 #slide(title: [Factor Analysis Model: Mathematical Foundation])[
   *The Factor Model for Variable i:*
-  $X_i = mu_i + sum_(j=1)^k lambda_(i j) F_j + U_i$ for $i = 1, 2, ..., p$
+  $ X_i = mu_i + sum_(j=1)^k lambda_(i j) F_j + U_i quad "for" i = 1, 2, ..., p $
 
   where:
   - $X_i$: Observed variable $i$ (standardized, so $mu_i = 0$)
@@ -362,7 +367,7 @@
   - $k < p$: Number of common factors
 
   *Matrix Form:*
-  $bold(X) = bold(Lambda) bold(F) + bold(U)$
+  $ bold(X) = bold(Lambda) bold(F) + bold(U) $
 
   where $bold(X) in RR^p$, $bold(Lambda) in RR^(p times k)$, $bold(F) in RR^k$, $bold(U) in RR^p$
 ]
@@ -481,20 +486,22 @@
      - *Conceptual idea:* Alternately estimate missing factor scores (E) and update parameters (M)
      - *repeat*
        - *E-step:* Compute factor scores given current parameters
-         $hat(bold(F)) = bold(Lambda)^((t)top) (bold(Lambda)^((t)) bold(Lambda)^((t)top) + bold(Psi)^((t)))^(-1) bold(X)_c^top$
+         $ hat(bold(F)) = bold(Lambda)^((t)top) (bold(Lambda)^((t)) bold(Lambda)^((t)top) + bold(Psi)^((t)))^(-1) bold(X)_c^top $
          *Intuition:* Predict what the unobserved factors would be for each observation
        - *M-step:* Update parameters given current factor scores
-         $bold(Lambda)^((t+1)) = bold(S) hat(bold(F))^top (hat(bold(F)) hat(bold(F))^top)^(-1)$ (loadings)
-         $bold(Psi)^((t+1)) = "diag"(bold(S) - bold(Lambda)^((t+1)) hat(bold(F)) bold(X)_c / n)$ (uniquenesses)
+         $ bold(Lambda)^((t+1)) = bold(S) hat(bold(F))^top (hat(bold(F)) hat(bold(F))^top)^(-1) $
+         $ bold(Psi)^((t+1)) = "diag"(bold(S) - bold(Lambda)^((t+1)) hat(bold(F)) bold(X)_c / n) $
          *Intuition:* Find the loadings that best predict the observed data from the estimated factors
      - *until* $||bold(Lambda)^((t+1)) - bold(Lambda)^((t))|| < epsilon$ (convergence criterion)
      - *Why this works:* Each step increases the likelihood, guaranteeing improvement
 
   3. *Model Fit Assessment*
      - *Purpose:* Determine how well our factor model explains the observed covariances
-     - Log-likelihood: $ell = -frac(n, 2)[p ln(2pi) + ln|bold(Sigma)| + "tr"(bold(S) bold(Sigma)^(-1))]$
+     - *Log-likelihood:*
+     $ ell = -frac(n, 2)[p ln(2pi) + ln|bold(Sigma)| + "tr"(bold(S) bold(Sigma)^(-1))] $
        *Interpretation:* Higher values indicate better fit to observed data
-     - Chi-square goodness of fit: $chi^2 = (n-1)[ln|bold(Sigma)| - ln|bold(S)| + "tr"(bold(S) bold(Sigma)^(-1)) - p]$
+     - *Chi-square goodness of fit:*
+     $ chi^2 = (n-1)[ln|bold(Sigma)| - ln|bold(S)| + "tr"(bold(S) bold(Sigma)^(-1)) - p] $
        *Interpretation:* Tests $H_0$: model-implied covariance = observed covariance
      - Degrees of freedom: $"df" = frac(p(p-1), 2) - p k$
        *Logic:* Free covariances - estimated parameters
