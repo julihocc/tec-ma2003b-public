@@ -190,7 +190,7 @@
   *Data Matrix Representation:*
   - Data matrix $bold(X) in RR^(n times p)$ with $n$ observations and $p$ variables
   - Each row $bold(x)_i^top$ is an observation vector
-  - Centered data: $bold(X)_c = bold(X) - bold(1)_n bold(mu)^top$ where $bold(1)_n$ is vector of ones
+  - Centered data: $bold(X)_c = bold(X) - bold(1)_n overline(bold(x))^top$ where $bold(1)_n$ is vector of ones
 
   *Sample Covariance Matrix:*
   $ bold(S) = frac(1, n-1) bold(X)_c^top bold(X)_c $
@@ -211,7 +211,7 @@
 
   *Principal Components:*
   The $j$-th principal component for observation $i$ is:
-  $ z_(i j) = bold(v)_j^top (bold(x)_i - bold(mu)) = bold(v)_j^top bold(x)_(c i) $
+  $ z_(i j) = bold(v)_j^top (bold(x)_i - overline(bold(x))) = bold(v)_j^top bold(x)_(c i) $
 
   *Component Score Matrix:*
   $ bold(Z) = bold(X)_c bold(V) in RR^(n times p) $
@@ -230,7 +230,7 @@
   Cumulative: $rho_(1:k) = frac(sum_(j=1)^k lambda_j, sum_(j=1)^p lambda_j)$
 
   *Reconstruction Formula:*
-  Using first $k$ components: $hat(bold(x)) = bold(mu) + sum_(j=1)^k z_j bold(v)_j$
+  Using first $k$ components: $hat(bold(x)) = overline(bold(x)) + sum_(j=1)^k z_j bold(v)_j$
 
   *Mean Squared Reconstruction Error:*
   $"MSE" = frac(1, n) ||bold(X)_c - bold(Z)_(1:k) bold(V)_(1:k)^top||_F^2 = sum_(j=k+1)^p lambda_j$
@@ -356,34 +356,51 @@
 // Split the long FA content into smaller, focused slides
 
 #slide(title: [Factor Analysis Model: Mathematical Foundation])[
-  *The Factor Model for Variable i:*
+  *The General Factor Model for Variable i:*
   $ X_i = mu_i + sum_(j=1)^k lambda_(i j) F_j + U_i quad "for" i = 1, 2, ..., p $
 
+  *Centered Factor Model (Standard Practice):*
+  $ X_i - mu_i = sum_(j=1)^k lambda_(i j) F_j + U_i quad "for" i = 1, 2, ..., p $
+
   where:
-  - $X_i$: Observed variable $i$ (standardized, so $mu_i = 0$)
+  - $X_i$: Observed variable $i$
+  - $mu_i$: Mean of variable $i$ (estimated from data: $mu_i = overline(x)_i = frac(1, n) sum_(l=1)^n X_(i l)$)
   - $F_j$: Common factor $j$ with $F_j tilde N(0,1)$, independent
   - $lambda_(i j)$: Factor loading of variable $i$ on factor $j$
   - $U_i$: Unique factor for variable $i$ with $U_i tilde N(0, psi_i^2)$
   - $k < p$: Number of common factors
 
-  *Matrix Form:*
-  $ bold(X) = bold(Lambda) bold(F) + bold(U) $
+  *Matrix Form (for centered data):*
+  $ bold(X)_c = bold(Lambda) bold(F) + bold(U) $
 
-  where $bold(X) in RR^p$, $bold(Lambda) in RR^(p times k)$, $bold(F) in RR^k$, $bold(U) in RR^p$
+  where:
+  - $bold(X)_c = bold(X) - bold(1)_n overline(bold(x))^top in RR^(n times p)$ (centered data matrix)
+  - $overline(bold(x)) = (overline(x)_1, overline(x)_2, dots, overline(x)_p)^top$ (sample mean vector)
+  - $bold(Lambda) in RR^(p times k)$ (factor loadings matrix)
+  - $bold(F) in RR^(n times k)$ (factor scores matrix)
+  - $bold(U) in RR^(n times p)$ (unique factors matrix)
+
+  *Why we center:* Factor Analysis models the covariance structure, not the means
 ]
 
 #slide(title: [Variance Decomposition: Communality and Uniqueness])[
-  *Variance of Observed Variable i:*
-  $"Var"(X_i) = "Var"(sum_(j=1)^k lambda_(i j) F_j) + "Var"(U_i)$
+  *Variance of Observed Variable i (Scalar Form):*
+  $ "Var"(X_i) = "Var"(sum_(j=1)^k lambda_(i j) F_j) + "Var"(U_i) $
 
   Since $F_j$ are independent with unit variance and $U_i$ is independent of all $F_j$:
-  $"Var"(X_i) = sum_(j=1)^k lambda_(i j)^2 + psi_i^2 = h_i^2 + psi_i^2$
+  $ "Var"(X_i) = sum_(j=1)^k lambda_(i j)^2 + psi_i^2 = h_i^2 + psi_i^2 $
 
-  *Communality of Variable i:*
-  $h_i^2 = sum_(j=1)^k lambda_(i j)^2 = $ variance explained by common factors
+  *Matrix Form (Variance Structure):*
+  $ "Var"(bold(X)) = bold(Sigma) = bold(Lambda) bold(Lambda)^top + bold(Psi) $
+  where each diagonal element: $sigma_(i i) = sum_(j=1)^k lambda_(i j)^2 + psi_i^2$
 
-  *Uniqueness of Variable i:*
-  $psi_i^2 = "Var"(U_i) = $ unique variance (specific + measurement error)
+  *Communality (Scalar and Matrix Forms):*
+  - *Scalar:* $h_i^2 = sum_(j=1)^k lambda_(i j)^2$ (variance explained by common factors)
+  - *Matrix:* $bold(h)^2 = "diag"(bold(Lambda) bold(Lambda)^top)$ (communality vector)
+
+  *Uniqueness (Scalar and Matrix Forms):*
+  - *Scalar:* $psi_i^2 = "Var"(U_i)$ (unique variance: specific + measurement error)
+  - *Matrix:* $bold(Psi) = "diag"(psi_1^2, psi_2^2, dots, psi_p^2)$ (uniqueness matrix)
 
   *Total Variance Decomposition:*
   For standardized variables: $"Var"(X_i) = 1 = h_i^2 + psi_i^2$
