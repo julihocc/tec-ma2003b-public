@@ -108,56 +108,74 @@
 
 #slide(title: [Algorithm: PCA Optimization Derivation])[
   *Input:* Covariance matrix $bold(Sigma) in RR^(p times p)$
-
   *Output:* First principal component $bold(w)_1$, maximum variance $lambda_1$
+
+  *Mathematical Intuition:* We seek the direction that captures maximum variability in our data
 
   1. *Formulate Constrained Optimization Problem*
      - *Objective:* Maximize $f(bold(w)) = bold(w)^top bold(Sigma) bold(w)$ (variance of projection)
+     - *Why this form?* $bold(w)^top bold(Sigma) bold(w)$ measures total variance when data is projected onto direction $bold(w)$
      - *Constraint:* $g(bold(w)) = bold(w)^top bold(w) - 1 = 0$ (unit length constraint)
+     - *Why constrain?* Without this, we could make variance arbitrarily large by scaling $bold(w)$
 
   2. *Apply Lagrange Multiplier Method*
      - Form Lagrangian: $L(bold(w), lambda) = bold(w)^top bold(Sigma) bold(w) - lambda(bold(w)^top bold(w) - 1)$
-     - *Goal:* Find critical points where gradient vanishes
+     - *Intuition:* Balance maximizing variance against the constraint
+     - *Goal:* Find critical points where gradient vanishes (no improvement possible)
 
   3. *Compute Partial Derivatives*
      - $frac(partial L, partial bold(w)) = 2 bold(Sigma) bold(w) - 2 lambda bold(w)$
      - $frac(partial L, partial lambda) = -(bold(w)^top bold(w) - 1)$
+     - *Mathematical note:* Using matrix calculus rule $frac(partial, partial bold(x)) bold(x)^top bold(A) bold(x) = 2 bold(A) bold(x)$
 
   4. *Solve First-Order Conditions*
-     - Set $frac(partial L, partial bold(w)) = bold(0)$: $bold(Sigma) bold(w) = lambda bold(w)$ (eigenvalue equation)
+     - Set $frac(partial L, partial bold(w)) = bold(0)$: $bold(Sigma) bold(w) = lambda bold(w)$ (eigenvalue equation!)
      - Set $frac(partial L, partial lambda) = 0$: $bold(w)^top bold(w) = 1$ (normalization)
+     - *Key insight:* The optimization naturally leads to the eigenvalue problem
 
   5. *Identify Maximum Variance Solution*
      - *Substitute back:* $f(bold(w)) = bold(w)^top bold(Sigma) bold(w) = bold(w)^top lambda bold(w) = lambda$
+     - *Crucial realization:* The maximum variance equals the eigenvalue!
      - *Conclusion:* Choose largest eigenvalue $lambda_1$ with eigenvector $bold(w)_1$
      - *Maximum variance:* $"Var"_"max" = lambda_1$
+     - *Geometric interpretation:* Eigenvectors represent directions of maximum variance, eigenvalues measure the magnitude of variance in those directions.
 ]
 
 #slide(title: [Algorithm: Factor Model Covariance Derivation])[
   *Input:* Factor model $bold(X) = bold(Lambda) bold(F) + bold(U)$
-
   *Output:* Covariance structure $bold(Sigma) = bold(Lambda) bold(Lambda)^top + bold(Psi)$
 
+  *Conceptual Goal:* Understand how factor structure determines observable covariance patterns
+
   1. *Apply Covariance Operator to Factor Model*
-     - Start with: $bold(X) = bold(Lambda) bold(F) + bold(U)$
+     - Start with: $bold(X) = bold(Lambda) bold(F) + bold(U)$ (observed = common + unique)
      - Take covariance: $bold(Sigma) = "Cov"(bold(X)) = "Cov"(bold(Lambda) bold(F) + bold(U))$
+     - *Interpretation:* How does the factor structure translate to observable relationships?
 
   2. *Expand Using Covariance Properties*
      - Apply bilinearity: $"Cov"(bold(A) + bold(B)) = "Cov"(bold(A)) + "Cov"(bold(B)) + 2"Cov"(bold(A), bold(B))$
      - Get: $bold(Sigma) = "Cov"(bold(Lambda) bold(F)) + "Cov"(bold(U)) + 2"Cov"(bold(Lambda) bold(F), bold(U))$
+     - *What this means:* Total variance = common factor variance + unique variance + interaction
 
   3. *Apply Factor Model Assumptions*
      - *Assumption 1:* $"Cov"(bold(F)) = bold(I)$ (orthogonal factors with unit variance)
-     - *Assumption 2:* $"Cov"(bold(U)) = bold(Psi) = "diag"(psi_1^2, ..., psi_p^2)$ (diagonal uniqueness)
+       *Why?* Factors are independent and standardized for identifiability
+     - *Assumption 2:* $"Cov"(bold(U)) = bold(Psi) = "diag"(psi_1^2, dots, psi_p^2)$ (diagonal uniqueness)
+       *Why?* Unique parts are uncorrelated (all common variation is captured by factors)
      - *Assumption 3:* $"Cov"(bold(F), bold(U)) = bold(0)$ (factors independent of unique terms)
+       *Why?* Factors explain only the common part, not the unique/error part
 
   4. *Simplify Each Covariance Term*
-     - Term 1: $"Cov"(bold(Lambda) bold(F)) = bold(Lambda) "Cov"(bold(F)) bold(Lambda)^top = bold(Lambda) bold(I) bold(Lambda)^top = bold(Lambda) bold(Lambda)^top$
-     - Term 2: $"Cov"(bold(U)) = bold(Psi)$
-     - Term 3: $2"Cov"(bold(Lambda) bold(F), bold(U)) = 2 bold(Lambda) "Cov"(bold(F), bold(U)) = bold(0)$
+     - *Common part:* $"Cov"(bold(Lambda) bold(F)) = bold(Lambda) "Cov"(bold(F)) bold(Lambda)^top = bold(Lambda) bold(Lambda)^top$
+       *Interpretation:* This creates the correlations between variables through shared factors
+     - *Unique part:* $"Cov"(bold(U)) = bold(Psi)$ (diagonal matrix)
+       *Interpretation:* Each variable has its own unique variance not shared with others
+     - *Interaction:* $2"Cov"(bold(Lambda) bold(F), bold(U)) = bold(0)$ (vanishes by assumption)
 
   5. *Combine Terms for Final Result*
-     - $bold(Sigma) = bold(Lambda) bold(Lambda)^top + bold(Psi) + bold(0)$
+     - $bold(Sigma) = bold(Lambda) bold(Lambda)^top + bold(Psi)$
+     - *Fundamental insight:* Observable covariance = shared structure + individual uniqueness
+     - *Practical meaning:* We can decompose any correlation into common and unique parts
      - *Final covariance structure:* $bold(Sigma) = bold(Lambda) bold(Lambda)^top + bold(Psi)$
 ]
 
@@ -214,31 +232,38 @@
 ]
 
 #slide(title: [Algorithm: Principal Component Analysis])[
-  *Input:* Data matrix $bold(X) in RR^(n times p)$, standardization choice
-
-  *Output:* Principal components, eigenvalues, component scores
+  *Input:* Data matrix $bold(X) in RR^(n times p)$ (n observations, p variables), standardization choice
+  *Output:* Principal components $bold(V)$, eigenvalues $bold(Lambda)$, component scores $bold(Z)$
 
   1. *Data Preprocessing*
-     - *if* variables have different scales
-       - Standardize: $bold(X)_"std" = (bold(X) - bold(1)_n overline(bold(x))^top) bold(D)^(-1/2)$
-       - Use correlation matrix $bold(R)$ for analysis
-     - *else*
-       - Center only: $bold(X)_c = bold(X) - bold(1)_n overline(bold(x))^top$
-       - Use covariance matrix $bold(S)$ for analysis
+     - *Assess variable scales:* Check if variables have different units or magnitudes
+     - *if* variables have different scales (e.g., age in years vs income in dollars):
+       - *Standardize data:* $bold(X)_"std" = (bold(X) - bold(1)_n overline(bold(x))^top) bold(D)^(-1/2)$
+         where $bold(D) = "diag"(s_1^2, s_2^2, dots, s_p^2)$
+       - *Use correlation matrix* $bold(R)$ for subsequent analysis
+     - *else* (variables have similar scales):
+       - *Center data only:* $bold(X)_c = bold(X) - bold(1)_n overline(bold(x))^top$
+       - *Use covariance matrix* $bold(S)$ for subsequent analysis
 
-  2. *Compute Sample Covariance/Correlation Matrix*
-     - $bold(S) = frac(1, n-1) bold(X)_c^top bold(X)_c$ (or $bold(R)$ if standardized)
+  2. *Compute Sample Covariance or Correlation Matrix*
+     - *Calculate matrix:* $bold(S) = frac(1, n-1) bold(X)_c^top bold(X)_c$
+       (or $bold(R)$ if using standardized data)
+     - *Verify:* Matrix should be $p times p$, symmetric, and positive semidefinite
 
   3. *Eigenvalue Decomposition*
-     - Solve: $bold(S) bold(v)_j = lambda_j bold(v)_j$ for $j = 1, 2, ..., p$
-     - Order eigenvalues: $lambda_1 >= lambda_2 >= ... >= lambda_p >= 0$
-     - Form matrices: $bold(V) = [bold(v)_1 | bold(v)_2 | ... | bold(v)_p]$, $bold(Lambda) = "diag"(lambda_1, ..., lambda_p)$
+     - *Solve eigenvalue problem:* $bold(S) bold(v)_j = lambda_j bold(v)_j$ for each $j = 1, 2, dots, p$
+     - *Order solutions:* $lambda_1 >= lambda_2 >= dots >= lambda_p >= 0$ (decreasing eigenvalues)
+     - *Construct matrices:*
+       - $bold(V) = [bold(v)_1 | bold(v)_2 | dots | bold(v)_p]$ (eigenvectors as columns)
+       - $bold(Lambda) = "diag"(lambda_1, lambda_2, dots, lambda_p)$ (eigenvalues on diagonal)
 
   4. *Compute Principal Component Scores*
-     - $bold(Z) = bold(X)_c bold(V) = [bold(z)_1 | bold(z)_2 | ... | bold(z)_p]$
+     - *Transform data:* $bold(Z) = bold(X)_c bold(V) = [bold(z)_1 | bold(z)_2 | dots | bold(z)_p]$
+     - *Interpretation:* Each column $bold(z)_j$ contains scores for component $j$ across all observations
 
-  5. *Determine Number of Components*
-     - Apply Kaiser criterion, scree test, or cumulative variance threshold
+  5. *Determine Optimal Number of Components*
+     - *Apply retention criteria:* Kaiser criterion, scree test, or cumulative variance threshold
+     - *Select k components:* Keep first $k$ components based on chosen criterion
      - Retain first $k$ components where $k < p$
 ]
 
@@ -399,34 +424,48 @@
 ]
 
 #slide(title: [Algorithm: Factor Analysis with Principal Axis Factoring])[
-  *Input:* Data matrix $bold(X) in RR^(n times p)$, number of factors $k$
+  *Input:* Data matrix $bold(X) in RR^(n times p)$ (n observations, p variables), number of factors $k$
+  *Output:* Factor loadings $bold(Lambda)$, uniquenesses $bold(Psi)$, factor scores $hat(bold(F))$
 
-  *Output:* Factor loadings $bold(Lambda)$, uniquenesses $bold(Psi)$, factor scores
-
-  1. *Data Preprocessing and Suitability Tests*
-     - Standardize variables: $bold(Z) = (bold(X) - bold(1)_n overline(bold(x))^top) bold(D)^(-1/2)$
-     - Compute correlation matrix: $bold(R) = frac(1, n-1) bold(Z)^top bold(Z)$
-     - Test factorability: Bartlett's test, KMO measure
+  1. *Data Preprocessing and Suitability Assessment*
+     - *Standardize variables:* $bold(Z) = (bold(X) - bold(1)_n overline(bold(x))^top) bold(D)^(-1/2)$
+       where $bold(D) = "diag"(s_1^2, dots, s_p^2)$ (variable variances)
+     - *Compute correlation matrix:* $bold(R) = frac(1, n-1) bold(Z)^top bold(Z)$
+     - *Test data suitability for factoring:*
+       - Bartlett's sphericity test: $H_0$: $bold(R) = bold(I)$ (variables uncorrelated)
+       - Kaiser-Meyer-Olkin (KMO) measure: assess sampling adequacy
 
   2. *Initialize Communality Estimates*
-     - *for* $i = 1$ to $p$ *do*
-       - $h_i^2 = 1 - frac(1, R_(i i))$ (squared multiple correlation)
+     - *Purpose:* Estimate how much variance each variable shares with factors
+     - *for* each variable $i = 1$ to $p$:
+       - *Compute initial estimate:* $h_i^2 = 1 - frac(1, R_(i i))$
+         (squared multiple correlation with other variables)
+       - *Interpretation:* Proportion of variable i's variance explained by common factors
 
   3. *Principal Axis Factoring Iteration*
-     - *repeat*
-       - Form reduced correlation matrix: $bold(R)^* = bold(R) - "diag"(1-h_1^2, ..., 1-h_p^2)$
-       - Compute eigendecomposition: $bold(R)^* = bold(V) bold(Lambda) bold(V)^top$
-       - Extract $k$ factors: $bold(L) = bold(V)_k bold(Lambda)_k^(1/2)$
-       - Update communalities: $h_i^2 = sum_(j=1)^k l_(i j)^2$ for $i = 1, ..., p$
-     - *until* $max_i |h_i^2_"new" - h_i^2_"old"| < epsilon$ (convergence criterion)
+     - *Iterative refinement:* Improve communality estimates until convergence
+     - *repeat*:
+       - *Form reduced correlation matrix:* $bold(R)^* = bold(R) - "diag"(1-h_1^2, dots, 1-h_p^2)$
+         (Replace diagonal with communalities instead of 1's)
+       - *Eigenvalue decomposition:* $bold(R)^* = bold(V) bold(Lambda) bold(V)^top$
+       - *Extract k factors:* $bold(L) = bold(V)_k bold(Lambda)_k^(1/2)$ (first k columns and eigenvalues)
+       - *Update communalities:* $h_i^2 = sum_(j=1)^k l_(i j)^2$ for each $i = 1, dots, p$
+         (Sum of squared loadings for variable i)
+     - *until* $max_i |h_i^2_"new" - h_i^2_"old"| < epsilon$ (convergence achieved)
 
-  4. *Factor Rotation* (Optional)
-     - Apply Varimax (orthogonal) or Promax (oblique) rotation
-     - $bold(Lambda)^* = bold(L) bold(T)$ where $bold(T)$ is rotation matrix
+  4. *Factor Rotation* (Optional but Recommended)
+     - *Purpose:* Achieve simpler, more interpretable factor structure
+     - *Apply rotation method:*
+       - Varimax (orthogonal): maintains factor independence, $bold(Lambda)^* = bold(L) bold(T)$
+       - Promax (oblique): allows correlated factors for more flexibility
+     - *Result:* Rotated loadings $bold(Lambda)^*$ with cleaner interpretation
 
   5. *Factor Score Estimation*
-     - Regression method: $hat(bold(F)) = bold(Z) bold(Lambda) (bold(Lambda)^top bold(Lambda))^(-1)$
-     - Bartlett method: $hat(bold(F)) = bold(Z) bold(Lambda) (bold(Lambda)^top bold(Psi)^(-1) bold(Lambda))^(-1) bold(Lambda)^top bold(Psi)^(-1)$
+     - *Estimate individual factor scores for each observation*
+     - *Regression method:* $hat(bold(F)) = bold(Z) bold(Lambda) (bold(Lambda)^top bold(Lambda))^(-1)$
+       (Simple, but scores may be correlated even with orthogonal factors)
+     - *Bartlett method:* $hat(bold(F)) = bold(Z) bold(Lambda) (bold(Lambda)^top bold(Psi)^(-1) bold(Lambda))^(-1) bold(Lambda)^top bold(Psi)^(-1)$
+       (More complex, but preserves factor orthogonality if assumed)
 ]
 
 #slide(title: [Algorithm: Maximum Likelihood Factor Analysis])[
@@ -439,18 +478,26 @@
      - Compute sample covariance: $bold(S) = frac(1, n-1) bold(X)_c^top bold(X)_c$
 
   2. *EM Algorithm Iteration*
+     - *Conceptual idea:* Alternately estimate missing factor scores (E) and update parameters (M)
      - *repeat*
-       - *E-step:* Compute factor scores
+       - *E-step:* Compute factor scores given current parameters
          $hat(bold(F)) = bold(Lambda)^((t)top) (bold(Lambda)^((t)) bold(Lambda)^((t)top) + bold(Psi)^((t)))^(-1) bold(X)_c^top$
-       - *M-step:* Update parameters
-         $bold(Lambda)^((t+1)) = bold(S) hat(bold(F))^top (hat(bold(F)) hat(bold(F))^top)^(-1)$
-         $bold(Psi)^((t+1)) = "diag"(bold(S) - bold(Lambda)^((t+1)) hat(bold(F)) bold(X)_c / n)$
-     - *until* $||bold(Lambda)^((t+1)) - bold(Lambda)^((t))|| < epsilon$
+         *Intuition:* Predict what the unobserved factors would be for each observation
+       - *M-step:* Update parameters given current factor scores
+         $bold(Lambda)^((t+1)) = bold(S) hat(bold(F))^top (hat(bold(F)) hat(bold(F))^top)^(-1)$ (loadings)
+         $bold(Psi)^((t+1)) = "diag"(bold(S) - bold(Lambda)^((t+1)) hat(bold(F)) bold(X)_c / n)$ (uniquenesses)
+         *Intuition:* Find the loadings that best predict the observed data from the estimated factors
+     - *until* $||bold(Lambda)^((t+1)) - bold(Lambda)^((t))|| < epsilon$ (convergence criterion)
+     - *Why this works:* Each step increases the likelihood, guaranteeing improvement
 
   3. *Model Fit Assessment*
+     - *Purpose:* Determine how well our factor model explains the observed covariances
      - Log-likelihood: $ell = -frac(n, 2)[p ln(2pi) + ln|bold(Sigma)| + "tr"(bold(S) bold(Sigma)^(-1))]$
+       *Interpretation:* Higher values indicate better fit to observed data
      - Chi-square goodness of fit: $chi^2 = (n-1)[ln|bold(Sigma)| - ln|bold(S)| + "tr"(bold(S) bold(Sigma)^(-1)) - p]$
+       *Interpretation:* Tests $H_0$: model-implied covariance = observed covariance
      - Degrees of freedom: $"df" = frac(p(p-1), 2) - p k$
+       *Logic:* Free covariances - estimated parameters
 
   4. *Confidence Intervals*
      - Standard errors from inverse Fisher information matrix
@@ -482,17 +529,23 @@
      - $bold(T) = bold(I)_k$ (identity matrix)
      - $bold(Lambda)^* = bold(Lambda)$ (initial loadings)
 
-  2. *Varimax Iteration* (for each pair of factors)
-     - *repeat*
-       - *for* $i = 1$ to $k-1$ *do*
-         - *for* $j = i+1$ to $k$ *do*
-           - Extract columns: $bold(a) = bold(Lambda)^*_(:,i)$, $bold(b) = bold(Lambda)^*_(:,j)$
-           - Compute rotation angle: $theta = frac(1, 4) "arctan"(frac(sum_(l=1)^p 4 a_l b_l (a_l^2 - b_l^2), sum_(l=1)^p (a_l^2 - b_l^2)^2 - (sum_(l=1)^p 2 a_l b_l)^2))$
-           - Apply 2D rotation:
-             $bold(Lambda)^*_(:,i) = bold(a) cos(theta) - bold(b) sin(theta)$
-             $bold(Lambda)^*_(:,j) = bold(a) sin(theta) + bold(b) cos(theta)$
-           - Update rotation matrix: $bold(T) = bold(T) bold(G)_(i j)(theta)$
-     - *until* change in Varimax criterion $< epsilon$
+  2. *Varimax Iteration* (Pairwise Factor Rotation)
+     - *Objective:* Maximize variance of squared loadings within each factor
+     - *repeat* until convergence:
+       - *for* each factor pair $i = 1$ to $k-1$:
+         - *for* each factor $j = i+1$ to $k$:
+           - *Extract factor loadings:* $bold(a) = bold(Lambda)^*_(:,i)$, $bold(b) = bold(Lambda)^*_(:,j)$
+             (Current loadings for factors i and j across all variables)
+           - *Compute optimal rotation angle:*
+             $theta = frac(1, 4) "arctan"(frac("numerator", "denominator"))$
+             where numerator = $sum_(l=1)^p 4 a_l b_l (a_l^2 - b_l^2)$
+             and denominator = $sum_(l=1)^p (a_l^2 - b_l^2)^2 - (sum_(l=1)^p 2 a_l b_l)^2$
+           - *Apply 2D rotation transformation:*
+             $bold(Lambda)^*_(:,i) = bold(a) cos(theta) - bold(b) sin(theta)$ (rotated factor i)
+             $bold(Lambda)^*_(:,j) = bold(a) sin(theta) + bold(b) cos(theta)$ (rotated factor j)
+           - *Track total rotation:* $bold(T) = bold(T) bold(G)_(i j)(theta)$
+             (Accumulate rotation matrix for reproducibility)
+     - *Convergence check:* Stop when change in Varimax criterion $< epsilon$
 
   3. *Verify Orthogonality*
      - *assert* $bold(T)^top bold(T) = bold(I)$ (orthogonal rotation property)
