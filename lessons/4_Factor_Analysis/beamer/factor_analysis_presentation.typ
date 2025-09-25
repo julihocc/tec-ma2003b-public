@@ -269,11 +269,34 @@
      - *Recommendation:* Use parallel analysis as primary criterion
 ]
 
-#slide(title: [Practical tips and pitfalls])[
-  - Always check variable scales; standardize when necessary.
-  - PCA is sensitive to outliers — inspect data and consider robust alternatives if needed.
-  - Interpret components via loadings (eigenvectors) and by examining which variables contribute strongly to each component.
-  - When reporting, include: eigenvalues table, proportion of variance, cumulative variance, scree plot, and a table of loadings (component matrix).
+#slide(title: [Algorithm: PCA Data Analysis Checklist])[
+  *Input:* Raw data matrix, research objectives
+
+  *Output:* Validated PCA results and interpretation
+
+  1. *Data Quality Assessment*
+     - Check for missing values; handle via imputation or deletion
+     - Detect outliers using Mahalanobis distance or visualization
+     - *if* outliers are excessive *then* consider robust PCA methods
+
+  2. *Variable Scaling Decision*
+     - Examine variable scales and units
+     - *if* variables have different scales *then*
+       - Standardize: Use correlation matrix for PCA
+     - *else*
+       - Use covariance matrix for PCA
+
+  3. *Component Interpretation*
+     - Examine loading matrix $bold(V)$
+     - *for* each component $j$ *do*
+       - Identify variables with $|v_(i j)| > 0.3$ (substantial loading)
+       - Name component based on dominant variables
+
+  4. *Results Validation and Reporting*
+     - Generate eigenvalue table with variance proportions
+     - Create scree plot for visual component selection
+     - Report cumulative variance explained
+     - Include rotated component matrix if rotation applied
 ]
 
 #section-slide[Factor Analysis Theory]
@@ -319,6 +342,30 @@
 
   *Total Variance Decomposition:*
   For standardized variables: $"Var"(X_i) = 1 = h_i^2 + psi_i^2$
+]
+
+#slide(title: [Algorithm: Communality and Uniqueness Calculation])[
+  *Input:* Factor loading matrix $bold(Lambda) in RR^(p times k)$
+
+  *Output:* Communalities $bold(h)^2$, uniquenesses $bold(psi)^2$
+
+  1. *Initialize Arrays*
+     - $bold(h)^2 = $ zero vector of length $p$
+     - $bold(psi)^2 = $ zero vector of length $p$
+
+  2. *Compute Communalities*
+     - *for* $i = 1$ to $p$ *do*
+       - $h_i^2 = sum_(j=1)^k lambda_(i j)^2$ (sum of squared loadings for variable $i$)
+
+  3. *Compute Uniquenesses*
+     - *for* $i = 1$ to $p$ *do*
+       - $psi_i^2 = 1 - h_i^2$ (for standardized variables)
+       - *if* $psi_i^2 < 0$ *then* $psi_i^2 = 0.005$ (Heywood case correction)
+
+  4. *Validation Check*
+     - *for* $i = 1$ to $p$ *do*
+       - *assert* $h_i^2 + psi_i^2 = 1$ (variance decomposition property)
+       - *assert* $0 <= h_i^2 <= 1$ and $0 <= psi_i^2 <= 1$ (valid proportions)
 ]
 
 #slide(title: [Factor Extraction Methods: Mathematical Approaches])[
@@ -367,6 +414,34 @@
      - Bartlett method: $hat(bold(F)) = bold(Z) bold(Lambda) (bold(Lambda)^top bold(Psi)^(-1) bold(Lambda))^(-1) bold(Lambda)^top bold(Psi)^(-1)$
 ]
 
+#slide(title: [Algorithm: Maximum Likelihood Factor Analysis])[
+  *Input:* Data matrix $bold(X) in RR^(n times p)$, number of factors $k$, tolerance $epsilon$
+
+  *Output:* ML factor loadings $bold(Lambda)$, uniquenesses $bold(Psi)$, model fit statistics
+
+  1. *Initialize Parameters*
+     - Start with PAF solution: $bold(Lambda)^{(0)}$, $bold(Psi)^{(0)}$
+     - Compute sample covariance: $bold(S) = frac(1, n-1) bold(X)_c^top bold(X)_c$
+
+  2. *EM Algorithm Iteration*
+     - *repeat*
+       - *E-step:* Compute factor scores
+         $hat(bold(F)) = bold(Lambda)^{(t)top} (bold(Lambda)^{(t)} bold(Lambda)^{(t)top} + bold(Psi)^{(t)})^(-1) bold(X)_c^top$
+       - *M-step:* Update parameters
+         $bold(Lambda)^{(t+1)} = bold(S) hat(bold(F))^top (hat(bold(F)) hat(bold(F))^top)^(-1)$
+         $bold(Psi)^{(t+1)} = "diag"(bold(S) - bold(Lambda)^{(t+1)} hat(bold(F)) bold(X)_c / n)$
+     - *until* $||bold(Lambda)^{(t+1)} - bold(Lambda)^{(t)}|| < epsilon$
+
+  3. *Model Fit Assessment*
+     - Log-likelihood: $ell = -frac(n, 2)[p ln(2pi) + ln|bold(Sigma)| + "tr"(bold(S) bold(Sigma)^(-1))]$
+     - Chi-square goodness of fit: $chi^2 = (n-1)[ln|bold(Sigma)| - ln|bold(S)| + "tr"(bold(S) bold(Sigma)^(-1)) - p]$
+     - Degrees of freedom: $"df" = frac(p(p-1), 2) - p k$
+
+  4. *Confidence Intervals*
+     - Standard errors from inverse Fisher information matrix
+     - 95% CI: $lambda_(i j) plus.minus 1.96 "SE"(lambda_(i j))$
+]
+
 #slide(title: [Factor Rotation: Mathematical Transformation])[
   *Purpose:* Transform initial factor loadings $bold(Lambda)$ to rotated loadings $bold(Lambda)^* = bold(Lambda) bold(T)$ where $bold(T)$ is transformation matrix.
 
@@ -381,6 +456,32 @@
   - Pattern matrix $bold(P)$: direct effects (regression coefficients)
   - Structure matrix $bold(S) = bold(P) bold(Phi)$: correlations with factors
   - Relationship: $bold(Sigma) = bold(P) bold(Phi) bold(P)^top + bold(Psi)^2$
+]
+
+#slide(title: [Algorithm: Varimax Rotation for Simple Structure])[
+  *Input:* Initial factor loadings $bold(Lambda) in RR^(p times k)$, convergence tolerance $epsilon$
+
+  *Output:* Rotated loadings $bold(Lambda)^*$, rotation matrix $bold(T)$
+
+  1. *Initialize Rotation Matrix*
+     - $bold(T) = bold(I)_k$ (identity matrix)
+     - $bold(Lambda)^* = bold(Lambda)$ (initial loadings)
+
+  2. *Varimax Iteration* (for each pair of factors)
+     - *repeat*
+       - *for* $i = 1$ to $k-1$ *do*
+         - *for* $j = i+1$ to $k$ *do*
+           - Extract columns: $bold(a) = bold(Lambda)^*_(:,i)$, $bold(b) = bold(Lambda)^*_(:,j)$
+           - Compute rotation angle: $theta = frac(1, 4) "arctan"(frac(sum_(l=1)^p 4 a_l b_l (a_l^2 - b_l^2), sum_(l=1)^p (a_l^2 - b_l^2)^2 - (sum_(l=1)^p 2 a_l b_l)^2))$
+           - Apply 2D rotation:
+             $bold(Lambda)^*_(:,i) = bold(a) cos(theta) - bold(b) sin(theta)$
+             $bold(Lambda)^*_(:,j) = bold(a) sin(theta) + bold(b) cos(theta)$
+           - Update rotation matrix: $bold(T) = bold(T) bold(G)_(i j)(theta)$
+     - *until* change in Varimax criterion $< epsilon$
+
+  3. *Verify Orthogonality*
+     - *assert* $bold(T)^top bold(T) = bold(I)$ (orthogonal rotation property)
+     - *assert* $bold(Lambda)^* = bold(Lambda) bold(T)$ (rotation relationship)
 ]
 
 #slide(title: [Covariance Structure and Model Identification])[
@@ -401,6 +502,35 @@
   - Additional constraint: Fix factor scale (unit variance) or loading scale
 
   *Degrees of Freedom:* $"df" = p(p+1)/2 - (k p + p - k)$
+]
+
+#slide(title: [Algorithm: Factor Analysis Suitability Tests])[
+  *Input:* Correlation matrix $bold(R) in RR^(p times p)$, significance level $alpha$
+
+  *Output:* KMO measure, Bartlett test statistic, suitability decision
+
+  1. *Kaiser-Meyer-Olkin (KMO) Test*
+     - Compute anti-image correlation matrix: $bold(A) = -"diag"(bold(R)^(-1))^(-1) bold(R)^(-1) "diag"(bold(R)^(-1))^(-1)$
+     - *for* $i,j = 1$ to $p$ *do*
+       - $a_(i j) = A_(i j) / sqrt(A_(i i) A_(j j))$ (off-diagonal anti-image correlations)
+     - Compute KMO: $"KMO" = frac(sum_(i != j) R_(i j)^2, sum_(i != j) R_(i j)^2 + sum_(i != j) a_(i j)^2)$
+
+  2. *Interpret KMO Value*
+     - *if* KMO $>= 0.9$ *then* "marvelous"
+     - *else if* KMO $>= 0.8$ *then* "meritorious"
+     - *else if* KMO $>= 0.7$ *then* "middling"
+     - *else if* KMO $>= 0.6$ *then* "mediocre"
+     - *else if* KMO $>= 0.5$ *then* "miserable"
+     - *else* "unacceptable for FA"
+
+  3. *Bartlett's Test of Sphericity*
+     - $chi^2 = -(n - 1 - frac(2p + 5, 6)) ln(|bold(R)|)$
+     - Degrees of freedom: $"df" = frac(p(p-1), 2)$
+     - *if* $chi^2 >$ critical value at $alpha$ *then* reject sphericity (good for FA)
+
+  4. *Final Decision*
+     - *if* KMO $>= 0.6$ *and* Bartlett significant *then* "proceed with FA"
+     - *else* "reconsider data or variables"
 ]
 
 #slide(title: [FA vs PCA — Quick comparison])[
