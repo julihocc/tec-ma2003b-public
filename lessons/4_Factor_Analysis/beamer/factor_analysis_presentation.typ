@@ -101,13 +101,100 @@
   *Geometric interpretation*: Eigenvectors represent directions of maximum variance, eigenvalues represent the magnitude of variance in those directions.
 
   *In multivariate statistics*: This decomposition underlies both PCA (principal components) and Factor Analysis (latent factors).
+
+  _For detailed matrix algebra foundations, see Appendix._
 ]
 
-#slide(title: [Mathematical formulation])[
-  Let $bold(x) in RR^p$ be a random vector with mean $mu$ and covariance matrix $Sigma$. After centering the data $(bold(x)-mu)$:
-  - Find eigenvalues $lambda_1 >= lambda_2 >= ... >= lambda_p$ and orthonormal eigenvectors $bold(v)_1, ..., bold(v)_p$ of $Sigma$: $Sigma bold(v)_j = lambda_j bold(v)_j$.
-  - The $j$-th principal component is $z_j = bold(v)_j^top (bold(x)-mu)$.
-  - Variance explained by component $j$ is $"Var"(z_j) = lambda_j$. The proportion explained is $lambda_j / sum_(k=1)^p lambda_k$.
+#slide(title: [Key Mathematical Derivations: PCA Optimization])[
+  *PCA as Constrained Optimization Problem:*
+
+  Find first principal component $bold(w)_1$ that maximizes variance:
+  $max_(bold(w)_1) "Var"(bold(w)_1^top bold(X)) = max_(bold(w)_1) bold(w)_1^top bold(Sigma) bold(w)_1$
+
+  subject to constraint $||bold(w)_1||^2 = 1$
+
+  *Lagrangian:*
+  $L(bold(w)_1, lambda_1) = bold(w)_1^top bold(Sigma) bold(w)_1 - lambda_1 (bold(w)_1^top bold(w)_1 - 1)$
+
+  *First-order condition:*
+  $frac(partial L, partial bold(w)_1) = 2 bold(Sigma) bold(w)_1 - 2 lambda_1 bold(w)_1 = 0$
+
+  *Result:* $bold(Sigma) bold(w)_1 = lambda_1 bold(w)_1$ (eigenvalue equation)
+
+  *Maximum variance:* $"Var"(bold(w)_1^top bold(X)) = bold(w)_1^top bold(Sigma) bold(w)_1 = lambda_1 bold(w)_1^top bold(w)_1 = lambda_1$
+]
+
+#slide(title: [Key Mathematical Derivations: Factor Model Covariance])[
+  *Derivation of Factor Model Covariance Structure:*
+
+  Starting from: $bold(X) = bold(Lambda) bold(F) + bold(U)$
+
+  *Covariance of X:*
+  $bold(Sigma) = "Cov"(bold(X)) = "Cov"(bold(Lambda) bold(F) + bold(U))$
+
+  $= "Cov"(bold(Lambda) bold(F)) + "Cov"(bold(U)) + 2 "Cov"(bold(Lambda) bold(F), bold(U))$
+
+  *Key assumptions:*
+  - $"Cov"(bold(F)) = bold(I)$ (factors have unit variance, uncorrelated)
+  - $"Cov"(bold(U)) = bold(Psi)$ (diagonal matrix of unique variances)
+  - $"Cov"(bold(F), bold(U)) = bold(0)$ (factors independent of unique components)
+
+  *Result:*
+  $bold(Sigma) = bold(Lambda) "Cov"(bold(F)) bold(Lambda)^top + bold(Psi) = bold(Lambda) bold(Lambda)^top + bold(Psi)$
+
+  This is the fundamental factor model equation relating observed covariances to model parameters.
+]
+
+#slide(title: [Mathematical Formulation: Foundation])[
+  Let $bold(x) in RR^p$ be a random vector with mean $bold(mu)$ and covariance matrix $bold(Sigma)$.
+
+  *Data Matrix Representation:*
+  - Data matrix $bold(X) in RR^(n times p)$ with $n$ observations and $p$ variables
+  - Each row $bold(x)_i^top$ is an observation vector
+  - Centered data: $bold(X)_c = bold(X) - bold(1)_n bold(mu)^top$ where $bold(1)_n$ is vector of ones
+
+  *Sample Covariance Matrix:*
+  $bold(S) = frac(1, n-1) bold(X)_c^top bold(X)_c$
+
+  *Eigenvalue Problem:*
+  Find eigenvalues $lambda_1 >= lambda_2 >= ... >= lambda_p >= 0$ and orthonormal eigenvectors $bold(v)_1, bold(v)_2, ..., bold(v)_p$ such that:
+  $bold(S) bold(v)_j = lambda_j bold(v)_j$ for $j = 1, 2, ..., p$
+]
+
+#slide(title: [Mathematical Formulation: Spectral Decomposition])[
+  *Spectral Decomposition of Covariance Matrix:*
+  $bold(S) = bold(V) bold(Lambda) bold(V)^top = sum_(j=1)^p lambda_j bold(v)_j bold(v)_j^top$
+
+  where:
+  - $bold(V) = [bold(v)_1 | bold(v)_2 | ... | bold(v)_p] in RR^(p times p)$ (eigenvector matrix)
+  - $bold(Lambda) = "diag"(lambda_1, lambda_2, ..., lambda_p)$ (diagonal eigenvalue matrix)
+  - $bold(V)^top bold(V) = bold(V) bold(V)^top = bold(I)_p$ (orthonormality condition)
+
+  *Principal Components:*
+  The $j$-th principal component for observation $i$ is:
+  $z_(i j) = bold(v)_j^top (bold(x)_i - bold(mu)) = bold(v)_j^top bold(x)_(c i)$
+
+  *Component Score Matrix:*
+  $bold(Z) = bold(X)_c bold(V) in RR^(n times p)$
+]
+
+#slide(title: [Mathematical Formulation: Variance Properties])[
+  *Variance of Principal Components:*
+  $"Var"(Z_j) = "Var"(bold(v)_j^top bold(X)_c) = bold(v)_j^top bold(S) bold(v)_j = bold(v)_j^top lambda_j bold(v)_j = lambda_j$
+
+  *Total Variance Decomposition:*
+  $"tr"(bold(S)) = sum_(j=1)^p s_(j j) = sum_(j=1)^p lambda_j$
+
+  *Proportion of Variance Explained:*
+  By component $j$: $rho_j = frac(lambda_j, sum_(k=1)^p lambda_k)$
+
+  Cumulative: $rho_(1:k) = frac(sum_(j=1)^k lambda_j, sum_(j=1)^p lambda_j)$
+
+  *Reconstruction Formula:*
+  Using first $k$ components: $hat(bold(x)) = bold(mu) + sum_(j=1)^k z_j bold(v)_j$
+
+  *Mean Squared Reconstruction Error:*
+  $"MSE" = frac(1, n) ||bold(X)_c - bold(Z)_(1:k) bold(V)_(1:k)^top||_F^2 = sum_(j=k+1)^p lambda_j$
 ]
 
 #slide(title: [Computation steps (practical)])[
@@ -148,28 +235,89 @@
 
 // Split the long FA content into smaller, focused slides
 
-#slide(title: [Factor Analysis Model — Overview])[
-  - Models each observed variable as common factors + a unique term
-  - Core equation: $X_i = sum_{j=1}^k lambda_(i j) F_j + U_i$
-  - Short: $lambda_(i j)$ = loadings, $F_j$ = factors, $U_i$ = unique (specific + measurement error)
+#slide(title: [Factor Analysis Model: Mathematical Foundation])[
+  *The Factor Model for Variable i:*
+  $X_i = mu_i + sum_(j=1)^k lambda_(i j) F_j + U_i$ for $i = 1, 2, ..., p$
+
+  where:
+  - $X_i$: Observed variable $i$ (standardized, so $mu_i = 0$)
+  - $F_j$: Common factor $j$ with $F_j tilde N(0,1)$, independent
+  - $lambda_(i j)$: Factor loading of variable $i$ on factor $j$
+  - $U_i$: Unique factor for variable $i$ with $U_i tilde N(0, psi_i^2)$
+  - $k < p$: Number of common factors
+
+  *Matrix Form:*
+  $bold(X) = bold(Lambda) bold(F) + bold(U)$
+
+  where $bold(X) in RR^p$, $bold(Lambda) in RR^(p times k)$, $bold(F) in RR^k$, $bold(U) in RR^p$
 ]
 
-#slide(title: [Communality and Uniqueness])[
-  - Communality: $h_i^2 = sum_{j=1}^k lambda_(i j)^2$ — variance explained by common factors
-  - Uniqueness: $u_i^2 = 1 - h_i^2$ — variable-specific variance (including error)
-  - Use communalities to judge how well factors explain each variable
+#slide(title: [Variance Decomposition: Communality and Uniqueness])[
+  *Variance of Observed Variable i:*
+  $"Var"(X_i) = "Var"(sum_(j=1)^k lambda_(i j) F_j) + "Var"(U_i)$
+
+  Since $F_j$ are independent with unit variance and $U_i$ is independent of all $F_j$:
+  $"Var"(X_i) = sum_(j=1)^k lambda_(i j)^2 + psi_i^2 = h_i^2 + psi_i^2$
+
+  *Communality of Variable i:*
+  $h_i^2 = sum_(j=1)^k lambda_(i j)^2 = $ variance explained by common factors
+
+  *Uniqueness of Variable i:*
+  $psi_i^2 = "Var"(U_i) = $ unique variance (specific + measurement error)
+
+  *Total Variance Decomposition:*
+  For standardized variables: $"Var"(X_i) = 1 = h_i^2 + psi_i^2$
 ]
 
-#slide(title: [Extraction Methods (brief)])[
-  - Principal axis factoring: iterative method focusing on common variance
-  - Maximum likelihood factoring: model-based; allows statistical tests and fit measures
-  - Choice affects initial loadings; rotation usually follows extraction
+#slide(title: [Factor Extraction Methods: Mathematical Approaches])[
+  *1. Principal Axis Factoring (PAF):*
+  - Initialize communality estimates: $h_i^2 = R_(i i) - 1/R^(-1)_(i i)$ (squared multiple correlation)
+  - Form reduced correlation matrix: $bold(R)^* = bold(R) - "diag"(psi_1^2, ..., psi_p^2)$
+  - Eigendecomposition: $bold(R)^* = bold(V) bold(Lambda) bold(V)^top$
+  - Factor loadings: $bold(Lambda) = bold(V)_k sqrt(bold(Lambda)_k)$ (first $k$ factors)
+  - Iterate until convergence: Update $h_i^2 = sum_(j=1)^k lambda_(i j)^2$
+
+  *2. Maximum Likelihood (ML) Factoring:*
+  - Assumes multivariate normality: $bold(X) tilde N(bold(0), bold(Sigma))$
+  - Covariance structure: $bold(Sigma) = bold(Lambda) bold(Lambda)^top + bold(Psi)$
+  - Minimize: $F_"ML" = "tr"(bold(S) bold(Sigma)^(-1)) - ln|bold(Sigma)^(-1)| - p$
+  - Provides $chi^2$ goodness-of-fit test and confidence intervals
 ]
 
-#slide(title: [Rotation & Interpretation])[
-  - Purpose: obtain "simple structure" for easier interpretation
-  - Orthogonal rotation (Varimax): keeps factors uncorrelated
-  - Oblique rotation (Promax): allows factor correlations (more realistic for psychology/behavioral data)
+#slide(title: [Factor Rotation: Mathematical Transformation])[
+  *Purpose:* Transform initial factor loadings $bold(Lambda)$ to rotated loadings $bold(Lambda)^* = bold(Lambda) bold(T)$ where $bold(T)$ is transformation matrix.
+
+  *Orthogonal Rotation (Varimax):*
+  - Constraint: $bold(T)^top bold(T) = bold(I)$ (orthogonal transformation)
+  - Objective: Maximize variance of squared loadings within each factor
+  - Varimax criterion: $V = frac(1, p) sum_(j=1)^k [sum_(i=1)^p (lambda_(i j)^*)^4 - frac(1, p)(sum_(i=1)^p (lambda_(i j)^*)^2)^2]$
+  - Seeks "simple structure": high loadings for few variables, low for others
+
+  *Oblique Rotation (Promax):*
+  - Allows factor correlations: $bold(Phi) = "Corr"(bold(F))$ may be non-diagonal
+  - Pattern matrix $bold(P)$: direct effects (regression coefficients)
+  - Structure matrix $bold(S) = bold(P) bold(Phi)$: correlations with factors
+  - Relationship: $bold(Sigma) = bold(P) bold(Phi) bold(P)^top + bold(Psi)^2$
+]
+
+#slide(title: [Covariance Structure and Model Identification])[
+  *Implied Covariance Matrix:*
+  $bold(Sigma) = bold(Lambda) bold(Lambda)^top + bold(Psi)$
+
+  where $bold(Psi) = "diag"(psi_1^2, psi_2^2, ..., psi_p^2)$ is the uniqueness matrix.
+
+  *Model Parameters:*
+  - Factor loadings: $k times p$ parameters in $bold(Lambda)$
+  - Unique variances: $p$ parameters in $bold(Psi)$
+  - Total: $k p + p$ parameters to estimate
+
+  *Identification Constraints:*
+  - Sample covariance matrix has $p(p+1)/2$ unique elements
+  - For identification: $k p + p <= p(p+1)/2$
+  - Simplifies to: $k <= frac(p(p-1)/2 - p, p) = frac(p-1, 2) - 1$
+  - Additional constraint: Fix factor scale (unit variance) or loading scale
+
+  *Degrees of Freedom:* $"df" = p(p+1)/2 - (k p + p - k)$
 ]
 
 #slide(title: [FA vs PCA — Quick comparison])[
@@ -1002,4 +1150,193 @@
   - Practice with your own datasets
   - Explore advanced techniques (confirmatory FA, structural equation modeling)
   - Consider modern alternatives (nonlinear methods, sparse PCA)
+]
+
+// ============================================================================
+// APPENDIX: MATHEMATICAL FOUNDATIONS
+// ============================================================================
+
+#part-slide[Appendix: Mathematical Foundations]
+
+#section-slide[Matrix Algebra Foundations]
+
+#slide(title: [Essential Matrix Operations for Multivariate Analysis])[
+  *Matrix Transpose Properties:*
+  - $(bold(A)^top)^top = bold(A)$
+  - $(bold(A) bold(B))^top = bold(B)^top bold(A)^top$
+  - $(bold(A) + bold(B))^top = bold(A)^top + bold(B)^top$
+
+  *Matrix Multiplication Rules:*
+  - $bold(A) bold(B)$ defined when columns of $bold(A) =$ rows of $bold(B)$
+  - $(bold(A) bold(B)) bold(C) = bold(A) (bold(B) bold(C))$ (associative)
+  - $bold(A) (bold(B) + bold(C)) = bold(A) bold(B) + bold(A) bold(C)$ (distributive)
+
+  *Trace of Matrix:*
+  - $"tr"(bold(A)) = sum_(i=1)^n a_(i i)$ (sum of diagonal elements)
+  - $"tr"(bold(A) + bold(B)) = "tr"(bold(A)) + "tr"(bold(B))$
+  - $"tr"(bold(A) bold(B)) = "tr"(bold(B) bold(A))$ (cyclic property)
+  - $"tr"(bold(A)^top bold(A)) = sum_(i,j) a_(i j)^2 = ||bold(A)||_F^2$ (Frobenius norm)
+]
+
+#slide(title: [Quadratic Forms and Positive Definite Matrices])[
+  *Quadratic Form:* $Q(bold(x)) = bold(x)^top bold(A) bold(x)$ where $bold(A)$ is symmetric
+
+  *Positive Definite Matrix:* $bold(A)$ is positive definite if:
+  - $bold(x)^top bold(A) bold(x) > 0$ for all $bold(x) != bold(0)$
+  - All eigenvalues $lambda_i > 0$
+  - Determinant $|bold(A)| > 0$
+
+  *Positive Semi-definite Matrix:* $bold(A)$ is positive semi-definite if:
+  - $bold(x)^top bold(A) bold(x) >= 0$ for all $bold(x)$
+  - All eigenvalues $lambda_i >= 0$
+
+  *Covariance Matrix Properties:*
+  - Always symmetric: $bold(Sigma) = bold(Sigma)^top$
+  - Always positive semi-definite: $bold(x)^top bold(Sigma) bold(x) >= 0$
+  - If non-singular: positive definite with $|bold(Sigma)| > 0$
+]
+
+#slide(title: [Matrix Norms and Distances])[
+  *Vector Norms:*
+  - $L_2$ norm: $||bold(x)||_2 = sqrt(bold(x)^top bold(x)) = sqrt(sum_(i=1)^p x_i^2)$
+  - Unit vector: $||bold(x)||_2 = 1$
+
+  *Matrix Norms:*
+  - Frobenius norm: $||bold(A)||_F = sqrt("tr"(bold(A)^top bold(A))) = sqrt(sum_(i,j) a_(i j)^2)$
+  - Spectral norm: $||bold(A)||_2 = sqrt(lambda_"max"(bold(A)^top bold(A)))$
+
+  *Distance Measures:*
+  - Euclidean distance: $d(bold(x), bold(y)) = ||bold(x) - bold(y)||_2$
+  - Mahalanobis distance: $d_M(bold(x), bold(y)) = sqrt((bold(x) - bold(y))^top bold(Sigma)^(-1) (bold(x) - bold(y)))$
+
+  *Orthogonality:*
+  - Vectors orthogonal: $bold(x)^top bold(y) = 0$
+  - Orthogonal matrix: $bold(Q)^top bold(Q) = bold(I)$, preserves lengths and angles
+]
+
+#slide(title: [Advanced Matrix Algebra for Factor Analysis])[
+  *Matrix Inverse Properties:*
+  - $(bold(A)^(-1))^(-1) = bold(A)$
+  - $(bold(A) bold(B))^(-1) = bold(B)^(-1) bold(A)^(-1)$
+  - $(bold(A)^top)^(-1) = (bold(A)^(-1))^top$
+
+  *Sherman-Morrison-Woodbury Formula:*
+  For factor model covariance $bold(Sigma) = bold(Lambda) bold(Lambda)^top + bold(Psi)$:
+  $bold(Sigma)^(-1) = bold(Psi)^(-1) - bold(Psi)^(-1) bold(Lambda) (bold(I) + bold(Lambda)^top bold(Psi)^(-1) bold(Lambda))^(-1) bold(Lambda)^top bold(Psi)^(-1)$
+
+  *Matrix Differentiation:*
+  - $frac(partial, partial bold(X)) "tr"(bold(A) bold(X)) = bold(A)^top$
+  - $frac(partial, partial bold(X)) "tr"(bold(X)^top bold(A) bold(X)) = (bold(A) + bold(A)^top) bold(X)$
+  - $frac(partial, partial bold(X)) ln|bold(X)| = (bold(X)^(-1))^top$
+
+  These results are essential for maximum likelihood estimation in factor analysis.
+]
+
+#section-slide[Statistical Foundations]
+
+#slide(title: [Multivariate Normal Distribution])[
+  *Definition:* A random vector $bold(X) in RR^p$ follows a multivariate normal distribution:
+  $bold(X) tilde N_p(bold(mu), bold(Sigma))$
+
+  *Probability Density Function:*
+  $f(bold(x)) = frac(1, (2pi)^(p/2) |bold(Sigma)|^(1/2)) exp(-frac(1, 2)(bold(x) - bold(mu))^top bold(Sigma)^(-1) (bold(x) - bold(mu)))$
+
+  *Key Properties:*
+  - Mean vector: $E[bold(X)] = bold(mu)$
+  - Covariance matrix: $"Cov"(bold(X)) = bold(Sigma)$
+  - Linear combinations are also normal: $bold(a)^top bold(X) tilde N(bold(a)^top bold(mu), bold(a)^top bold(Sigma) bold(a))$
+  - Marginal distributions are normal
+  - Conditional distributions are normal
+
+  *Importance for Factor Analysis:* ML estimation assumes multivariate normality
+]
+
+#slide(title: [Sample Statistics and Estimation])[
+  *Sample Mean Vector:*
+  $overline(bold(x)) = frac(1, n) sum_(i=1)^n bold(x)_i$
+
+  *Sample Covariance Matrix:*
+  $bold(S) = frac(1, n-1) sum_(i=1)^n (bold(x)_i - overline(bold(x)))(bold(x)_i - overline(bold(x)))^top$
+
+  *Sample Correlation Matrix:*
+  $bold(R) = bold(D)^(-1/2) bold(S) bold(D)^(-1/2)$ where $bold(D) = "diag"(s_1^2, s_2^2, ..., s_p^2)$
+
+  *Central Limit Theorem for Multivariate Case:*
+  $sqrt(n)(overline(bold(x)) - bold(mu)) arrow.r N_p(bold(0), bold(Sigma))$ as $n arrow infinity$
+
+  *Wishart Distribution:*
+  $(n-1)bold(S) tilde W_p(n-1, bold(Sigma))$ when $bold(x)_i tilde N_p(bold(mu), bold(Sigma))$
+]
+
+#slide(title: [Maximum Likelihood Estimation Principles])[
+  *Likelihood Function:* For sample $bold(x)_1, ..., bold(x)_n$:
+  $L(bold(theta)) = product_(i=1)^n f(bold(x)_i; bold(theta))$
+
+  *Log-Likelihood:*
+  $ell(bold(theta)) = ln L(bold(theta)) = sum_(i=1)^n ln f(bold(x)_i; bold(theta))$
+
+  *MLE Principle:* Find $hat(bold(theta))$ that maximizes $ell(bold(theta))$:
+  $hat(bold(theta)) = arg max_(bold(theta)) ell(bold(theta))$
+
+  *For Multivariate Normal Distribution:*
+  - $hat(bold(mu)) = overline(bold(x))$
+  - $hat(bold(Sigma)) = frac(1, n) sum_(i=1)^n (bold(x)_i - overline(bold(x)))(bold(x)_i - overline(bold(x)))^top$
+
+  *Asymptotic Properties:*
+  - Consistency: $hat(bold(theta)) arrow.r bold(theta)$ as $n arrow infinity$
+  - Asymptotic normality: $sqrt(n)(hat(bold(theta)) - bold(theta)) arrow.r N(bold(0), bold(I)^(-1)(bold(theta)))$
+]
+
+#slide(title: [Hypothesis Testing Framework])[
+  *Likelihood Ratio Test:*
+  For nested models $H_0: bold(theta) in bold(Theta)_0$ vs $H_1: bold(theta) in bold(Theta)_1$:
+  $Lambda = frac(max_(bold(theta) in bold(Theta)_0) L(bold(theta)), max_(bold(theta) in bold(Theta)_1) L(bold(theta)))$
+
+  *Test Statistic:*
+  $-2 ln Lambda arrow.r chi^2_"df"$ under $H_0$ (Wilks' theorem)
+  where df = $"dim"(bold(Theta)_1) - "dim"(bold(Theta)_0)$
+
+  *Model Fit Indices:*
+  - Akaike Information Criterion: $"AIC" = -2 ell(hat(bold(theta))) + 2k$
+  - Bayesian Information Criterion: $"BIC" = -2 ell(hat(bold(theta))) + k ln(n)$
+  - Root Mean Square Error of Approximation: $"RMSEA" = sqrt(max(0, frac(chi^2 - "df", ("df")(n-1))))$
+
+  *Applications in Factor Analysis:* Testing number of factors, model fit assessment
+]
+
+#slide(title: [Correlation and Dependence Concepts])[
+  *Pearson Correlation:*
+  $rho_(i j) = frac("Cov"(X_i, X_j), sqrt("Var"(X_i) "Var"(X_j)))$, $rho_(i j) in [-1, 1]$
+
+  *Partial Correlation:* Correlation between $X_i$ and $X_j$ controlling for other variables
+  $rho_(i j | "rest") = frac(-sigma^(i j), sqrt(sigma^(i i) sigma^(j j)))$ where $sigma^(i j)$ are elements of $bold(Sigma)^(-1)$
+
+  *Multiple Correlation:* Correlation between $X_i$ and linear combination of other variables
+  $R_i^2 = 1 - frac(1, sigma^(i i) sigma_(i i))$ (proportion of variance explained)
+
+  *Key Insight:* In factor analysis, high correlations among observed variables suggest underlying common factors
+
+  *Kaiser-Meyer-Olkin (KMO) Measure:*
+  $"KMO" = frac(sum_(i != j) r_(i j)^2, sum_(i != j) r_(i j)^2 + sum_(i != j) a_(i j)^2)$
+  where $a_(i j)$ are anti-image correlations
+]
+
+#slide(title: [Dimensionality and Degrees of Freedom])[
+  *Parameter Counting in Factor Models:*
+  - Observed covariance matrix: $p(p+1)/2$ unique elements
+  - $k$-factor model parameters: $k p + p$ (loadings + uniquenesses)
+  - Degrees of freedom: $"df" = p(p+1)/2 - (k p + p - k)$
+
+  *Model Identification Requirements:*
+  - Necessary: $"df" >= 0$
+  - Sufficient: Additional constraints (factor scaling, rotation restrictions)
+
+  *Saturation Point:* Maximum number of identifiable factors:
+  $k_"max" = frac(2p + 1 - sqrt((2p+1)^2 - 8p), 2)$
+
+  *Practical Rule:* For $p$ variables, typically extract $k <= p/3$ factors
+
+  *Statistical Power Considerations:*
+  - Sample size requirements: $n >= 100$ minimum, preferably $n >= 200$
+  - Subject-to-variable ratio: At least 5:1, preferably 10:1 or higher
 ]
