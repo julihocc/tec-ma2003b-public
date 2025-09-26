@@ -112,6 +112,12 @@
   - $bold(P)$ is the matrix whose columns are the eigenvectors $bold(v)_1, bold(v)_2, ..., bold(v)_n$
   - Each eigenvector satisfies: $bold(A) bold(v)_j = lambda_j bold(v)_j$
 
+  *Deeper Meaning and Significance:*
+  - *Eigenvalues* ($lambda_j$) measure the "strength" or "importance" of each underlying pattern in your data
+  - *Eigenvectors* ($bold(v)_j$) reveal the "direction" or "profile" of these patterns
+  - This decomposition is fundamental because it *separates complex multivariate relationships into independent, interpretable components*
+  - In factor analysis context: eigenvalues help determine how many meaningful factors exist, while eigenvectors show how variables cluster together
+
   *For symmetric matrices* (like covariance matrices in PCA/FA):
   - The eigenvectors are orthonormal ($bold(P)^top bold(P) = bold(I)$)
   - The decomposition simplifies to: $bold(A) = bold(P) bold(D) bold(P)^top$
@@ -509,6 +515,13 @@
   - $U_i$: Unique factor for variable $i$ with $U_i tilde N(0, psi_i^2)$
   - $k < p$: Number of common factors
 
+  *Profound Significance of This Model:*
+  - *Theoretical Foundation*: This equation captures the belief that observed phenomena are driven by *underlying latent causes*
+  - *Parsimony Principle*: A few common factors ($k << p$) can explain most relationships among many variables
+  - *Measurement Theory*: Separates systematic variance (common factors) from random measurement error (unique factors)
+  - *Scientific Discovery*: Enables identification of unobservable constructs (like intelligence, personality dimensions)
+  - *Practical Relevance*: Reduces complex multivariate data to interpretable, meaningful dimensions for decision-making
+
   *Matrix Form (for centered data):*
   $ bold(X)_c = bold(Lambda) bold(F) + bold(U) $
 
@@ -533,16 +546,36 @@
   $ "Var"(bold(X)) = bold(Sigma) = bold(Lambda) bold(Lambda)^top + bold(Psi) $
   where each diagonal element: $sigma_(i i) = sum_(j=1)^k lambda_(i j)^2 + psi_i^2$
 
+  *Fundamental Insight Behind Variance Decomposition:*
+  - *Total Variance* = *Systematic Variance* + *Random Variance*
+  - This decomposition is the *mathematical foundation of measurement theory*
+  - *Systematic variance* ($h_i^2$) represents what the variable shares with underlying constructs
+  - *Random variance* ($psi_i^2$) captures measurement error and variable-specific effects
+  - *Critical for Quality Assessment*: High communality indicates reliable measurement; high uniqueness suggests measurement problems or variable-specific factors
+  - *Model Evaluation*: If most variance is unique, the factor model may be inappropriate for the data
+
   *Communality (Scalar and Matrix Forms):*
   - *Scalar:* $h_i^2 = sum_(j=1)^k lambda_(i j)^2$ (variance explained by common factors)
   - *Matrix:* $bold(h)^2 = "diag"(bold(Lambda) bold(Lambda)^top)$ (communality vector)
+
+  *Deeper Meaning of Communality:*
+  - *Reliability Indicator*: High $h_i^2$ (close to 1) means variable is well-explained by common factors
+  - *Construct Validity*: Variables measuring the same construct should have similar communalities
+  - *Practical Threshold*: $h_i^2 > 0.5$ suggests variable belongs in the factor structure; $h_i^2 < 0.3$ may indicate poor fit
 
   *Uniqueness (Scalar and Matrix Forms):*
   - *Scalar:* $psi_i^2 = "Var"(U_i)$ (unique variance: specific + measurement error)
   - *Matrix:* $bold(Psi) = "diag"(psi_1^2, psi_2^2, dots, psi_p^2)$ (uniqueness matrix)
 
+  *Deeper Meaning of Uniqueness:*
+  - *Measurement Quality*: High $psi_i^2$ may indicate measurement problems or variable doesn't fit the factor structure
+  - *Specificity vs. Error*: Includes both legitimate specific variance and random measurement error
+  - *Model Diagnostics*: Variables with $psi_i^2 > 0.7$ should be examined for potential removal or model revision
+
   *Total Variance Decomposition:*
   For standardized variables: $"Var"(X_i) = 1 = h_i^2 + psi_i^2$
+
+  *Critical Insight*: This decomposition enables *quantitative assessment of measurement quality* and guides decisions about variable retention and model adequacy.
 ]
 
 #slide(title: [Algorithm: Communality and Uniqueness Calculation])[
@@ -767,11 +800,19 @@
 #slide(title: [Factor Rotation: Mathematical Transformation])[
   *Purpose:* Transform initial factor loadings $bold(Lambda)$ to rotated loadings $bold(Lambda)^* = bold(Lambda) bold(T)$ where $bold(T)$ is transformation matrix.
 
+  *Profound Significance of Factor Loadings ($lambda_(i j)$):*
+  - *Conceptual Meaning*: Each loading represents the *strength of relationship* between observed variable $i$ and latent factor $j$
+  - *Statistical Interpretation*: Correlation between variable and factor (in standardized form)
+  - *Practical Meaning*: How much a 1-unit change in the factor affects the observed variable
+  - *Measurement Perspective*: Quality indicator - high loadings suggest variable is a good indicator of the construct
+
   *Orthogonal Rotation (Varimax):*
   - Constraint: $bold(T)^top bold(T) = bold(I)$ (orthogonal transformation)
   - Objective: Maximize variance of squared loadings within each factor
   - Varimax criterion: $V = frac(1, p) sum_(j=1)^k [sum_(i=1)^p (lambda_(i j)^*)^4 - frac(1, p)(sum_(i=1)^p (lambda_(i j)^*)^2)^2]$
   - Seeks "simple structure": high loadings for few variables, low for others
+
+  *Why Rotation Matters*: Initial loadings may be mathematically optimal but practically uninterpretable. Rotation preserves statistical properties while achieving *psychological/theoretical interpretability*.
 
   *Oblique Rotation (Promax):*
   - Allows factor correlations: $bold(Phi) = "Corr"(bold(F))$ may be non-diagonal
@@ -2193,6 +2234,14 @@
   *MLE Principle:* Find $hat(bold(theta))$ that maximizes $ell(bold(theta))$:
   $hat(bold(theta)) = arg max_(bold(theta)) ell(bold(theta))$
 
+  *Profound Significance of Maximum Likelihood in Factor Analysis:*
+  - *Philosophical Foundation*: Seeks parameter values that make the observed data *most probable*
+  - *Statistical Optimality*: Under regularity conditions, MLE provides *asymptotically efficient* estimates
+  - *Factor Analysis Context*: Simultaneously estimates factor loadings ($bold(Lambda)$) and unique variances ($bold(Psi)$) that best explain observed covariances
+  - *Model Comparison*: Likelihood values enable rigorous statistical testing of competing factor structures
+  - *Uncertainty Quantification*: Provides standard errors and confidence intervals for all parameters
+  - *Practical Advantage*: Handles complex constraints (e.g., non-negative uniquenesses) through iterative optimization
+
   *For Multivariate Normal Distribution:*
   - $hat(bold(mu)) = overline(bold(x))$
   - $hat(bold(Sigma)) = frac(1, n) sum_(i=1)^n (bold(x)_i - overline(bold(x)))(bold(x)_i - overline(bold(x)))^top$
@@ -2234,6 +2283,14 @@
   *Kaiser-Meyer-Olkin (KMO) Measure:*
   $"KMO" = frac(sum_(i != j) r_(i j)^2, sum_(i != j) r_(i j)^2 + sum_(i != j) a_(i j)^2)$
   where $a_(i j)$ are anti-image correlations
+
+  *Profound Significance of KMO:*
+  - *Conceptual Meaning*: Measures the proportion of variance among variables that might be *common variance*
+  - *Statistical Logic*: Compares *observed correlations* against *partial correlations* controlling for all other variables
+  - *Practical Interpretation*: High KMO (> 0.8) indicates variables share substantial common variance, making factor analysis appropriate
+  - *Quality Control*: Low KMO (< 0.6) suggests variables are too independent for meaningful factor extraction
+  - *Diagnostic Power*: Identifies when factor analysis will likely fail due to insufficient shared variance
+  - *Research Validity*: Ensures factor solution represents genuine underlying constructs, not statistical artifacts
 ]
 
 #slide(title: [Dimensionality and Degrees of Freedom])[
