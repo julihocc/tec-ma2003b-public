@@ -77,6 +77,23 @@
 
 #section-slide[Principal Component Analysis Theory]
 
+#slide(title: [Understanding PCA: The Big Picture])[
+  *Imagine you're a photographer trying to capture the best view of a 3D sculpture.*
+
+  You want to find the *single best angle* that shows the most interesting features and variations of the sculpture. That's essentially what Principal Component Analysis does with data!
+
+  *What PCA does in simple terms:*
+  - Takes your data with many variables (dimensions)
+  - Finds the "best directions" to look at your data
+  - These directions capture the most variation and patterns
+  - Reduces complexity while keeping the most important information
+
+  *Why is this useful?*
+  - Makes complex data easier to visualize and understand
+  - Removes noise and redundant information
+  - Helps identify the most important patterns in your data
+]
+
 #slide(title: [Refresher: What is PCA?])[
   - Principal Component Analysis (PCA) is a linear method for *dimension reduction*.
   - It finds orthogonal directions (principal components) that capture the largest possible variance in the data.
@@ -248,6 +265,26 @@
   $"MSE" = frac(1, n) ||bold(X)_c - bold(Z)_(1:k) bold(V)_(1:k)^top||_F^2 = sum_(j=k+1)^p lambda_j$
 ]
 
+#slide(title: [From Concept to Computation: PCA Algorithm])[
+  *Ready to turn theory into practice?*
+
+  The PCA algorithm is like a recipe for finding the best viewpoints of your data. Think of it as teaching a computer to be that photographer we mentioned earlier!
+
+  *What the algorithm does step-by-step:*
+  1. *Preparation*: Clean and standardize the data (like focusing the camera)
+  2. *Find relationships*: Calculate how variables relate to each other
+  3. *Discover directions*: Find the best angles (principal components)
+  4. *Transform data*: Project data onto these new viewpoints
+  5. *Decide*: How many viewpoints do we actually need?
+
+  *Why follow this exact sequence?*
+  - Each step builds on the previous one
+  - Mathematical guarantees that we find the *optimal* solution
+  - Practical choices (like standardization) can dramatically affect results
+
+  Let's see the detailed mathematical recipe:
+]
+
 #slide(title: [Algorithm: Principal Component Analysis])[
   *Input:* Data matrix $bold(X) in RR^(n times p)$ (n observations, p variables), standardization choice
   *Output:* Principal components $bold(V)$, eigenvalues $bold(Lambda)$, component scores $bold(Z)$
@@ -404,6 +441,25 @@
 ]
 
 #section-slide[Factor Analysis Theory]
+
+#slide(title: [Understanding Factor Analysis: The Detective Story])[
+  *Imagine you're a detective investigating what makes students perform well in school.*
+
+  You observe their grades in Math, Science, Literature, and History. But you suspect there are *hidden influences* behind these grades - things like "intelligence," "motivation," and "study habits" that you can't directly measure.
+
+  *What Factor Analysis does:*
+  - Looks for these *hidden factors* that explain why variables move together
+  - Separates what's *common* (shared patterns) from what's *unique* (individual noise)
+  - Tells you how much each hidden factor influences each observed variable
+
+  *The key insight:*
+  If Math and Science grades are highly correlated, there might be a hidden "quantitative ability" factor. If all subjects correlate, there might be a "general intelligence" factor.
+
+  *Why this matters:*
+  - Helps understand the *underlying structure* of phenomena
+  - Validates *theoretical models* (like intelligence theory)
+  - Separates *signal from noise* in measurements
+]
 
 #slide(title: [What is Factor Analysis?])[
   - A statistical method for modeling relationships among *observed variables* using *latent factors*.
@@ -583,6 +639,27 @@
   $ sigma_(i j) = lambda_(i 1) lambda_(j 1) + psi_i^2 delta_(i j) $
 ]
 
+#slide(title: [From Detective Work to Algorithm: Factor Analysis])[
+  *Now let's turn our detective story into a systematic investigation!*
+
+  Remember, Factor Analysis is like being a detective looking for hidden influences. The algorithm is our systematic method for uncovering these hidden factors.
+
+  *What makes FA algorithm different from PCA?*
+  - *Iterative process*: Like refining a theory through multiple rounds of evidence
+  - *Two unknowns*: We don't know the factors OR how they influence variables
+  - *Modeling errors*: Accounts for measurement noise (like witness reliability)
+  - *Maximum Likelihood*: Finds the most probable explanation for what we observe
+
+  *The detective's toolkit:*
+  1. *Start with a guess* (initial hypothesis)
+  2. *Estimate hidden factors* (what would the suspects be doing?)
+  3. *Update our theory* (revise how factors influence variables)
+  4. *Repeat until story makes sense* (convergence)
+  5. *Test the theory* (does it explain the data well?)
+
+  This is more complex than PCA, but gives us *richer insights* about underlying structure!
+]
+
 #slide(title: [Algorithm: Maximum Likelihood Factor Analysis])[
   *Input:* Data matrix $bold(X) in RR^(n times p)$, number of factors $k$, tolerance $epsilon$
 
@@ -619,6 +696,27 @@
   4. *Confidence Intervals*
      - Standard errors from inverse Fisher information matrix
      - 95% CI: $lambda_(i j) plus.minus 1.96 "SE"(lambda_(i j))$
+]
+
+#slide(title: [Making Sense of the Results: Factor Rotation])[
+  *You've found the hidden factors, but they're still confusing! Now what?*
+
+  Imagine you've identified two hidden factors in student performance, but:
+  - Factor 1 loads on Math (0.6), Science (0.7), Literature (0.5), History (0.4)
+  - Factor 2 loads on Math (0.4), Science (0.3), Literature (0.6), History (0.7)
+
+  *This is messy!* What do these factors actually represent?
+
+  *Factor Rotation is like adjusting the camera angle* after taking the photo:
+  - We want *simple structure*: each factor should clearly represent something
+  - Goal: High loadings for relevant variables, low for irrelevant ones
+  - Like rotating a map so north points up - same information, clearer presentation
+
+  *Two types of rotation:*
+  - *Orthogonal* (factors stay independent): Clean, simple interpretation
+  - *Oblique* (factors can correlate): More realistic, factors can be related
+
+  This is where art meets science in factor analysis!
 ]
 
 #slide(title: [Factor Rotation: Mathematical Transformation])[
@@ -979,6 +1077,29 @@
 ]
 
 #section-slide[Example 1: PCA vs FA Comparison]
+
+#slide(title: [Real-World Examples: Seeing Theory in Action])[
+  *Now that we understand the theory, let's see how PCA and Factor Analysis work with real data!*
+
+  We'll explore several fascinating examples that show the power and differences between these methods:
+
+  *Example 1: Educational Assessment*
+  - Can we identify underlying "intelligence" and "personality" factors from test scores?
+  - Perfect case to see how FA finds hidden psychological constructs
+
+  *Example 2: Financial Markets*
+  - How connected are European stock markets?
+  - Shows PCA finding market integration patterns
+
+  *Example 3: Astronomy (Kuiper Belt)*
+  - What drives the orbital patterns of distant celestial objects?
+  - Demonstrates both methods on high-dimensional scientific data
+
+  *What you'll learn:*
+  - When each method gives better insights
+  - How to interpret results in context
+  - Practical decision-making guidelines
+]
 
 #slide(title: [Educational Assessment: Method Comparison])[
   *Direct numerical comparison of PCA vs FA on same data:*
