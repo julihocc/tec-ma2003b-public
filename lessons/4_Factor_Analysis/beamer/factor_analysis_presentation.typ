@@ -195,6 +195,9 @@
   *Sample Covariance Matrix:*
   $ bold(S) = frac(1, n-1) bold(X)_c^top bold(X)_c $
 
+  *Pointwise Form:*
+  $ s_(i j) = frac(1, n-1) sum_(l=1)^n (x_(l i) - overline(x)_i)(x_(l j) - overline(x)_j) $
+
   *Eigenvalue Problem:*
   Find eigenvalues $lambda_1 >= lambda_2 >= ... >= lambda_p >= 0$ and orthonormal eigenvectors $bold(v)_1, bold(v)_2, ..., bold(v)_p$ such that:
   $ bold(S) bold(v)_j = lambda_j bold(v)_j quad "for" j = 1, 2, ..., p $
@@ -204,6 +207,9 @@
   *Spectral Decomposition of Covariance Matrix:*
   $ bold(S) = bold(V) bold(Lambda) bold(V)^top = sum_(j=1)^p lambda_j bold(v)_j bold(v)_j^top $
 
+  *Pointwise Form:*
+  $ s_(i j) = sum_(l=1)^p lambda_l v_(i l) v_(j l) $
+
   where:
   - $bold(V) = [bold(v)_1 | bold(v)_2 | ... | bold(v)_p] in RR^(p times p)$ (eigenvector matrix)
   - $bold(Lambda) = "diag"(lambda_1, lambda_2, ..., lambda_p)$ (diagonal eigenvalue matrix)
@@ -212,6 +218,9 @@
   *Principal Components:*
   The $j$-th principal component for observation $i$ is:
   $ z_(i j) = bold(v)_j^top (bold(x)_i - overline(bold(x))) = bold(v)_j^top bold(x)_(c i) $
+
+  *Pointwise Form:*
+  $ z_(i j) = sum_(l=1)^p v_(j l) (x_(i l) - overline(x)_l) $
 
   *Component Score Matrix:*
   $ bold(Z) = bold(X)_c bold(V) in RR^(n times p) $
@@ -231,6 +240,9 @@
 
   *Reconstruction Formula:*
   Using first $k$ components: $hat(bold(x)) = overline(bold(x)) + sum_(j=1)^k z_j bold(v)_j$
+
+  *Pointwise Form:*
+  $hat(x)_i = overline(x)_i + sum_(j=1)^k z_j v_(j i)$
 
   *Mean Squared Reconstruction Error:*
   $"MSE" = frac(1, n) ||bold(X)_c - bold(Z)_(1:k) bold(V)_(1:k)^top||_F^2 = sum_(j=k+1)^p lambda_j$
@@ -558,11 +570,17 @@
   *Step 4: Factor loadings*
   $ bold(L) = bold(v)_1 sqrt(lambda_1) = mat(0.53; 0.67; 0.52) times 1.36 = mat(0.72; 0.91; 0.71) $
 
+  *Pointwise Form:*
+  $ lambda_(i 1) = v_(i 1) sqrt(lambda_1) quad "for" i = 1, 2, 3 $
+
   *Step 5: Updated communalities*
   $ h_1^2 = 0.72^2 = 0.52, quad h_2^2 = 0.91^2 = 0.83, quad h_3^2 = 0.71^2 = 0.50 $
 
   *Final Model:* $bold(Sigma) = bold(L) bold(L)^top + bold(Psi)$
   $ = mat(0.72; 0.91; 0.71) mat(0.72, 0.91, 0.71) + mat(0.48, 0, 0; 0, 0.17, 0; 0, 0, 0.50) $
+
+  *Pointwise Form:*
+  $ sigma_(i j) = lambda_(i 1) lambda_(j 1) + psi_i^2 delta_(i j) $
 ]
 
 #slide(title: [Algorithm: Maximum Likelihood Factor Analysis])[
@@ -679,6 +697,10 @@
   $bold(Sigma) = bold(Lambda) bold(Lambda)^top + bold(Psi)$
 
   where $bold(Psi) = "diag"(psi_1^2, psi_2^2, ..., psi_p^2)$ is the uniqueness matrix.
+
+  *Pointwise Form:*
+  $sigma_(i j) = sum_(l=1)^k lambda_(i l) lambda_(j l) + psi_i^2 delta_(i j)$
+  where $delta_(i j) = 1$ if $i = j$, $0$ otherwise.
 
   *Model Parameters:*
   - Factor loadings: $k times p$ parameters in $bold(Lambda)$
@@ -1854,11 +1876,20 @@
   *Sample Mean Vector:*
   $overline(bold(x)) = frac(1, n) sum_(i=1)^n bold(x)_i$
 
+  *Pointwise Form:*
+  $overline(x)_j = frac(1, n) sum_(i=1)^n x_(i j)$
+
   *Sample Covariance Matrix:*
   $bold(S) = frac(1, n-1) sum_(i=1)^n (bold(x)_i - overline(bold(x)))(bold(x)_i - overline(bold(x)))^top$
 
+  *Pointwise Form:*
+  $s_(j k) = frac(1, n-1) sum_(i=1)^n (x_(i j) - overline(x)_j)(x_(i k) - overline(x)_k)$
+
   *Sample Correlation Matrix:*
   $bold(R) = bold(D)^(-1/2) bold(S) bold(D)^(-1/2)$ where $bold(D) = "diag"(s_1^2, s_2^2, ..., s_p^2)$
+
+  *Pointwise Form:*
+  $r_(j k) = frac(s_(j k), sqrt(s_(j j) s_(k k)))$
 
   *Central Limit Theorem for Multivariate Case:*
   $sqrt(n)(overline(bold(x)) - bold(mu)) arrow.r N_p(bold(0), bold(Sigma))$ as $n arrow infinity$
