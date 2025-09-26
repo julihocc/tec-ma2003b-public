@@ -507,8 +507,9 @@
   2. *Initialize Communality Estimates*
      - *Purpose:* Estimate how much variance each variable shares with factors
      - *for* each variable $i = 1$ to $p$:
-       - *Compute initial estimate:* $h_i^2 = 1 - frac(1, R_(i i))$
+       - *Compute initial estimate:* $h_i^2 = 1 - frac(1, (bold(R)^(-1))_(i i))$
          (squared multiple correlation with other variables)
+       - *Alternative:* Use maximum absolute correlation: $h_i^2 = max_j |r_(i j)|$ for $j != i$
        - *Interpretation:* Proportion of variable i's variance explained by common factors
 
   3. *Principal Axis Factoring Iteration*
@@ -542,25 +543,26 @@
   $ bold(R) = mat(1.00, 0.60, 0.48; 0.60, 1.00, 0.72; 0.48, 0.72, 1.00) $
 
   *Step 1: Initial communality estimates (SMC)*
-  - $h_1^2 = 1 - frac(1, R_(11)^(-1)) = 1 - frac(1, 2.78) = 0.64$
-  - $h_2^2 = 1 - frac(1, R_(22)^(-1)) = 1 - frac(1, 2.78) = 0.64$
-  - $h_3^2 = 1 - frac(1, R_(33)^(-1)) = 1 - frac(1, 2.17) = 0.54$
+  - Compute $bold(R)^(-1)$ and extract diagonal elements
+  - $h_1^2 = 1 - frac(1, (bold(R)^(-1))_(11)) = 1 - frac(1, 2.78) = 0.64$
+  - $h_2^2 = 1 - frac(1, (bold(R)^(-1))_(22)) = 1 - frac(1, 3.57) = 0.72$
+  - $h_3^2 = 1 - frac(1, (bold(R)^(-1))_(33)) = 1 - frac(1, 2.17) = 0.54$
 
   *Step 2: Form reduced correlation matrix*
-  $ bold(R)^* = mat(0.64, 0.60, 0.48; 0.60, 0.64, 0.72; 0.48, 0.72, 0.54) $
+  $ bold(R)^* = mat(0.64, 0.60, 0.48; 0.60, 0.72, 0.72; 0.48, 0.72, 0.54) $
 
   *Step 3: Eigenvalue decomposition*
-  - Largest eigenvalue: $lambda_1 = 1.76$
-  - Corresponding eigenvector: $bold(v)_1 = mat(0.55; 0.65; 0.52)$
+  - Largest eigenvalue: $lambda_1 = 1.84$
+  - Corresponding eigenvector: $bold(v)_1 = mat(0.53; 0.67; 0.52)$
 
   *Step 4: Factor loadings*
-  $ bold(L) = bold(v)_1 sqrt(lambda_1) = mat(0.55; 0.65; 0.52) times 1.33 = mat(0.73; 0.87; 0.69) $
+  $ bold(L) = bold(v)_1 sqrt(lambda_1) = mat(0.53; 0.67; 0.52) times 1.36 = mat(0.72; 0.91; 0.71) $
 
   *Step 5: Updated communalities*
-  $ h_1^2 = 0.73^2 = 0.53, quad h_2^2 = 0.87^2 = 0.76, quad h_3^2 = 0.69^2 = 0.48 $
+  $ h_1^2 = 0.72^2 = 0.52, quad h_2^2 = 0.91^2 = 0.83, quad h_3^2 = 0.71^2 = 0.50 $
 
   *Final Model:* $bold(Sigma) = bold(L) bold(L)^top + bold(Psi)$
-  $ = mat(0.73; 0.87; 0.69) mat(0.73, 0.87, 0.69) + mat(0.47, 0, 0; 0, 0.24, 0; 0, 0, 0.52) $
+  $ = mat(0.72; 0.91; 0.71) mat(0.72, 0.91, 0.71) + mat(0.48, 0, 0; 0, 0.17, 0; 0, 0, 0.50) $
 ]
 
 #slide(title: [Algorithm: Maximum Likelihood Factor Analysis])[
