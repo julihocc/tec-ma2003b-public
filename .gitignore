@@ -6,6 +6,7 @@ backup/
 build/
 __pycache__/
 settings.local.json
+*.ipynb
 
 # Knowledge base - exclude downloaded content but keep scripts
 knowledge/downloaded/
