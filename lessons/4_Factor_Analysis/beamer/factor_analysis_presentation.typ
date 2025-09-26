@@ -272,6 +272,27 @@
      - Retain first $k$ components where $k < p$
 ]
 
+#slide(title: [PCA Algorithm: Simple Numerical Example])[
+  *Given Data:* 3 observations, 2 variables
+  $ bold(X) = mat(5, 3; 3, 1; 1, 3) quad "and" quad overline(bold(x)) = mat(3; 2.33) $
+
+  *Step 1: Center the data*
+  $ bold(X)_c = bold(X) - bold(1)_3 overline(bold(x))^top = mat(5, 3; 3, 1; 1, 3) - mat(3, 2.33; 3, 2.33; 3, 2.33) = mat(2, 0.67; 0, -1.33; -2, 0.67) $
+
+  *Step 2: Compute sample covariance matrix*
+  $ bold(S) = frac(1, 2) bold(X)_c^top bold(X)_c = frac(1, 2) mat(2, 0, -2; 0.67, -1.33, 0.67) mat(2, 0.67; 0, -1.33; -2, 0.67) = mat(4, -0.67; -0.67, 1.33) $
+
+  *Step 3: Solve eigenvalue problem* $bold(S) bold(v) = lambda bold(v)$
+  - Characteristic equation: $det(bold(S) - lambda bold(I)) = (4-lambda)(1.33-lambda) - 0.67^2 = 0$
+  - Eigenvalues: $lambda_1 = 4.45$, $lambda_2 = 0.88$
+  - Eigenvectors: $bold(v)_1 = mat(0.95; -0.32)$, $bold(v)_2 = mat(0.32; 0.95)$
+
+  *Step 4: Compute PC scores*
+  $ bold(Z) = bold(X)_c bold(V) = mat(2, 0.67; 0, -1.33; -2, 0.67) mat(0.95, 0.32; -0.32, 0.95) = mat(1.69, 1.28; 0.43, -1.26; -2.12, 0.00) $
+
+  *Interpretation:* PC1 explains $frac(4.45, 5.33) = 83.5%$ of total variance
+]
+
 #slide(title: [Deciding how many components to retain])[
   Common heuristics and formal approaches:
   - Kaiser criterion: keep components with eigenvalue $> 1$ (applies when using correlation matrix).
@@ -312,6 +333,32 @@
   5. *Final Decision*
      - Compare results: $k^* = "consensus"(k_"Kaiser", k_"variance", k_"scree", k_"parallel")$
      - *Recommendation:* Use parallel analysis as primary criterion
+]
+
+#slide(title: [Component Retention: Simple Numerical Example])[
+  *Given Eigenvalues:* From 5-variable correlation matrix
+  $ lambda = [2.8, 1.2, 0.7, 0.2, 0.1] $
+
+  *Step 1: Kaiser Criterion*
+  $ k_"Kaiser" = |{j : lambda_j > 1}| = |{1, 2}| = 2 $ components
+
+  *Step 2: Cumulative Variance (80% threshold)*
+  - Total variance: $sum lambda_j = 5.0$
+  - Cumulative proportions: $[0.56, 0.80, 0.94, 0.98, 1.00]$
+  - $k_"variance" = min{j : rho_j >= 0.80} = 2$ components
+
+  *Step 3: Parallel Analysis (simplified)*
+  - Random eigenvalues (average): $overline(lambda)^"random" = [1.4, 1.1, 0.9, 0.7, 0.5]$
+  - Compare: $lambda_j > overline(lambda)_j^"random"$
+    - Factor 1: $2.8 > 1.4$ ✓
+    - Factor 2: $1.2 > 1.1$ ✓
+    - Factor 3: $0.7 < 0.9$ ✗
+  - $k_"parallel" = 2$ components
+
+  *Step 4: Consensus Decision*
+  $ k^* = "consensus"(2, 2, 2) = 2 $ components
+
+  *Result:* All criteria agree → retain 2 components explaining 80% of variance
 ]
 
 #slide(title: [Algorithm: PCA Data Analysis Checklist])[
@@ -490,6 +537,32 @@
        (More complex, but preserves factor orthogonality if assumed)
 ]
 
+#slide(title: [Factor Analysis: Simple Numerical Example])[
+  *Given Data:* 3 variables, 1 factor model
+  $ bold(R) = mat(1.00, 0.60, 0.48; 0.60, 1.00, 0.72; 0.48, 0.72, 1.00) $
+
+  *Step 1: Initial communality estimates (SMC)*
+  - $h_1^2 = 1 - frac(1, R_(11)^(-1)) = 1 - frac(1, 2.78) = 0.64$
+  - $h_2^2 = 1 - frac(1, R_(22)^(-1)) = 1 - frac(1, 2.78) = 0.64$
+  - $h_3^2 = 1 - frac(1, R_(33)^(-1)) = 1 - frac(1, 2.17) = 0.54$
+
+  *Step 2: Form reduced correlation matrix*
+  $ bold(R)^* = mat(0.64, 0.60, 0.48; 0.60, 0.64, 0.72; 0.48, 0.72, 0.54) $
+
+  *Step 3: Eigenvalue decomposition*
+  - Largest eigenvalue: $lambda_1 = 1.76$
+  - Corresponding eigenvector: $bold(v)_1 = mat(0.55; 0.65; 0.52)$
+
+  *Step 4: Factor loadings*
+  $ bold(L) = bold(v)_1 sqrt(lambda_1) = mat(0.55; 0.65; 0.52) times 1.33 = mat(0.73; 0.87; 0.69) $
+
+  *Step 5: Updated communalities*
+  $ h_1^2 = 0.73^2 = 0.53, quad h_2^2 = 0.87^2 = 0.76, quad h_3^2 = 0.69^2 = 0.48 $
+
+  *Final Model:* $bold(Sigma) = bold(L) bold(L)^top + bold(Psi)$
+  $ = mat(0.73; 0.87; 0.69) mat(0.73, 0.87, 0.69) + mat(0.47, 0, 0; 0, 0.24, 0; 0, 0, 0.52) $
+]
+
 #slide(title: [Algorithm: Maximum Likelihood Factor Analysis])[
   *Input:* Data matrix $bold(X) in RR^(n times p)$, number of factors $k$, tolerance $epsilon$
 
@@ -574,6 +647,29 @@
   3. *Verify Orthogonality*
      - *assert* $bold(T)^top bold(T) = bold(I)$ (orthogonal rotation property)
      - *assert* $bold(Lambda)^* = bold(Lambda) bold(T)$ (rotation relationship)
+]
+
+#slide(title: [Varimax Rotation: Simple Numerical Example])[
+  *Given Factor Loadings:* 3 variables, 2 factors (before rotation)
+  $ bold(Lambda) = mat(0.71, 0.45; 0.89, 0.32; 0.67, -0.58) $
+
+  *Step 1: Initialize rotation matrix*
+  $ bold(T) = mat(1, 0; 0, 1) quad "and" quad bold(Lambda)^* = bold(Lambda) $
+
+  *Step 2: Apply 2D rotation between factors 1 and 2*
+  - Extract columns: $bold(a) = mat(0.71; 0.89; 0.67)$, $bold(b) = mat(0.45; 0.32; -0.58)$
+  - Compute rotation angle:
+    - Numerator: $sum 4 a_i b_i (a_i^2 - b_i^2) = 4(0.71)(0.45)(0.71^2 - 0.45^2) + dots = 0.89$
+    - Denominator: $sum (a_i^2 - b_i^2)^2 - (sum 2 a_i b_i)^2 = 0.52$
+    - $theta = frac(1, 4) arctan(frac(0.89, 0.52)) = 0.17$ radians ≈ 10°
+
+  *Step 3: Apply rotation*
+  $ bold(T) = mat(cos(0.17), -sin(0.17); sin(0.17), cos(0.17)) = mat(0.99, -0.17; 0.17, 0.99) $
+
+  *Step 4: Rotated loadings*
+  $ bold(Lambda)^* = bold(Lambda) bold(T) = mat(0.71, 0.45; 0.89, 0.32; 0.67, -0.58) mat(0.99, -0.17; 0.17, 0.99) = mat(0.78, 0.33; 0.93, 0.16; 0.56, -0.67) $
+
+  *Result:* Cleaner structure with reduced cross-loadings and simpler interpretation
 ]
 
 #slide(title: [Covariance Structure and Model Identification])[
