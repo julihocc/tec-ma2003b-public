@@ -132,7 +132,7 @@ else:
 # Determine number of factors to extract
 n_factors = 2  # Based on theoretical expectation of cognitive + social factors
 
-fa_unrotated = FactorAnalyzer(n_factors=n_factors, rotation="none", method="principal")
+fa_unrotated = FactorAnalyzer(n_factors=n_factors, rotation=None, method="principal")
 fa_unrotated.fit(X_standardized)
 
 # Verify successful extraction
