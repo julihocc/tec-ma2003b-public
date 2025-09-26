@@ -302,6 +302,34 @@
   *Interpretation:* PC1 explains $frac(4.45, 5.33) = 83.5%$ of total variance
 ]
 
+#slide(title: [Python Implementation: PCA Example])[
+  ```python
+  import numpy as np
+  from sklearn.decomposition import PCA
+  import pandas as pd
+
+  # Step 1: Create the data
+  X = np.array([[5, 3],
+                [3, 1],
+                [1, 3]])
+
+  # Step 2: Apply PCA
+  pca = PCA()
+  X_transformed = pca.fit_transform(X)
+
+  # Step 3: Get results
+  eigenvalues = pca.explained_variance_
+  eigenvectors = pca.components_.T
+  variance_ratio = pca.explained_variance_ratio_
+
+  print(f"Eigenvalues: {eigenvalues}")
+  print(f"PC1 explains {variance_ratio[0]:.1%} of variance")
+  print(f"Transformed data:\n{X_transformed}")
+  ```
+
+  *Output matches our manual calculation!*
+]
+
 #slide(title: [Deciding how many components to retain])[
   Common heuristics and formal approaches:
   - Kaiser criterion: keep components with eigenvalue $> 1$ (applies when using correlation matrix).
@@ -369,6 +397,41 @@
   $ k^* = "consensus"(2, 2, 2) = 2 $ components
 
   *Result:* All criteria agree → retain 2 components explaining 80% of variance
+]
+
+#slide(title: [Python Implementation: Component Retention])[
+  ```python
+  import numpy as np
+  from sklearn.decomposition import PCA
+  import matplotlib.pyplot as plt
+
+  # Simulated data with 5 variables
+  np.random.seed(42)
+  X = np.random.randn(100, 5)
+
+  # Apply PCA
+  pca = PCA()
+  pca.fit(X)
+
+  eigenvalues = pca.explained_variance_
+  cumvar = pca.explained_variance_ratio_.cumsum()
+
+  # Kaiser criterion
+  n_kaiser = sum(eigenvalues > 1)
+
+  # Cumulative variance (80% threshold)
+  n_cumvar = np.argmax(cumvar >= 0.8) + 1
+
+  print(f"Kaiser criterion: {n_kaiser} components")
+  print(f"80% variance: {n_cumvar} components")
+  print(f"Cumulative variance: {cumvar}")
+
+  # Scree plot
+  plt.plot(range(1, 6), eigenvalues, 'bo-')
+  plt.axhline(y=1, color='r', linestyle='--')
+  plt.title('Scree Plot')
+  plt.show()
+  ```
 ]
 
 #slide(title: [Algorithm: PCA Data Analysis Checklist])[
@@ -600,6 +663,39 @@
   $ sigma_(i j) = lambda_(i 1) lambda_(j 1) + psi_i^2 delta_(i j) $
 ]
 
+#slide(title: [Python Implementation: Factor Analysis Example])[
+  ```python
+  import numpy as np
+  from factor_analyzer import FactorAnalyzer
+  from sklearn.datasets import make_spd_matrix
+
+  # Create correlation matrix (our example)
+  R = np.array([[1.00, 0.60, 0.48],
+                [0.60, 1.00, 0.72],
+                [0.48, 0.72, 1.00]])
+
+  # For real data, you'd start with raw data:
+  # X = your_data  # shape (n_samples, n_features)
+  # R = np.corrcoef(X.T)  # correlation matrix
+
+  # Perform Factor Analysis
+  fa = FactorAnalyzer(n_factors=1, rotation=None)
+  fa.fit(R)  # For correlation matrix
+  # fa.fit(X)  # For raw data
+
+  # Get results
+  loadings = fa.loadings_
+  communalities = fa.get_communalities()
+  uniqueness = fa.get_uniquenesses()
+
+  print(f"Factor loadings:\n{loadings}")
+  print(f"Communalities: {communalities}")
+  print(f"Uniqueness: {uniqueness}")
+  ```
+
+  *Note: Install with: pip install factor_analyzer*
+]
+
 #slide(title: [From Detective Work to Algorithm: Factor Analysis])[
   *Now let's turn our detective story into a systematic investigation!*
 
@@ -728,6 +824,39 @@
   *Software handles the complex rotation calculations automatically!*
 ]
 
+#slide(title: [Python Implementation: Factor Rotation])[
+  ```python
+  import numpy as np
+  from factor_analyzer import FactorAnalyzer
+
+  # Simulate data that would produce our example loadings
+  np.random.seed(42)
+  X = np.random.randn(100, 3)
+
+  # Apply Factor Analysis with rotation
+  fa_no_rotation = FactorAnalyzer(n_factors=2, rotation=None)
+  fa_varimax = FactorAnalyzer(n_factors=2, rotation='varimax')
+
+  fa_no_rotation.fit(X)
+  fa_varimax.fit(X)
+
+  # Compare loadings before and after rotation
+  loadings_before = fa_no_rotation.loadings_
+  loadings_after = fa_varimax.loadings_
+
+  print("Before rotation:")
+  print(loadings_before)
+  print("\nAfter Varimax rotation:")
+  print(loadings_after)
+
+  # Other rotation options: 'promax', 'oblimin', 'quartimax'
+  fa_promax = FactorAnalyzer(n_factors=2, rotation='promax')
+  fa_promax.fit(X)
+  print("\nAfter Promax rotation:")
+  print(fa_promax.loadings_)
+  ```
+]
+
 #slide(title: [Quick Decision Guide: PCA vs Factor Analysis])[
   *Use PCA when:*
   - You want to reduce dimensions for visualization
@@ -767,6 +896,62 @@
   - Eigenvalues all very similar → No clear structure
   - Factors don't make theoretical sense → Reconsider approach
   - Too many factors needed → Maybe not suitable for these methods
+]
+
+#slide(title: [Complete Python Workflow Example])[
+  ```python
+  import numpy as np
+  import pandas as pd
+  from sklearn.decomposition import PCA
+  from sklearn.preprocessing import StandardScaler
+  from factor_analyzer import FactorAnalyzer
+  from factor_analyzer.factor_analyzer import calculate_kmo, calculate_bartlett_sphericity
+  import matplotlib.pyplot as plt
+
+  # 1. Load and prepare data
+  # X = pd.read_csv('your_data.csv')  # Your actual data
+  X = np.random.randn(100, 5)  # Simulated data for demo
+
+  # 2. Standardize if needed
+  scaler = StandardScaler()
+  X_scaled = scaler.fit_transform(X)
+
+  # 3. Check suitability for factor analysis
+  kmo_all, kmo_model = calculate_kmo(X_scaled)
+  chi_square_value, p_value = calculate_bartlett_sphericity(X_scaled)
+
+  print(f"KMO: {kmo_model:.3f} (>0.6 is good)")
+  print(f"Bartlett's test p-value: {p_value:.3f} (<0.05 is good)")
+
+  # 4. Determine number of factors
+  pca = PCA()
+  pca.fit(X_scaled)
+  eigenvalues = pca.explained_variance_
+  n_factors = sum(eigenvalues > 1)  # Kaiser criterion
+
+  print(f"Suggested factors: {n_factors}")
+
+  # 5. Perform Factor Analysis with rotation
+  fa = FactorAnalyzer(n_factors=n_factors, rotation='varimax')
+  fa.fit(X_scaled)
+
+  # 6. Get and interpret results
+  loadings = fa.loadings_
+  communalities = fa.get_communalities()
+  variance_explained = fa.get_factor_variance()
+
+  print(f"Factor loadings:\n{loadings}")
+  print(f"Communalities: {communalities}")
+  print(f"Variance explained: {variance_explained[1]}")  # Proportional variance
+
+  # 7. Compare with PCA
+  pca_result = pca.transform(X_scaled)
+  fa_scores = fa.transform(X_scaled)
+
+  print("\nPCA vs FA comparison completed!")
+  ```
+
+  *This workflow covers the complete analysis pipeline!*
 ]
 
 #slide(title: [Covariance Structure and Model Identification])[
